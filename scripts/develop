@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source "$(dirname "${BASH_SOURCE[0]}")/shared.sh"
+
+cd frontend
+npx webpack serve
