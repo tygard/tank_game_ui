@@ -30,6 +30,7 @@
 .board-space-tank-title {
     height: 25%;
     width: 100%;
+    background: var(--tank-game-bg);
 }
 
 .board-space-tank-stats {
@@ -82,4 +83,13 @@
     background: var(--tank-game-yellow);
     width: 75%;
     height: 75%;
+}
+
+.board-space-coordinate {
+    background: var(--tank-game-coordinate-bg);
+}
+
+.board-space-disabled {
+    opacity: 0.3;
+    background: #555;
 }
