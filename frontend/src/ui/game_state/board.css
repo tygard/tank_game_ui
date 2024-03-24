@@ -1,0 +1,85 @@
+.board-space-centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-board {
+    border: 1px solid;
+    display: inline-block;
+}
+
+.game-board-row {
+    display: flex;
+}
+
+.board-space {
+    border: 2px solid;
+    width: 70px;
+    height: 70px;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.board-space-entity {
+    width: 90%;
+    height: 90%;
+    border: 1px solid;
+}
+
+.board-space-tank-title {
+    height: 25%;
+    width: 100%;
+}
+
+.board-space-tank-stats {
+    height: 75%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.board-space-tank-stats > * {
+    width: 50%;
+    height: 50%;
+    flex: 1 1 auto;
+}
+
+.board-space-tank-lives {
+    background: var(--tank-game-red);
+}
+
+.board-space-tank-range {
+    background: var(--tank-game-green);
+}
+
+.board-space-tank-gold {
+    background: var(--tank-game-yellow);
+}
+
+.board-space-tank-actions {
+    background: var(--tank-game-blue);
+}
+
+.board-space-wall-3 {
+    background: var(--tank-game-blue);
+}
+
+.board-space-wall-2 {
+    background: var(--tank-game-green);
+}
+
+.board-space-wall-1 {
+    background: var(--tank-game-red);
+}
+
+.board-space-gold-mine {
+    background: var(--tank-game-orange);
+}
+
+.board-space-entity.board-space-gold-mine-label {
+    border-radius: 50%;
+    background: var(--tank-game-yellow);
+    width: 75%;
+    height: 75%;
+}
