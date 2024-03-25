@@ -1,0 +1,14 @@
+{
+  "name": "tank_game_ui_backend",
+  "version": "1.0.0",
+  "description": "A basic web UI for playing tank game",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ryan Ray <ryan314r@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.1"
+  }
+}

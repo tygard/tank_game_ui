@@ -7,7 +7,7 @@ function App() {
     const [data, setData] = useState();
 
     useEffect(() => {
-        fetch("/data.json")
+        fetch("/api/board-state")
             .then(f => f.json())
             .then(data => setData(data));
     }, [setData]);
