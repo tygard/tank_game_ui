@@ -36,9 +36,10 @@ console.log(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
 const app = express();
 
-function executeGame() {
+function executeGame(extraArgs) {
     return new Promise((resolve, reject) => {
-        const proc = spawn(TANK_GAME_ENGINE_COMMAND[0], TANK_GAME_ENGINE_COMMAND.slice(1));
+        const args = TANK_GAME_ENGINE_COMMAND.slice(1).concat(extraArgs);
+        const proc = spawn(TANK_GAME_ENGINE_COMMAND[0], args);
         let stdout = "";
         let stderr = "";
 
@@ -65,7 +66,7 @@ catch(err) {}
 
 
 app.get("/api/board-state", (req, res) => {
-    executeGame().then(result => {
+    executeGame([]).then(result => {
         res.writeHead(200, {
             "content-type": "application/json"
         });
