@@ -155,14 +155,14 @@ function Tile({ className = "", children, areaOfEffect, disabled } = {}) {
 function Tank({ tank }) {
     return (
         <div className="board-space-entity">
-            <div class="board-space-tank-title board-space-centered">
-                {tank.name}
+            <div className="board-space-tank-title board-space-centered">
+                <div className="board-space-tank-title-inner">{tank.name}</div>
             </div>
-            <div class="board-space-tank-stats">
-                <div class="board-space-tank-lives board-space-centered">{tank.health}</div>
-                <div class="board-space-tank-range board-space-centered">{tank.range}</div>
-                <div class="board-space-tank-gold board-space-centered">{tank.gold}</div>
-                <div class="board-space-tank-actions board-space-centered">{tank.actions}</div>
+            <div className="board-space-tank-stats">
+                <div className="board-space-tank-lives board-space-centered">{tank.health}</div>
+                <div className="board-space-tank-range board-space-centered">{tank.range}</div>
+                <div className="board-space-tank-gold board-space-centered">{tank.gold}</div>
+                <div className="board-space-tank-actions board-space-centered">{tank.actions}</div>
             </div>
         </div>
     );

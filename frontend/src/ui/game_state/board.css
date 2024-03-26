@@ -15,8 +15,8 @@
 
 .board-space {
     border: 2px solid;
-    width: 70px;
-    height: 70px;
+    width: var(--tank-game-cell-size);
+    height: var(--tank-game-cell-size);
     flex-direction: column;
     overflow: hidden;
 }
@@ -28,13 +28,21 @@
 }
 
 .board-space-tank-title {
-    height: 25%;
+    height: 33%;
     width: 100%;
     background: var(--tank-game-bg);
 }
 
+.board-space-tank-title-inner {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
 .board-space-tank-stats {
-    height: 75%;
+    height: 66%;
     width: 100%;
     display: flex;
     flex-wrap: wrap;

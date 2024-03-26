@@ -6,4 +6,5 @@
     --tank-game-red: red;
     --tank-game-coordinate-bg: #999;
     --tank-game-bg: #fff;
+    --tank-game-cell-size: 60px;
 }
