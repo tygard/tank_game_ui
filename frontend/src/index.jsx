@@ -7,13 +7,21 @@ function App() {
     const [data, setData] = useState();
 
     useEffect(() => {
-        fetch("/api/board-state")
-            .then(f => f.json())
-            .then(data => setData(data));
+        const getState = () => {
+            fetch("/api/board-state")
+                .then(f => f.json())
+                .then(data => setData(data));
+        };
+
+        const handle = setInterval(getState, 250);
+        return () => clearInterval(handle);
     }, [setData]);
 
     return (
-        <GameBoard boardState={data && data.board}></GameBoard>
+        <>
+            <div>day: {data && data.day}</div>
+            <GameBoard boardState={data && data.board}></GameBoard>
+        </>
     );
 }
 

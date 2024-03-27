@@ -153,24 +153,40 @@ function Tile({ className = "", children, areaOfEffect, disabled } = {}) {
 }
 
 function Tank({ tank }) {
-    return (
-        <div className="board-space-entity">
-            <div className="board-space-tank-title board-space-centered">
-                <div className="board-space-tank-title-inner">{tank.name}</div>
+    let tankStats;
+    if(tank.dead) {
+        tankStats = (
+            <div className={`board-space-centered board-space-tank-dead board-space-wall-${tank.health}`}>
+                {tank.health}
             </div>
+        );
+    }
+    else {
+        tankStats = (
             <div className="board-space-tank-stats">
                 <div className="board-space-tank-lives board-space-centered">{tank.health}</div>
                 <div className="board-space-tank-range board-space-centered">{tank.range}</div>
                 <div className="board-space-tank-gold board-space-centered">{tank.gold}</div>
                 <div className="board-space-tank-actions board-space-centered">{tank.actions}</div>
             </div>
+        );
+    }
+
+    return (
+        <div className="board-space-entity">
+            <div className="board-space-tank-title board-space-centered">
+                <div className="board-space-tank-title-inner">{tank.name}</div>
+            </div>
+            {tankStats}
         </div>
     );
 }
 
 function Wall({ wall }) {
+    const deadTankClass = wall.type == "tank" ? "board-space-wall-tank" : "";
+
     return (
-        <div className={`board-space-wall-${wall.health} board-space-entity board-space-centered`}>
+        <div className={`board-space-wall-${wall.health} board-space-entity board-space-centered ${deadTankClass}`}>
             {wall.health}
         </div>
     );

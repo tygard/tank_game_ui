@@ -41,9 +41,12 @@
     text-align: center;
 }
 
-.board-space-tank-stats {
+.board-space-tank-dead, .board-space-tank-stats {
     height: 66%;
     width: 100%;
+}
+
+.board-space-tank-stats {
     display: flex;
     flex-wrap: wrap;
 }
