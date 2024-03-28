@@ -15,12 +15,16 @@ try {
 }
 catch(err) {}
 
-let idx = 0;
-app.get("/api/board-state", async (req, res) => {
-    console.log(`Using state ${idx}`);
-    res.json(game._states[idx++]);
+app.get("/api/state/header", async (req, res) => {
+    res.json({
+        days: game.getDayMappings(),
+        maxTurnId: game.getMaxTurnId(),
+        maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
+    });
+});
 
-    if(idx == game._states) idx = 0;
+app.get("/api/state/turn/:turnId", async (req, res) => {
+    res.json(game.getStateById(req.params.turnId));
 });
 
 app.listen(PORT, () => {

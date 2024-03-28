@@ -37,6 +37,6 @@ RUN npm ci
 COPY backend/ /app/
 COPY --from=frontend /frontend/build/ /app/www/
 COPY --from=engine /build/tankgame/target/*.jar /app/
-COPY --from=engine /build/tankgame/example /app/example
+COPY example /app/example
 
 CMD ["/usr/local/bin/node", "/app/src/index.mjs"]

@@ -4,7 +4,7 @@ import { inspect } from "node:util";
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
 
-const DEBUG = ["y", "yes"].includes(process.env.DEBUG.toLowerCase());
+const DEBUG = ["y", "yes"].includes((process.env.DEBUG || "").toLowerCase());
 
 function debug(message) {
     if(DEBUG) console.log(`[DEBUG] ${message}`);
@@ -56,7 +56,7 @@ class TankGameEngine {
 
         this._proc.on("exit", status => {
             console.log(`Tank game engine exited with ${status}`);
-            if(status != 0) {
+            if(stderr.length > 0) {
                 console.log(`STDERR\n==============================\n${stderr}\n==============================`);
             }
             this._proc = undefined;
@@ -67,12 +67,16 @@ class TankGameEngine {
         this._startTankGame();
 
         debug(`Send ${inspect(request_data)}`);
-        this._proc.stdin.write(JSON.stringify(request_data) + "\n");
+
+        return new Promise((resolve, reject) => {
+            this._proc.stdin.write(JSON.stringify(request_data) + "\n", "utf-8", err => {
+                if(err) reject(err);
+                else resolve();
+            });
+        });
     }
 
-    _sendRequestAndWait(request_data) {
-        this._sendRequest(request_data);
-
+    _waitForData() {
         debug("Waiting for response");
         return new Promise((resolve, reject) => {
             let stdout = "";
@@ -102,6 +106,11 @@ class TankGameEngine {
                 reject(new Error("Tank game engine took too long to respond with valid json"))
             }, TANK_GAME_TIMEOUT);
         });
+    }
+
+    _sendRequestAndWait(request_data) {
+        this._sendRequest(request_data);
+        return this._waitForData();
     }
 
     _runCommand(command, data) {
@@ -136,11 +145,30 @@ class TankGameEngine {
         });
     }
 
-    processAction(action) {
-        return this._sendRequest({
+    async processAction(action) {
+        // NOTE: Action will either return an error or nothing
+        await this._sendRequest({
             type: "action",
             ...action,
         });
+
+        const gameState = await this._runCommand("display");
+
+        if(gameState.error) {
+            return {
+                valid: false,
+                error: gameState,
+                // Since process action returns an error the response to
+                // the display command is still comming
+                gameState: await this._waitForData()
+            }
+        }
+        else {
+            return {
+                valid: true,
+                gameState
+            };
+        }
     }
 }
 
