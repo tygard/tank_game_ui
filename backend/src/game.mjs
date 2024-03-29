@@ -23,9 +23,7 @@ class Game {
         this._buildDayMap();
 
         // Process any unprocessed log book entries.
-        if(this._states.length < this._logBook.length) {
-            this._ready = this._processActions(this._states.length, this._logBook.length - 1);
-        }
+        this._processActions();
     }
 
     static async loadFromFiles(statePath, movesPath, saveFilePath) {
@@ -62,7 +60,20 @@ class Game {
         return game;
     }
 
-    async _processActions(startIndex, endIndex) {
+    async _processActions() {
+        await this._ready;  // Wait for any pending action processing
+
+        this._ready = this._processActionsLogic();
+        await this._ready;
+    }
+
+    async _processActionsLogic() {
+        // Nothing to process
+        if(this._states.length === this._logBook.length) return;
+
+        const startIndex = this._states.length;
+        const endIndex = this._logBook.length - 1;
+
         if(startIndex > endIndex) {
             throw new Error(`startIndex (${startIndex}) can't be larger than endIndex (${endIndex})`);
         }
@@ -128,9 +139,12 @@ class Game {
 
     async addLogBookEntry(entry) {
         this._logBook.push(entry);
+        const turnId = this._logBook.length;
 
-        const insertIndex = this._logBook.length - 1;
-        await this._processActions(insertIndex, insertIndex);
+        // Process any pending actions
+        await this._processActions();
+
+        return turnId;
     }
 
     async save({ lite = false } = {}) {

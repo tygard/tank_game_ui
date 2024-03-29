@@ -48,8 +48,8 @@ app.get("/api/game/:gameName/turn/:turnId", async (req, res) => {
 app.post("/api/game/:gameName/turn", async (req, res) => {
     const game = await checkGame(req, res);
 
-    await game.addLogBookEntry(req.body);
-    res.json({ success: true });
+    const turnId = await game.addLogBookEntry(req.body);
+    res.json({ success: true, turnId });
 });
 
 app.listen(PORT, () => {
