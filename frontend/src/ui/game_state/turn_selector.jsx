@@ -4,7 +4,7 @@ import { useEffect, useState } from "preact/hooks";
 
 const TURN_SWITCH_FREQENCY = 1000;
 
-export function TurnSelector({ turn, setTurn }) {
+export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn }) {
     const turnMap = useTurnMap();
     const [playback, setPlayback] = useState(false);
 
@@ -48,7 +48,10 @@ export function TurnSelector({ turn, setTurn }) {
         setPlayback(false);
     };
 
-    const isLastTurn = turn >= turnMap.getLastTurn();
+    const currentIsLastTurn = turn >= turnMap.getLastTurn();
+    if(currentIsLastTurn != isLastTurn) {
+        setIsLastTurn(currentIsLastTurn);
+    }
 
     return (
         <div className="turn-selector">

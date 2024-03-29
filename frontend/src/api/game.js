@@ -1,5 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 
+const FETCH_TURN_MAP_FREQUENCY = 2000; // 2 seconds in ms
+
 class TurnMap {
     constructor(gameHeader) {
         this._gameHeader = gameHeader;
@@ -70,9 +72,16 @@ class TurnMap {
 export function useTurnMap() {
     const [turnMap, setTurnMap] = useState();
 
-    useEffect(() => {
+    const fetchTurnMap = () => {
         TurnMap.fetch()
             .then(turnMap => setTurnMap(turnMap));
+    };
+
+    useEffect(() => {
+        fetchTurnMap();
+
+        const handle = setInterval(fetchTurnMap, FETCH_TURN_MAP_FREQUENCY);
+        return () => clearInterval(handle);
     }, [setTurnMap]);
 
     return turnMap;

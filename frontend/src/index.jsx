@@ -7,6 +7,7 @@ import { TurnSelector } from "./ui/game_state/turn_selector.jsx"
 
 function App() {
     const [turn, setTurn] = useState();
+    const [isLastTurn, setIsLastTurn] = useState(false);
     const state = useTurn(turn);
 
     const errorMessage = (!state || state.valid) ? null : (
@@ -19,7 +20,9 @@ function App() {
 
     return (
         <>
-            <TurnSelector turn={turn} setTurn={setTurn}></TurnSelector>
+            <TurnSelector
+                turn={turn} setTurn={setTurn}
+                isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
             <GameBoard boardState={state && state.gameState && state.gameState.board}></GameBoard>
             {errorMessage}
         </>
