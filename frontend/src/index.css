@@ -8,3 +8,7 @@
     --tank-game-bg: #fff;
     --tank-game-cell-size: 60px;
 }
+
+footer {
+    padding: 8px 3px;
+}

@@ -1,4 +1,4 @@
-import "./colors.css";
+import "./index.css";
 import {render} from "preact";
 import {GameBoard} from "./ui/game_state/board.jsx";
 import {useState} from "preact/hooks";
@@ -25,6 +25,9 @@ function App() {
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
             <GameBoard boardState={state && state.gameState && state.gameState.board}></GameBoard>
             {errorMessage}
+            <footer>
+                <i>{APP_VERSION}</i>
+            </footer>
         </>
     );
 }
