@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import {getEngine} from "./tank-game-engine.mjs";
+import path from "node:path";
 
 const FILE_FORMAT_VERSION = 1;
 
@@ -164,10 +165,22 @@ class Game {
     }
 }
 
-let gamePromises = {
-    "demo": Game.load("../example/tank_game_v3.json")
-};
+async function loadGamesFromFolder(dir) {
+    let games = {};
+
+    for(const gameFile of await fs.readdir(dir)) {
+        const filePath = path.join(dir, gameFile);
+        const name = path.parse(gameFile).name;
+
+        console.log(`Loading ${name} from ${filePath}`);
+        games[name] = Game.load(filePath);
+    }
+
+    return games;
+}
+
+let gamePromises = loadGamesFromFolder(process.env.TANK_GAMES_FOLDER);
 
 export async function getGame(name) {
-    return gamePromises[name];
+    return await (await gamePromises)[name];
 }

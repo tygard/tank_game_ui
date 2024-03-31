@@ -3,6 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 import {getGame} from "./game.mjs";
 
+// If build info is supplied print it
+const buildInfo = process.env.BUILD_INFO;
+if(buildInfo) console.log(`Build info: ${buildInfo}`);
+
 const PORT = 3333;
 const STATIC_DIR = "www";
 
@@ -32,6 +36,7 @@ async function checkGame(req, res) {
 
 app.get("/api/game/:gameName/header", async (req, res) => {
     const game = await checkGame(req, res);
+    if(!game) return;
 
     res.json({
         days: game.getDayMappings(),
@@ -42,11 +47,14 @@ app.get("/api/game/:gameName/header", async (req, res) => {
 
 app.get("/api/game/:gameName/turn/:turnId", async (req, res) => {
     const game = await checkGame(req, res);
+    if(!game) return;
+
     res.json(game.getStateById(req.params.turnId));
 });
 
 app.post("/api/game/:gameName/turn", async (req, res) => {
     const game = await checkGame(req, res);
+    if(!game) return;
 
     const turnId = await game.addLogBookEntry(req.body);
     res.json({ success: true, turnId });

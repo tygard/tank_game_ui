@@ -17,7 +17,7 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     if(!jar) {
         const jars = fs.readdirSync(".").filter(file => file.endsWith(".jar"));
         if(jars.length != 1) {
-            debug(`Expected exactly 1 tank game jar but found: ${jars}`);
+            console.log(`Expected exactly 1 tank game jar but found: ${jars}`);
             process.exit(1);
         }
 

@@ -4,7 +4,9 @@
   "description": "A basic web UI for playing tank game",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "develop": "TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start",
+    "start": "node src/index.mjs"
   },
   "author": "Ryan Ray <ryan314r@gmail.com>",
   "license": "ISC",

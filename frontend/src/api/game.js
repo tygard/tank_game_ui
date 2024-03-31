@@ -11,7 +11,7 @@ class TurnMap {
     }
 
     static async fetch() {
-        const res = await fetch("/api/game/demo/header");
+        const res = await fetch("/api/game/tank_game_v3/header");
         return new TurnMap(await res.json());
     }
 
@@ -92,7 +92,7 @@ export function useTurn(turnId) {
 
     useEffect(() => {
         if(turnId > 0) {
-            fetch(`/api/game/demo/turn/${turnId}`)
+            fetch(`/api/game/tank_game_v3/turn/${turnId}`)
                 .then(f => f.json())
                 .then(state => setTurn(state));
         }
