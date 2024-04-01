@@ -1,0 +1,15 @@
+.submit-turn-field {
+    padding: 5px;
+}
+
+.submit-turn-field:first-child {
+    padding-left: 0px;
+}
+
+.submit-turn {
+    padding: 5px 0px;
+}
+
+.submit-turn-field > b {
+    padding-right: 5px;
+}

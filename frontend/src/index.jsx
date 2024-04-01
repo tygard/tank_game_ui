@@ -4,6 +4,7 @@ import {GameBoard} from "./ui/game_state/board.jsx";
 import {useState} from "preact/hooks";
 import { useTurn } from "./api/game.js";
 import { TurnSelector } from "./ui/game_state/turn_selector.jsx"
+import { SubmitTurn } from "./ui/game_state/submit_turn.jsx";
 
 function App() {
     const [turn, setTurn] = useState();
@@ -23,8 +24,9 @@ function App() {
             <TurnSelector
                 turn={turn} setTurn={setTurn}
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
-            <GameBoard boardState={state && state.gameState && state.gameState.board}></GameBoard>
+            <GameBoard boardState={state?.gameState?.board}></GameBoard>
             {errorMessage}
+            <SubmitTurn possibleActions={state?.gameState?.possible_actions}></SubmitTurn>
             <footer>
                 <i>{APP_VERSION}</i>
             </footer>

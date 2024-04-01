@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import {getEngine} from "./tank-game-engine.mjs";
 import path from "node:path";
+import { throws } from "node:assert";
 
 const FILE_FORMAT_VERSION = 1;
 
