@@ -128,3 +128,19 @@ export const usePossibleActions = makeReactDataFetchHelper({
     url: user => `/api/game/tank_game_v3/user/${user}/possible-actions`,
     frequency: FETCH_FREQUENCY,
 });
+
+export async function submitTurn(logbookEntry) {
+    const res = await fetch(`/api/game/tank_game_v3/turn`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(logbookEntry),
+    });
+
+    const result = await res.json();
+
+    if(!result.success) throw new Error("Failed to submit turn");
+
+    return result.turnId;
+}

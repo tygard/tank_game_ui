@@ -1,4 +1,4 @@
-import { usePossibleActions } from "../../api/game";
+import { submitTurn, usePossibleActions } from "../../api/game";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
@@ -9,7 +9,7 @@ function capitalize(string) {
 
 function isValidEntry(spec, logBookEntry) {
     // Both action and type are required
-    if(!logBookEntry.user || !logBookEntry.type || !spec) return false;
+    if(!logBookEntry.subject || !logBookEntry.action || !spec) return false;
 
     for(const field of spec) {
         // Check if this value has been submitted
@@ -38,20 +38,31 @@ export function SubmitTurn({ gameInfo }) {
     }, [selectedUser, actionType, setActionSpecific]);
 
     const logBookEntry = {
-        user: selectedUser,
-        type: actionType,
+        type: "action",
+        subject: selectedUser,
+        action: actionType,
         ...actionSpecific
-    }
+    };
 
     const currentSpec = (actionSpecs && actionSpecs[actionType]) || [];
     const possibleActions = actionSpecs ? Object.keys(actionSpecs) : [];
     const isValid = isValidEntry(currentSpec, logBookEntry);
 
+    const submitTurnHandler = e => {
+        e.preventDefault();
+        if(isValid) {
+            submitTurn(logBookEntry);
+
+            // Reset the form
+            setActionType(undefined);
+        }
+    };
+
     return (
         <>
             <h2>New action</h2>
             <div className="submit-turn">
-                <form>
+                <form onSubmit={submitTurnHandler}>
                     <LabelElement name="User">
                         <Select spec={{ options: users }} value={selectedUser} setValue={setSelectedUser}></Select>
                     </LabelElement>
