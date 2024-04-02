@@ -39,9 +39,12 @@ app.get("/api/game/:gameName/header", async (req, res) => {
     if(!game) return;
 
     res.json({
-        days: game.getDayMappings(),
-        maxTurnId: game.getMaxTurnId(),
-        maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
+        turnMap: {
+            days: game.getDayMappings(),
+            maxTurnId: game.getMaxTurnId(),
+            maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
+        },
+        users: game.getAllUsers(),
     });
 });
 
@@ -58,6 +61,13 @@ app.post("/api/game/:gameName/turn", async (req, res) => {
 
     const turnId = await game.addLogBookEntry(req.body);
     res.json({ success: true, turnId });
+});
+
+app.get("/api/game/:gameName/user/:user/possible-actions", async (req, res) => {
+    const game = await checkGame(req, res);
+    if(!game) return;
+
+    res.json(game.getPossibleActionsFor(req.params.user));
 });
 
 app.listen(PORT, () => {

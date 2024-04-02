@@ -38,6 +38,11 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
 
 console.log(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
+
+function hackPossibleActions(response, user) {
+    return response.filter(action => action?.subject?.name == user);
+}
+
 class TankGameEngine {
     constructor(command) {
         this._command = command;
@@ -130,8 +135,8 @@ class TankGameEngine {
         });
     }
 
-    getPossibleActions() {
-        return this._runCommand("actions");
+    async getPossibleActionsFor(user) {
+        return hackPossibleActions(await this._runCommand("actions"), user);
     }
 
     getBoardState() {

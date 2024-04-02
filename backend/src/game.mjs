@@ -15,12 +15,14 @@ async function writeJson(path, data) {
 }
 
 class Game {
-    constructor(path, states, logBook) {
+    constructor(path, states, logBook, possibleActions) {
         this._path = path;
         this._initialState = states[0]
         this._states = states.slice(1);
-        this._logBook = logBook;
+        this._logBook = logBook || [];
+        this._possibleActions = possibleActions || [];
         this._ready = Promise.resolve();
+        this._liteMode = this._logBook.length == this._states.length;
 
         this._buildDayMap();
 
@@ -53,7 +55,7 @@ class Game {
             throw new Error(`File version ${content?.versions?.fileFormat} is not supported`);
         }
 
-        const game = new Game(filePath, content.gameStates, content.logBook);
+        const game = new Game(filePath, content.gameStates, content.logBook, content.possibleActions);
 
         // Loading a game like this can cause a lot of actions to be processed
         // wait until they're done before returning the game object
@@ -104,6 +106,14 @@ class Game {
         }
 
         this._buildDayMap();
+        this._findAllUsers();
+
+        // Get the list of actions each user can take after this one
+        this._possibleActions = {};
+
+        for(const user of this.getAllUsers()) {
+            this._possibleActions[user] = await engine.getPossibleActionsFor(user);
+        }
 
         engine.exit(); // Don't wait for the engine to exit
     }
@@ -139,6 +149,37 @@ class Game {
         return this._states.length;
     }
 
+    _findAllUsers() {
+        const state = this.getStateById(this.getMaxTurnId());
+        if(!state?.gameState) return [];
+        const gameState = state.gameState;
+
+        let users = new Set([
+            ...gameState.council.council,
+            ...gameState.council.senate
+        ]);
+
+        for(const row of gameState.board.unit_board) {
+            for(const space of row) {
+                if(space.name) {
+                    users.add(space.name);
+                }
+            }
+        }
+
+        this._users = Array.from(users);
+    }
+
+    getAllUsers() {
+        if(!this._users) this._findAllUsers();
+
+        return this._users;
+    }
+
+    getPossibleActionsFor(user) {
+        return this._possibleActions[user];
+    }
+
     async addLogBookEntry(entry) {
         this._logBook.push(entry);
         const turnId = this._logBook.length;
@@ -149,12 +190,17 @@ class Game {
         return turnId;
     }
 
-    async save({ lite = false } = {}) {
+    async save() {
         await this._ready;
 
         // In lite mode only save the first state and rebuild the rest on load
         let gameStates = [this._initialState];
-        if(!lite) gameStates = gameStates.concat(this._states);
+        if(!this._liteMode) gameStates = gameStates.concat(this._states);
+
+        // Data to add if we're not in lite mode
+        const extendedData = this._liteMode ? undefined : {
+            possibleActions: this._possibleActions,
+        };
 
         await writeJson(this._path, {
             versions: {
@@ -162,6 +208,7 @@ class Game {
             },
             logBook: this._logBook,
             gameStates,
+            ...extendedData,
         });
     }
 }

@@ -1,3 +1,4 @@
+import { usePossibleActions } from "../../api/game";
 import "./submit_turn.css";
 import { useCallback, useState } from "preact/hooks";
 
@@ -129,13 +130,15 @@ function isValidEntry(template, logBookEntry) {
 }
 
 
-export function SubmitTurn({ possibleActions }) {
-    if(!possibleActions) return null;
+export function SubmitTurn({ gameInfo }) {
+    const users = gameInfo?.users || [];
+    const [selectedUser, setSelectedUser] = useState();
+    const [possibleActions, _] = usePossibleActions(selectedUser);
 
     const [logBookEntry, setLogBookEntry] = useState({});
     const flatLogBookEntry = flattenObject(logBookEntry);
 
-    const template = buildActionTree(possibleActions);
+    const template = possibleActions ? buildActionTree(possibleActions) : [];
     const isValid = isValidEntry(template, flatLogBookEntry)
 
     return (
@@ -143,6 +146,11 @@ export function SubmitTurn({ possibleActions }) {
             <h2>New action</h2>
             <div className="submit-turn">
                 <form>
+                    <select value={selectedUser} onChange={e => setSelectedUser(e.target.value)}>
+                        {users.map(user => {
+                            return <option>{user}</option>;
+                        })}
+                    </select>
                     <SubmissionForm template={template} values={logBookEntry} setValues={setLogBookEntry}></SubmissionForm>
                     <button type="submit" disabled={!isValid}>Submit action</button>
                 </form>

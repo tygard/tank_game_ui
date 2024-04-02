@@ -4,14 +4,14 @@ import { useEffect, useState } from "preact/hooks";
 
 const TURN_SWITCH_FREQENCY = 1000;
 
-export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn }) {
-    const turnMap = useTurnMap();
+export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn, gameInfo }) {
+    const turnMap = gameInfo?.turnMap;
     const [playback, setPlayback] = useState(false);
 
     // If turn hasn't been set jump to the last turn
     if(turnMap && turn === undefined) setTurn(turnMap.getLastTurn());
 
-    if(turn === undefined) {
+    if(!turnMap || turn === undefined) {
         return (
             <div className="turn-selector">
                 Loading...

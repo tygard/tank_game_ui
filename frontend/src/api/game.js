@@ -1,6 +1,6 @@
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
-const FETCH_TURN_MAP_FREQUENCY = 2000; // 2 seconds in ms
+const FETCH_FREQUENCY = 2; // seconds
 
 class TurnMap {
     constructor(gameHeader) {
@@ -8,11 +8,6 @@ class TurnMap {
         const days = Object.keys(this._gameHeader.days);
         this._minDay = +days[0]
         this._maxDay = +days[days.length - 1];
-    }
-
-    static async fetch() {
-        const res = await fetch("/api/game/tank_game_v3/header");
-        return new TurnMap(await res.json());
     }
 
     getFirstTurn() {
@@ -69,34 +64,67 @@ class TurnMap {
     }
 }
 
-export function useTurnMap() {
-    const [turnMap, setTurnMap] = useState();
+function makeReactDataFetchHelper(options) {
+    return (...args) => {
+        const [data, setData] = useState();
+        const [error, setError] = useState();
 
-    const fetchTurnMap = () => {
-        TurnMap.fetch()
-            .then(turnMap => setTurnMap(turnMap));
+        const fetchData = useCallback(async () => {
+            try {
+                if(options.shouldSendRequest && !options.shouldSendRequest(...args)) {
+                    return;
+                }
+
+                let url = options.url;
+                if(typeof options.url === "function") {
+                    url = options.url(...args);
+                }
+
+                const res = await fetch(url);
+                let recievedData = await res.json();
+
+                if(options.parse) {
+                    recievedData = options.parse(recievedData);
+                }
+
+                setData(recievedData);
+                setError(undefined);
+            }
+            catch(err) {
+                setError(err);
+                setData(undefined);
+            }
+        }, args.concat([setData, setError]));
+
+        useEffect(() => {
+            fetchData();
+
+            if(options.frequency) {
+                const handle = setInterval(fetchData, options.frequency * 1000 /* seconds to ms */);
+                return () => clearInterval(handle);
+            }
+        }, [fetchData]);
+
+        return [data, error];
     };
-
-    useEffect(() => {
-        fetchTurnMap();
-
-        const handle = setInterval(fetchTurnMap, FETCH_TURN_MAP_FREQUENCY);
-        return () => clearInterval(handle);
-    }, [setTurnMap]);
-
-    return turnMap;
 }
 
-export function useTurn(turnId) {
-    const [turn, setTurn] = useState();
+export const useGameInfo = makeReactDataFetchHelper({
+    url: "/api/game/tank_game_v3/header",
+    parse: data => ({
+        ...data,
+        turnMap: new TurnMap(data.turnMap),
+    }),
+    frequency: FETCH_FREQUENCY,
+});
 
-    useEffect(() => {
-        if(turnId > 0) {
-            fetch(`/api/game/tank_game_v3/turn/${turnId}`)
-                .then(f => f.json())
-                .then(state => setTurn(state));
-        }
-    }, [setTurn, turnId]);
+export const useTurn = makeReactDataFetchHelper({
+    shouldSendRequest: turnId => turnId !== undefined,
+    url: turnId => `/api/game/tank_game_v3/turn/${turnId}`
+});
 
-    return turn;
-}
+export const usePossibleActions = makeReactDataFetchHelper({
+    shouldSendRequest: user => !!user,
+    url: user => `/api/game/tank_game_v3/user/${user}/possible-actions`,
+    frequency: FETCH_FREQUENCY,
+});
