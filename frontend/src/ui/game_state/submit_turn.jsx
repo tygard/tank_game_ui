@@ -95,44 +95,49 @@ function buildActionTree(possibleActions) {
     return template;
 }
 
+function flattenObject(object) {
+    let flatObject = {};
+
+    const flatten = object => {
+        for(const key of Object.keys(object)) {
+            if(key == "value") continue;
+
+            flatObject[key] = object[key].value;
+            flatten(object[key]);
+        }
+    };
+
+    flatten(object);
+    return flatObject;
+}
+
 
 export function SubmitTurn({ possibleActions }) {
     if(!possibleActions) return null;
 
     const [logBookEntry, setLogBookEntry] = useState({});
+    const flatLogBookEntry = flattenObject(logBookEntry);
 
     const template = buildActionTree(possibleActions);
-
-    const getField = useCallback((fieldName) => {
-        return logBookEntry[fieldName];
-    }, [logBookEntry]);
-
-    const setField = useCallback((fieldName, value) => {
-        console.log(fieldName, value, logBookEntry);
-        setLogBookEntry({
-            ...logBookEntry,
-            [fieldName]: value,
-        });
-    }, [logBookEntry, setLogBookEntry]);
 
     return (
         <>
             <h2>New action</h2>
             <div className="submit-turn">
-                <SubmissionForm template={template} getField={getField} setField={setField}></SubmissionForm>
+                <SubmissionForm template={template} values={logBookEntry} setValues={setLogBookEntry}></SubmissionForm>
             </div>
             <h3>Log book entry</h3>
-            <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
+            <pre>{JSON.stringify(flatLogBookEntry, null, 4)}</pre>
         </>
     );
 }
 
-function SubmissionForm({ template, getField, setField }) {
+function SubmissionForm({ template, values, setValues }) {
     return (
         <>
             {template.map(fieldTemplate => {
                 if(fieldTemplate.type === "select") {
-                    return <Select template={fieldTemplate} getField={getField} setField={setField}></Select>;
+                    return <Select template={fieldTemplate} values={values[fieldTemplate.name] || {}} setValues={newValues => setValues({ ...values, [fieldTemplate.name]: newValues })}></Select>;
                 }
                 else {
                     return <span style="color: red;">Unknown field type: {fieldTemplate.type}</span>;
@@ -142,35 +147,21 @@ function SubmissionForm({ template, getField, setField }) {
     )
 }
 
-function findNamesRecursive(fields) {
-    let fieldsToRemove = new Set();
-
-    const processFields = fields => {
-        for(const field of fields) {
-            fieldsToRemove.add(field.name);
-
-            for(const option of (field.options || [])) {
-                if(option.subfields) {
-                    processFields(option.subfields);
-                }
-            }
-        }
-    };
-
-    processFields(fields);
-
-    return Array.from(fieldsToRemove);
-}
-
-function Select({ template, getField, setField }) {
-    const value = getField(template.name);
+function Select({ template, values, setValues }) {
+    const value = values.value;
     const subfields = template.options.find(option => option.value == value)?.subfields;
+
+    const onChange = useCallback(e => {
+        setValues({
+            value: e.target.value == "<unset>" ? undefined : e.target.value,
+        });
+    }, [setValues]);
 
     return (
         <>
             <label className="submit-turn-field" key={template.name}>
                 <b>{capitalize(template.name)}</b>
-                <select onChange={e => setField(template.name, e.target.value == "<unset>" ? undefined : e.target.value)}>
+                <select onChange={onChange}>
                     <option>&lt;unset&gt;</option>
                     {template.options.map(element => {
                         return (
@@ -179,7 +170,7 @@ function Select({ template, getField, setField }) {
                     })}
                 </select>
             </label>
-            {subfields && <SubmissionForm template={subfields} getField={getField} setField={setField}></SubmissionForm>}
+            {subfields && <SubmissionForm template={subfields} values={values} setValues={setValues}></SubmissionForm>}
         </>
     );
 }
