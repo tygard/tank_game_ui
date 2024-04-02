@@ -1,5 +1,4 @@
 import "./turn_selector.css";
-import { useTurnMap } from "../../api/game";
 import { useEffect, useState } from "preact/hooks";
 
 const TURN_SWITCH_FREQENCY = 1000;

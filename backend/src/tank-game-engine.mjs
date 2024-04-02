@@ -40,7 +40,68 @@ console.log(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
 
 function hackPossibleActions(response, user) {
-    return response.filter(action => action?.subject?.name == user);
+    const possibleActions =  response.filter(action => action?.subject?.name == user);
+    let actions = {};
+
+    for(const action of possibleActions) {
+        const actionType = action.rules;
+
+        // Location is a location if it's a space but if its a player it's a target
+        const targetKey = action.target?.name ? "target" : "location";
+
+        let fields = actions[actionType];
+        if(!fields) {
+            actions[actionType] = fields = [];
+
+            // Fill options
+            if(action.target) {
+                fields.push({
+                    type: "select",
+                    name: targetKey,
+                    options: []
+                });
+            }
+
+            if(actionType == "shoot") {
+                fields.push({
+                    type: "select",
+                    name: "hit",
+                    options: [
+                        true,
+                        false
+                    ]
+                });
+            }
+
+            if(actionType == "buy_action") {
+                fields.push({
+                    type: "select",
+                    name: "quantity",
+                    displayName: "Gold (cost)",
+                    options: [
+                        3,
+                        5,
+                        10,
+                    ]
+                });
+            }
+
+            if(actionType == "donate") {
+                fields.push({
+                    type: "input-number",
+                    name: "quantity",
+                    placeholder: "Gold",
+                });
+            }
+        }
+
+        let actionTargetTemplate = fields.find(option => option.name === targetKey);
+
+        // Convert target to a string
+        actionTargetTemplate.options.push(action.target.name || action.target.position);
+    }
+
+    return actions;
 }
 
 class TankGameEngine {
