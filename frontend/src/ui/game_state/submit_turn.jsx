@@ -111,6 +111,23 @@ function flattenObject(object) {
     return flatObject;
 }
 
+function isValidEntry(template, logBookEntry) {
+    for(const field of template) {
+        // Check if this value has been submitted
+        if(logBookEntry[field.name] === undefined) return false;
+
+        // Check any subfields
+        if(!field.options) continue;
+
+        const option = field.options.find(option => option.value == logBookEntry[field.name]);
+        if(!option || !option.subfields) continue;
+
+        if(!isValidEntry(option.subfields, logBookEntry)) return false;
+    }
+
+    return true;
+}
+
 
 export function SubmitTurn({ possibleActions }) {
     if(!possibleActions) return null;
@@ -119,12 +136,16 @@ export function SubmitTurn({ possibleActions }) {
     const flatLogBookEntry = flattenObject(logBookEntry);
 
     const template = buildActionTree(possibleActions);
+    const isValid = isValidEntry(template, flatLogBookEntry)
 
     return (
         <>
             <h2>New action</h2>
             <div className="submit-turn">
-                <SubmissionForm template={template} values={logBookEntry} setValues={setLogBookEntry}></SubmissionForm>
+                <form>
+                    <SubmissionForm template={template} values={logBookEntry} setValues={setLogBookEntry}></SubmissionForm>
+                    <button type="submit" disabled={!isValid}>Submit action</button>
+                </form>
             </div>
             <h3>Log book entry</h3>
             <pre>{JSON.stringify(flatLogBookEntry, null, 4)}</pre>
@@ -161,11 +182,11 @@ function Select({ template, values, setValues }) {
         <>
             <label className="submit-turn-field" key={template.name}>
                 <b>{capitalize(template.name)}</b>
-                <select onChange={onChange}>
-                    <option>&lt;unset&gt;</option>
+                <select onChange={onChange} value={value}>
+                    <option key="unset">&lt;unset&gt;</option>
                     {template.options.map(element => {
                         return (
-                            <option selected={value == element}>{element.value.toString()}</option>
+                            <option key={element.value.toString()}>{element.value.toString()}</option>
                         );
                     })}
                 </select>
