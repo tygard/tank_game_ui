@@ -184,10 +184,10 @@ class Game {
         this._logBook.push(entry);
         const turnId = this._logBook.length;
 
-        await this.save();
-
         // Process any pending actions
         await this._processActions();
+
+        await this.save();
 
         return turnId;
     }

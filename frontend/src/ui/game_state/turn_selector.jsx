@@ -6,9 +6,13 @@ const TURN_SWITCH_FREQENCY = 1000;
 export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn, gameInfo }) {
     const turnMap = gameInfo?.turnMap;
     const [playback, setPlayback] = useState(false);
+    const [trackingLastTurn, setTrackingLastTurn] = useState();
 
     // If turn hasn't been set jump to the last turn
-    if(turnMap && turn === undefined) setTurn(turnMap.getLastTurn());
+    if(turnMap && turn === undefined) {
+        setTurn(turnMap.getLastTurn());
+        setTrackingLastTurn(true);
+    }
 
     if(!turnMap || turn === undefined) {
         return (
@@ -45,7 +49,17 @@ export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn, gameInf
     const userSetTurn = newTurn => {
         setTurn(newTurn);
         setPlayback(false);
+
+        // If the user moves to the latest turn stay on the latest turn
+        setTrackingLastTurn(newTurn >= turnMap.getLastTurn());
     };
+
+    // If we're following the last turn and a new turn gets added stay on that one
+    useEffect(() => {
+        if(trackingLastTurn) {
+            setTurn(turnMap.getLastTurn());
+        }
+    }, [turnMap, trackingLastTurn, setTurn]);
 
     const currentIsLastTurn = turn >= turnMap.getLastTurn();
     if(currentIsLastTurn != isLastTurn) {

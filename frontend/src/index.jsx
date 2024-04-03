@@ -1,15 +1,23 @@
 import "./index.css";
 import {render} from "preact";
 import {GameBoard} from "./ui/game_state/board.jsx";
-import {useState} from "preact/hooks";
+import {useCallback, useState} from "preact/hooks";
 import { useGameInfo, useTurn } from "./api/game.js";
 import { TurnSelector } from "./ui/game_state/turn_selector.jsx"
 import { SubmitTurn } from "./ui/game_state/submit_turn.jsx";
 
 function App() {
+    // We want to be able to force refresh out game info after submitting an action
+    // so we create this state that game info depends on so when change it game info
+    // gets refreshed
+    const [gameInfoTrigger, setGameInfoTrigger] = useState();
+    const [gameInfo, _] = useGameInfo(gameInfoTrigger);
+    const refreshGameInfo = useCallback(() => {
+        setGameInfoTrigger(!gameInfoTrigger);
+    }, [gameInfoTrigger, setGameInfoTrigger]);
+
     const [turn, setTurn] = useState();
     const [isLastTurn, setIsLastTurn] = useState(false);
-    const [gameInfo, _] = useGameInfo();
     const [state, __] = useTurn(turn);
 
     const errorMessage = (!state || state.valid) ? null : (
@@ -28,7 +36,10 @@ function App() {
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
             <GameBoard boardState={state?.gameState?.board}></GameBoard>
             {errorMessage}
-            <SubmitTurn gameInfo={gameInfo} possibleActions={state?.gameState?.possible_actions}></SubmitTurn>
+            <SubmitTurn
+                isLastTurn={isLastTurn}
+                gameInfo={gameInfo}
+                refreshGameInfo={refreshGameInfo}></SubmitTurn>
             <footer>
                 <i>{APP_VERSION}</i>
             </footer>

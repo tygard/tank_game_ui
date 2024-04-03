@@ -2,6 +2,8 @@ import { submitTurn, usePossibleActions } from "../../api/game";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
+const REFRESH_DELAY_MS = 500;
+
 
 function capitalize(string) {
     return string.length === 0 ? "" : string[0].toUpperCase() + string.slice(1);
@@ -20,12 +22,18 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ gameInfo }) {
+export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
     const users = gameInfo?.users || [];
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
     const [actionSpecs, _] = usePossibleActions(selectedUser);
+
+    if(!isLastTurn) {
+        return (
+            <p>You can only submit actions on the most recent turn.</p>
+        );
+    }
 
     // Reset the action type
     useEffect(() => {
@@ -48,15 +56,19 @@ export function SubmitTurn({ gameInfo }) {
     const possibleActions = actionSpecs ? Object.keys(actionSpecs) : [];
     const isValid = isValidEntry(currentSpec, logBookEntry);
 
-    const submitTurnHandler = e => {
+    const submitTurnHandler = useCallback(e => {
         e.preventDefault();
         if(isValid) {
             submitTurn(logBookEntry);
 
             // Reset the form
             setActionType(undefined);
+
+            // There is a slight delay between when an action is added and
+            // when the state is available.  So we wait an trigger a refresh.
+            setTimeout(() => refreshGameInfo(), REFRESH_DELAY_MS);
         }
-    };
+    }, [setActionType, refreshGameInfo, isValid]);
 
     return (
         <>
@@ -73,8 +85,6 @@ export function SubmitTurn({ gameInfo }) {
                     <button type="submit" disabled={!isValid}>Submit action</button>
                 </form>
             </div>
-            <h3>Log book entry</h3>
-            <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
         </>
     );
 }
