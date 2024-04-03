@@ -40,6 +40,11 @@ console.log(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
 
 function hackPossibleActions(response, user) {
+    // No hack needed the engine returned a set of inputs
+    if(response[0].name) {
+        return response;
+    }
+
     const possibleActions =  response.filter(action => action?.subject?.name == user);
     let actions = {};
 
