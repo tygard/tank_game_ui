@@ -126,7 +126,6 @@ export const useTurn = makeReactDataFetchHelper({
 export const usePossibleActions = makeReactDataFetchHelper({
     shouldSendRequest: user => !!user,
     url: user => `/api/game/tank_game_v3/user/${user}/possible-actions`,
-    frequency: FETCH_FREQUENCY,
 });
 
 export async function submitTurn(logbookEntry) {

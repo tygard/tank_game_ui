@@ -27,7 +27,12 @@ export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionSpecs, _] = usePossibleActions(selectedUser);
+    const [actionSpecs, _] = usePossibleActions(selectedUser, gameInfo && gameInfo.turnMap.getLastTurn());
+    const [status, setStatus] = useState();
+
+    if(status) {
+        return <p>{status}</p>;
+    }
 
     if(!isLastTurn) {
         return (
@@ -56,19 +61,18 @@ export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
     const possibleActions = actionSpecs ? Object.keys(actionSpecs) : [];
     const isValid = isValidEntry(currentSpec, logBookEntry);
 
-    const submitTurnHandler = useCallback(e => {
+    const submitTurnHandler = useCallback(async e => {
         e.preventDefault();
         if(isValid) {
-            submitTurn(logBookEntry);
+            setStatus("Submitting action...");
+            await submitTurn(logBookEntry);
 
             // Reset the form
             setActionType(undefined);
-
-            // There is a slight delay between when an action is added and
-            // when the state is available.  So we wait an trigger a refresh.
-            setTimeout(() => refreshGameInfo(), REFRESH_DELAY_MS);
+            refreshGameInfo();
+            setStatus(undefined);
         }
-    }, [setActionType, refreshGameInfo, isValid]);
+    }, [setActionType, refreshGameInfo, isValid, setStatus]);
 
     return (
         <>
