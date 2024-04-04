@@ -2,9 +2,6 @@ import { submitTurn, usePossibleActions } from "../../api/game";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-const REFRESH_DELAY_MS = 500;
-
-
 function capitalize(string) {
     return string.length === 0 ? "" : string[0].toUpperCase() + string.slice(1);
 }

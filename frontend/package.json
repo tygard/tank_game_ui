@@ -1,10 +1,10 @@
 {
   "name": "tank_game_ui",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A basic web UI for playing tank game",
   "main": "index.js",
   "scripts": {
-    "serve": "webpack serve",
+    "develop": "webpack serve",
     "build": "NODE_ENV=production webpack"
   },
   "author": "Ryan Ray <ryan314r@gmail.com>",
