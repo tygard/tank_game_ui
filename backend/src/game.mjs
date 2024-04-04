@@ -88,7 +88,10 @@ class Game {
             throw new Error(`Index ${endIndex} is past the end of the logbook`);
         }
 
-        let engine = getEngine();
+        // If the tank game engine isn't already running start it
+        if(!this._engine) {
+            this._engine = getEngine();
+        }
 
         // Send our previous state to tank game
         const initialState = startIndex === 0 ?
@@ -97,13 +100,13 @@ class Game {
             throw new Error(`Expected a state at index ${startIndex}`);
         }
 
-        await engine.setBoardState(initialState.gameState);
+        await this._engine.setBoardState(initialState.gameState);
 
         // Remove any states that might already be there
         this._states.splice(startIndex, (endIndex - startIndex) + 1);
 
         for(let i = startIndex; i <= endIndex; ++i) {
-            const state = await engine.processAction(this._logBook[i]);
+            const state = await this._engine.processAction(this._logBook[i]);
             this._states.splice(i, 0, state); // Insert state at i
         }
 
@@ -114,10 +117,8 @@ class Game {
         this._possibleActions = {};
 
         for(const user of this.getAllUsers()) {
-            this._possibleActions[user] = await engine.getPossibleActionsFor(user);
+            this._possibleActions[user] = await this._engine.getPossibleActionsFor(user);
         }
-
-        engine.exit(); // Don't wait for the engine to exit
     }
 
     _buildDayMap() {
