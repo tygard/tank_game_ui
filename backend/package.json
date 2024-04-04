@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start | pino-pretty",
+    "develop": "TANK_GAMES_FOLDER=../example/ JWT_SIGNING_KEY=my-super-secret-key TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start | pino-pretty",
     "start": "node src/index.mjs"
   },
   "author": "Ryan Ray <ryan314r@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "express": "^4.19.1",
+    "jsonwebtoken": "^9.0.2",
     "pino": "^8.19.0",
     "pino-http": "^9.0.0"
   },

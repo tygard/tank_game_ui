@@ -30,6 +30,7 @@ function App() {
 
     return (
         <>
+            <p>Hello {gameInfo?.whoami}</p>
             <TurnSelector
                 gameInfo={gameInfo}
                 turn={turn} setTurn={setTurn}
