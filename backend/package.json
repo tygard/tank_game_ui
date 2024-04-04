@@ -5,12 +5,17 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start",
+    "develop": "TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start | pino-pretty",
     "start": "node src/index.mjs"
   },
   "author": "Ryan Ray <ryan314r@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.1"
+    "express": "^4.19.1",
+    "pino": "^8.19.0",
+    "pino-http": "^9.0.0"
+  },
+  "devDependencies": {
+    "pino-pretty": "^11.0.0"
   }
 }

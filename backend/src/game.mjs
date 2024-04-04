@@ -1,7 +1,9 @@
 import fs from "node:fs/promises";
 import {getEngine} from "./tank-game-engine.mjs";
 import path from "node:path";
-import { throws } from "node:assert";
+import { getLogger } from "./logging.mjs"
+
+const logger = getLogger(import.meta.url);
 
 const FILE_FORMAT_VERSION = 1;
 
@@ -222,7 +224,7 @@ async function loadGamesFromFolder(dir) {
         const filePath = path.join(dir, gameFile);
         const name = path.parse(gameFile).name;
 
-        console.log(`Loading ${name} from ${filePath}`);
+        logger.info(`Loading ${name} from ${filePath}`);
         games[name] = Game.load(filePath);
     }
 

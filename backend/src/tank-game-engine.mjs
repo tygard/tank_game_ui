@@ -1,15 +1,11 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import { inspect } from "node:util";
+import { getLogger } from "./logging.mjs"
+
+const logger = getLogger(import.meta.url);
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
-
-const DEBUG = ["y", "yes"].includes((process.env.DEBUG || "").toLowerCase());
-
-function debug(message) {
-    if(DEBUG) console.log(`[DEBUG] ${message}`);
-}
-
 
 const TANK_GAME_ENGINE_COMMAND = (function() {
     let jar = process.env.TANK_GAME_JAR_PATH;
@@ -17,7 +13,7 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     if(!jar) {
         const jars = fs.readdirSync(".").filter(file => file.endsWith(".jar"));
         if(jars.length != 1) {
-            console.log(`Expected exactly 1 tank game jar but found: ${jars}`);
+            logger.error(`Expected exactly 1 tank game jar but found: ${jars}`);
             process.exit(1);
         }
 
@@ -29,14 +25,14 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
         fs.accessSync(jar);
     }
     catch(err) {
-        console.log(`Failed to access tank game jar: ${err.message}`);
+        logger.error(`Failed to access tank game jar: ${err.message}`);
         process.exit(1);
     }
 
     return ["java", "-jar", jar];
 })();
 
-console.log(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
+logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
 
 function hackPossibleActions(response, user) {
@@ -117,19 +113,20 @@ class TankGameEngine {
     _startTankGame() {
         if(this._proc) return;
 
-        debug("Starting tank game engine");
+        logger.debug("Starting tank game engine");
 
         const args = this._command.slice(1);
         this._proc = spawn(this._command[0], args);
 
-        let stderr = "";
-        this._proc.stderr.on("data", buffer => stderr += buffer.toString("utf-8"));
+        this._proc.stderr.on("data", buffer => {
+            logger.info("Tank game engine stderr", {
+                output: buffer.toString("utf-8"),
+            });
+        });
 
         this._proc.on("exit", status => {
-            console.log(`Tank game engine exited with ${status}`);
-            if(stderr.length > 0) {
-                console.log(`STDERR\n==============================\n${stderr}\n==============================`);
-            }
+            const logLevel = status > 0 ? "warning" : "debug";
+            logger[logLevel](`Tank game engine exited with ${status}`);
             this._proc = undefined;
         });
     }
@@ -137,7 +134,10 @@ class TankGameEngine {
     _sendRequest(request_data) {
         this._startTankGame();
 
-        debug(`Send ${inspect(request_data)}`);
+        logger.debug({
+            request_data,
+            message: "Send data to tank game engine",
+        });
 
         return new Promise((resolve, reject) => {
             this._proc.stdin.write(JSON.stringify(request_data) + "\n", "utf-8", err => {
@@ -148,7 +148,7 @@ class TankGameEngine {
     }
 
     _waitForData() {
-        debug("Waiting for response");
+        logger.debug("Waiting for response");
         return new Promise((resolve, reject) => {
             let stdout = "";
             const stdoutHandler = buffer => {
@@ -159,12 +159,18 @@ class TankGameEngine {
                 try {
                     const data = JSON.parse(stdout);
                     this._proc.stdout.off("data", stdoutHandler);
-                    debug(`Recieve ${inspect(data)}`);
+                    logger.debug({
+                        message: "Recieve data from tank game engine",
+                        response_data: data,
+                    });
                     clearTimeout(timeoutTimer);
                     resolve(data);
                 }
                 catch(err) {
-                    debug(`Failed to parse json: ${err} (waiting for more data)`);
+                    logger.debug({
+                        message: "Failed to parse json (waiting for more data)",
+                        err,
+                    });
                 }
             };
 
@@ -172,8 +178,9 @@ class TankGameEngine {
 
             let timeoutTimer = setTimeout(() => {
                 if(this._proc) this._proc.kill();
-                console.log("Tank game engine took too long to respond with valid json");
-                console.log(`STDOUT\n==============================\n${stdout}\n==============================`);
+                logger.error("Tank game engine took too long to respond with valid json", {
+                    stdout,
+                });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
             }, TANK_GAME_TIMEOUT);
         });
