@@ -119,7 +119,8 @@ class TankGameEngine {
         this._proc = spawn(this._command[0], args);
 
         this._proc.stderr.on("data", buffer => {
-            logger.info("Tank game engine stderr", {
+            logger.info({
+                message: "Tank game engine stderr",
                 output: buffer.toString("utf-8"),
             });
         });
@@ -178,7 +179,8 @@ class TankGameEngine {
 
             let timeoutTimer = setTimeout(() => {
                 if(this._proc) this._proc.kill();
-                logger.error("Tank game engine took too long to respond with valid json", {
+                logger.error({
+                    message: "Tank game engine took too long to respond with valid json",
                     stdout,
                 });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
@@ -214,6 +216,10 @@ class TankGameEngine {
 
     getBoardState() {
         return this._runCommand("display");
+    }
+
+    getActionTemplate() {
+        return this._runCommand("rules");
     }
 
     setBoardState(state) {
