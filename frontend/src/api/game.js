@@ -124,7 +124,8 @@ export const useTurn = makeReactDataFetchHelper({
 });
 
 export const usePossibleActions = makeReactDataFetchHelper({
-    url: () => `/api/game/tank_game_v3/possible-actions`,
+    shouldSendRequest: user => !!user,
+    url: user => `/api/game/tank_game_v3/user/${user}/possible-actions`,
 });
 
 export async function submitTurn(logbookEntry) {

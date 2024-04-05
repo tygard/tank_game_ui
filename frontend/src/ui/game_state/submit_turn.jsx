@@ -8,7 +8,7 @@ function capitalize(string) {
 
 function isValidEntry(spec, logBookEntry) {
     // Both action and type are required
-    if(!logBookEntry.action || !spec) return false;
+    if(!logBookEntry.subject || !logBookEntry.action || !spec) return false;
 
     for(const field of spec) {
         // Check if this value has been submitted
@@ -20,9 +20,11 @@ function isValidEntry(spec, logBookEntry) {
 
 
 export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
+    const users = gameInfo?.users || [];
+    const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionSpecs, _] = usePossibleActions(gameInfo && gameInfo.turnMap.getLastTurn());
+    const [actionSpecs, _] = usePossibleActions(selectedUser, gameInfo && gameInfo.turnMap.getLastTurn());
     const [status, setStatus] = useState();
 
     if(status) {
@@ -35,13 +37,19 @@ export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
         );
     }
 
+    // Reset the action type
+    useEffect(() => {
+        setActionType(undefined);
+    }, [selectedUser, setActionType]);
+
     // Reset any action specific fields if user or action type changes
     useEffect(() => {
         setActionSpecific({});
-    }, [actionType, setActionSpecific]);
+    }, [selectedUser, actionType, setActionSpecific]);
 
     const logBookEntry = {
         type: "action",
+        subject: selectedUser,
         action: actionType,
         ...actionSpecific
     };
@@ -68,6 +76,9 @@ export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
             <h2>New action</h2>
             <div className="submit-turn">
                 <form onSubmit={submitTurnHandler}>
+                    <LabelElement name="User">
+                        <Select spec={{ options: users }} value={selectedUser} setValue={setSelectedUser}></Select>
+                    </LabelElement>
                     <LabelElement name="Action">
                         <Select spec={{ options: possibleActions }} value={actionType} setValue={setActionType}></Select>
                     </LabelElement>

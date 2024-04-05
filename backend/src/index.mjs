@@ -3,8 +3,6 @@ import fs from "node:fs";
 import {getGame} from "./game.mjs";
 import pinoHttp from "pino-http";
 import { getLogger } from "./logging.mjs"
-import authMiddleware from "./auth.mjs"
-import cookieParser from "cookie-parser";
 
 const logger = getLogger(import.meta.url);
 
@@ -17,10 +15,7 @@ const STATIC_DIR = "www";
 
 const app = express();
 
-app.disable("x-powered-by");
 app.use(pinoHttp({ logger }));
-app.use(cookieParser());
-app.use(authMiddleware);
 
 app.use(express.json());
 
@@ -55,7 +50,6 @@ app.get("/api/game/:gameName/header", async (req, res) => {
             maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
         },
         users: game.getAllUsers(),
-        whoami: req.tokenData.username,
     });
 });
 
@@ -70,18 +64,15 @@ app.post("/api/game/:gameName/turn", async (req, res) => {
     const game = await checkGame(req, res);
     if(!game) return;
 
-    let logBookEntry = req.body;
-    logBookEntry.subject = req.tokenData.username;
-
-    const turnId = await game.addLogBookEntry(logBookEntry);
+    const turnId = await game.addLogBookEntry(req.body);
     res.json({ success: true, turnId });
 });
 
-app.get("/api/game/:gameName/possible-actions", async (req, res) => {
+app.get("/api/game/:gameName/user/:user/possible-actions", async (req, res) => {
     const game = await checkGame(req, res);
     if(!game) return;
 
-    res.json(game.getPossibleActionsFor(req.tokenData.username));
+    res.json(game.getPossibleActionsFor(req.params.user));
 });
 
 app.listen(PORT, () => {
