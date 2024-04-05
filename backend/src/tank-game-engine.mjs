@@ -106,6 +106,12 @@ class TankGameEngine {
                 });
 
                 clearTimeout(timeoutTimer);
+
+                if(data.type == "response" && data.error) {
+                    reject(new Error(`EngineError: ${data.response}`));;
+                    return;
+                }
+
                 resolve(data);
             };
 
@@ -141,7 +147,7 @@ class TankGameEngine {
 
     // Version 3 helper functions
     exit() {
-        return this._sendRequest({
+        return this._sendRequestAndWait({
             "type": "command",
             "command": "exit",
         });
@@ -160,36 +166,31 @@ class TankGameEngine {
     }
 
     setBoardState(state) {
-        return this._sendRequest({
+        return this._sendRequestAndWait({
             type: "state",
             ...state,
         });
     }
 
     async processAction(action) {
-        // NOTE: Action will either return an error or nothing
-        await this._sendRequest({
-            type: "action",
-            ...action,
-        });
+        let result = {
+            valid: true,
+        };
 
-        const gameState = await this._runCommand("display");
+        try {
+            await this._sendRequestAndWait({
+                type: "action",
+                ...action,
+            });
+        }
+        catch(err) {
+            result.valid = false;
+            result.error = err.message;
+            logger.info({ message: "Got error", result });
+        }
 
-        if(gameState.error) {
-            return {
-                valid: false,
-                error: gameState,
-                // Since process action returns an error the response to
-                // the display command is still comming
-                gameState: await this._waitForData()
-            }
-        }
-        else {
-            return {
-                valid: true,
-                gameState
-            };
-        }
+        result.gameState = await this._runCommand("display");
+        return result;
     }
 }
 

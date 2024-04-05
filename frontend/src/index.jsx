@@ -23,7 +23,7 @@ function App() {
     const errorMessage = (!state || state.valid) ? null : (
         <div>
             <pre style="color: red;">
-                Error: {JSON.stringify(state.error, null, 4)}
+                {state.error}
             </pre>
         </div>
     );
