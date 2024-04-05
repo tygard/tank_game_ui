@@ -2,7 +2,7 @@ import pino from "pino";
 import path from "node:path";
 
 const logger = pino({
-    level: "debug",
+    level: process.env.LOG_LEVEL || "info",
 });
 
 export function getLogger(url) {
