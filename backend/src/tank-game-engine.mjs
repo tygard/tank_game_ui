@@ -34,80 +34,10 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
 
 logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
-
-function hackPossibleActions(response, user) {
-    // No hack needed the engine returned a set of inputs
-    if(response[0].name) {
-        return response;
-    }
-
-    const possibleActions =  response.filter(action => action?.subject?.name == user);
-    let actions = {};
-
-    for(const action of possibleActions) {
-        const actionType = action.rules;
-
-        // Location is a location if it's a space but if its a player it's a target
-        const targetKey = action.target?.name ? "target" : "location";
-
-        let fields = actions[actionType];
-        if(!fields) {
-            actions[actionType] = fields = [];
-
-            // Fill options
-            if(action.target) {
-                fields.push({
-                    type: "select",
-                    name: targetKey,
-                    options: []
-                });
-            }
-
-            if(actionType == "shoot") {
-                fields.push({
-                    type: "select",
-                    name: "hit",
-                    options: [
-                        true,
-                        false
-                    ]
-                });
-            }
-
-            if(actionType == "buy_action") {
-                fields.push({
-                    type: "select",
-                    name: "quantity",
-                    displayName: "Gold (cost)",
-                    options: [
-                        3,
-                        5,
-                        10,
-                    ]
-                });
-            }
-
-            if(actionType == "donate") {
-                fields.push({
-                    type: "input-number",
-                    name: "quantity",
-                    placeholder: "Gold",
-                });
-            }
-        }
-
-        let actionTargetTemplate = fields.find(option => option.name === targetKey);
-
-        // Convert target to a string
-        actionTargetTemplate.options.push(action.target.name || action.target.position);
-    }
-
-    return actions;
-}
-
 class TankGameEngine {
     constructor(command) {
         this._command = command;
+        this._stdout = "";
     }
 
     _startTankGame() {
@@ -151,28 +81,32 @@ class TankGameEngine {
     _waitForData() {
         logger.debug("Waiting for response");
         return new Promise((resolve, reject) => {
-            let stdout = "";
             const stdoutHandler = buffer => {
-                stdout += buffer.toString("utf-8")
+                this._stdout += buffer.toString("utf-8")
+                parseData();
+            };
 
-                // The JSON data can be split into multiple chunks so everytime we get a new chunk
-                // try parsing it until we can.
-                try {
-                    const data = JSON.parse(stdout);
-                    this._proc.stdout.off("data", stdoutHandler);
-                    logger.debug({
-                        message: "Recieve data from tank game engine",
-                        response_data: data,
-                    });
-                    clearTimeout(timeoutTimer);
-                    resolve(data);
+            const parseData = () => {
+                const newLineIndex = this._stdout.indexOf("\n");
+                if(newLineIndex === -1) {
+                    return;
                 }
-                catch(err) {
-                    logger.debug({
-                        message: "Failed to parse json (waiting for more data)",
-                        err,
-                    });
-                }
+
+                // Parse the data
+                const data = JSON.parse(this._stdout.slice(0, newLineIndex));
+
+                // Remove the first message
+                this._stdout = this._stdout.slice(newLineIndex + 1);
+
+                this._proc.stdout.off("data", stdoutHandler);
+
+                logger.debug({
+                    message: "Recieve data from tank game engine",
+                    response_data: data,
+                });
+
+                clearTimeout(timeoutTimer);
+                resolve(data);
             };
 
             this._proc.stdout.on("data", stdoutHandler);
@@ -181,10 +115,13 @@ class TankGameEngine {
                 if(this._proc) this._proc.kill();
                 logger.error({
                     message: "Tank game engine took too long to respond with valid json",
-                    stdout,
+                    stdout: this._stdout,
                 });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
             }, TANK_GAME_TIMEOUT);
+
+            // Attempt to parse any data waiting in the buffer
+            parseData();
         });
     }
 
@@ -210,8 +147,8 @@ class TankGameEngine {
         });
     }
 
-    async getPossibleActionsFor(user) {
-        return hackPossibleActions(await this._runCommand("actions"), user);
+    getPossibleActions() {
+        return this._runCommand("actions");
     }
 
     getBoardState() {

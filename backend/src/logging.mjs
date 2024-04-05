@@ -9,3 +9,10 @@ export function getLogger(url) {
     const module = path.parse(url).name;
     return logger.child({ module });
 }
+
+process.on('uncaughtException', function (err) {
+    logger.error({
+        message: "Uncaught error",
+        err
+    });
+});

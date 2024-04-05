@@ -93,6 +93,10 @@ class Game {
             this._engine = getEngine();
         }
 
+        if(!this._actionTemplate) {
+            this._parseActionTemplate(await this._engine.getActionTemplate());
+        }
+
         // Send our previous state to tank game
         const initialState = startIndex === 0 ?
             this._initialState : this._states[startIndex - 1];
@@ -108,6 +112,9 @@ class Game {
         for(let i = startIndex; i <= endIndex; ++i) {
             const state = await this._engine.processAction(this._logBook[i]);
             this._states.splice(i, 0, state); // Insert state at i
+
+            // Stop processing actions on invalid move
+            if(!state.valid) break;
         }
 
         this._buildDayMap();
@@ -117,7 +124,7 @@ class Game {
         this._possibleActions = {};
 
         for(const user of this.getAllUsers()) {
-            this._possibleActions[user] = await this._engine.getPossibleActionsFor(user);
+            this._possibleActions[user] = this._hackPossibleActions(await this._engine.getPossibleActions(), user);
         }
     }
 
@@ -215,6 +222,99 @@ class Game {
             gameStates,
             ...extendedData,
         });
+    }
+
+    _parseActionTemplate(descriptors) {
+        this._actionTemplate = {};
+
+        for(const descriptor of descriptors) {
+            const userType = descriptor.subject.toLowerCase();
+            const actionType = descriptor.name;
+
+            if(!this._actionTemplate[userType]) {
+                this._actionTemplate[userType] = {};
+            }
+
+            this._actionTemplate[userType][actionType] = descriptor;
+        }
+    }
+
+    _hackPossibleActions(response, user) {
+        const possibleActions = response.filter(action => {
+            if(action?.subject?.name == user) return true;
+
+            if(action.subject.type == "council") {
+                return action.subject.council.includes(user) || action.subject.senate.includes(user);
+            }
+
+            return false;
+        });
+
+        logger.debug({ "message": "Dump possible actions", possibleActions, user, response });
+
+        let actions = {};
+
+        for(const action of possibleActions) {
+            const actionType = action.rules;
+            const userType = action.subject.type;
+
+            // Location is a location if it's a space but if its a player it's a target
+            const targetKey = action.target?.name ? "target" : "location";
+
+            let fields = actions[actionType];
+            if(!fields) {
+                actions[actionType] = fields = [];
+
+                const descriptor = this._actionTemplate[userType][actionType];
+                logger.info({ message: "Dump descriptor", descriptor });
+                for(const field in descriptor.fields) {
+                    let fieldSpec = {
+                        name: field.name
+                    };
+
+                    if(field.type == "Integer") {
+                        fieldSpec.type = "input-number";
+                    }
+                    else if(field.type == "Boolean") {
+                        fieldSpec.type = "select";
+                        fieldSpec.options = [];
+                    }
+                    else if(["Tank", "Position"].includes(field.type)) {
+                        fieldSpec.type = "select";
+                        fieldSpec.options = [];
+                    }
+                    else {
+                        throw new Error(`Unsupported field type: ${field.type}`);
+                    }
+
+                    fields.push(fieldSpec);
+                }
+            }
+
+            logger.debug({ message: "Dump action", action });
+
+            for(const key of Object.keys(action)) {
+                // Skip speical keys
+                if(["subject", "rule"].includes(key)) continue;
+
+                let fieldSpec = fields.find(option => option.name === targetKey);
+
+                if(fieldSpec && fieldSpec.options) {
+                    let value = action[key];
+
+                    // Target has a position type
+                    if(typeof value == "object" && Object.keys(value).length === 1) {
+                        value = value[Object.keys(value)[0]];
+                    }
+
+                    fieldSpec.options.push();
+                }
+            }
+        }
+
+        logger.debug({ message: "Dump actions", actions });
+
+        return actions;
     }
 }
 
