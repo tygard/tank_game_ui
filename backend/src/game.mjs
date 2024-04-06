@@ -120,12 +120,8 @@ class Game {
         this._buildDayMap();
         this._findAllUsers();
 
-        // Get the list of actions each user can take after this one
-        this._possibleActions = {};
-
-        for(const user of this.getAllUsers()) {
-            this._possibleActions[user] = this._hackPossibleActions(await this._engine.getPossibleActions(), user);
-        }
+        // Get the list of actions that can be taken after this one
+        this._possibleActions = this._hackPossibleActions(await this._engine.getPossibleActions());
     }
 
     _buildDayMap() {
@@ -159,35 +155,8 @@ class Game {
         return this._states.length;
     }
 
-    _findAllUsers() {
-        const state = this.getStateById(this.getMaxTurnId());
-        if(!state?.gameState) return [];
-        const gameState = state.gameState;
-
-        let users = new Set([
-            ...gameState.council.council,
-            ...gameState.council.senate
-        ]);
-
-        for(const row of gameState.board.unit_board) {
-            for(const space of row) {
-                if(space.name) {
-                    users.add(space.name);
-                }
-            }
-        }
-
-        this._users = Array.from(users);
-    }
-
-    getAllUsers() {
-        if(!this._users) this._findAllUsers();
-
-        return this._users;
-    }
-
-    getPossibleActionsFor(user) {
-        return this._possibleActions[user];
+    getPossibleActions() {
+        return this._possibleActions;
     }
 
     async addLogBookEntry(entry) {
@@ -239,17 +208,7 @@ class Game {
         }
     }
 
-    _hackPossibleActions(response, user) {
-        const possibleActions = response.filter(action => {
-            if(action?.subject?.name == user) return true;
-
-            if(action.subject.type == "council") {
-                return action.subject.council.includes(user) || action.subject.senate.includes(user);
-            }
-
-            return false;
-        });
-
+    _hackPossibleActions(possibleActions, user) {
         logger.debug({ "msg": "Dump possible actions", possibleActions, user, response });
 
         let actions = {};

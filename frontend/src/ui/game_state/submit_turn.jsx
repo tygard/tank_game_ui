@@ -19,12 +19,12 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ isLastTurn, gameInfo, refreshGameInfo }) {
-    const users = gameInfo?.users || [];
+export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo }) {
+    users = Object.keys(users?.usersByName || {});
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionSpecs, _] = usePossibleActions(selectedUser, gameInfo && gameInfo.turnMap.getLastTurn());
+    const [actionSpecs, _] = usePossibleActions(gameInfo && gameInfo.turnMap.getLastTurn());
     const [status, setStatus] = useState();
 
     if(status) {

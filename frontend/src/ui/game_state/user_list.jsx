@@ -1,6 +1,4 @@
 import "./user_list.css";
-import { useMemo } from "preact/hooks";
-import { buildUserList } from "../../api/user_list";
 
 // Keys in a user object to hide from end users
 const keysToIgnore = new Set(["type", "dead"]);
@@ -42,10 +40,8 @@ function getKeysFromUser(user) {
     return Array.from(keys);
 }
 
-export function UserList({ state }) {
-    const sections = useMemo(() => {
-        return buildUserList(state).usersByType;
-    }, [state]);
+export function UserList({ users }) {
+    const sections = users.usersByType;
 
     return (
         <div className="user-list">
