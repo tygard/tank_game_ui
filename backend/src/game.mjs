@@ -2,10 +2,27 @@ import fs from "node:fs/promises";
 import {getEngine} from "./tank-game-engine.mjs";
 import path from "node:path";
 import { getLogger } from "./logging.mjs"
+import { format } from "./utils.mjs";
 
 const logger = getLogger(import.meta.url);
 
 const FILE_FORMAT_VERSION = 1;
+
+const VERSION_SPECIFIC_CONFIG = {
+    3: {
+        entryFormatters: {
+            start_of_day: "Start of day {day}",
+            move: "{subject} moved to {position}",
+            shoot: "{subject} shot at {position} ({hit})",
+            buy_action: "{subject} bought some number of actions with {quantity} gold",
+            donate: "{subject} donated {quantity} pre-tax gold to {target}",
+            upgrade_range: "{subject} upgraded their range",
+            bounty: "{subject} placed a {quantity} gold bounty on {target}",
+            stimulus: "{subject} granted a stimulus of 1 action to {target}",
+            grant_life: "{subject} granted 1 life to {target}",
+        }
+    }
+};
 
 
 async function readJson(path) {
@@ -88,6 +105,8 @@ class Game {
             throw new Error(`Index ${endIndex} is past the end of the logbook`);
         }
 
+        this._versionSpecific = VERSION_SPECIFIC_CONFIG[3]; // TOOD: DYNAMIC
+
         // If the tank game engine isn't already running start it
         if(!this._engine) {
             this._engine = getEngine();
@@ -112,12 +131,10 @@ class Game {
         for(let i = startIndex; i <= endIndex; ++i) {
             const state = await this._engine.processAction(this._logBook[i]);
             this._states.splice(i, 0, state); // Insert state at i
-
-            // Stop processing actions on invalid move
-            if(!state.valid) break;
         }
 
         this._buildDayMap();
+        this._buildGameStatesSummary();
 
         // Get the list of actions that can be taken after this one
         this._possibleActions = this._hackPossibleActions(await this._engine.getPossibleActions());
@@ -137,6 +154,31 @@ class Game {
             }
             day = state.day;
         });
+    }
+
+    _buildGameStatesSummary() {
+        this._gameStatesSummary = [];
+
+        for(let i = 0; i < this._states.length; ++i) {
+            const logEntry = this._logBook[i];
+            const state = this._states[i];
+
+            const actionType = logEntry.action || "start_of_day";
+            const formatter = this._versionSpecific.entryFormatters[actionType];
+            if(!formatter) {
+                throw new Error(`Invlaid log book entry action ${actionType}`);
+            }
+
+            this._gameStatesSummary.push({
+                logEntryStr: format(formatter, { ...logEntry, hit: logEntry.hit ? "hit" : "miss" }),
+                valid: state.valid,
+                logEntry,
+            });
+        }
+    }
+
+    getGameStatesSummary() {
+        return this._gameStatesSummary;
     }
 
     getStateById(id) {

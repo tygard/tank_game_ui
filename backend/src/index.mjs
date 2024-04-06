@@ -56,6 +56,7 @@ app.get("/api/game/:gameName/header", async (req, res) => {
             maxTurnId: game.getMaxTurnId(),
             maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
         },
+        statesSummary: game.getGameStatesSummary(),
         engine: getEngineName(),
     });
 });

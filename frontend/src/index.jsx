@@ -9,6 +9,7 @@ import { UserList } from "./ui/game_state/user_list.jsx";
 import { useMemo } from "preact/hooks";
 import { buildUserList } from "./api/user_list";
 import { GameSelector } from "./ui/game_selector.jsx";
+import { LogBook } from "./ui/game_state/log_book.jsx";
 
 function App() {
     const [game, setGame] = useGame();
@@ -23,12 +24,20 @@ function App() {
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
     const [turn, setTurn] = useState();
+    const [trackingLastTurn, setTrackingLastTurn] = useState();
     const [isLastTurn, setIsLastTurn] = useState(false);
     const [state, __] = useTurn(game, turn);
 
     const users = useMemo(() => {
         return buildUserList(state);
     }, [state]);
+
+    const changeTurn = useCallback((newTurn) => {
+        setTurn(newTurn);
+
+        // If the user moves to the latest turn stay on the latest turn
+        setTrackingLastTurn(newTurn >= gameInfo.turnMap.getLastTurn());
+    }, [setTrackingLastTurn, setTurn, gameInfo]);
 
     // No games currently selected show the options
     if(!game) {
@@ -49,8 +58,12 @@ function App() {
                 setGame={setGame}
                 gameInfo={gameInfo}
                 turn={turn} setTurn={setTurn}
+                trackingLastTurn={trackingLastTurn} setTrackingLastTurn={setTrackingLastTurn} changeTurn={changeTurn}
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
             <div className="app-side-by-side centered">
+                <div>
+                    <LogBook gameInfo={gameInfo} currentTurn={turn} changeTurn={changeTurn}></LogBook>
+                </div>
                 <div className="app-side-by-side-main">
                     <GameBoard boardState={state?.gameState?.board}></GameBoard>
                 </div>
