@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+# Cd to repo root
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+docker build "$@" \
+    -t "${IMAGE:-ryan3r/tank-game}" \
+    --build-arg BUILD_INFO="$(git rev-parse --abbrev-ref HEAD) @ $(git rev-parse HEAD)" \
+    .

@@ -21,7 +21,7 @@ module.exports = {
     devtool: "source-map",
     entry: "./src/index.jsx",
     output: {
-        path: path.resolve(__dirname, "build"),
+        path: path.resolve(__dirname, "dist"),
         filename: "tank-game.js",
     },
     plugins: [

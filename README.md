@@ -2,7 +2,7 @@
 
 ## Developing
 
-If you're using vscode open the devcontainer.  Then run `cd frontend && npm run develop` and `cd backend && npm run develop` to start the development servers.  Then navigate to http://localhost:3000/.
+If you're using vscode open the devcontainer.  Then run `cd frontend && npm run develop` and `cd backend && npm run develop` to start the development servers.  You may need to run `npm install` in one or both of those folders.  Then navigate to http://localhost:3000/.
 
 ## Building and running
 
