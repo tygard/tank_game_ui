@@ -118,7 +118,6 @@ class Game {
         }
 
         this._buildDayMap();
-        this._findAllUsers();
 
         // Get the list of actions that can be taken after this one
         this._possibleActions = this._hackPossibleActions(await this._engine.getPossibleActions());
@@ -209,7 +208,7 @@ class Game {
     }
 
     _hackPossibleActions(possibleActions, user) {
-        logger.debug({ "msg": "Dump possible actions", possibleActions, user, response });
+        logger.debug({ "msg": "Dump possible actions", possibleActions, user });
 
         let actions = {};
 
