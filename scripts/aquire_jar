@@ -12,4 +12,5 @@ tmp=$(mktemp -d)
 trap "rm -rf $tmp" EXIT
 
 docker cp $containerId:/app/ $tmp
+rm *.jar
 cp $tmp/app/*.jar .
