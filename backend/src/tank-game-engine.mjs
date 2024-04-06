@@ -165,8 +165,8 @@ class TankGameEngine {
         return this._runCommand("display");
     }
 
-    getActionTemplate() {
-        return this._runCommand("rules");
+    async getActionTemplate() {
+        return (await this._runCommand("rules")).rules;
     }
 
     setBoardState(state) {

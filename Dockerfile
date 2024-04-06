@@ -19,16 +19,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Pin the included tank game engine to the last compatible version
-ARG ENGINE_VERSION=99e87bebc2381d8536944fd46d218f2f31be369d
-
-COPY 0001-Compatability-and-error-handling-fixes.patch /root/
+ARG ENGINE_VERSION=03b84692b591905b627f5613d430f3dd4a2294cf
 
 # Build tank game engine to be included with the default image
 RUN --mount=type=cache,target=/root/.m2 \
     git clone https://github.com/TrevorBrunette/tankgame.git && \
     cd tankgame && \
     git checkout "${ENGINE_VERSION}" && \
-    git apply /root/0001-Compatability-and-error-handling-fixes.patch && \
     mvn package && \
     cd target && \
     # Rename the executable to include the git hash for easy debugging \
