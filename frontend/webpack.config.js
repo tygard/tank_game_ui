@@ -5,11 +5,11 @@ const packageJson = require("./package.json");
 const { DefinePlugin } = require("webpack");
 
 // Collect version info
-const gitRevision = childProcess.spawnSync("echo $(git rev-parse --abbrev-ref HEAD) @ $(git rev-parse HEAD)", { shell: true })
+const gitRevision = childProcess.spawnSync("git rev-parse --short HEAD", { shell: true })
     .stdout.toString("utf-8")
     .replace(/(\r|\n)/g, "");
 
-const version = `TankGame v${packageJson.version} git revision ${gitRevision}`;
+const version = `TankGameUI v${packageJson.version} @ ${gitRevision}`;
 
 
 module.exports = {

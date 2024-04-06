@@ -1,12 +1,13 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import { getLogger } from "./logging.mjs"
+import path from "node:path";
 
 const logger = getLogger(import.meta.url);
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
 
-const TANK_GAME_ENGINE_COMMAND = (function() {
+export const TANK_GAME_ENGINE_COMMAND = (function() {
     let jar = process.env.TANK_GAME_JAR_PATH;
 
     if(!jar) {
@@ -32,6 +33,10 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
 })();
 
 logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
+
+export function getEngineName() {
+    return path.basename(TANK_GAME_ENGINE_COMMAND[TANK_GAME_ENGINE_COMMAND.length - 1]);
+}
 
 class TankGameEngine {
     constructor(command) {

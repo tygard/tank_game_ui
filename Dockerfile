@@ -31,7 +31,7 @@ RUN --mount=type=cache,target=/root/.m2 \
     mvn package && \
     cd target && \
     # Rename the executable to include the git hash for easy debugging \
-    mv $(echo TankGame-*.jar) "$(basename $(echo TankGame-*.jar) .jar)-$(git rev-parse HEAD)".jar
+    mv $(echo TankGame-*.jar) "$(basename $(echo TankGame-*.jar) .jar)-$(git rev-parse --short HEAD)".jar
 
 FROM node:20-alpine
 

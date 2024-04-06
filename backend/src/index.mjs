@@ -3,6 +3,7 @@ import fs from "node:fs";
 import {getGame} from "./game.mjs";
 import pinoHttp from "pino-http";
 import { getLogger } from "./logging.mjs"
+import { TANK_GAME_ENGINE_COMMAND, getEngineName } from "./tank-game-engine.mjs";
 
 const logger = getLogger(import.meta.url);
 
@@ -49,6 +50,7 @@ app.get("/api/game/:gameName/header", async (req, res) => {
             maxTurnId: game.getMaxTurnId(),
             maxDay: Object.keys(game.getDayMappings()).map(key => +key).reduce((a, b) => b > a ? b : a, 0),
         },
+        engine: getEngineName(),
     });
 });
 

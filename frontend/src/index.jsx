@@ -50,7 +50,7 @@ function App() {
                 users={users}
                 refreshGameInfo={refreshGameInfo}></SubmitTurn>
             <footer>
-                <i>{APP_VERSION}</i>
+                <i>{APP_VERSION} - {gameInfo?.engine}</i>
             </footer>
         </>
     );
