@@ -67,7 +67,7 @@ export function TurnSelector({ turn, setTurn, isLastTurn, setIsLastTurn, gameInf
     }
 
     return (
-        <div className="turn-selector">
+        <div className="turn-selector centered">
             <button onClick={() => setPlayback(!playback)} disabled={isLastTurn}>{playback ? "Pause playback" : "Playback turns"}</button>
             <button onClick={() => userSetTurn(turnMap.findPreviousDay(turn))} disabled={today <= turnMap.getMinDay()}>&lt;&lt; Day</button>
             <button onClick={() => userSetTurn(turnMap.findPreviousTurn(turn))} disabled={turn <= turnMap.getFirstTurn()}>&lt; Turn</button>

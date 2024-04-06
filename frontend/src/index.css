@@ -13,3 +13,21 @@ footer {
     padding: 8px 3px;
     text-align: center;
 }
+
+.app-side-by-side {
+    flex-wrap: wrap;
+}
+
+.app-turn-invalid {
+    color: red;
+    padding: 8px 0px;
+}
+
+.app-side-by-side-main {
+    margin-right: 25px;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}

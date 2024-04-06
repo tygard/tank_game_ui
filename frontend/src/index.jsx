@@ -28,10 +28,8 @@ function App() {
     }, [state]);
 
     const errorMessage = (!state || state.valid) ? null : (
-        <div>
-            <pre style="color: red;">
-                {state.error}
-            </pre>
+        <div className="app-turn-invalid">
+            {state.error}
         </div>
     );
 
@@ -41,14 +39,24 @@ function App() {
                 gameInfo={gameInfo}
                 turn={turn} setTurn={setTurn}
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
-            <GameBoard boardState={state?.gameState?.board}></GameBoard>
-            {errorMessage}
-            <UserList users={users}></UserList>
-            <SubmitTurn
-                isLastTurn={isLastTurn}
-                gameInfo={gameInfo}
-                users={users}
-                refreshGameInfo={refreshGameInfo}></SubmitTurn>
+            <div className="app-side-by-side centered">
+                <div className="app-side-by-side-main">
+                    <GameBoard boardState={state?.gameState?.board}></GameBoard>
+                </div>
+                <div>
+                    <UserList users={users}></UserList>
+                </div>
+            </div>
+            <div className="centered">
+                <div>
+                    {errorMessage}
+                    <SubmitTurn
+                        isLastTurn={isLastTurn}
+                        gameInfo={gameInfo}
+                        users={users}
+                        refreshGameInfo={refreshGameInfo}></SubmitTurn>
+                </div>
+            </div>
             <footer>
                 <i>{APP_VERSION} - {gameInfo?.engine}</i>
             </footer>
