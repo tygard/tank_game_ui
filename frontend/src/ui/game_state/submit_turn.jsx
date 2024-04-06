@@ -19,12 +19,12 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo }) {
+export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo, game }) {
     users = Object.keys(users?.usersByName || {});
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionSpecs, _] = usePossibleActions(gameInfo && gameInfo.turnMap.getLastTurn());
+    const [actionSpecs, _] = usePossibleActions(game, gameInfo && gameInfo.turnMap.getLastTurn());
     const [status, setStatus] = useState();
 
     if(status) {
@@ -62,7 +62,7 @@ export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo }) {
         e.preventDefault();
         if(isValid) {
             setStatus("Submitting action...");
-            await submitTurn(logBookEntry);
+            await submitTurn(game, logBookEntry);
 
             // Reset the form
             setActionType(undefined);

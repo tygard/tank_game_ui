@@ -5,17 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "develop": "LOG_LEVEL=debug TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start | tee backend.log.json | pino-pretty",
-    "start": "node src/index.mjs"
+    "develop": "LOG_LEVEL=debug TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start",
+    "start": "node src/index.mjs | pino-pretty"
   },
   "author": "Ryan Ray <ryan314r@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.1",
     "pino": "^8.19.0",
-    "pino-http": "^9.0.0"
-  },
-  "devDependencies": {
+    "pino-http": "^9.0.0",
     "pino-pretty": "^11.0.0"
   }
 }

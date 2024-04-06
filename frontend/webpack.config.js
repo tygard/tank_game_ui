@@ -5,11 +5,15 @@ const packageJson = require("./package.json");
 const { DefinePlugin } = require("webpack");
 
 // Collect version info
-const gitRevision = childProcess.spawnSync("git rev-parse --short HEAD", { shell: true })
-    .stdout.toString("utf-8")
-    .replace(/(\r|\n)/g, "");
+function getGitHash() {
+    return childProcess.spawnSync("echo @ $(git rev-parse --short HEAD)", { shell: true })
+        .stdout.toString("utf-8")
+        .replace(/(\r|\n)/g, "");
+}
 
-const version = `TankGameUI v${packageJson.version} @ ${gitRevision}`;
+const gitRevision = process.env.BUILD_INFO || getGitHash();
+
+const version = `TankGameUI v${packageJson.version} ${gitRevision}`;
 
 
 module.exports = {
@@ -24,7 +28,7 @@ module.exports = {
         new DefinePlugin({
             "APP_VERSION": `"${version}"`,
         }),
-        new HtmlWebpackPlugin({ title: "Tank Game" }),
+        new HtmlWebpackPlugin({ title: "Tank Game", publicPath: "/" }),
     ],
     devServer: {
         static: {
@@ -36,7 +40,10 @@ module.exports = {
                 context: ["/api/"],
                 target: "http://localhost:3333",
             }
-        ]
+        ],
+        historyApiFallback: {
+            index: "/",
+        }
     },
     module: {
         rules: [

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "preact/hooks";
 
 const FETCH_FREQUENCY = 2; // seconds
+const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
 
 class TurnMap {
     constructor(gameHeader) {
@@ -109,8 +110,41 @@ function makeReactDataFetchHelper(options) {
     };
 }
 
+function getGameFromUrl() {
+    const match = GAME_URL_EXPR.exec(location.pathname);
+    return match && match[1];
+}
+
+export function useGame() {
+    const [game, setGame] = useState(getGameFromUrl());
+
+    const setGameWrapper = useCallback(newGame => {
+        setGame(newGame);
+
+        const newUrl = newGame === undefined ? "/" : `/game/${newGame}`;
+        history.pushState(undefined, undefined, newUrl);
+    }, [setGame]);
+
+    const popStateHandler = useCallback(() => {
+        setGame(getGameFromUrl());
+    }, [setGame]);
+
+    useEffect(() => {
+        addEventListener("popstate", popStateHandler);
+
+        return () => removeEventListener("popstate", popStateHandler);
+    }, [popStateHandler]);
+
+    return [game, setGameWrapper];
+}
+
+export const useGameList = makeReactDataFetchHelper({
+    url: "/api/games",
+});
+
 export const useGameInfo = makeReactDataFetchHelper({
-    url: "/api/game/tank_game_v3/header",
+    shouldSendRequest: game => !!game,
+    url: game => `/api/game/${game}/header`,
     parse: data => ({
         ...data,
         turnMap: new TurnMap(data.turnMap),
@@ -119,16 +153,17 @@ export const useGameInfo = makeReactDataFetchHelper({
 });
 
 export const useTurn = makeReactDataFetchHelper({
-    shouldSendRequest: turnId => turnId !== undefined,
-    url: turnId => `/api/game/tank_game_v3/turn/${turnId}`
+    shouldSendRequest: (game, turnId) => game && turnId !== undefined,
+    url: (game, turnId) => `/api/game/${game}/turn/${turnId}`
 });
 
 export const usePossibleActions = makeReactDataFetchHelper({
-    url: () => `/api/game/tank_game_v3/possible-actions`,
+    shouldSendRequest: game => !!game,
+    url: game => `/api/game/${game}/possible-actions`,
 });
 
-export async function submitTurn(logbookEntry) {
-    const res = await fetch(`/api/game/tank_game_v3/turn`, {
+export async function submitTurn(game, logbookEntry) {
+    const res = await fetch(`/api/game/${game}/turn`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

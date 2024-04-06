@@ -295,3 +295,7 @@ let gamePromises = loadGamesFromFolder(process.env.TANK_GAMES_FOLDER);
 export async function getGame(name) {
     return await (await gamePromises)[name];
 }
+
+export async function getGameNames() {
+    return Object.keys(await gamePromises);
+}

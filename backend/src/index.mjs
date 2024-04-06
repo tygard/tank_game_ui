@@ -1,9 +1,10 @@
 import express from "express";
 import fs from "node:fs";
-import {getGame} from "./game.mjs";
+import {getGame, getGameNames} from "./game.mjs";
 import pinoHttp from "pino-http";
 import { getLogger } from "./logging.mjs"
-import { TANK_GAME_ENGINE_COMMAND, getEngineName } from "./tank-game-engine.mjs";
+import { getEngineName } from "./tank-game-engine.mjs";
+import path from "node:path";
 
 const logger = getLogger(import.meta.url);
 
@@ -40,6 +41,11 @@ async function checkGame(req, res) {
     return game;
 }
 
+
+app.get("/api/games", async (req, res) => {
+    res.json(await getGameNames());
+});
+
 app.get("/api/game/:gameName/header", async (req, res) => {
     const game = await checkGame(req, res);
     if(!game) return;
@@ -74,6 +80,10 @@ app.get("/api/game/:gameName/possible-actions", async (req, res) => {
     if(!game) return;
 
     res.json(game.getPossibleActions());
+});
+
+app.use(function(req, res) {
+    res.sendFile(path.resolve(path.join(STATIC_DIR, "index.html")));
 });
 
 app.listen(PORT, () => {

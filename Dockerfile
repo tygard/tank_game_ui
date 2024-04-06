@@ -7,6 +7,7 @@ COPY frontend/package*.json /frontend/
 RUN npm ci
 
 # Build frontend
+ARG BUILD_INFO
 COPY frontend/ /frontend/
 RUN npm run build
 
