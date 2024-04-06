@@ -1,61 +1,4 @@
-import { useMemo } from "preact/hooks";
 import "./board.css";
-
-
-function matchingAoeOrUndefined(space, typeToMatch) {
-    return space && space.type == typeToMatch ? space : undefined;
-}
-
-function procesAOE(floorBoard) {
-    let outFloorBoard = [];
-
-    for(let y = 0; y < floorBoard.length; ++y) {
-        // Add this row to the array
-        outFloorBoard.push([]);
-
-        for(let x = 0; x < floorBoard[y].length; ++x) {
-            // Initilize this space with what ever the input had
-            outFloorBoard[y].push(floorBoard[y][x])
-
-            const areaOfEffectType = floorBoard[y][x].type;
-            if(areaOfEffectType == "empty") continue;
-
-            let upAreaOfEffect;
-            let leftAreaOfEffect;
-
-            // Check if there are any gold areas of effect to our left or above us
-            if(x > 0) leftAreaOfEffect = matchingAoeOrUndefined(outFloorBoard[y][x - 1], areaOfEffectType);
-            if(y > 0) upAreaOfEffect = matchingAoeOrUndefined(outFloorBoard[y - 1][x], areaOfEffectType);
-
-            // If we have a area of effect above us and to our left but they are different areas of effect merge them
-            if(upAreaOfEffect && leftAreaOfEffect && leftAreaOfEffect != upAreaOfEffect) {
-                upAreaOfEffect.spaces = upAreaOfEffect.spaces.concat(leftAreaOfEffect.spaces);
-
-                for(const space of leftAreaOfEffect.spaces) {
-                    outFloorBoard[space.y][space.x] = upAreaOfEffect;
-                }
-
-                leftAreaOfEffect = undefined;
-            }
-
-            // If either area of effects exists add to that one
-            let areaOfEffect = upAreaOfEffect || leftAreaOfEffect;
-
-            if(!areaOfEffect) {
-                // No area of effect next to us (yet) create a new one
-                areaOfEffect = {
-                    "type": areaOfEffectType,
-                    "spaces": []
-                };
-            }
-
-            areaOfEffect.spaces.push({ x, y });
-            outFloorBoard[y][x] = areaOfEffect;
-        }
-    }
-
-    return outFloorBoard;
-}
 
 export function GameBoard({ boardState, emptyMessage = "No board data supplied" }) {
 
@@ -71,10 +14,8 @@ export function GameBoard({ boardState, emptyMessage = "No board data supplied" 
     const width = boardState.unit_board[0].length;
 
     try {
-        const floorBoard = useMemo(() => procesAOE(boardState.floor_board), [boardState.floor_board]);
-
         return (
-            <GameBoardView width={width} entities={boardState.unit_board} areaOfEffects={floorBoard}></GameBoardView>
+            <GameBoardView width={width} entities={boardState.unit_board} floorBoard={boardState.floor_board}></GameBoardView>
         );
     }
     catch(err) {
@@ -84,10 +25,7 @@ export function GameBoard({ boardState, emptyMessage = "No board data supplied" 
     }
 }
 
-export function GameBoardView({ width, entities, areaOfEffects }) {
-    // Track which areaOfEffect entities we've rendered a label for so we only render them 1 time (max)
-    let renderedAreaOfEffects = new Set();
-
+export function GameBoardView({ width, entities, floorBoard }) {
     let letters = [<Tile className="board-space-coordinate"></Tile>];
     const a = "A".charCodeAt(0);
     for(let x = 0; x < width; ++x) {
@@ -104,8 +42,7 @@ export function GameBoardView({ width, entities, areaOfEffects }) {
                 <div className="game-board-row">
                     <Tile className="board-space-coordinate">{y + 1}</Tile>
                     {row.map((space, x) => {
-                        return <Space space={space} areaOfEffect={areaOfEffects[y][x]}
-                            renderedAreaOfEffects={renderedAreaOfEffects}></Space>;
+                        return <Space space={space} areaOfEffect={floorBoard[y][x]}></Space>;
                     })}
                 </div>
             ))}
@@ -113,7 +50,7 @@ export function GameBoardView({ width, entities, areaOfEffects }) {
     )
 }
 
-function Space({ space, areaOfEffect, renderedAreaOfEffects, disabled }) {
+function Space({ space, areaOfEffect, disabled }) {
     const type = space && space.type;
     const areaOfEffectType = areaOfEffect && areaOfEffect.type;
     let entity = null;
@@ -124,11 +61,6 @@ function Space({ space, areaOfEffect, renderedAreaOfEffects, disabled }) {
     }
     else if(type == "wall") {
         entity = <Wall wall={space} areaOfEffect={areaOfEffect}></Wall>;
-    }
-    // Try to place a areaOfEffect in this space
-    else if(areaOfEffectType == "gold_mine" && !renderedAreaOfEffects.has(areaOfEffect)) {
-        renderedAreaOfEffects.add(areaOfEffect);
-        entity = <GoldMineLabel mine={areaOfEffect}></GoldMineLabel>;
     }
 
     return (
@@ -188,14 +120,6 @@ function Wall({ wall }) {
     return (
         <div className={`board-space-wall-${wall.health} board-space-entity board-space-centered ${deadTankClass}`}>
             {wall.health}
-        </div>
-    );
-}
-
-function GoldMineLabel({ mine }) {
-    return (
-        <div className={`board-space-gold-mine-label board-space-entity board-space-centered`}>
-            {mine.spaces.length}
         </div>
     );
 }
