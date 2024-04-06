@@ -1,6 +1,5 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
-import { inspect } from "node:util";
 import { getLogger } from "./logging.mjs"
 
 const logger = getLogger(import.meta.url);
@@ -25,7 +24,7 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
         fs.accessSync(jar);
     }
     catch(err) {
-        logger.error(`Failed to access tank game jar: ${err.message}`);
+        logger.error(`Failed to access tank game jar: ${err.msg}`);
         process.exit(1);
     }
 
@@ -50,7 +49,7 @@ class TankGameEngine {
 
         this._proc.stderr.on("data", buffer => {
             logger.info({
-                message: "Tank game engine stderr",
+                msg: "Tank game engine stderr",
                 output: buffer.toString("utf-8"),
             });
         });
@@ -67,7 +66,7 @@ class TankGameEngine {
 
         logger.debug({
             request_data,
-            message: "Send data to tank game engine",
+            msg: "Send data to tank game engine",
         });
 
         return new Promise((resolve, reject) => {
@@ -95,13 +94,13 @@ class TankGameEngine {
                 // Parse the data
                 const data = JSON.parse(this._stdout.slice(0, newLineIndex));
 
-                // Remove the first message
+                // Remove the first msg
                 this._stdout = this._stdout.slice(newLineIndex + 1);
 
                 this._proc.stdout.off("data", stdoutHandler);
 
                 logger.debug({
-                    message: "Recieve data from tank game engine",
+                    msg: "Recieve data from tank game engine",
                     response_data: data,
                 });
 
@@ -120,7 +119,7 @@ class TankGameEngine {
             let timeoutTimer = setTimeout(() => {
                 if(this._proc) this._proc.kill();
                 logger.error({
-                    message: "Tank game engine took too long to respond with valid json",
+                    msg: "Tank game engine took too long to respond with valid json",
                     stdout: this._stdout,
                 });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
@@ -186,7 +185,7 @@ class TankGameEngine {
         catch(err) {
             result.valid = false;
             result.error = err.message;
-            logger.info({ message: "Got error", result });
+            logger.info({ msg: "Got error", result });
         }
 
         result.gameState = await this._runCommand("display");

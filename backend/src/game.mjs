@@ -250,7 +250,7 @@ class Game {
             return false;
         });
 
-        logger.debug({ "message": "Dump possible actions", possibleActions, user, response });
+        logger.debug({ "msg": "Dump possible actions", possibleActions, user, response });
 
         let actions = {};
 
@@ -266,7 +266,7 @@ class Game {
                 actions[actionType] = fields = [];
 
                 const descriptor = this._actionTemplate[userType][actionType];
-                logger.info({ message: "Dump descriptor", descriptor });
+                logger.info({ msg: "Dump descriptor", descriptor });
                 for(const field in descriptor.fields) {
                     let fieldSpec = {
                         name: field.name
@@ -291,7 +291,7 @@ class Game {
                 }
             }
 
-            logger.debug({ message: "Dump action", action });
+            logger.debug({ msg: "Dump action", action });
 
             for(const key of Object.keys(action)) {
                 // Skip speical keys
@@ -312,7 +312,7 @@ class Game {
             }
         }
 
-        logger.debug({ message: "Dump actions", actions });
+        logger.debug({ msg: "Dump actions", actions });
 
         return actions;
     }
