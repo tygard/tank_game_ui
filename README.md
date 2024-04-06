@@ -2,7 +2,7 @@
 
 ## Developing
 
-If you're using vscode open the devcontainer.  Then run `cd frontend && npm run develop` and `cd backend && npm run develop` to start the development servers.  You may need to run `npm install` in one or both of those folders.  Then navigate to http://localhost:3000/.
+If you're using vscode open the devcontainer.  Then run `cd frontend && npm run develop` and `cd backend && npm run develop` to start the development servers.  You may need to run `npm install` in one or both of those folders.  You will also need a copy of TankGame.jar which you can get by running `scripts/aquire_jar` outside the container or by building [TrevorBrunette/tankgame](https://github.com/TrevorBrunette/tankgame.git) directly.  Then navigate to http://localhost:3000/.
 
 ## Building and running
 

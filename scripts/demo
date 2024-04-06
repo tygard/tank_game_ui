@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+# Cd to repo root
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+scripts/build
+
+main_device="$(ip r show default | grep -Po 'dev \K\S+')"
+ip="$(ip -o a s eth0 | grep -Po 'inet \K\S+' | cut -d/ -f1)"
+
+docker run --name tank-game-demo -e LOG_LEVEL -d --rm -p 3333:3333 --init ryan3r/tank-game >/dev/null
+
+echo "You can access the tank game demo from http://$ip:3333/game/tank_game_v3"
+echo "Writing log to demo.log"
+echo "Press ctrl+c to stop"
+
+cleanup() {
+    echo "Stopping demo..."
+    docker stop tank-game-demo >/dev/null
+}
+
+trap cleanup EXIT
+
+docker logs -f tank-game-demo >demo.log
