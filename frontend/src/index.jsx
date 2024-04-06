@@ -5,6 +5,7 @@ import {useCallback, useState} from "preact/hooks";
 import { useGameInfo, useTurn } from "./api/game.js";
 import { TurnSelector } from "./ui/game_state/turn_selector.jsx"
 import { SubmitTurn } from "./ui/game_state/submit_turn.jsx";
+import { UserList } from "./ui/game_state/user_list.jsx";
 
 function App() {
     // We want to be able to force refresh out game info after submitting an action
@@ -36,6 +37,7 @@ function App() {
                 isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
             <GameBoard boardState={state?.gameState?.board}></GameBoard>
             {errorMessage}
+            <UserList state={state}></UserList>
             <SubmitTurn
                 isLastTurn={isLastTurn}
                 gameInfo={gameInfo}

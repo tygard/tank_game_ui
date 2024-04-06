@@ -1,0 +1,13 @@
+.user-list-table {
+    border-collapse: collapse;
+}
+
+.user-list-table td, .user-list-table th {
+    border: 1px solid #000;
+    padding: 2px 7px;
+}
+
+.user-list-table th {
+    background: #333;
+    color: #fff;
+}
