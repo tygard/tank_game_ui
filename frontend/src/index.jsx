@@ -68,6 +68,7 @@ function App() {
                     <GameBoard boardState={state?.gameState?.board}></GameBoard>
                 </div>
                 <div>
+                    <p>Coffer: {state?.gameState?.council?.coffer || ""}</p>
                     <UserList users={users}></UserList>
                 </div>
             </div>
