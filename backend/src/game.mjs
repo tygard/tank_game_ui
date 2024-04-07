@@ -41,7 +41,7 @@ class Game {
         this._logBook = logBook || [];
         this._possibleActions = possibleActions || [];
         this._ready = Promise.resolve();
-        this._liteMode = this._logBook.length == this._states.length;
+        this._liteMode = true;
 
         this._buildDayMap();
 
@@ -116,14 +116,7 @@ class Game {
             this._parseActionTemplate(await this._engine.getActionTemplate());
         }
 
-        // Send our previous state to tank game
-        const initialState = startIndex === 0 ?
-            this._initialState : this._states[startIndex - 1];
-        if(!initialState) {
-            throw new Error(`Expected a state at index ${startIndex}`);
-        }
-
-        await this._engine.setBoardState(initialState.gameState);
+        await this._sendPreviousState(startIndex);
 
         // Remove any states that might already be there
         this._states.splice(startIndex, (endIndex - startIndex) + 1);
@@ -133,11 +126,26 @@ class Game {
             this._states.splice(i, 0, state); // Insert state at i
         }
 
+        await this._rebuildGeneratedState();
+    }
+
+    async _rebuildGeneratedState() {
         this._buildDayMap();
         this._buildGameStatesSummary();
 
         // Get the list of actions that can be taken after this one
         this._possibleActions = this._hackPossibleActions(await this._engine.getPossibleActions());
+    }
+
+    async _sendPreviousState(stateIndex) {
+        // Send our previous state to tank game
+        const initialState = stateIndex === 0 ?
+            this._initialState : this._states[stateIndex - 1];
+        if(!initialState) {
+            throw new Error(`Expected a state at index ${stateIndex}`);
+        }
+
+        await this._engine.setBoardState(initialState.gameState);
     }
 
     _buildDayMap() {
@@ -200,20 +208,40 @@ class Game {
         return this._possibleActions;
     }
 
-    async addLogBookEntry(entry) {
+    async _addLogBookEntry(entry) {
+        await this._sendPreviousState(this._states.length);
+
+        logger.info({ entry, msg: "Wut" });
+        const state = await this._engine.processAction(entry);
+        if(!state.valid) {
+            throw new Error(state.error);
+        }
+
+        if(this._logBook.length != this._states.length) {
+            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.length}, states = ${this._states.length})`);
+        }
+
         this._logBook.push(entry);
-        const turnId = this._logBook.length;
+        this._states.push(state);
 
-        // Process any pending actions
-        await this._processActions();
-
-        await this.save();
-
-        return turnId;
+        await this._rebuildGeneratedState();
+        await this.save({ skipReadyCheck: true });
     }
 
-    async save() {
-        await this._ready;
+    async addLogBookEntry(entry) {
+        // This implies that we've waited for this._ready to finish
+        await this._processActions();
+
+        const promise = this._addLogBookEntry(entry);
+
+        // Swallow the error before setting ready so we don't fail future submissions
+        this._ready = promise.catch(() => {});
+
+        return await promise;
+    }
+
+    async save({ skipReadyCheck = false } = {}) {
+        if(!skipReadyCheck) await this._ready;
 
         // In lite mode only save the first state and rebuild the rest on load
         let gameStates = [this._initialState];

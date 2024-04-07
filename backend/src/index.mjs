@@ -72,8 +72,15 @@ app.post("/api/game/:gameName/turn", async (req, res) => {
     const game = await checkGame(req, res);
     if(!game) return;
 
-    const turnId = await game.addLogBookEntry(req.body);
-    res.json({ success: true, turnId });
+    try {
+        await game.addLogBookEntry(req.body);
+        req.log.info({ msg: "Added log book entry", entry: req.body });
+        res.json({ success: true });
+    }
+    catch(err) {
+        req.log.info({ msg: "Rejected log book entry", entry: req.body });
+        res.json({ success: false, error: err.message });
+    }
 });
 
 app.get("/api/game/:gameName/possible-actions", async (req, res) => {
