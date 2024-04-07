@@ -66,6 +66,7 @@ function App() {
                     {errorMessage}
                     <SubmitTurn
                         game={game}
+                        boardState={turnStateManager.turnState?.gameState?.board}
                         isLastTurn={turnStateManager.isLastTurn}
                         users={users}
                         refreshGameInfo={refreshGameInfo}></SubmitTurn>

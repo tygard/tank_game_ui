@@ -1,3 +1,4 @@
+import { Position } from "../../position";
 import "./board.css";
 
 export function GameBoard({ boardState, emptyMessage = "No board data supplied" }) {
@@ -27,9 +28,8 @@ export function GameBoard({ boardState, emptyMessage = "No board data supplied" 
 
 export function GameBoardView({ width, entities, floorBoard }) {
     let letters = [<Tile className="board-space-coordinate"></Tile>];
-    const a = "A".charCodeAt(0);
     for(let x = 0; x < width; ++x) {
-        const letter = String.fromCharCode(a + x);
+        const letter = new Position(x, 0).humanReadableX();
         letters.push(<Tile className="board-space-coordinate">{letter}</Tile>);
     }
 

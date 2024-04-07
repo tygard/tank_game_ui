@@ -20,12 +20,12 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game }) {
+export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardState }) {
     const usernames = Object.keys(users?.usersByName || {});
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const actionSpecs = usePossibleActions(game, users, selectedUser);
+    const actionSpecs = usePossibleActions(game, users, selectedUser, boardState);
     const [status, setStatus] = useState();
 
     if(status) {
@@ -145,17 +145,17 @@ function LabelElement({ name, children }) {
 
 function Select({ spec, value, setValue }) {
     const onChange = useCallback(e => {
-        setValue(e.target.value == "unset" ? undefined : e.target.value);
-    }, [setValue]);
+        setValue(e.target.value == "unset" ? undefined : spec.options[+e.target.value]);
+    }, [setValue, spec]);
 
     return (
-        <select onChange={onChange} value={value ? value : "unset"}>
+        <select onChange={onChange} value={value ? spec.options.indexOf(value) : "unset"}>
             <option value="unset">&lt;unset&gt;</option>
-            {spec.options.map(element => {
+            {spec.options.map((element, index) => {
                 const value = element.toString();
 
                 return (
-                    <option key={value}>{value}</option>
+                    <option key={index} value={index}>{value}</option>
                 );
             })}
         </select>
