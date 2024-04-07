@@ -9,6 +9,10 @@
     --tank-game-cell-size: 60px;
 }
 
+body {
+    margin: 0;
+}
+
 footer {
     padding: 8px 3px;
     text-align: center;
@@ -30,4 +34,11 @@ footer {
 .centered {
     display: flex;
     justify-content: center;
+}
+
+.debug-mode-banner {
+    background: var(--tank-game-yellow);
+    width: 100%;
+    text-align: center;
+    padding: 8px;
 }

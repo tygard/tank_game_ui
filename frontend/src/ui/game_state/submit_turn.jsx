@@ -21,7 +21,7 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardState }) {
+export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardState, debug }) {
     const usernames = Object.keys(users?.usersByName || {});
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
@@ -95,10 +95,17 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
                     <SubmissionForm spec={currentSpec} values={actionSpecific} setValues={setActionSpecific}></SubmissionForm>
                     <button type="submit" disabled={!isValid}>Submit action</button>
                 </form>
-                <div>
-                    <h3>Log book entry debug</h3>
-                    <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
-                </div>
+                {debug ? <div>
+                    <details>
+                        <summary>Log book entry (JSON)</summary>
+                        <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
+                    </details>
+                    <details>
+                        <summary>Log book entry spec (JSON)</summary>
+                        <p>Displaying: {currentSpec?.length > 0 ? "Fields" : "Actions + Fields"}</p>
+                        <pre>{JSON.stringify(currentSpec?.length > 0 ? currentSpec : actionSpecs, null, 4)}</pre>
+                    </details>
+                </div> : undefined}
             </div>
         </>
     );

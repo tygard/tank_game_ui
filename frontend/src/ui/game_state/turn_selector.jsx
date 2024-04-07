@@ -1,6 +1,6 @@
 import "./turn_selector.css";
 
-export function TurnSelector({ turnStateManager, gameInfo, setGame }) {
+export function TurnSelector({ turnStateManager, gameInfo, setGame, debug }) {
     const turnMap = gameInfo?.turnMap;
 
     if(!turnMap || turnStateManager.turnId === undefined) {
@@ -13,9 +13,11 @@ export function TurnSelector({ turnStateManager, gameInfo, setGame }) {
 
     const today = turnMap.findDayForTurn(turnStateManager.turnId);
 
-    const turnText = turnStateManager.turnId == turnMap.getFirstTurn() ?
+    let turnText = turnStateManager.turnId == turnMap.getFirstTurn() ?
         "Start of game" :
         `day: ${today} turn: ${(turnStateManager.turnId - turnMap.getFirstTurnOfDay(today)) + 1}`;
+
+    if(debug) turnText += ` (turnId: ${turnStateManager?.turnId})`;
 
     const playerSetTurn = turnStateManager.playerSetTurn;
 
