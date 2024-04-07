@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useReducer, useRef } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useRef } from "preact/hooks";
 import "./log_book.css";
 
 export function LogBook({ gameInfo, changeTurn, currentTurn }) {

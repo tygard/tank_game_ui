@@ -14,7 +14,7 @@ function isValidEntry(spec, logBookEntry) {
 
     for(const field of spec) {
         // Check if this value has been submitted
-        if(logBookEntry[field.name] === undefined) return false;
+        if(logBookEntry[field.logBookField] === undefined) return false;
     }
 
     return true;
@@ -128,8 +128,8 @@ function SubmissionForm({ spec, values, setValues }) {
                             <Element
                                 type={fieldSpec.type}
                                 spec={fieldSpec}
-                                value={values[fieldSpec.name]}
-                                setValue={newValues => setValues({ ...values, [fieldSpec.name]: newValues })}></Element>
+                                value={values[fieldSpec.logBookField]}
+                                setValue={newValues => setValues({ ...values, [fieldSpec.logBookField]: newValues })}></Element>
                         </LabelElement>
                     );
                 }

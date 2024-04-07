@@ -5,7 +5,7 @@ export const VERSION_SPECIFIC_CONFIG = {
             start_of_day: "Start of day {day}",
             move: "{subject} moved to {position}",
             shoot: "{subject} shot at {position} ({hit})",
-            buy_action: "{subject} bought some number of actions with {quantity} gold",
+            buy_action: "{subject} traded {quantity} gold for actions",
             donate: "{subject} donated {quantity} pre-tax gold to {target}",
             upgrade_range: "{subject} upgraded their range",
             bounty: "{subject} placed a {quantity} gold bounty on {target}",

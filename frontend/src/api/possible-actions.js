@@ -1,11 +1,7 @@
 import { useMemo } from "preact/hooks";
 import { useActionTemplate } from "./game";
 import { Position } from "../position";
-
-
-const TARGET_TYPE_FOR_ACTION = {
-    "shoot": ["tank", "wall"]
-};
+import { LOG_BOOK_FIELD_MAPPINGS, TARGET_TYPE_FOR_ACTION } from "../config.js";
 
 
 export function usePossibleActions(game, users, selectedUser, boardState) {
@@ -34,7 +30,8 @@ function buildPossibleActionsForUser(actionTemplate, users, selectedUser, boardS
 
         for(const fieldTemplate of actionTemplate[actionName].fields) {
             let uiFieldSpec = {
-                name: fieldTemplate.name
+                name: fieldTemplate.name,
+                logBookField: LOG_BOOK_FIELD_MAPPINGS[`${actionName}-${fieldTemplate.name}`] || fieldTemplate.name,
             };
 
             uiActionSpec.push(uiFieldSpec);
@@ -50,6 +47,10 @@ function buildPossibleActionsForUser(actionTemplate, users, selectedUser, boardS
                 uiFieldSpec.targetTypes = TARGET_TYPE_FOR_ACTION[actionName] || ["any"];
                 uiFieldSpec.type = "select-position";
                 uiFieldSpec.options = findEntityPositions(boardState, uiFieldSpec.targetTypes);
+            }
+            else if(fieldTemplate.type == "tank") {
+                uiFieldSpec.type = "select";
+                uiFieldSpec.options = users.usersByType.tank.map(tank => tank.name);
             }
             else {
                 uiFieldSpec.type = "input";

@@ -1,24 +1,5 @@
 import "./user_list.css";
-
-// Keys in a user object to hide from end users
-const keysToIgnore = new Set(["type", "dead"]);
-
-// The keys we want to be in a specific order
-const orderedKeys = ["name"];
-
-// Header names for each user type
-const userTypeToHeaders = {
-    council: "Councilors",
-    senate: "Senators",
-};
-
-// Alignment of fields in the tables
-const fieldAlignment = {
-    name: "start"
-};
-
-const defaultAlignment = "end";
-
+import { keysToIgnore, orderedKeys, userTypeToHeaders, fieldAlignment, defaultAlignment } from "../../config.js";
 
 function capitalize(text) {
     if(text.length == 0) return "";
