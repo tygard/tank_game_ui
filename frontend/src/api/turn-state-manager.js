@@ -26,7 +26,7 @@ export function useTurnStateManager(turnMap, game) {
 
     useEffect(() => {
         // Not playing nothing to do
-        if(!playback) return () => {};
+        if(!playback || !turnMap) return () => {};
 
         // Hit the end stop playing
         if(turn == turnMap.getLastTurn()) {
@@ -48,7 +48,7 @@ export function useTurnStateManager(turnMap, game) {
 
     // If we're following the last turn and a new turn gets added change to that one
     useEffect(() => {
-        if(trackingLastTurn) {
+        if(trackingLastTurn && turnMap) {
             setTurn(turnMap.getLastTurn());
         }
     }, [turnMap, trackingLastTurn, setTurn]);
