@@ -10,6 +10,7 @@ import { useMemo } from "preact/hooks";
 import { buildUserList } from "./api/user_list";
 import { GameSelector } from "./ui/game_selector.jsx";
 import { LogBook } from "./ui/game_state/log_book.jsx";
+import { useTurnStateManager } from "./api/turn-state-manager.js";
 
 function App() {
     const [game, setGame] = useGame();
@@ -23,21 +24,11 @@ function App() {
         setGameInfoTrigger(!gameInfoTrigger);
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
-    const [turn, setTurn] = useState();
-    const [trackingLastTurn, setTrackingLastTurn] = useState();
-    const [isLastTurn, setIsLastTurn] = useState(false);
-    const [state, __] = useTurn(game, turn);
+    const turnStateManager = useTurnStateManager(gameInfo?.turnMap, game);
 
     const users = useMemo(() => {
-        return buildUserList(state);
-    }, [state]);
-
-    const changeTurn = useCallback((newTurn) => {
-        setTurn(newTurn);
-
-        // If the user moves to the latest turn stay on the latest turn
-        setTrackingLastTurn(newTurn >= gameInfo.turnMap.getLastTurn());
-    }, [setTrackingLastTurn, setTurn, gameInfo]);
+        return buildUserList(turnStateManager.turnState);
+    }, [turnStateManager.turnState]);
 
     // No games currently selected show the options
     if(!game) {
@@ -46,9 +37,9 @@ function App() {
         );
     }
 
-    const errorMessage = (!state || state.valid) ? null : (
+    const errorMessage = (!turnStateManager.turnState || turnStateManager.turnState.valid) ? null : (
         <div className="app-turn-invalid">
-            {state.error}
+            {turnStateManager.turnState.error}
         </div>
     );
 
@@ -57,18 +48,16 @@ function App() {
             <TurnSelector
                 setGame={setGame}
                 gameInfo={gameInfo}
-                turn={turn} setTurn={setTurn}
-                trackingLastTurn={trackingLastTurn} setTrackingLastTurn={setTrackingLastTurn} changeTurn={changeTurn}
-                isLastTurn={isLastTurn} setIsLastTurn={setIsLastTurn}></TurnSelector>
+                turnStateManager={turnStateManager}></TurnSelector>
             <div className="app-side-by-side centered">
                 <div>
-                    <LogBook gameInfo={gameInfo} currentTurn={turn} changeTurn={changeTurn}></LogBook>
+                    <LogBook gameInfo={gameInfo} currentTurn={turnStateManager.turnId} changeTurn={turnStateManager.playerSetTurn}></LogBook>
                 </div>
                 <div className="app-side-by-side-main">
-                    <GameBoard boardState={state?.gameState?.board}></GameBoard>
+                    <GameBoard boardState={turnStateManager.turnState?.gameState?.board}></GameBoard>
                 </div>
                 <div>
-                    <p>Coffer: {state?.gameState?.council?.coffer || ""}</p>
+                    <p>Coffer: {turnStateManager.turnState?.gameState?.council?.coffer || ""}</p>
                     <UserList users={users}></UserList>
                 </div>
             </div>
@@ -76,7 +65,7 @@ function App() {
                 <div>
                     {errorMessage}
                     <SubmitTurn
-                        isLastTurn={isLastTurn}
+                        isLastTurn={turnStateManager.isLastTurn}
                         gameInfo={gameInfo}
                         users={users}
                         refreshGameInfo={refreshGameInfo}></SubmitTurn>
