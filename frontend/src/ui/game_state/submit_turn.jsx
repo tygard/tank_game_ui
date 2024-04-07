@@ -79,7 +79,7 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
             refreshGameInfo();
             setStatus(undefined);
         }
-    }, [setActionType, refreshGameInfo, isValid, setStatus]);
+    }, [setActionType, refreshGameInfo, isValid, setStatus, logBookEntry]);
 
     return (
         <>
@@ -156,7 +156,7 @@ function Select({ spec, value, setValue }) {
     }, [setValue, spec]);
 
     return (
-        <select onChange={onChange} value={value ? spec.options.indexOf(value) : "unset"}>
+        <select onChange={onChange} value={value !== undefined ? spec.options.indexOf(value) : "unset"}>
             <option value="unset">&lt;unset&gt;</option>
             {spec.options.map((element, index) => {
                 const value = element.toString();

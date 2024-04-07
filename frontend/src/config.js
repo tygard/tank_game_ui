@@ -37,4 +37,4 @@ export const LOG_BOOK_FIELD_MAPPINGS = {
 
 ///// Turn State Manager /////
 
-export const TURN_SWITCH_FREQENCY = 1000;
+export const TURN_SWITCH_FREQENCY = 700;
