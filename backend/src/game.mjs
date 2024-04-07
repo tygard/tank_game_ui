@@ -3,10 +3,9 @@ import {getEngine} from "./tank-game-engine.mjs";
 import path from "node:path";
 import { getLogger } from "./logging.mjs"
 import { format } from "./utils.mjs";
+import { GameFile } from "./game-file.mjs";
 
 const logger = getLogger(import.meta.url);
-
-const FILE_FORMAT_VERSION = 2;
 
 const VERSION_SPECIFIC_CONFIG = {
     3: {
@@ -25,52 +24,17 @@ const VERSION_SPECIFIC_CONFIG = {
 };
 
 
-async function readJson(path) {
-    return JSON.parse(await fs.readFile(path, "utf-8"));
-}
-
-async function writeJson(path, data) {
-    return await fs.writeFile(path, JSON.stringify(data, null, 4));
-}
-
 class Game {
-    constructor(path, gameVersion, initialState, logBook, possibleActions) {
-        this._gameVersion = gameVersion;
-        this._path = path;
-        this._initialState = initialState;
+    constructor(gameFile) {
+        this._gameFile = gameFile;
         this._states = [];
-        this._logBook = logBook || [];
-        this._possibleActions = possibleActions || [];
+        this._possibleActions = [];
         this._ready = Promise.resolve();
-        this._liteMode = true;
 
         this._buildDayMap();
 
         // Process any unprocessed log book entries.
         this._processActions();
-    }
-
-    static async load(filePath) {
-        let content = await readJson(filePath);
-
-        if(content?.versions?.fileFormat > FILE_FORMAT_VERSION) {
-            throw new Error(`File version ${content?.versions?.fileFormat} is not supported`);
-        }
-
-        // Version 1 used a states array instead of initialState and only supported game version 3
-        if(content?.versions?.fileFormat == 1) {
-            content.initialState = content.gameStates[0];
-            delete content.states;
-            content.versions.game = 3;
-        }
-
-        const game = new Game(filePath, content.versions.game, content.initialState, content.logBook, content.possibleActions);
-
-        // Loading a game like this can cause a lot of actions to be processed
-        // wait until they're done before returning the game object
-        await game._ready;
-
-        return game;
     }
 
     async _processActions() {
@@ -82,22 +46,22 @@ class Game {
 
     async _processActionsLogic() {
         // Nothing to process
-        if(this._states.length === this._logBook.length) return;
+        if(this._states.length === this._gameFile.getNumLogEntries()) return;
 
         const startIndex = this._states.length;
-        const endIndex = this._logBook.length - 1;
+        const endIndex = this._gameFile.getNumLogEntries() - 1;
 
         if(startIndex > endIndex) {
             throw new Error(`startIndex (${startIndex}) can't be larger than endIndex (${endIndex})`);
         }
 
-        if(endIndex >= this._logBook.length) {
+        if(endIndex >= this._gameFile.getNumLogEntries()) {
             throw new Error(`Index ${endIndex} is past the end of the logbook`);
         }
 
-        this._versionSpecific = VERSION_SPECIFIC_CONFIG[this._gameVersion];
+        this._versionSpecific = VERSION_SPECIFIC_CONFIG[this._gameFile.gameVersion];
         if(!this._versionSpecific) {
-            throw new Error(`Unsupported game version ${this._gameVersion}`);
+            throw new Error(`Unsupported game version ${this._gameFile.gameVersion}`);
         }
 
         // If the tank game engine isn't already running start it
@@ -115,7 +79,7 @@ class Game {
         this._states.splice(startIndex, (endIndex - startIndex) + 1);
 
         for(let i = startIndex; i <= endIndex; ++i) {
-            const state = await this._engine.processAction(this._logBook[i]);
+            const state = await this._engine.processAction(this._gameFile.getLogEntryAt(i));
             this._states.splice(i, 0, state); // Insert state at i
         }
 
@@ -133,7 +97,7 @@ class Game {
     async _sendPreviousState(stateIndex) {
         // Send our previous state to tank game
         const initialState = stateIndex === 0 ?
-            this._initialState : this._states[stateIndex - 1];
+            this._gameFile.getInitialState() : this._states[stateIndex - 1];
         if(!initialState) {
             throw new Error(`Expected a state at index ${stateIndex}`);
         }
@@ -161,7 +125,7 @@ class Game {
         this._gameStatesSummary = [];
 
         for(let i = 0; i < this._states.length; ++i) {
-            const logEntry = this._logBook[i];
+            const logEntry = this._gameFile.getLogEntryAt(i);
             const state = this._states[i];
 
             const actionType = logEntry.action || "start_of_day";
@@ -184,7 +148,7 @@ class Game {
 
     getStateById(id) {
         // State 0 is initial state to external consumers
-        if(id == 0) return this._initialState;
+        if(id == 0) return this._gameFile.getInitialState();
 
         return this._states[id - 1];
     }
@@ -209,15 +173,15 @@ class Game {
             throw new Error(state.error);
         }
 
-        if(this._logBook.length != this._states.length) {
-            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.length}, states = ${this._states.length})`);
+        if(this._gameFile.getNumLogEntries() != this._states.length) {
+            throw new Error(`Logbook length and states length should be identical (log book = ${this._gameFile.getNumLogEntries()}, states = ${this._states.length})`);
         }
 
-        this._logBook.push(entry);
+        this._gameFile.addLogBookEntry(entry);
         this._states.push(state);
 
         await this._rebuildGeneratedState();
-        await this.save({ skipReadyCheck: true });
+        await this._gameFile.save();
     }
 
     async addLogBookEntry(entry) {
@@ -230,19 +194,6 @@ class Game {
         this._ready = promise.catch(() => {});
 
         return await promise;
-    }
-
-    async save({ skipReadyCheck = false } = {}) {
-        if(!skipReadyCheck) await this._ready;
-
-        await writeJson(this._path, {
-            versions: {
-                fileFormat: FILE_FORMAT_VERSION,
-                game: this._gameVersion,
-            },
-            logBook: this._logBook,
-            initialState: this._initialState,
-        });
     }
 
     _parseActionTemplate(descriptors) {
@@ -337,7 +288,7 @@ async function loadGamesFromFolder(dir) {
         const name = path.parse(gameFile).name;
 
         logger.info(`Loading ${name} from ${filePath}`);
-        games[name] = Game.load(filePath);
+        games[name] = new Game(await GameFile.load(filePath));
     }
 
     return games;
