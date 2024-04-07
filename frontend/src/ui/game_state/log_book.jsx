@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useReducer, useRef } from "preact/hooks";
 import "./log_book.css";
 
 export function LogBook({ gameInfo, changeTurn, currentTurn }) {
@@ -32,7 +32,6 @@ export function LogBook({ gameInfo, changeTurn, currentTurn }) {
 
     return (
         <div className="log-book">
-            <h2>Log Book</h2>
             {Object.keys(actionsByDay).map(day => {
                 return (
                     <DaySection day={day} actions={actionsByDay[day]} changeTurn={changeTurn} currentTurn={currentTurn}></DaySection>
@@ -50,28 +49,35 @@ function DaySection({ day, actions, currentTurn, changeTurn }) {
 
     return (
         <>
-            <h3>Day {day}</h3>
-            <ul>
-                {actions.map(action => {
-                    let entryClasses = "";
+            <h3 class="log-book-day-heading">Day {day}</h3>
+            {actions.map(action => {
+                const isCurrent = currentTurn == action.turnId;
+                const scrollRef = useRef();
 
-                    if(currentTurn == action.turnId) {
-                        entryClasses += " log-entry-current-turn";
+                useEffect(() => {
+                    if(isCurrent) {
+                        scrollRef.current.scrollIntoView({ block: "center", behavior: "smooth" });
                     }
+                }, [scrollRef, isCurrent])
 
-                    if(!action.action.valid) {
-                        entryClasses += " log-entry-invalid";
-                    }
+                let entryClasses = "log-entry";
 
-                    return (
-                        <li className={entryClasses}>
-                            <a className="log-book-link" href="#" onClick={e => selectAction(e, action.turnId)}>
-                                {action.action.logEntryStr}
-                            </a>
-                        </li>
-                    );
-                })}
-            </ul>
+                if(isCurrent) {
+                    entryClasses += " log-entry-current-turn";
+                }
+
+                if(!action.action.valid) {
+                    entryClasses += " log-entry-invalid";
+                }
+
+                return (
+                    <div className={entryClasses} ref={scrollRef}>
+                        <a className="log-book-link" href="#" onClick={e => selectAction(e, action.turnId)}>
+                            {action.action.logEntryStr}
+                        </a>
+                    </div>
+                );
+            })}
         </>
     );
 }
