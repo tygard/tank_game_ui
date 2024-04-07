@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+const fs = require("fs");
+const child_process = require("child_process");
+const path = require("path");
+
+// Execute out of the repo root
+process.chdir(path.dirname(__dirname));
+
+const PACKAGE_JSONS = [
+    "frontend/package.json",
+    "backend/package.json",
+];
+
+const BUMP_TYPES = {
+    major: version => [version[0] + 1, 0,              0],
+    minor: version => [version[0],     version[1] + 1, 0],
+    patch: version => [version[0],     version[1],     version[2] + 1],
+}
+
+if(process.argv.length < 3 && Object.keys(BUMP_TYPES).includes(process.argv[3])) {
+    const types = Object.keys(BUMP_TYPES);
+
+    console.log(`Usage: bump <${types}>`);
+    process.exit(1);
+}
+
+function parseVersion(versionString) {
+    const match = versionString.match(/(\d+)\.(\d+)\.(\d+)/);
+    if(!match) throw new Error(`Invalid version ${versionString}`)
+    return [+match[1], +match[2], +match[3]];
+}
+
+function stringifyVersion(version) {
+    return version.join(".");
+}
+
+function updateVersions(packageJsonPaths, versionBumpFn) {
+    let packageJsons = packageJsonPaths.map(path => JSON.parse(fs.readFileSync(path, "utf-8")));
+
+    let toVersion;
+    let fromVersion;
+    for(const packageJson of packageJsons) {
+        let version = packageJson.version;
+        fromVersion = version;
+
+        version = stringifyVersion(versionBumpFn(parseVersion(version)));
+
+        if(toVersion && toVersion != version) {
+            throw new Error(`Version miss match ${version} and ${toVersion}`);
+        }
+
+        if(!toVersion) toVersion = version;
+
+        packageJson.version = version;
+    }
+
+    packageJsonPaths.map((path, i) => fs.writeFileSync(path, JSON.stringify(packageJsons[i], null, 4)));
+
+    console.log(`Bump version ${fromVersion} -> ${toVersion}`);
+    return toVersion;
+}
+
+function createTag(version) {
+    console.log(`Creating tag v${version}`);
+    const result = child_process.execSync(`git tag v${version}`);
+    if(result.status > 0 || result.error) throw new Error(`Failed to create tag ${version} (error ${result.error})`)
+}
+
+function createCommit(packageJsonPaths, version) {
+    for(const packageJsonPath of packageJsonPaths) {
+        const result = child_process.execSync(`git add ${packageJsonPath}`);
+        if(result.status > 0 || result.error) throw new Error(`Failed to add ${packageJsonPath} (error ${result.error})`)
+    }
+
+    console.log(`Creating commit 'Bump version to v${version}'`);
+    const result = child_process.execSync(`git commit -m 'Bump version to v${version}'`);
+    if(result.status > 0 || result.error) throw new Error(`Failed to create tag ${version} (error ${result.error})`)
+}
+
+
+const toVersion = updateVersions(PACKAGE_JSONS, BUMP_TYPES[process.argv[2]]);
+createCommit(PACKAGE_JSONS, toVersion);
+createTag(toVersion);
+console.log("When you're ready run git push --tags to release");
