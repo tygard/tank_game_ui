@@ -6,7 +6,7 @@ import { format } from "./utils.mjs";
 
 const logger = getLogger(import.meta.url);
 
-const FILE_FORMAT_VERSION = 1;
+const FILE_FORMAT_VERSION = 2;
 
 const VERSION_SPECIFIC_CONFIG = {
     3: {
@@ -34,10 +34,11 @@ async function writeJson(path, data) {
 }
 
 class Game {
-    constructor(path, states, logBook, possibleActions) {
+    constructor(path, gameVersion, initialState, logBook, possibleActions) {
+        this._gameVersion = gameVersion;
         this._path = path;
-        this._initialState = states[0]
-        this._states = states.slice(1);
+        this._initialState = initialState;
+        this._states = [];
         this._logBook = logBook || [];
         this._possibleActions = possibleActions || [];
         this._ready = Promise.resolve();
@@ -49,32 +50,21 @@ class Game {
         this._processActions();
     }
 
-    static async loadFromFiles(statePath, movesPath, saveFilePath) {
-        const boardState = await readJson(statePath);
-        const logBook = await readJson(movesPath);
-
-        const states = [{
-            valid: true,
-            gameState: boardState
-        }];
-
-        const game = new Game(saveFilePath, states, logBook);
-
-        // Loading a game like this can cause a lot of actions to be processed
-        // wait until they're done before returning the game object
-        await game._ready;
-
-        return game;
-    }
-
     static async load(filePath) {
-        const content = await readJson(filePath);
+        let content = await readJson(filePath);
 
-        if(content?.versions?.fileFormat != FILE_FORMAT_VERSION) {
+        if(content?.versions?.fileFormat > FILE_FORMAT_VERSION) {
             throw new Error(`File version ${content?.versions?.fileFormat} is not supported`);
         }
 
-        const game = new Game(filePath, content.gameStates, content.logBook, content.possibleActions);
+        // Version 1 used a states array instead of initialState and only supported game version 3
+        if(content?.versions?.fileFormat == 1) {
+            content.initialState = content.gameStates[0];
+            delete content.states;
+            content.versions.game = 3;
+        }
+
+        const game = new Game(filePath, content.versions.game, content.initialState, content.logBook, content.possibleActions);
 
         // Loading a game like this can cause a lot of actions to be processed
         // wait until they're done before returning the game object
@@ -105,7 +95,10 @@ class Game {
             throw new Error(`Index ${endIndex} is past the end of the logbook`);
         }
 
-        this._versionSpecific = VERSION_SPECIFIC_CONFIG[3]; // TOOD: DYNAMIC
+        this._versionSpecific = VERSION_SPECIFIC_CONFIG[this._gameVersion];
+        if(!this._versionSpecific) {
+            throw new Error(`Unsupported game version ${this._gameVersion}`);
+        }
 
         // If the tank game engine isn't already running start it
         if(!this._engine) {
@@ -211,7 +204,6 @@ class Game {
     async _addLogBookEntry(entry) {
         await this._sendPreviousState(this._states.length);
 
-        logger.info({ entry, msg: "Wut" });
         const state = await this._engine.processAction(entry);
         if(!state.valid) {
             throw new Error(state.error);
@@ -243,22 +235,13 @@ class Game {
     async save({ skipReadyCheck = false } = {}) {
         if(!skipReadyCheck) await this._ready;
 
-        // In lite mode only save the first state and rebuild the rest on load
-        let gameStates = [this._initialState];
-        if(!this._liteMode) gameStates = gameStates.concat(this._states);
-
-        // Data to add if we're not in lite mode
-        const extendedData = this._liteMode ? undefined : {
-            possibleActions: this._possibleActions,
-        };
-
         await writeJson(this._path, {
             versions: {
                 fileFormat: FILE_FORMAT_VERSION,
+                game: this._gameVersion,
             },
             logBook: this._logBook,
-            gameStates,
-            ...extendedData,
+            initialState: this._initialState,
         });
     }
 
