@@ -157,11 +157,6 @@ class TankGameEngine {
         });
     }
 
-    getPossibleActions() {
-        return [];
-        // return this._runCommand("actions");
-    }
-
     getBoardState() {
         return this._runCommand("display");
     }

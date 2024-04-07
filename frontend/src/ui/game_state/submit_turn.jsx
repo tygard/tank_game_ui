@@ -1,4 +1,5 @@
-import { submitTurn, usePossibleActions } from "../../api/game";
+import { submitTurn } from "../../api/game";
+import { usePossibleActions } from "../../api/possible-actions";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
@@ -19,12 +20,12 @@ function isValidEntry(spec, logBookEntry) {
 }
 
 
-export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo, game }) {
-    users = Object.keys(users?.usersByName || {});
+export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game }) {
+    const usernames = Object.keys(users?.usersByName || {});
     const [selectedUser, setSelectedUser] = useState();
     const [actionType, setActionType] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionSpecs, _] = usePossibleActions(game, gameInfo && gameInfo.turnMap.getLastTurn());
+    const actionSpecs = usePossibleActions(game, users, selectedUser);
     const [status, setStatus] = useState();
 
     if(status) {
@@ -62,7 +63,12 @@ export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo, game 
         e.preventDefault();
         if(isValid) {
             setStatus("Submitting action...");
-            await submitTurn(game, logBookEntry);
+            try {
+                await submitTurn(game, logBookEntry);
+            }
+            catch(err) {
+                alert(`Failed to submit action: ${err.message}`);
+            }
 
             // Reset the form
             setActionType(undefined);
@@ -77,7 +83,7 @@ export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo, game 
             <div className="submit-turn">
                 <form onSubmit={submitTurnHandler}>
                     <LabelElement name="User">
-                        <Select spec={{ options: users }} value={selectedUser} setValue={setSelectedUser}></Select>
+                        <Select spec={{ options: usernames }} value={selectedUser} setValue={setSelectedUser}></Select>
                     </LabelElement>
                     <LabelElement name="Action">
                         <Select spec={{ options: possibleActions }} value={actionType} setValue={setActionType}></Select>
@@ -85,6 +91,10 @@ export function SubmitTurn({ isLastTurn, users, gameInfo, refreshGameInfo, game 
                     <SubmissionForm spec={currentSpec} values={actionSpecific} setValues={setActionSpecific}></SubmissionForm>
                     <button type="submit" disabled={!isValid}>Submit action</button>
                 </form>
+                <div>
+                    <h3>Log book entry debug</h3>
+                    <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
+                </div>
             </div>
         </>
     );
@@ -163,6 +173,6 @@ function Input({ spec, type, value, setValue }) {
             type={inputType || "text"}
             value={value}
             onInput={e => setValue(convert(e.target.value))}
-            placeholder={spec.placeholder || ""}/>
+            placeholder={spec.placeholder || spec.name}/>
     );
 }

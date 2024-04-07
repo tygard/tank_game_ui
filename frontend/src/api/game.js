@@ -157,9 +157,9 @@ export const useTurn = makeReactDataFetchHelper({
     url: (game, turnId) => `/api/game/${game}/turn/${turnId}`
 });
 
-export const usePossibleActions = makeReactDataFetchHelper({
+export const useActionTemplate = makeReactDataFetchHelper({
     shouldSendRequest: game => !!game,
-    url: game => `/api/game/${game}/possible-actions`,
+    url: game => `/api/game/${game}/action-template`,
 });
 
 export async function submitTurn(game, logbookEntry) {
@@ -173,7 +173,7 @@ export async function submitTurn(game, logbookEntry) {
 
     const result = await res.json();
 
-    if(!result.success) throw new Error("Failed to submit turn");
+    if(!result.success) throw new Error(result.error);
 
     return result.turnId;
 }

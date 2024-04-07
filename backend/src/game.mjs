@@ -13,7 +13,6 @@ class Game {
     constructor(gameFile) {
         this._gameFile = gameFile;
         this._states = [];
-        this._possibleActions = [];
         this._ready = Promise.resolve();
 
         this._buildDayMap();
@@ -74,9 +73,10 @@ class Game {
     async _rebuildGeneratedState() {
         this._buildDayMap();
         this._buildGameStatesSummary();
+    }
 
-        // Get the list of actions that can be taken after this one
-        this._possibleActions = this._hackPossibleActions(await this._engine.getPossibleActions());
+    getActionTemplate() {
+        return this._actionTemplate;
     }
 
     async _sendPreviousState(stateIndex) {
@@ -146,9 +146,6 @@ class Game {
         return this._states.length;
     }
 
-    getPossibleActions() {
-        return this._possibleActions;
-    }
 
     async _addLogBookEntry(entry) {
         await this._sendPreviousState(this._states.length);
@@ -194,74 +191,6 @@ class Game {
 
             this._actionTemplate[userType][actionType] = descriptor;
         }
-    }
-
-    _hackPossibleActions(possibleActions, user) {
-        logger.debug({ "msg": "Dump possible actions", possibleActions, user });
-
-        let actions = {};
-
-        for(const action of possibleActions) {
-            const actionType = action.rules;
-            const userType = action.subject.type;
-
-            // Location is a location if it's a space but if its a player it's a target
-            const targetKey = action.target?.name ? "target" : "location";
-
-            let fields = actions[actionType];
-            if(!fields) {
-                actions[actionType] = fields = [];
-
-                const descriptor = this._actionTemplate[userType][actionType];
-                logger.info({ msg: "Dump descriptor", descriptor });
-                for(const field in descriptor.fields) {
-                    let fieldSpec = {
-                        name: field.name
-                    };
-
-                    if(field.type == "Integer") {
-                        fieldSpec.type = "input-number";
-                    }
-                    else if(field.type == "Boolean") {
-                        fieldSpec.type = "select";
-                        fieldSpec.options = [];
-                    }
-                    else if(["Tank", "Position"].includes(field.type)) {
-                        fieldSpec.type = "select";
-                        fieldSpec.options = [];
-                    }
-                    else {
-                        throw new Error(`Unsupported field type: ${field.type}`);
-                    }
-
-                    fields.push(fieldSpec);
-                }
-            }
-
-            logger.debug({ msg: "Dump action", action });
-
-            for(const key of Object.keys(action)) {
-                // Skip speical keys
-                if(["subject", "rule"].includes(key)) continue;
-
-                let fieldSpec = fields.find(option => option.name === targetKey);
-
-                if(fieldSpec && fieldSpec.options) {
-                    let value = action[key];
-
-                    // Target has a position type
-                    if(typeof value == "object" && Object.keys(value).length === 1) {
-                        value = value[Object.keys(value)[0]];
-                    }
-
-                    fieldSpec.options.push();
-                }
-            }
-        }
-
-        logger.debug({ msg: "Dump actions", actions });
-
-        return actions;
     }
 }
 

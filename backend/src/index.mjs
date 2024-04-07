@@ -83,11 +83,11 @@ app.post("/api/game/:gameName/turn", async (req, res) => {
     }
 });
 
-app.get("/api/game/:gameName/possible-actions", async (req, res) => {
+app.get("/api/game/:gameName/action-template", async (req, res) => {
     const game = await checkGame(req, res);
     if(!game) return;
 
-    res.json(game.getPossibleActions());
+    res.json(game.getActionTemplate());
 });
 
 app.use(function(req, res) {

@@ -65,8 +65,8 @@ function App() {
                 <div>
                     {errorMessage}
                     <SubmitTurn
+                        game={game}
                         isLastTurn={turnStateManager.isLastTurn}
-                        gameInfo={gameInfo}
                         users={users}
                         refreshGameInfo={refreshGameInfo}></SubmitTurn>
                 </div>
