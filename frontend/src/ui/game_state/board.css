@@ -104,3 +104,11 @@
     opacity: 0.3;
     background: #555;
 }
+
+.board-space-selectable {
+    cursor: pointer;
+}
+
+.board-space-selected {
+    background: red;
+}

@@ -1,5 +1,6 @@
 import { submitTurn } from "../../api/game";
 import { usePossibleActions } from "../../api/possible-actions";
+import { targetSelectionState } from "../../api/space-selecting-state";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
@@ -46,6 +47,7 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
     // Reset any action specific fields if user or action type changes
     useEffect(() => {
         setActionSpecific({});
+        targetSelectionState.clearPossibleTargets();
     }, [selectedUser, actionType, setActionSpecific]);
 
     const logBookEntry = {
@@ -62,7 +64,9 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
     const submitTurnHandler = useCallback(async e => {
         e.preventDefault();
         if(isValid) {
+            targetSelectionState.clearPossibleTargets();
             setStatus("Submitting action...");
+
             try {
                 await submitTurn(game, logBookEntry);
             }
@@ -108,7 +112,10 @@ function SubmissionForm({ spec, values, setValues }) {
             {spec.map(fieldSpec => {
                 let Element;
 
-                if(fieldSpec.type.startsWith("select")) {
+                if(fieldSpec.type == "select-position") {
+                    Element = SelectPosition;
+                }
+                else if(fieldSpec.type.startsWith("select")) {
                     Element = Select;
                 }
                 else if(fieldSpec.type.startsWith("input")) {
@@ -174,5 +181,24 @@ function Input({ spec, type, value, setValue }) {
             value={value}
             onInput={e => setValue(convert(e.target.value))}
             placeholder={spec.placeholder || spec.name}/>
+    );
+}
+
+function SelectPosition({ spec, value, setValue }) {
+    useEffect(() => {
+        targetSelectionState.setPossibleTargets(new Set(spec.options));
+        targetSelectionState.setSelectedTargetCallback(setValue);
+
+        return () => targetSelectionState.setSelectedTargetCallback(undefined);
+    }, [setValue]);
+
+    const targetTypeMsg = spec.targetTypes.length == 1 && spec.targetTypes[0] == "any" ? "location" : spec.targetTypes.join(" ");
+
+    const message = value ?
+        `${value} (select a different space to change)` :
+        `Select a ${targetTypeMsg} on the board`;
+
+    return (
+        <span>{message}</span>
     );
 }

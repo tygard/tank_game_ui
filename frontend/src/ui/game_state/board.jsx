@@ -1,3 +1,4 @@
+import { targetSelectionState } from "../../api/space-selecting-state";
 import { Position } from "../../position";
 import "./board.css";
 
@@ -33,6 +34,10 @@ export function GameBoardView({ width, entities, floorBoard }) {
         letters.push(<Tile className="board-space-coordinate">{letter}</Tile>);
     }
 
+    const possibleTargets = targetSelectionState.usePossibleTargets();
+    let selectedTarget = targetSelectionState.useSelectedTarget();
+    selectedTarget = selectedTarget && Position.fromHumanReadable(selectedTarget);
+
     return (
         <div className="game-board">
             <div className="game-board-row">
@@ -42,7 +47,15 @@ export function GameBoardView({ width, entities, floorBoard }) {
                 <div className="game-board-row">
                     <Tile className="board-space-coordinate">{y + 1}</Tile>
                     {row.map((space, x) => {
-                        return <Space space={space} areaOfEffect={floorBoard[y][x]}></Space>;
+                        const position = new Position(x, y).humanReadable();
+                        const disabled = possibleTargets && !possibleTargets.has(position);
+
+                        const onClick = possibleTargets && !disabled ? () => {
+                            targetSelectionState.setSelectedTarget(position);
+                        } : undefined;
+
+                        return <Space space={space} onClick={onClick} areaOfEffect={floorBoard[y][x]} disabled={disabled}
+                            selected={selectedTarget && selectedTarget.x == x && selectedTarget.y == y}></Space>;
                     })}
                 </div>
             ))}
@@ -50,9 +63,8 @@ export function GameBoardView({ width, entities, floorBoard }) {
     )
 }
 
-function Space({ space, areaOfEffect, disabled }) {
+function Space({ space, areaOfEffect, disabled, onClick, selected }) {
     const type = space && space.type;
-    const areaOfEffectType = areaOfEffect && areaOfEffect.type;
     let entity = null;
 
     // Try to place an entity in this space
@@ -64,13 +76,13 @@ function Space({ space, areaOfEffect, disabled }) {
     }
 
     return (
-        <Tile areaOfEffect={areaOfEffect} disabled={disabled}>
+        <Tile areaOfEffect={areaOfEffect} disabled={disabled} onClick={onClick} selected={selected}>
             {entity}
         </Tile>
     );
 }
 
-function Tile({ className = "", children, areaOfEffect, disabled } = {}) {
+function Tile({ className = "", children, areaOfEffect, disabled, onClick, selected } = {}) {
     if(areaOfEffect && areaOfEffect.type == "gold_mine") {
         className += " board-space-gold-mine";
     }
@@ -79,8 +91,16 @@ function Tile({ className = "", children, areaOfEffect, disabled } = {}) {
         className += " board-space-disabled";
     }
 
+    if(onClick) {
+        className += " board-space-selectable";
+    }
+
+    if(selected) {
+        className += " board-space-selected";
+    }
+
     return (
-        <div className={`board-space board-space-centered ${className}`}>{children}</div>
+        <div className={`board-space board-space-centered ${className}`} onClick={onClick}>{children}</div>
     );
 }
 

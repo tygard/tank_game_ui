@@ -2,7 +2,7 @@ import "./index.css";
 import {render} from "preact";
 import {GameBoard} from "./ui/game_state/board.jsx";
 import {useCallback, useState} from "preact/hooks";
-import { useGame, useGameInfo, useTurn } from "./api/game.js";
+import { useGame, useGameInfo } from "./api/game.js";
 import { TurnSelector } from "./ui/game_state/turn_selector.jsx"
 import { SubmitTurn } from "./ui/game_state/submit_turn.jsx";
 import { UserList } from "./ui/game_state/user_list.jsx";

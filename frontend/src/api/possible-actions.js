@@ -3,6 +3,11 @@ import { useActionTemplate } from "./game";
 import { Position } from "../position";
 
 
+const TARGET_TYPE_FOR_ACTION = {
+    "shoot": ["tank", "wall"]
+};
+
+
 export function usePossibleActions(game, users, selectedUser, boardState) {
     const [actionTemplate, __] = useActionTemplate(game);
 
@@ -15,7 +20,6 @@ export function usePossibleActions(game, users, selectedUser, boardState) {
 function buildPossibleActionsForUser(actionTemplate, users, selectedUser, boardState) {
     if(!users || !actionTemplate || !selectedUser) return {};
     const user = users.usersByName[selectedUser];
-    console.log(boardState);
 
     // Get the action template for this user's class
     const basicType = user.type == "senate" ? "council" : user.type;
@@ -43,10 +47,9 @@ function buildPossibleActionsForUser(actionTemplate, users, selectedUser, boardS
                 uiFieldSpec.options = [true, false];
             }
             else if(fieldTemplate.type == "position") {
-                const targetType = "any";
-
-                uiFieldSpec.type = "select";
-                uiFieldSpec.options = findEntityPositions(boardState, targetType);
+                uiFieldSpec.targetTypes = TARGET_TYPE_FOR_ACTION[actionName] || ["any"];
+                uiFieldSpec.type = "select-position";
+                uiFieldSpec.options = findEntityPositions(boardState, uiFieldSpec.targetTypes);
             }
             else {
                 uiFieldSpec.type = "input";
@@ -64,7 +67,7 @@ function findEntityPositions(boardState, entityType) {
         for(let x = 0; x < boardState.unit_board[y].length; x++) {
             const unit = boardState.unit_board[y][x];
 
-            if(unit.type == entityType || entityType == "any") {
+            if(entityType.includes(unit.type) || entityType.includes("any")) {
                 positions.push(new Position(x, y).humanReadable());
             }
         }

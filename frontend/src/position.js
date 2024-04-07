@@ -15,7 +15,7 @@ export class Position {
     }
 
     humanReadableY() {
-        return this.y.toString();
+        return (this.y + 1).toString();
     }
 
     humanReadable() {
