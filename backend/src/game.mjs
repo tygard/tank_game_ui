@@ -4,24 +4,9 @@ import path from "node:path";
 import { getLogger } from "./logging.mjs"
 import { format } from "./utils.mjs";
 import { GameFile } from "./game-file.mjs";
+import { VERSION_SPECIFIC_CONFIG } from "./version-specific-config.mjs";
 
 const logger = getLogger(import.meta.url);
-
-const VERSION_SPECIFIC_CONFIG = {
-    3: {
-        entryFormatters: {
-            start_of_day: "Start of day {day}",
-            move: "{subject} moved to {position}",
-            shoot: "{subject} shot at {position} ({hit})",
-            buy_action: "{subject} bought some number of actions with {quantity} gold",
-            donate: "{subject} donated {quantity} pre-tax gold to {target}",
-            upgrade_range: "{subject} upgraded their range",
-            bounty: "{subject} placed a {quantity} gold bounty on {target}",
-            stimulus: "{subject} granted a stimulus of 1 action to {target}",
-            grant_life: "{subject} granted 1 life to {target}",
-        }
-    }
-};
 
 
 class Game {
