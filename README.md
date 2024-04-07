@@ -2,9 +2,9 @@
 
 ## Running
 
-1. Install docker
-2. Run with `docker run --rm -it -p 3333:3333 --init ghcr.io/ryan3r/tank_game_ui`
-3. Visit [localhost:3333](http://localhost:3333/).
+For a quick and easy demo run `docker run --rm -it -p 3333:3333 --init ghcr.io/ryan3r/tank_game_ui` and visit [localhost:3333](http://localhost:3333/).  This has a sample game but will not save your changes across container restarts.
+
+If you want to save your games run run `docker run --rm -it -p 3333:3333 -v <path to your data folder>:/data --init ghcr.io/ryan3r/tank_game_ui` where <path to your data folder> is the absolute path to your data folder (if you're not sure `$(pwd)/tank-game` is a good start).
 
 ## Developing
 
