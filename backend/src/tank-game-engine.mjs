@@ -7,29 +7,22 @@ const logger = getLogger(import.meta.url);
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
 
-export const TANK_GAME_ENGINE_COMMAND = (function() {
-    let jar = process.env.TANK_GAME_JAR_PATH;
+const TANK_GAME_ENGINE_COMMAND = (function() {
+    let command = process.env.TANK_GAME_ENGINE_COMMAND;
 
-    if(!jar) {
-        const jars = fs.readdirSync(".").filter(file => file.endsWith(".jar"));
+    if(!command) {
+        const jars = fs.readdirSync("engine").filter(file => file.endsWith(".jar"));
         if(jars.length != 1) {
             logger.error(`Expected exactly 1 tank game jar but found: ${jars}`);
             process.exit(1);
         }
 
-        jar = jars[0];
+        command = ["java", "-jar", path.join("engine", jars[0])];
     }
 
-    // Make sure the path we're given is legit
-    try {
-        fs.accessSync(jar);
-    }
-    catch(err) {
-        logger.error(`Failed to access tank game jar: ${err.msg}`);
-        process.exit(1);
-    }
+    if(typeof command == "string") command = command.split(" ");
 
-    return ["java", "-jar", jar];
+    return command;
 })();
 
 logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);

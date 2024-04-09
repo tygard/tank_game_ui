@@ -12,7 +12,7 @@ If you're using vscode open the devcontainer.  Then run `cd frontend && npm run 
 
 ### Running with custom tank game jar
 
-You can sepecify a custom tank game jar with `TANK_GAME_JAR_PATH` ex `docker run --rm -it -p 3333:3333 --init -e TANK_GAME_JAR_PATH=/mnt/tank_game.jar -v /mnt:/mnt ryan3r/tank-game`.
+You can sepecify a custom tank game engine with `TANK_GAME_ENGINE_COMMAND` or by placing a jar in `/app/engine/` ex `docker run --rm -it -p 3333:3333 --init -v $(pwd):/app/engine ryan3r/tank-game`.
 
 ### Debugging
 

@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "develop": "LOG_LEVEL=debug TANK_GAMES_FOLDER=../example/ TANK_GAME_JAR_PATH=$(echo ../*.jar) npm start",
+        "develop": "LOG_LEVEL=debug TANK_GAMES_FOLDER=../example/ TANK_GAME_ENGINE_COMMAND=\"java -jar $(echo ../*.jar)\" npm start",
         "start": "node src/index.mjs | pino-pretty"
     },
     "author": "Ryan Ray <ryan314r@gmail.com>",

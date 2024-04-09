@@ -48,7 +48,7 @@ ENV BUILD_INFO=${BUILD_INFO}
 # Copy everything over to the final image
 COPY backend/ /app/
 COPY --from=frontend /frontend/dist/ /app/www/
-COPY --from=engine /build/tankgame/target/TankGame-*.jar /app/
+COPY --from=engine /build/tankgame/target/TankGame-*.jar /app/engine/
 
 # Place some sample data in /data so users can try out the app
 COPY example /data
