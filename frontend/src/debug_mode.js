@@ -1,14 +1,13 @@
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-const DEBUG_MODE_SEQUENCE = [
-    KeyEvent.DOM_VK_UP,
-    KeyEvent.DOM_VK_UP,
-    KeyEvent.DOM_VK_DOWN,
-    KeyEvent.DOM_VK_DOWN,
-    KeyEvent.DOM_VK_LEFT,
-    KeyEvent.DOM_VK_RIGHT
-];
+// Key codes for key events
+const UP = window.KeyEvent?.DOM_VK_UP || 38;
+const DOWN = window.KeyEvent?.DOM_VK_DOWN || 40;
+const LEFT = window.KeyEvent?.DOM_VK_LEFT || 37;
+const RIGHT = window.KeyEvent?.DOM_VK_RIGHT || 39;
+const ESCAPE = window.KeyEvent?.DOM_VK_ESCAPE || 27;
 
+const DEBUG_MODE_SEQUENCE = [UP, UP, DOWN, DOWN, LEFT, RIGHT];
 const DEBUG_MODE_SEQUENCE_TIMEOUT = 1000; // 1 seconds in ms
 
 export function useDebugMode() {
@@ -36,7 +35,7 @@ export function useDebugMode() {
         }
 
         // Escape to exit debug mode
-        if(e.keyCode === KeyEvent.DOM_VK_ESCAPE) {
+        if(e.keyCode === ESCAPE) {
             setDebug(false);
         }
     }, [setDebug, debugSequenceIndex, setDebugSequenceIndex]);
