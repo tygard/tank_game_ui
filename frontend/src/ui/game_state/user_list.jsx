@@ -1,34 +1,24 @@
+import { prettyifyName } from "../../../../common/state/utils.mjs";
 import "./user_list.css";
-import { keysToIgnore, orderedKeys, userTypeToHeaders, fieldAlignment, defaultAlignment } from "../../config.js";
 
-function capitalize(text) {
-    if(text.length == 0) return "";
+// Display friendly names for the user types
+export const userTypeToHeaders = {
+    council: "Councilors",
+    senate: "Senators",
+};
 
-    return text[0].toUpperCase() + text.slice(1);
-}
 
-function getKeysFromUser(user) {
-    let keys = new Set(
-        orderedKeys.filter(key => user.hasOwnProperty(key))
-    );
 
-    let newKeys = Object.keys(user)
-        .filter(key => !keysToIgnore.has(key));
-
-    newKeys.sort();
-    newKeys.forEach(key => keys.add(key));
-
-    return Array.from(keys);
-}
-
-export function UserList({ users }) {
-    const sections = users.usersByType;
+export function UserList({ gameState }) {
+    if(!gameState) {
+        return "Loading...";
+    }
 
     return (
         <div className="user-list">
-            {Object.keys(sections).map(sectionName => {
+            {gameState.players.getAllPlayerTypes().map(playerType => {
                 return (
-                    <Section name={sectionName} users={sections[sectionName]}></Section>
+                    <Section name={playerType} users={gameState.players.getPlayersByType(playerType)}></Section>
                 );
             })}
         </div>
@@ -38,7 +28,8 @@ export function UserList({ users }) {
 
 function Section({ name, users }) {
     // Each section is guarenteed to have at least 1 user
-    const tableHeader = getKeysFromUser(users[0]);
+    const header = users[0].entities.length > 0 ? Object.keys(users[0].getControlledResources()) : [];
+    const tableHeader = ["name"].concat(header);
 
     let content;
 
@@ -54,7 +45,7 @@ function Section({ name, users }) {
         content = (
             <table className="user-list-table">
                 <tr>
-                    {tableHeader.map(name => <th>{capitalize(name)}</th>)}
+                    {tableHeader.map(name => <th>{prettyifyName(name)}</th>)}
                 </tr>
                 {users.map(user => (
                     <UserInfo user={user} tableHeader={tableHeader}></UserInfo>
@@ -63,7 +54,7 @@ function Section({ name, users }) {
         );
     }
 
-    const displayName = userTypeToHeaders[name] || (capitalize(name) + "s");
+    const displayName = userTypeToHeaders[name] || (prettyifyName(name) + "s");
 
     return (
         <>
@@ -75,13 +66,15 @@ function Section({ name, users }) {
 
 
 function UserInfo({ user, tableHeader }) {
+    const resources = user.getControlledResources();
+
     return (
         <tr>
             {tableHeader.map(key => {
-                const alignment = fieldAlignment[key] || defaultAlignment;
+                const alignment = key == "name" ? "start" : "end";
 
                 return (
-                    <td style={`text-align: ${alignment};`}>{user[key]}</td>
+                    <td style={`text-align: ${alignment};`}>{resources[key] ? resources[key].value : user[key]}</td>
                 );
             })}
         </tr>

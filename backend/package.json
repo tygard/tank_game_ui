@@ -4,16 +4,20 @@
     "description": "A basic web UI for playing tank game",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "develop": "LOG_LEVEL=debug TANK_GAMES_FOLDER=../example/ TANK_GAME_ENGINE_COMMAND=\"java -jar $(echo ../*.jar)\" npm start",
+        "test": "LOG_LEVEL=error mocha --reporter-option maxDiffSize=0 --recursive test/",
+        "develop": "LOG_LEVEL=debug TANK_GAME_UI_CONFIG=../example/tank-game-ui.yaml npm start",
         "start": "node src/index.mjs | pino-pretty"
     },
     "author": "Ryan Ray <ryan314r@gmail.com>",
     "license": "ISC",
     "dependencies": {
         "express": "^4.19.1",
-        "pino": "^8.19.0",
+        "pino": "^8.20.0",
         "pino-http": "^9.0.0",
-        "pino-pretty": "^11.0.0"
+        "pino-pretty": "^11.0.0",
+        "yaml": "^2.4.1"
+    },
+    "devDependencies": {
+        "mocha": "^10.4.0"
     }
 }

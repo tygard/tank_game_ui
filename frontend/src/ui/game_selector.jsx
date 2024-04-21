@@ -1,8 +1,11 @@
 import { useCallback } from "preact/hooks";
-import { useGameList } from "../api/game";
+import { useGameList } from "../api/fetcher";
+import { ErrorMessage } from "./error_message.jsx";
 
 export function GameSelector({ setGame }) {
-    const [games, _] = useGameList();
+    const [games, error] = useGameList();
+
+    if(error) return <ErrorMessage error={error}></ErrorMessage>
 
     if(!games) {
         return (

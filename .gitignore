@@ -2,3 +2,4 @@ node_modules
 dist
 *.jar
 *.log*
+tank_game_temp_test_file*.json

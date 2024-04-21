@@ -1,13 +1,25 @@
 import pino from "pino";
-import path from "node:path";
+import pinoHttp from "pino-http";
 
-const logger = pino({
+export const logger = pino({
     level: process.env.LOG_LEVEL || "info"
 });
 
-export function getLogger(url) {
-    const module = path.parse(url).name;
-    return logger.child({ module });
+export function makeHttpLogger() {
+    return pinoHttp({
+        logger,
+        serializers: {
+            req: (req) => ({
+                id: req.id,
+                method: req.method,
+                url: req.url,
+            }),
+
+            res: (res) => ({
+                statusCode: res.statusCode,
+            }),
+        },
+    });
 }
 
 process.on('uncaughtException', function (err) {

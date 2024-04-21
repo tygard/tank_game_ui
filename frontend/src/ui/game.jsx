@@ -1,13 +1,12 @@
 import { GameBoard } from "./game_state/board.jsx";
 import { useCallback, useState } from "preact/hooks";
-import { useGameInfo } from "../api/game.js";
-import { TurnSelector } from "./game_state/turn_selector.jsx"
+import { useGameInfo } from "../api/fetcher.js";
+import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit_turn.jsx";
 import { UserList } from "./game_state/user_list.jsx";
-import { useMemo } from "preact/hooks";
-import { buildUserList } from "../api/user_list";
 import { LogBook } from "./game_state/log_book.jsx";
-import { useTurnStateManager } from "../api/turn-state-manager.js";
+import { useGameStateManager } from "../api/game-state-manager.js";
+import { ErrorMessage } from "./error_message.jsx";
 
 
 export function Game({ game, setGame, debug }) {
@@ -15,66 +14,63 @@ export function Game({ game, setGame, debug }) {
     // so we create this state that game info depends on so when change it game info
     // gets refreshed
     const [gameInfoTrigger, setGameInfoTrigger] = useState();
-    const [gameInfo, _] = useGameInfo(game, gameInfoTrigger);
+    const [gameInfo, error] = useGameInfo(game, gameInfoTrigger);
     const refreshGameInfo = useCallback(() => {
         setGameInfoTrigger(!gameInfoTrigger);
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
-    const turnStateManager = useTurnStateManager(gameInfo?.turnMap, game);
+    const gameStateManager = useGameStateManager(gameInfo?.logBook, game);
 
-    const users = useMemo(() => {
-        return buildUserList(turnStateManager.turnState);
-    }, [turnStateManager.turnState]);
-
-    const errorMessage = (!turnStateManager.turnState || turnStateManager.turnState.valid) ? null : (
-        <div className="app-turn-invalid">
-            {turnStateManager.turnState.error}
-        </div>
-    );
+    if(error || gameStateManager.error) {
+        return <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
+    }
 
     return (
         <>
-            <TurnSelector
+            <LogEntrySelector
                 debug={debug}
+                logBook={gameInfo?.logBook}
                 setGame={setGame}
-                gameInfo={gameInfo}
-                turnStateManager={turnStateManager}></TurnSelector>
+                gameStateManager={gameStateManager}></LogEntrySelector>
             <div className="app-side-by-side centered">
                 <div>
-                    <LogBook gameInfo={gameInfo} currentTurn={turnStateManager.turnId} changeTurn={turnStateManager.playerSetTurn}></LogBook>
+                    <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
                 </div>
                 <div className="app-side-by-side-main">
-                    <GameBoard boardState={turnStateManager.turnState?.gameState?.board}></GameBoard>
+                    <GameBoard board={gameStateManager.gameState?.board}></GameBoard>
                 </div>
                 <div>
-                    <p>Coffer: {turnStateManager.turnState?.gameState?.council?.coffer || ""}</p>
-                    <UserList users={users}></UserList>
+                    <p>Coffer: {gameStateManager.gameState?.council?.coffer}</p>
+                    <UserList gameState={gameStateManager.gameState}></UserList>
                 </div>
             </div>
             <div className="centered">
                 <div>
-                    {errorMessage}
                     <SubmitTurn
                         game={game}
-                        boardState={turnStateManager.turnState?.gameState?.board}
-                        isLastTurn={turnStateManager.isLastTurn}
-                        users={users}
+                        isLastTurn={gameStateManager.isLatestEntry}
                         refreshGameInfo={refreshGameInfo}
-                        debug={debug}></SubmitTurn>
-                    {debug ? <>
-                        <details>
-                            <summary>Users (JSON)</summary>
-                            <pre>{JSON.stringify(users, null, 4)}</pre>
-                        </details>
+                        debug={debug}
+                        gameState={gameStateManager.gameState}
+                        entryId={gameStateManager.entryId}></SubmitTurn>
+                    {debug ? <div>
                         <details>
                             <summary>Current board state (JSON)</summary>
-                            <pre>{JSON.stringify(turnStateManager?.turnState, null, 4)}</pre>
+                            <pre>{gameStateManager?.gameState && JSON.stringify(gameStateManager?.gameState.serialize(), null, 4)}</pre>
                         </details>
-                    </> : undefined}
+                        <details>
+                            <summary>Current logbook (JSON)</summary>
+                            <pre>{gameInfo?.logBook && JSON.stringify(gameInfo?.logBook.serialize(), null, 4)}</pre>
+                        </details>
+                        <details>
+                            <summary>Current config (JSON)</summary>
+                            <pre>{gameInfo?.config && JSON.stringify(gameInfo?.config.serialize(), null, 4)}</pre>
+                        </details>
+                    </div> : undefined}
                 </div>
             </div>
             <footer>
-                <i>{APP_VERSION} - {gameInfo?.engine}</i>
+                <i>{APP_VERSION}</i>
             </footer>
         </>
     );

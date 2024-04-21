@@ -6,11 +6,6 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 ./scripts/build
 
-containerId=$(docker create ryan3r/tank-game)
-
-tmp=$(mktemp -d)
-trap "rm -rf $tmp" EXIT
-
-docker cp $containerId:/app/ $tmp
-rm *.jar
-cp $tmp/app/*.jar .
+containerId=$(docker create ghcr.io/ryan3r/tank_game_ui:development)
+rm -rf engine
+docker cp $containerId:/app/engine/ .

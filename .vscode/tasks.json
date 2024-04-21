@@ -2,29 +2,59 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Develop",
+            "label": "Develop frontend",
             "type": "process",
-            "command": "scripts/develop",
-            "isBackground": true,
+            "command": "npm",
+            "args": ["run", "develop"],
+            "options": {
+                "cwd": "${workspaceFolder}/frontend"
+            },
             "problemMatcher": [],
             "presentation": {
-                "echo": true,
-                "reveal": "never",
+                "echo": false,
+                "reveal": "always",
                 "focus": false,
-                "panel": "shared",
+                "panel": "dedicated",
                 "showReuseMessage": true,
                 "clear": false
             }
         },
         {
-            "label": "Build (production)",
+            "label": "Develop backend",
             "type": "process",
-            "command": "${workspaceFolder}/scripts/build",
+            "command": "npm",
+            "args": ["run", "develop"],
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
             "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "dedicated",
+                "showReuseMessage": true,
+                "clear": false
             }
-        }
+        },
+        {
+            "label": "Test",
+            "type": "process",
+            "command": "npm",
+            "args": ["test"],
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
     ]
 }

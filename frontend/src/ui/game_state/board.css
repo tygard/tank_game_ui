@@ -27,73 +27,8 @@
     border: 1px solid;
 }
 
-.board-space-tank-title {
-    height: 33%;
-    width: 100%;
-    background: var(--tank-game-bg);
-}
-
-.board-space-tank-title-inner {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-align: center;
-}
-
-.board-space-tank-dead, .board-space-tank-stats {
-    height: 66%;
-    width: 100%;
-}
-
-.board-space-tank-stats {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.board-space-tank-stats > * {
-    width: 50%;
-    height: 50%;
-    flex: 1 1 auto;
-}
-
-.board-space-tank-lives {
-    background: var(--tank-game-red);
-}
-
-.board-space-tank-range {
-    background: var(--tank-game-green);
-}
-
-.board-space-tank-gold {
-    background: var(--tank-game-yellow);
-}
-
-.board-space-tank-actions {
-    background: var(--tank-game-blue);
-}
-
-.board-space-wall-3 {
-    background: var(--tank-game-blue);
-}
-
-.board-space-wall-2 {
-    background: var(--tank-game-green);
-}
-
-.board-space-wall-1 {
-    background: var(--tank-game-red);
-}
-
-.board-space-gold-mine {
+.board-space-floor-gold_mine {
     background: var(--tank-game-orange);
-}
-
-.board-space-entity.board-space-gold-mine-label {
-    border-radius: 50%;
-    background: var(--tank-game-yellow);
-    width: 75%;
-    height: 75%;
 }
 
 .board-space-coordinate {

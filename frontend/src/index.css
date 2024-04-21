@@ -38,7 +38,11 @@ footer {
 
 .debug-mode-banner {
     background: var(--tank-game-yellow);
-    width: 100%;
+    width: calc(100% - 16px);
     text-align: center;
     padding: 8px;
+}
+
+.app-wrapper {
+    margin: 8px;
 }

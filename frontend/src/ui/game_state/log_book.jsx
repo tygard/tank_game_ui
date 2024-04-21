@@ -1,57 +1,37 @@
 import { useCallback, useEffect, useMemo, useRef } from "preact/hooks";
 import "./log_book.css";
 
-export function LogBook({ gameInfo, changeTurn, currentTurn }) {
-    const logBook = gameInfo?.statesSummary;
-
+export function LogBook({ logBook, changeEntryId, currentEntryId }) {
     if(!logBook) {
         return <p>Loading...</p>;
     }
 
-    const actionsByDay = useMemo(() => {
-        let currentDay = 0;
-        let actionsByDay = {};
-        let turnId = 1;
-
-        for(const action of logBook) {
-            if(action.logEntry.day) {
-                currentDay = action.logEntry.day;
-                actionsByDay[currentDay] = [];
-            }
-
-            actionsByDay[currentDay].push({
-                action,
-                turnId
-            });
-
-            ++turnId;
-        }
-
-        return actionsByDay;
-    }, [logBook]);
-
     return (
         <div className="log-book">
-            {Object.keys(actionsByDay).map(day => {
+            {logBook.getAllDays().map(day => {
                 return (
-                    <DaySection day={day} actions={actionsByDay[day]} changeTurn={changeTurn} currentTurn={currentTurn}></DaySection>
+                    <DaySection
+                        day={day}
+                        logEntries={logBook.getEntriesOnDay(day)}
+                        changeEntryId={changeEntryId}
+                        currentEntryId={currentEntryId}></DaySection>
                 );
             })}
         </div>
     );
 }
 
-function DaySection({ day, actions, currentTurn, changeTurn }) {
-    const selectAction = useCallback((e, turnId) => {
+function DaySection({ day, logEntries, currentEntryId, changeEntryId }) {
+    const selectEntry = useCallback((e, logEntry) => {
         e.preventDefault();
-        changeTurn(turnId);
-    }, [changeTurn]);
+        changeEntryId(logEntry.id);
+    }, [changeEntryId]);
 
     return (
         <>
             <h3 class="log-book-day-heading">Day {day}</h3>
-            {actions.map(action => {
-                const isCurrent = currentTurn == action.turnId;
+            {logEntries.map(logEntry => {
+                const isCurrent = currentEntryId == logEntry.id;
                 const scrollRef = useRef();
 
                 useEffect(() => {
@@ -66,14 +46,10 @@ function DaySection({ day, actions, currentTurn, changeTurn }) {
                     entryClasses += " log-entry-current-turn";
                 }
 
-                if(!action.action.valid) {
-                    entryClasses += " log-entry-invalid";
-                }
-
                 return (
                     <div className={entryClasses} ref={scrollRef}>
-                        <a className="log-book-link" href="#" onClick={e => selectAction(e, action.turnId)}>
-                            {action.action.logEntryStr}
+                        <a className="log-book-link" href="#" onClick={e => selectEntry(e, logEntry)}>
+                            {logEntry.message}
                         </a>
                     </div>
                 );

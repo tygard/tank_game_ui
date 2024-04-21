@@ -10,15 +10,15 @@ export class Position {
         return new Position(humanReadable.charCodeAt(0) - encodedA, +humanReadable.slice(1) - 1);
     }
 
-    humanReadableX() {
+    get humanReadableX() {
         return String.fromCharCode(encodedA + this.x);
     }
 
-    humanReadableY() {
+    get humanReadableY() {
         return (this.y + 1).toString();
     }
 
-    humanReadable() {
-        return this.humanReadableX() + this.humanReadableY();
+    get humanReadable() {
+        return this.humanReadableX + this.humanReadableY;
     }
 }

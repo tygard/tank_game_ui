@@ -1,7 +1,3 @@
-.log-entry-invalid {
-    color: var(--tank-game-red);
-}
-
 .log-book {
     border: 1px solid #000;
     overflow: auto;

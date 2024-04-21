@@ -1,0 +1,20 @@
+# This file provides sane defaults for tank games config.  The values in this file can be overridden
+# by the yaml file pointed to byTANK_GAME_UI_CONFIG.
+
+backend:
+  # Assume this config is being used inside the docker container
+  gamesFolder: /data/games/
+  port: 3333
+
+gameVersionConfigs:
+    version3:
+      logEntryFormatters:
+        start_of_day: "Start of day {day}"
+        move: "{subject} moved to {target}"
+        shoot: "{subject} shot at {target} ({hit})"
+        buy_action: "{subject} traded {gold} gold for actions"
+        donate: "{subject} donated {donation} pre-tax gold to {target}"
+        upgrade_range: "{subject} upgraded their range"
+        bounty: "{subject} placed a {bounty} gold bounty on {target}"
+        stimulus: "{subject} granted a stimulus of 1 action to {target}"
+        grant_life: "{subject} granted 1 life to {target}"

@@ -1,7 +1,9 @@
-const FORMATTER_EXPR = /\{([^}]+)\}/g;
+import fs from "node:fs/promises";
 
-export function format(formatString, values) {
-    return formatString.replace(FORMATTER_EXPR, (_, name) => {
-        return values[name];
-    });
+export async function readJson(path) {
+    return JSON.parse(await fs.readFile(path, "utf-8"));
+}
+
+export async function writeJson(path, data) {
+    return await fs.writeFile(path, JSON.stringify(data, null, 4));
 }

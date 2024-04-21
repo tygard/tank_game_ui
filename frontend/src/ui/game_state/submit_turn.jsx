@@ -1,33 +1,20 @@
-import { submitTurn } from "../../api/game";
-import { usePossibleActions } from "../../api/possible-actions";
+import { submitTurn, usePossibleActionFactories } from "../../api/fetcher";
 import { targetSelectionState } from "../../api/space-selecting-state";
+import { ErrorMessage } from "../error_message.jsx";
 import "./submit_turn.css";
 import { useCallback, useEffect, useState } from "preact/hooks";
 
-function capitalize(string) {
-    return string.length === 0 ? "" : string[0].toUpperCase() + string.slice(1);
-}
-
-function isValidEntry(spec, logBookEntry) {
-    // Both action and type are required
-    if(!logBookEntry.subject || !logBookEntry.action || !spec) return false;
-
-    for(const field of spec) {
-        // Check if this value has been submitted
-        if(logBookEntry[field.logBookField] === undefined) return false;
-    }
-
-    return true;
-}
-
-
-export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardState, debug }) {
-    const usernames = Object.keys(users?.usersByName || {});
+export function SubmitTurn({ isLastTurn, gameState, refreshGameInfo, game, debug, entryId }) {
+    const usernames = gameState ? (gameState.players.getAllPlayers().map(user => user.name)) : [];
     const [selectedUser, setSelectedUser] = useState();
-    const [actionType, setActionType] = useState();
+    const [currentFactory, setCurrentFactory] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const actionSpecs = usePossibleActions(game, users, selectedUser, boardState);
+    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, entryId);
     const [status, setStatus] = useState();
+
+    if(error) {
+        return <ErrorMessage error={error}></ErrorMessage>
+    }
 
     if(status) {
         return <p>{status}</p>;
@@ -41,25 +28,19 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
 
     // Reset the action type
     useEffect(() => {
-        setActionType(undefined);
-    }, [selectedUser, setActionType]);
+        setCurrentFactory(undefined);
+    }, [selectedUser, setCurrentFactory]);
 
     // Reset any action specific fields if user or action type changes
     useEffect(() => {
         setActionSpecific({});
         targetSelectionState.clearPossibleTargets();
-    }, [selectedUser, actionType, setActionSpecific]);
+    }, [selectedUser, currentFactory, setActionSpecific]);
 
-    const logBookEntry = {
-        type: "action",
-        subject: selectedUser,
-        action: actionType,
-        ...actionSpecific
-    };
+    const possibleActions = actionFactories || [];
 
-    const currentSpec = (actionSpecs && actionSpecs[actionType]) || [];
-    const possibleActions = actionSpecs ? Object.keys(actionSpecs) : [];
-    const isValid = isValidEntry(currentSpec, logBookEntry);
+    const logBookEntry = (currentFactory && currentFactory != "unset") && currentFactory.buildRawEntry(actionSpecific);
+    const isValid = currentFactory && currentFactory.areParemetersValid(logBookEntry);
 
     const submitTurnHandler = useCallback(async e => {
         e.preventDefault();
@@ -75,11 +56,11 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
             }
 
             // Reset the form
-            setActionType(undefined);
+            setCurrentFactory(undefined);
             refreshGameInfo();
             setStatus(undefined);
         }
-    }, [setActionType, refreshGameInfo, isValid, setStatus, logBookEntry]);
+    }, [setCurrentFactory, refreshGameInfo, isValid, setStatus, logBookEntry]);
 
     return (
         <>
@@ -90,9 +71,9 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
                         <Select spec={{ options: usernames }} value={selectedUser} setValue={setSelectedUser}></Select>
                     </LabelElement>
                     <LabelElement name="Action">
-                        <Select spec={{ options: possibleActions }} value={actionType} setValue={setActionType}></Select>
+                        <Select spec={{ options: possibleActions }} value={currentFactory} setValue={setCurrentFactory}></Select>
                     </LabelElement>
-                    <SubmissionForm spec={currentSpec} values={actionSpecific} setValues={setActionSpecific}></SubmissionForm>
+                    <SubmissionForm factory={currentFactory} values={actionSpecific} setValues={setActionSpecific}></SubmissionForm>
                     <button type="submit" disabled={!isValid}>Submit action</button>
                 </form>
                 {debug ? <div>
@@ -101,9 +82,9 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
                         <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
                     </details>
                     <details>
-                        <summary>Log book entry spec (JSON)</summary>
-                        <p>Displaying: {currentSpec?.length > 0 ? "Fields" : "Actions + Fields"}</p>
-                        <pre>{JSON.stringify(currentSpec?.length > 0 ? currentSpec : actionSpecs, null, 4)}</pre>
+                        <summary>Log book entry factory (JSON)</summary>
+                        <p>Displaying: {currentFactory ? "Factory" : "Actions + Factories"}</p>
+                        <pre>{JSON.stringify(currentFactory || actionFactories, null, 4)}</pre>
                     </details>
                 </div> : undefined}
             </div>
@@ -111,8 +92,10 @@ export function SubmitTurn({ isLastTurn, users, refreshGameInfo, game, boardStat
     );
 }
 
-function SubmissionForm({ spec, values, setValues }) {
-    if(!spec) return;
+function SubmissionForm({ factory, values, setValues }) {
+    if(!factory) return;
+
+    const spec = factory.getParameterSpec();
 
     return (
         <>
@@ -151,7 +134,7 @@ function SubmissionForm({ spec, values, setValues }) {
 function LabelElement({ name, children }) {
     return (
         <label className="submit-turn-field" key={name}>
-            <b>{capitalize(name)}</b>
+            <b>{name}</b>
             {children}
         </label>
     );
@@ -199,11 +182,9 @@ function SelectPosition({ spec, value, setValue }) {
         return () => targetSelectionState.setSelectedTargetCallback(undefined);
     }, [setValue]);
 
-    const targetTypeMsg = spec.targetTypes.length == 1 && spec.targetTypes[0] == "any" ? "location" : spec.targetTypes.join(" ");
-
     const message = value ?
         `${value} (select a different space to change)` :
-        `Select a ${targetTypeMsg} on the board`;
+        `Select a location on the board`;
 
     return (
         <span>{message}</span>

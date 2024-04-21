@@ -1,28 +1,7 @@
-///// User List /////
-
-// Keys in a user object to hide from end users
-export const keysToIgnore = new Set(["type", "dead"]);
-
-// The keys we want to be in a specific order
-export const orderedKeys = ["name"];
-
-// Header names for each user type
-export const userTypeToHeaders = {
-    council: "Councilors",
-    senate: "Senators",
-};
-
-// Alignment of fields in the tables
-export const fieldAlignment = {
-    name: "start"
-};
-
-export const defaultAlignment = "end";
-
 ///// Possible Actions /////
 
 export const TARGET_TYPE_FOR_ACTION = {
-    "shoot": ["tank", "wall"],
+    "shoot": ["tank", "wall", "council"],
     "move": ["empty"],
 };
 
@@ -35,6 +14,3 @@ export const LOG_BOOK_FIELD_MAPPINGS = {
     "shoot-target": "position",
 };
 
-///// Turn State Manager /////
-
-export const TURN_SWITCH_FREQENCY = 700;

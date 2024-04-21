@@ -1,0 +1,3 @@
+{
+    "comment": "This file isn't a game file but loadGamesFromFolder() will try to load it and it should warn but not include it in the list of games"
+}

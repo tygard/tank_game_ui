@@ -1,23 +1,24 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
-import { getLogger } from "./logging.mjs"
+import { logger } from "../logging.mjs"
 import path from "node:path";
-
-const logger = getLogger(import.meta.url);
+import { gameStateFromRawState, gameStateToRawState } from "./board-state.mjs";
+import { JavaEngineSource } from "./possible-action-source.mjs";
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
 
+const ENGINE_SEARCH_DIR = "../engine";
 const TANK_GAME_ENGINE_COMMAND = (function() {
     let command = process.env.TANK_GAME_ENGINE_COMMAND;
 
     if(!command) {
-        const jars = fs.readdirSync("engine").filter(file => file.endsWith(".jar"));
+        const jars = fs.readdirSync(ENGINE_SEARCH_DIR).filter(file => file.endsWith(".jar"));
         if(jars.length != 1) {
             logger.error(`Expected exactly 1 tank game jar but found: ${jars}`);
             process.exit(1);
         }
 
-        command = ["java", "-jar", path.join("engine", jars[0])];
+        command = ["java", "-jar", path.join(ENGINE_SEARCH_DIR, jars[0])];
     }
 
     if(typeof command == "string") command = command.split(" ");
@@ -53,7 +54,7 @@ class TankGameEngine {
         });
 
         this._proc.on("exit", status => {
-            const logLevel = status > 0 ? "warning" : "debug";
+            const logLevel = status > 0 ? "warn" : "debug";
             logger[logLevel](`Tank game engine exited with ${status}`);
             this._proc = undefined;
         });
@@ -150,43 +151,49 @@ class TankGameEngine {
         });
     }
 
-    getBoardState() {
-        return this._runCommand("display");
+    async getBoardState() {
+        return gameStateFromRawState(await this._runCommand("display")); // TODO: Use day?
     }
 
-    async getActionTemplate() {
+    async getRules() {
         return (await this._runCommand("rules")).rules;
+    }
+
+    async getPossibleActions(player) {
+        return (await this._sendRequestAndWait({
+            type: "possible_actions",
+            player,
+        })).actions;
     }
 
     setBoardState(state) {
         return this._sendRequestAndWait({
             type: "state",
-            ...state,
+            ...gameStateToRawState(state), // TODO: Get actual day
         });
     }
 
     async processAction(action) {
-        let result = {
-            valid: true,
-        };
+        await this._sendRequestAndWait({
+            type: "action",
+            ...action.serialize(),
+        });
 
-        try {
-            await this._sendRequestAndWait({
-                type: "action",
-                ...action,
-            });
-        }
-        catch(err) {
-            result.valid = false;
-            result.error = err.message;
-            logger.info({ msg: "Got error", result });
-        }
+        return this.getBoardState();
+    }
 
-        result.gameState = await this._runCommand("display");
-        return result;
+    async setGameVersion(version) {
+        await this._sendRequestAndWait({
+            type: "version",
+            version
+        });
+    }
+
+    getEngineSpecificSource() {
+        return new JavaEngineSource(this);
     }
 }
 
-export function getEngine() {
+export function createEngine() {
     return new TankGameEngine(TANK_GAME_ENGINE_COMMAND);
 }
