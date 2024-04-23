@@ -56,5 +56,24 @@
                 "clear": true
             }
         },
+        {
+            "label": "Integration tests",
+            "type": "process",
+            "command": "npm",
+            "args": ["run", "integration-test"],
+            "options": {
+                "cwd": "${workspaceFolder}/backend"
+            },
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
     ]
 }

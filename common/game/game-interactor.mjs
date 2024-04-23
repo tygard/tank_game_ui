@@ -85,14 +85,35 @@ export class GameInteractor {
         }
     }
 
-    addLogBookEntry(entry) {
+    async _canProcessAction(entry) {
+        if(this._gameStates.length !== this._logBook.getLastEntryId() + 1) { // +1 for index to length
+            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
+        }
+
+        await this._sendPreviousState(this._gameStates.length);
+        return await this._engine.canProcessAction(entry);
+    }
+
+    _handleNewEntry(entry, handlerName) {
         const promise = this._ready.then(() => {
-            return this._addLogBookEntry(this._logBook.makeEntryFromRaw(entry))
+            return this[handlerName](this._logBook.makeEntryFromRaw(entry))
         });
 
         // Swallow the error before setting ready so we don't fail future submissions
         this._ready = promise.catch(() => {});
 
         return promise;
+    }
+
+    addLogBookEntry(entry) {
+        return this._handleNewEntry(entry, "_addLogBookEntry")
+    }
+
+    canProcessAction(entry) {
+        return this._handleNewEntry(entry, "_canProcessAction")
+    }
+
+    shutdown() {
+        return this._engine.shutdown();
     }
 }

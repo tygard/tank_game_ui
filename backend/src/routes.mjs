@@ -28,11 +28,15 @@ export function defineRoutes(app) {
     });
 
     app.get("/api/game/:gameName/turn/:turnId", (req, res) => {
+        logger.info("Start handler");
         const {valid, interactor} = req.games.getGameIfAvailable();
+        logger.info({ msg: "Mid handler", valid });
         if(!valid) return;
 
-        const state = interactor.getGameStateById(req.params.turnId);
+        const state = interactor.getGameStateById(+req.params.turnId);
+        logger.info("Late handler");
         res.json(state && state.serialize());
+        logger.info("Handler done");
     });
 
     app.post("/api/game/:gameName/turn", async (req, res) => {

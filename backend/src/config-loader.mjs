@@ -4,7 +4,6 @@ import path from "node:path";
 import { logger } from "./logging.mjs";
 import { Config } from "../../common/state/config/config.mjs";
 import { GameManager } from "./game-file.mjs";
-import { createEngine } from "./java-engine/engine-interface.mjs";
 
 const currentSourceFile = (new URL(import.meta.url)).pathname;
 const DEFAULT_CONFIG = path.join(path.dirname(currentSourceFile), "..", "default-config.yaml");
@@ -26,11 +25,14 @@ async function loadRawConfig(configPath) {
 export async function loadConfig() {
     const configPath = process.env.TANK_GAME_UI_CONFIG || "tank-game-ui.yaml";
 
-    const config = new Config(
+    return new Config(
         { path: DEFAULT_CONFIG, config: await parseYaml(DEFAULT_CONFIG) },
         { path: configPath, config: await loadRawConfig(configPath) },
     );
+}
 
+export async function loadConfigAndGames(createEngine) {
+    const config = await loadConfig(createEngine);
     const gameManager = new GameManager(config, createEngine);
     return { config, gameManager };
 }

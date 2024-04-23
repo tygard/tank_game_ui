@@ -17,18 +17,9 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends maven git && \
     rm -rf /var/lib/apt/lists/*
 
-# Pin the included tank game engine to the last compatible version
-ARG ENGINE_VERSION=2bb8d098152be5b9a3e17a7b2dfbd12ef0311578
-
 # Build tank game engine to be included with the default image
-RUN --mount=type=cache,target=/root/.m2 \
-    git clone https://github.com/TrevorBrunette/tankgame.git && \
-    cd tankgame && \
-    git checkout "${ENGINE_VERSION}" && \
-    mvn package && \
-    cd target && \
-    # Rename the executable to include the git hash for easy debugging \
-    mv $(echo TankGame-*.jar) "$(basename $(echo TankGame-*.jar) .jar)-$(git rev-parse --short HEAD)".jar
+COPY scripts/build-java-engine /build/
+RUN --mount=type=cache,target=/root/.m2 /build/build-java-engine all
 
 FROM node:20-alpine
 

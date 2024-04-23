@@ -5,8 +5,9 @@
     "main": "index.js",
     "scripts": {
         "test": "LOG_LEVEL=error mocha --reporter-option maxDiffSize=0 --recursive test/",
+        "integration-test": "LOG_FILE=integration-test.log TANK_GAME_UI_CONFIG=../example/tank-game-ui.yaml LOG_LEVEL=debug mocha --reporter-option maxDiffSize=0 --recursive --timeout 10000 integration-test",
         "develop": "LOG_LEVEL=debug TANK_GAME_UI_CONFIG=../example/tank-game-ui.yaml npm start",
-        "start": "node src/index.mjs | pino-pretty"
+        "start": "node src/index.mjs"
     },
     "author": "Ryan Ray <ryan314r@gmail.com>",
     "license": "ISC",

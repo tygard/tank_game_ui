@@ -108,6 +108,7 @@ export class GameManager {
         this.gameConfig = gameConfig;
         this._createEngine = createEngine;
         this.loaded = this._loadGamesFromFolder();
+        this._interactors = [];
     }
 
     async _loadGamesFromFolder() {
@@ -153,6 +154,8 @@ export class GameManager {
     async _initilizeGame(name, saveHandler, file) {
         const engine = this._createEngine();
         const interactor = new GameInteractor(engine, file, saveHandler);
+        // Save our interactor incase we get shutdown
+        this._interactors.push(interactor);
         await interactor.loaded;
 
         let actionSets = [
@@ -168,12 +171,13 @@ export class GameManager {
 
         const sourceSet = new PossibleActionSourceSet(actionSets);
 
-        logger.info({ msg: `Loaded ${name}`, games: this._games })
         this._games[name] = {
             loaded: true,
             interactor,
             sourceSet,
         };
+
+        return this._games[name];
     }
 
     getGamePromise(name) {
@@ -189,5 +193,9 @@ export class GameManager {
 
     getAllGames() {
         return Object.keys(this._games) || [];
+    }
+
+    shutdown() {
+        return Promise.all(this._interactors.map(interactor => interactor.shutdown()));
     }
 }

@@ -1,0 +1,61 @@
+{
+    "fileFormatVersion": 4,
+    "logBook": {
+        "gameVersion": "version3",
+        "rawEntries": [
+            {
+                "type": "action",
+                "day": 1
+            }
+        ]
+    },
+    "initialState": {
+        "players": [
+            {
+                "name": "Schmude",
+                "type": "tank",
+                "entities": [
+                    "A1"
+                ]
+            },
+            {
+                "name": "Lena",
+                "type": "councilor",
+                "entities": [
+                    "B3"
+                ]
+            },
+            {
+                "name": "Dan",
+                "type": "senator",
+                "entities": []
+            }
+        ],
+        "board": {
+            "width": 5,
+            "height": 5,
+            "entities": {
+                "A1": {
+                    "type": "tank",
+                    "resources": {
+                        "gold": 30,
+                        "bounty": 0,
+                        "health": 3,
+                        "range": 2,
+                        "actions": 5
+                    }
+                },
+                "B3": {
+                    "type": "dead-tank",
+                    "resources": {
+                        "health": 3
+                    }
+                }
+            },
+            "floor": {}
+        },
+        "council": {
+            "coffer": 60
+        }
+    }
+}

@@ -3375,6 +3375,8 @@
                 "F10": "gold_mine"
             }
         },
-        "council": {}
+        "council": {
+            "coffer": 0
+        }
     }
 }

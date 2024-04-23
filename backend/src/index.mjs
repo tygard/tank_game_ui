@@ -1,8 +1,9 @@
 import express from "express";
 import { logger } from "./logging.mjs"
 import { makeHttpLogger } from "./logging.mjs";
-import { loadConfig } from "./config-loader.mjs";
+import { loadConfigAndGames } from "./config-loader.mjs";
 import { defineRoutes } from "./routes.mjs";
+import { createEngine } from "./java-engine/engine-interface.mjs";
 
 // If build info is supplied print it
 const buildInfo = process.env.BUILD_INFO;
@@ -15,7 +16,6 @@ app.use(express.json());
 
 // Helper to make interacting with games easier for routes
 function gameAccessor(gameManager, config) {
-
     return (req, res, next) => {
         function getGameIfAvailable() {
             const {loaded, error, sourceSet, interactor} = gameManager.getGame(req.params.gameName);
@@ -49,7 +49,7 @@ function gameAccessor(gameManager, config) {
 
 
 (async () => {
-    let { config, gameManager } = await loadConfig()
+    let { config, gameManager } = await loadConfigAndGames(createEngine);
 
     app.use(gameAccessor(gameManager, config));
 

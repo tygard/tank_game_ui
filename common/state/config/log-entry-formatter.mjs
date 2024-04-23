@@ -7,7 +7,10 @@ export class LogEntryFormatter {
 
     format(rawLogEntry) {
         if(rawLogEntry.hit !== undefined) {
-            rawLogEntry.hit = rawLogEntry.hit ? "hit" : "miss";
+            rawLogEntry = {
+                ...rawLogEntry,
+                hit: rawLogEntry.hit ? "hit" : "miss",
+            };
         }
 
         return this._formatString.replace(FORMATTER_EXPR, (_, name) => {

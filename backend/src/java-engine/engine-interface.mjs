@@ -14,8 +14,8 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     if(!command) {
         const jars = fs.readdirSync(ENGINE_SEARCH_DIR).filter(file => file.endsWith(".jar"));
         if(jars.length != 1) {
-            logger.error(`Expected exactly 1 tank game jar but found: ${jars}`);
-            process.exit(1);
+            logger.warn(`Expected exactly 1 tank game jar but found: ${jars}`);
+            return;
         }
 
         command = ["java", "-jar", path.join(ENGINE_SEARCH_DIR, jars[0])];
@@ -26,11 +26,8 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     return command;
 })();
 
-logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND.join(" ")}`);
+logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND && TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
-export function getEngineName() {
-    return path.basename(TANK_GAME_ENGINE_COMMAND[TANK_GAME_ENGINE_COMMAND.length - 1]);
-}
 
 class TankGameEngine {
     constructor(command) {
@@ -143,8 +140,8 @@ class TankGameEngine {
         return this._sendRequestAndWait(data);
     }
 
-    // Version 3 helper functions
-    exit() {
+    // Helper functions
+    shutdown() {
         return this._sendRequestAndWait({
             "type": "command",
             "command": "exit",
@@ -192,8 +189,26 @@ class TankGameEngine {
     getEngineSpecificSource() {
         return new JavaEngineSource(this);
     }
+
+    async canProcessAction(action) {
+        try {
+            await this._sendRequestAndWait({
+                type: "action",
+                ...action.serialize(),
+            });
+
+            return true;
+        }
+        catch(err) {
+            return false;
+        }
+    }
 }
 
 export function createEngine() {
     return new TankGameEngine(TANK_GAME_ENGINE_COMMAND);
+}
+
+export function isEngineAvailable() {
+    return TANK_GAME_ENGINE_COMMAND !== undefined;
 }
