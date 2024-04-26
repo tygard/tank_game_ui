@@ -2,7 +2,7 @@
 set -e
 
 # Pin the included tank game engine to the last compatible version
-ENGINE_VERSION=d91740c256611cedf7e097f8bc954c5912b045c0
+ENGINE_VERSION=7a8154c9c525f418506ac3f8aab9d0541fe9c169
 
 
 checkout() {
