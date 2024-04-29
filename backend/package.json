@@ -13,7 +13,7 @@
     "license": "ISC",
     "dependencies": {
         "express": "^4.19.1",
-        "pino": "^8.20.0",
+        "pino": "^9.0.0",
         "pino-http": "^9.0.0",
         "pino-pretty": "^11.0.0",
         "yaml": "^2.4.1"
