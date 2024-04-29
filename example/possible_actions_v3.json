@@ -1,61 +1,211 @@
 {
-    "fileFormatVersion": 4,
+    "fileFormatVersion": 5,
     "logBook": {
-        "gameVersion": "version3",
-        "rawEntries": [
-            {
-                "type": "action",
-                "day": 1
-            }
-        ]
+        "gameVersion": "version3"
     },
-    "initialState": {
-        "players": [
-            {
-                "name": "Schmude",
-                "type": "tank",
-                "entities": [
-                    "A1"
-                ]
-            },
-            {
-                "name": "Lena",
-                "type": "councilor",
-                "entities": [
-                    "B3"
-                ]
-            },
-            {
-                "name": "Dan",
-                "type": "senator",
-                "entities": []
-            }
-        ],
+    "initialGameState": {
+        "type": "state",
+        "day": 0,
         "board": {
-            "width": 5,
-            "height": 5,
-            "entities": {
-                "A1": {
-                    "type": "tank",
-                    "resources": {
+            "type": "board",
+            "unit_board": [
+                [
+                    {
+                        "type": "tank",
+                        "dead": false,
+                        "name": "Schmude",
                         "gold": 30,
                         "bounty": 0,
                         "health": 3,
                         "range": 2,
                         "actions": 5
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
                     }
-                },
-                "B3": {
-                    "type": "dead-tank",
-                    "resources": {
-                        "health": 3
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
                     }
-                }
-            },
-            "floor": {}
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "tank",
+                        "dead": true,
+                        "name": "Lena",
+                        "health": 3,
+                        "actions": 0,
+                        "range": 0,
+                        "gold": 0,
+                        "bounty": 0
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ]
+            ],
+            "floor_board": [
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ],
+                [
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    }
+                ]
+            ]
         },
         "council": {
-            "coffer": 60
+            "type": "council",
+            "coffer": 60,
+            "council": [
+                "Lena"
+            ],
+            "senate": [
+                "Dan"
+            ]
         }
     }
 }

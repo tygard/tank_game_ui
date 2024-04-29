@@ -7,7 +7,7 @@ export class JavaEngineSource {
         this._engine = engine;
     }
 
-    async getActionFactoriesForPlayer({playerName, gameState}) {
+    async getActionFactoriesForPlayer({playerName, gameState, interactor}) {
         const player = gameState.players.getPlayerByName(playerName);
         if(!player) return [];
 
@@ -23,7 +23,7 @@ export class JavaEngineSource {
             this._fillInPossibleTanks(possibleActions, gameState);
         }
         else {
-            await this._engine.setBoardState(gameState);
+            await interactor.sendPreviousState();
             possibleActions = await this._engine.getPossibleActions(playerName);
         }
 
@@ -54,7 +54,6 @@ export class JavaEngineSource {
         return fields.map(field => {
             const commonFields = {
                 name: prettyifyName(field.name),
-                // TODO: Fix this
                 logBookField: field.name,
             };
 

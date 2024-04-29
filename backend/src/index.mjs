@@ -49,7 +49,7 @@ function gameAccessor(gameManager, config) {
 
 
 (async () => {
-    let { config, gameManager } = await loadConfigAndGames(createEngine);
+    let { config, gameManager } = await loadConfigAndGames(createEngine, true /* save updated files */);
 
     app.use(gameAccessor(gameManager, config));
 

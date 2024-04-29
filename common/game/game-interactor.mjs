@@ -3,9 +3,9 @@ export class GameInteractor {
         this._saveHandler = saveHandler;
         this._engine = engine;
         this._logBook = logBook;
-        this._initialGameState = initialGameState;
         this._gameStates = [];
         this._ready = Promise.resolve();
+        this._initialGameState = this._previousState = initialGameState;
 
         // Process any unprocessed log book entries.
         this.loaded = this._processActions();
@@ -32,7 +32,7 @@ export class GameInteractor {
             throw new Error(`startIndex (${startIndex}) can't be larger than endIndex (${endIndex})`);
         }
 
-        await this._sendPreviousState(startIndex);
+        await this.sendPreviousState(startIndex);
 
         // Remove any states that might already be there
         this._gameStates.splice(startIndex, (endIndex - startIndex) + 1);
@@ -40,25 +40,14 @@ export class GameInteractor {
         for(let i = startIndex; i <= endIndex; ++i) {
             const logEntry = this._logBook.getEntry(i);
             const state = await this._engine.processAction(logEntry);
-            this._gameStates.splice(i, 0, state); // Insert state at i
+            this._previousState = state;
+            this._gameStates.splice(i, 0, this._engine.getGameStateFromEngineState(state)); // Insert state at i
         }
     }
 
-    async _sendPreviousState(currentStateIndex) {
+    async sendPreviousState() {
         await this._engine.setGameVersion(this._logBook.gameVersion);
-
-        const previousStateIndex = currentStateIndex - 1;
-
-        // Send our previous state to the engine
-        const previousState =  previousStateIndex === -1 ?
-            this._initialGameState :
-            this._gameStates[previousStateIndex];
-
-        if(!previousState) {
-            throw new Error(`Expected a state at index ${previousStateIndex}`);
-        }
-
-        await this._engine.setBoardState(previousState);
+        await this._engine.setBoardState(this._previousState);
     }
 
     getGameStateById(id) {
@@ -70,11 +59,12 @@ export class GameInteractor {
             throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
         }
 
-        await this._sendPreviousState(this._gameStates.length);
+        await this.sendPreviousState();
         const state = await this._engine.processAction(entry);
+        this._previousState = state;
 
         this._logBook.addEntry(entry);
-        this._gameStates.push(state);
+        this._gameStates.push(this._engine.getGameStateFromEngineState(state));
 
         // Save the modified log book if we know were to save it too
         if(this._saveHandler) {
@@ -90,13 +80,13 @@ export class GameInteractor {
             throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
         }
 
-        await this._sendPreviousState(this._gameStates.length);
+        await this.sendPreviousState();
         return await this._engine.canProcessAction(entry);
     }
 
     _handleNewEntry(entry, handlerName) {
         const promise = this._ready.then(() => {
-            return this[handlerName](this._logBook.makeEntryFromRaw(entry))
+            return this[handlerName](this._logBook.makeEntryFromRaw(entry));
         });
 
         // Swallow the error before setting ready so we don't fail future submissions
@@ -106,11 +96,11 @@ export class GameInteractor {
     }
 
     addLogBookEntry(entry) {
-        return this._handleNewEntry(entry, "_addLogBookEntry")
+        return this._handleNewEntry(entry, "_addLogBookEntry");
     }
 
     canProcessAction(entry) {
-        return this._handleNewEntry(entry, "_canProcessAction")
+        return this._handleNewEntry(entry, "_canProcessAction");
     }
 
     shutdown() {

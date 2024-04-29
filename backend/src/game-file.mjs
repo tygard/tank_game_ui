@@ -3,13 +3,13 @@ import path from "node:path";
 import { LogBook } from "../../common/state/log-book/log-book.mjs";
 import { readJson, writeJson } from "./utils.mjs";
 import { logger } from "./logging.mjs";
-import { gameStateFromRawState } from "./java-engine/board-state.mjs";
+import { gameStateFromRawState, gameStateToRawState } from "./java-engine/board-state.mjs";
 import { GameState } from "../../common/state/game-state.mjs";
 import { GameInteractor } from "../../common/game/game-interactor.mjs";
 import { PossibleActionSourceSet } from "../../common/state/possible-actions/index.mjs";
 import { StartOfDaySource } from "../../common/state/possible-actions/start-of-day-source.mjs";
 
-export const FILE_FORMAT_VERSION = 4;
+export const FILE_FORMAT_VERSION = 5;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 1;
 
 
@@ -37,7 +37,7 @@ function remapLogEntryForV4(rawEntry) {
     return rawEntry;
 }
 
-export async function load(filePath, gameConfig) {
+export async function load(filePath, gameConfig, saveBack = false) {
     let content = await readJson(filePath);
     let fileFormatVersion = content?.versions?.fileFormat || content.fileFormatVersion;
 
@@ -48,6 +48,8 @@ export async function load(filePath, gameConfig) {
     if(fileFormatVersion < MINIMUM_SUPPORTED_FILE_FORMAT_VERSION) {
         throw new Error(`File version ${fileFormatVersion} is no longer supported.  Try an older Tank Game UI version.`);
     }
+
+    const saveUpdatedFile = saveBack && (fileFormatVersion < FILE_FORMAT_VERSION);
 
     // Version 1 used a states array instead of initialState and only supported game version 3
     if(fileFormatVersion == 1) {
@@ -77,6 +79,12 @@ export async function load(filePath, gameConfig) {
         fileFormatVersion = 4;
     }
 
+    if(fileFormatVersion == 4) {
+        content.initialGameState = gameStateToRawState(GameState.deserialize(content.initialState));
+        delete content.initialState;
+        fileFormatVersion = 5;
+    }
+
     // Make sure we have the config required to load this game.  This
     // does not check if the engine supports this game version.
     if(!gameConfig.isGameVersionSupported(content.logBook.gameVersion)) {
@@ -87,31 +95,36 @@ export async function load(filePath, gameConfig) {
     }
 
     const logBook = LogBook.deserialize(content.logBook);
-    const initialGameState = GameState.deserialize(content.initialState)
 
-    return {
+    const fileData = {
         logBook,
-        initialGameState,
+        initialGameState: content.initialGameState,
     };
+
+    if(saveUpdatedFile) {
+        save(filePath, fileData);
+    }
+
+    return fileData;
 }
 
 export async function save(filePath, {logBook, initialGameState}) {
     await writeJson(filePath, {
         fileFormatVersion: FILE_FORMAT_VERSION,
         logBook: logBook.serialize(),
-        initialState: initialGameState.serialize(),
+        initialGameState,
     });
 }
 
 export class GameManager {
-    constructor(gameConfig, createEngine) {
+    constructor(gameConfig, createEngine, saveBack = false) {
         this.gameConfig = gameConfig;
         this._createEngine = createEngine;
-        this.loaded = this._loadGamesFromFolder();
+        this.loaded = this._loadGamesFromFolder(saveBack);
         this._interactors = [];
     }
 
-    async _loadGamesFromFolder() {
+    async _loadGamesFromFolder(saveBack) {
         this._gamePromises = {};
         this._games = {};
 
@@ -127,7 +140,7 @@ export class GameManager {
             const saveHandler = data => save(filePath, data);
 
             // Load and process the game asyncronously
-            this._gamePromises[name] = load(filePath, this.gameConfig)
+            this._gamePromises[name] = load(filePath, this.gameConfig, saveBack)
                 .then(this._initilizeGame.bind(this, name, saveHandler));
 
             // Update the status on error but don't remove the error from the promise

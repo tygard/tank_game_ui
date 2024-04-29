@@ -34,6 +34,16 @@ export class LogBook {
     static deserialize({gameVersion, rawEntries}, gameConfig) {
         const versionConfig = gameConfig && gameConfig.getGameVersion(gameVersion);
 
+        // 0 length log books are not supported start day 1 if we have no entries
+        if(rawEntries === undefined || rawEntries.length === 0) {
+            rawEntries = [
+                {
+                    type: "action",
+                    day: 1,
+                }
+            ];
+        }
+
         let previousDay = 0;
         const entries = rawEntries.map((rawEntry, idx) => {
             const entry = LogEntry.deserialize(idx, previousDay, rawEntry, versionConfig);

@@ -2,7 +2,7 @@ import { spawn } from "node:child_process";
 import fs from "node:fs";
 import { logger } from "../logging.mjs"
 import path from "node:path";
-import { gameStateFromRawState, gameStateToRawState } from "./board-state.mjs";
+import { gameStateFromRawState } from "./board-state.mjs";
 import { JavaEngineSource } from "./possible-action-source.mjs";
 
 const TANK_GAME_TIMEOUT = 3000; // 3 seconds
@@ -148,8 +148,12 @@ class TankGameEngine {
         });
     }
 
+    getGameStateFromEngineState(state) {
+        return gameStateFromRawState(state);
+    }
+
     async getBoardState() {
-        return gameStateFromRawState(await this._runCommand("display")); // TODO: Use day?
+        return await this._runCommand("display");
     }
 
     async getRules() {
@@ -166,7 +170,7 @@ class TankGameEngine {
     setBoardState(state) {
         return this._sendRequestAndWait({
             type: "state",
-            ...gameStateToRawState(state), // TODO: Get actual day
+            ...state,
         });
     }
 

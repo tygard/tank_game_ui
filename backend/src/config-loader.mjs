@@ -31,8 +31,8 @@ export async function loadConfig() {
     );
 }
 
-export async function loadConfigAndGames(createEngine) {
+export async function loadConfigAndGames(createEngine, saveUpdatedFiles) {
     const config = await loadConfig(createEngine);
-    const gameManager = new GameManager(config, createEngine);
+    const gameManager = new GameManager(config, createEngine, saveUpdatedFiles);
     return { config, gameManager };
 }

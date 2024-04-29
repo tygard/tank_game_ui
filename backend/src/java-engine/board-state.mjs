@@ -135,13 +135,13 @@ function findUsersOnGameBoard(rawGameState, playersByName) {
     }
 }
 
-
+// TODO: The following methods are deprecated and should be removed once file format 4 support is dropped
 export function gameStateToRawState(gameState) {
     return {
         type: "state",
         day: gameState.__day || 0,
         board: buildRawBoard(gameState.board),
-        council: buildCouncil(gameState.players, gameState.council.coffer),
+        council: buildCouncil(gameState.players, gameState.council.coffer || 0),
     };
 }
 
