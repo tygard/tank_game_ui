@@ -1,6 +1,6 @@
 {
     "name": "tank_game_ui_backend",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "A basic web UI for playing tank game",
     "main": "index.js",
     "scripts": {
