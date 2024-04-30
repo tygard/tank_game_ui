@@ -6,6 +6,17 @@ import { NamedFactorySet } from "../../../common/state/possible-actions/index.mj
 const FETCH_FREQUENCY = 2; // seconds
 const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
 
+export class ServerError extends Error {
+    constructor(error) {
+        super(typeof error == "string" ? error : error.message);
+
+        if(typeof error == "object") {
+            this.code = error.code;
+            this.rawError = error;
+        }
+    }
+}
+
 function makeReactDataFetchHelper(options) {
     return (...args) => {
         const [data, setData] = useState();
@@ -28,7 +39,20 @@ function makeReactDataFetchHelper(options) {
                 }
 
                 const res = await fetch(url);
+
+                if(!res.ok) {
+                    setData(undefined);
+                    setError(new Error(`Failed to load data got ${res.statusText} (code: ${res.status})`));
+                    return;
+                }
+
                 let recievedData = await res.json();
+
+                if(recievedData.error) {
+                    setData(undefined);
+                    setError(new ServerError(recievedData.error));
+                    return;
+                }
 
                 if(options.parse) {
                     recievedData = options.parse(recievedData);

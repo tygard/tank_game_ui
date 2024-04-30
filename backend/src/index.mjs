@@ -29,7 +29,10 @@ function gameAccessor(gameManager, config) {
 
             if(!loaded) {
                 res.json({
-                    error: "Game is still loading"
+                    error: {
+                        message: "Game is still loading",
+                        code: "game-loading",
+                    }
                 });
                 return {valid: false};
             }

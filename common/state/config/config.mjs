@@ -5,7 +5,7 @@ export class Config {
         // Rewrite paths to be relative to the config if we know the configs path
         for(let i = 0; i < configs.length; ++i) {
             let config = configs[i];
-            if(config.path && config.config) {
+            if(config?.path && config?.config) {
                 configs[i] = this._rewritePaths(config.path, config.config);
             }
         }

@@ -1,6 +1,6 @@
 import { GameBoard } from "./game_state/board.jsx";
 import { useCallback, useState } from "preact/hooks";
-import { useGameInfo } from "../api/fetcher.js";
+import { ServerError, useGameInfo } from "../api/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit_turn.jsx";
 import { UserList } from "./game_state/user_list.jsx";
@@ -20,6 +20,11 @@ export function Game({ game, setGame, debug }) {
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
     const gameStateManager = useGameStateManager(gameInfo?.logBook, game);
+
+    // The backend is still loading the game
+    if(error?.code == "game-loading") {
+        return <p>Loading Game...</p>;
+    }
 
     if(error || gameStateManager.error) {
         return <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
