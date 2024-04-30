@@ -9,7 +9,7 @@ scripts/build
 main_device="$(ip r show default | grep -Po 'dev \K\S+')"
 ip="$(ip -o a s eth0 | grep -Po 'inet \K\S+' | cut -d/ -f1)"
 
-docker run --name tank-game-demo -e LOG_LEVEL -d --rm -p 3333:3333 --init ghcr.io/ryan3r/tank_game_ui:development >/dev/null
+docker run --name tank-game-demo -e LOG_LEVEL -d --rm -p 3333:3333 --init ghcr.io/tankgameorg/ui:development >/dev/null
 
 echo "You can access the tank game demo from http://$ip:3333/game/tank_game_v3"
 echo "Writing log to demo.log"

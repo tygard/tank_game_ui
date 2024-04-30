@@ -5,6 +5,6 @@ set -e
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 docker build "$@" \
-    -t "${IMAGE:-ghcr.io/ryan3r/tank_game_ui:development}" \
+    -t "${IMAGE:-ghcr.io/tankgameorg/ui:development}" \
     --build-arg BUILD_INFO="$(git rev-parse --abbrev-ref HEAD) @ $(git rev-parse HEAD)" \
     .
