@@ -145,17 +145,23 @@ function Select({ spec, value, setValue }) {
         setValue(e.target.value == "unset" ? undefined : spec.options[+e.target.value]);
     }, [setValue, spec]);
 
+    const currentIndex = value !== undefined ? spec.options.indexOf(value) : -1;
+
     return (
-        <select onChange={onChange} value={value !== undefined ? spec.options.indexOf(value) : "unset"}>
-            <option value="unset">&lt;unset&gt;</option>
+        <div className="radio-container">
             {spec.options.map((element, index) => {
                 const value = element.toString();
 
                 return (
-                    <option key={index} value={index}>{value}</option>
+                    <div className="radio-button-wrapper">
+                        <label>
+                            <input type="radio" value={index} onChange={onChange} checked={index === currentIndex}/>
+                            {value}
+                        </label>
+                    </div>
                 );
             })}
-        </select>
+        </div>
     );
 }
 

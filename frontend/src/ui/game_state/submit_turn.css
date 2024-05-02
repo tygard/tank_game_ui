@@ -1,5 +1,6 @@
 .submit-turn-field {
     padding: 5px;
+    display: inline-flex;
 }
 
 .submit-turn-field:first-child {
@@ -12,4 +13,12 @@
 
 .submit-turn-field > b {
     padding-right: 5px;
+}
+
+.radio-container {
+    display: inline-block;
+}
+
+.radio-button-wrapper, .radio-button-wrapper > label {
+    padding: 5px 0px;
 }
