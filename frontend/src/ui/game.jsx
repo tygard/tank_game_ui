@@ -30,6 +30,8 @@ export function Game({ game, setGame, debug }) {
         return <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
     }
 
+    const versionConfig = gameInfo?.config?.getGameVersion?.(gameInfo?.logBook?.gameVersion);
+
     return (
         <>
             <LogEntrySelector
@@ -42,7 +44,7 @@ export function Game({ game, setGame, debug }) {
                     <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
                 </div>
                 <div className="app-side-by-side-main">
-                    <GameBoard board={gameStateManager.gameState?.board}></GameBoard>
+                    <GameBoard board={gameStateManager.gameState?.board} config={versionConfig}></GameBoard>
                 </div>
                 <div>
                     <p>Coffer: {gameStateManager.gameState?.council?.coffer}</p>

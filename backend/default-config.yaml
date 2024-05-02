@@ -1,20 +1,82 @@
 # This file provides sane defaults for tank games config.  The values in this file can be overridden
-# by the yaml file pointed to byTANK_GAME_UI_CONFIG.
+# by the yaml file pointed to by TANK_GAME_UI_CONFIG.
+
+engineInterface:
+  timeout: 3 # seconds
 
 backend:
   # Assume this config is being used inside the docker container
   gamesFolder: /data/games/
   port: 3333
 
-gameVersionConfigs:
+defaultGameVersion:
+  logEntryFormatters:
+    start_of_day: "Start of day {day}"
+    move: "{subject} moved to {target}"
+    shoot: "{subject} shot at {target} ({hit})"
+    buy_action: "{subject} traded {gold} gold for actions"
+    donate: "{subject} donated {donation} pre-tax gold to {target}"
+    upgrade_range: "{subject} upgraded their range"
+    bounty: "{subject} placed a {bounty} gold bounty on {target}"
+    stimulus: "{subject} granted a stimulus of 1 action to {target}"
+    grant_life: "{subject} granted 1 life to {target}"
+
+  entityDescriptors:
+    tank:
+      featuredAttribute: attr:health:value
+      indicatorBackground: "#000"
+      indicatorDefaultColor: "#fff"
+      tileColor:
+        - background: "#070"
+          expr:
+            eq: 1
+            var: attr:health:value
+        - background: "#0a0"
+          expr:
+            eq: 2
+            var: attr:health:value
+        - background: "#0e0"
+
+    "dead-tank":
+      featuredAttribute: attr:health:value
+      tileColor:
+        - background: "#700"
+          expr:
+            eq: 1
+            var: attr:health:value
+        - background: "#a00"
+          expr:
+            eq: 2
+            var: attr:health:value
+        - background: "#e00"
+
+    wall:
+      featuredAttribute: attr:health:value
+      tileColor:
+      - background: "#055"
+        expr:
+          eq: 1
+          var: attr:health:value
+      - background: "#0aa"
+        expr:
+          eq: 2
+          var: attr:health:value
+      - background: "#0ff"
+
+  floorTileDescriptors:
+    gold_mine:
+      color: "var(--tank-game-orange)"
+
+gameVersions:
     version3:
-      logEntryFormatters:
-        start_of_day: "Start of day {day}"
-        move: "{subject} moved to {target}"
-        shoot: "{subject} shot at {target} ({hit})"
-        buy_action: "{subject} traded {gold} gold for actions"
-        donate: "{subject} donated {donation} pre-tax gold to {target}"
-        upgrade_range: "{subject} upgraded their range"
-        bounty: "{subject} placed a {bounty} gold bounty on {target}"
-        stimulus: "{subject} granted a stimulus of 1 action to {target}"
-        grant_life: "{subject} granted 1 life to {target}"
+      entityDescriptors:
+        tank:
+          badgeAttribute: attr:actions:value
+          badgeColor: "#00f"
+          badgeTextColor: "#fff"
+          indicators:
+            - symbol: B
+              expr:
+                var: attr:bounty:value
+                gt: 0
+              color: orange

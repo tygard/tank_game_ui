@@ -1,0 +1,48 @@
+
+.board-space-entity-title {
+    height: 33%;
+    width: 100%;
+    background: var(--tank-game-bg);
+}
+
+.board-space-entity-title-inner {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.board-space-resource-featured {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.board-space-resource-featured.board-space-no-label {
+    height: 100%;
+}
+
+.entity-details-title-wrapper {
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.entity-details-title-type {
+    font-size: 0.8em;
+    display: flex;
+    align-items: end;
+    margin-left: 10px;
+}
+
+.board-space-entity-badge {
+    padding: 0px 2px;
+    font-size: 0.8em;
+}
+
+.board-space-entity-badges {
+    display: flex;
+}
+
+.board-space-entity-badges .separator {
+    flex-grow: 1;
+}

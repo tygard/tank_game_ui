@@ -18,17 +18,14 @@
     width: var(--tank-game-cell-size);
     height: var(--tank-game-cell-size);
     flex-direction: column;
-    overflow: hidden;
 }
 
 .board-space-entity {
     width: 90%;
     height: 90%;
     border: 1px solid;
-}
-
-.board-space-floor-gold_mine {
-    background: var(--tank-game-orange);
+    display: flex;
+    flex-direction: column;
 }
 
 .board-space-coordinate {

@@ -1,2 +1,2 @@
 backend:
-  gamesFolder: .
+  gamesFolder: ../example

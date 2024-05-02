@@ -1,15 +1,29 @@
 export class Resource {
-    constructor(name, value) {
+    constructor(name, value, max) {
         this.name = name;
         this.value = value;
+        this.max = max;
     }
 
     static deserialize(rawResource, name) {
-        return new Resource(name, rawResource);
+        return new Resource(name, rawResource.value, rawResource.max);
     }
 
     serialize() {
-        return this.value;
+        let serialized = {
+            value: this.value,
+        };
+
+        if(this.max !== undefined) {
+            serialized.max = this.max;
+        }
+
+        return serialized;
+    }
+
+    toString() {
+        return this.max === undefined ?
+            this.value : `${this.value} / ${this.max}`;
     }
 }
 

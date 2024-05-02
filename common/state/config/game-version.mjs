@@ -12,12 +12,15 @@ export class GameVersionConfig {
         return new LogEntryFormatter(formatters[logEntryType]);
     }
 
-    serialize() {
-        return this._gameVersionConfig;
+    getEntityDescriptor(type) {
+        let {entityDescriptors} = this._gameVersionConfig;
+
+        return entityDescriptors && entityDescriptors[type];
     }
 
-    getJavaLogBookFieldNameFor(javaName) {
-        const logBookRemap = this._gameVersionConfig.javaEngineNameToLogBook;
-        return logBookRemap && logBookRemap[javaName];
+    getFloorTileDescriptor(type) {
+        let {floorTileDescriptors} = this._gameVersionConfig;
+
+        return floorTileDescriptors && floorTileDescriptors[type];
     }
 }

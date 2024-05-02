@@ -1,47 +1,55 @@
 import { GameVersionConfig } from "./game-version.mjs";
+import { deepMerge, getCombinedKeys } from "./merge.mjs";
 
-export class Config {
-    constructor(...configs) {
-        // Rewrite paths to be relative to the config if we know the configs path
-        for(let i = 0; i < configs.length; ++i) {
-            let config = configs[i];
-            if(config?.path && config?.config) {
-                configs[i] = this._rewritePaths(config.path, config.config);
-            }
-        }
+const GAME_VERSION_MERGE_OPTIONS = {
+    objectsToOverwrite: [
+        // The following paths are conditionals and should be not be merged
+        /^\/entityDescriptors\/[^/]+\/(tileColor|indicators)/
+    ]
+};
 
-        // Merge all top level sections of the configs given
-        for(const configSection of ["gameVersionConfigs", "backend"]) {
-            const internalName = `_${configSection}`;
-            if(!this[internalName]) this[internalName] = {};
+export function mergeConfig(defaultConfig, userConfig) {
+    // Merge everything but the game version config
+    const config = deepMerge([defaultConfig, userConfig], {
+        pathsToIgnore: [
+            "/gameVersions",
+            "/defaultGameVersion",
+        ]
+    });
 
-            for(const config of configs) {
-                if(config) {
-                    Object.assign(this[internalName], config[configSection]);
-                }
-            }
-        }
+    const defaultGameVersion = deepMerge([
+        defaultConfig?.defaultGameVersion,
+        userConfig?.defaultGameVersion,
+        {},
+    ], GAME_VERSION_MERGE_OPTIONS);
 
-        for(const version of this.getSupportedGameVersions()) {
-            this._gameVersionConfigs[version] = new GameVersionConfig(this._gameVersionConfigs[version])
-        }
+    let gameVersions = {};
+
+    const allVersionNames = getCombinedKeys([
+        defaultConfig?.gameVersions,
+        userConfig?.gameVersions,
+    ]);
+
+    for(const gameVersion of allVersionNames) {
+        gameVersions[gameVersion] = deepMerge([
+            defaultGameVersion,
+            defaultConfig?.gameVersions?.[gameVersion],
+            userConfig?.gameVersions?.[gameVersion],
+        ], GAME_VERSION_MERGE_OPTIONS);
     }
 
-    _rewritePaths(path, config) {
-        let pathParts = path.split(/\/|\\/);
-        // Remove the file name
-        pathParts = pathParts.slice(0, pathParts.length - 1);
-        let basePath = pathParts.join("/");
+    return {
+        gameVersions,
+        defaultGameVersion,
+        config,
+    };
+}
 
-        const rewritePath = origPath => {
-            return origPath.length > 0 && origPath[0] == "/" ? origPath : `${basePath}/${origPath}`;
-        };
-
-        if(config?.backend?.gamesFolder) {
-            config.backend.gamesFolder = rewritePath(config?.backend?.gamesFolder);
-        }
-
-        return config;
+export class Config {
+    constructor({ gameVersions, defaultGameVersion, config }) {
+        this._config = config;
+        this._gameVersions = gameVersions;
+        this._defaultGameVersion = defaultGameVersion;
     }
 
     static deserialize(rawConfig) {
@@ -49,34 +57,28 @@ export class Config {
     }
 
     serialize() {
-        let gameVersionConfigs = {};
-
-        for(const versionName of this.getSupportedGameVersions()) {
-            gameVersionConfigs[versionName] = this._gameVersionConfigs[versionName].serialize();
-        }
-
         return {
-            gameVersionConfigs,
-        }
+            config: this._config,
+            defaultGameVersion: this._defaultGameVersion,
+            gameVersions: this._gameVersions,
+        };
     }
 
     isGameVersionSupported(version) {
-        return !!this.getGameVersion(version);
-    }
-
-    getGameVersion(version) {
-        return this._gameVersionConfigs[version];
+        return !!this._gameVersions[version];
     }
 
     getSupportedGameVersions() {
-        return Object.keys(this._gameVersionConfigs);
+        return Object.keys(this._gameVersions);
     }
 
-    getGamesFolder() {
-        return this._backend?.gamesFolder;
+    getGameVersion(version) {
+        return new GameVersionConfig(
+            this._gameVersions[version] || this._defaultGameVersion
+        );
     }
 
-    getPort() {
-        return this._backend?.port;
+    getConfig() {
+        return this._config;
     }
 }

@@ -58,7 +58,8 @@ function gameAccessor(gameManager, config) {
 
     defineRoutes(app);
 
-    app.listen(config.getPort(), () => {
-        logger.info(`Listening on ${config.getPort()}`);
+    const {port} = config.getConfig().backend;
+    app.listen(port, () => {
+        logger.info(`Listening on ${port}`);
     });
 })();

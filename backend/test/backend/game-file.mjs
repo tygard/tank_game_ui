@@ -11,16 +11,20 @@ const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
 const sampleFilePath = path.join(TEST_FILES, `${sampleFileBaseName}.json`);
 
 const gameConfig = new Config({
-    gameVersionConfigs: {
+    defaultGameVersion: {},
+    gameVersions: {
         3: {},
     },
-    backend: {
-        gamesFolder: TEST_FILES,
+    config: {
+        backend: {
+            gamesFolder: TEST_FILES,
+        },
     },
 });
 
 const emptyConfig = new Config({
-    gameVersionConfigs: {},
+    gameVersions: {},
+    defaultGameVersion: {},
 });
 
 function validateLogBook(logBook) {
@@ -110,7 +114,7 @@ describe("GameFile", () => {
         }
 
         // The invalid file should not be loaded
-        assert.equal(gameManager.getGame("bad_file").error, "Cannot read properties of undefined (reading 'gameVersion')");
+        assert.equal(gameManager.getGame("bad_file").error, "File format version missing not a valid game file");
         assert.ok(!gameManager.getGame("bad_file").loaded);
 
         // Invalid games should return an error

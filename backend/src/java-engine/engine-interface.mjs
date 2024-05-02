@@ -5,7 +5,7 @@ import path from "node:path";
 import { gameStateFromRawState } from "./board-state.mjs";
 import { JavaEngineSource } from "./possible-action-source.mjs";
 
-const TANK_GAME_TIMEOUT = 3000; // 3 seconds
+const TANK_GAME_TIMEOUT = 3; // seconds
 
 const ENGINE_SEARCH_DIR = "../engine";
 const TANK_GAME_ENGINE_COMMAND = (function() {
@@ -30,9 +30,10 @@ logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND && TANK_GAME_E
 
 
 class TankGameEngine {
-    constructor(command) {
+    constructor(command, timeout) {
         this._command = command;
         this._stdout = "";
+        this._timeout = timeout;
     }
 
     _startTankGame() {
@@ -112,14 +113,17 @@ class TankGameEngine {
 
             this._proc.stdout.on("data", stdoutHandler);
 
+            const timeoutMs = this._timeout * 1000; // ms to seconds
+
             let timeoutTimer = setTimeout(() => {
                 if(this._proc) this._proc.kill();
                 logger.error({
                     msg: "Tank game engine took too long to respond with valid json",
                     stdout: this._stdout,
+                    timeout: this._timeout,
                 });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
-            }, TANK_GAME_TIMEOUT);
+            }, timeoutMs);
 
             // Attempt to parse any data waiting in the buffer
             parseData();
@@ -209,8 +213,8 @@ class TankGameEngine {
     }
 }
 
-export function createEngine() {
-    return new TankGameEngine(TANK_GAME_ENGINE_COMMAND);
+export function createEngine(timeout = TANK_GAME_TIMEOUT) {
+    return new TankGameEngine(TANK_GAME_ENGINE_COMMAND, timeout);
 }
 
 export function isEngineAvailable() {

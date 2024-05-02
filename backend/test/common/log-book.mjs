@@ -5,7 +5,8 @@ import { LogBook } from "../../../common/state/log-book/log-book.mjs";
 const GAME_VERSION = 3;
 
 const config = new Config({
-    gameVersionConfigs: {
+    defaultGameVersion: {},
+    gameVersions: {
         3: {
             logEntryFormatters: {
                 shoot: "{subject} took aim at {position} and {hit}",
