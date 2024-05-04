@@ -1,4 +1,4 @@
-name: Build and publish tank game docker image
+name: Build and publish docker image
 
 on:
   push:
@@ -24,6 +24,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - name: Get repo version
+        id: version
+        run: ./scripts/get-version
       - name: Set up QEMU mutli arch
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -43,9 +46,9 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          build-args: 'BUILD_INFO=${{ github.ref_name }} @ ${{ github.sha }} #${{ github.run_number }}'
+          build-args: 'BUILD_INFO=${{ steps.version.outputs.build_info }}'
           platforms: linux/amd64,linux/arm64
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.version.outputs.version }}-${{ github.run_number }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           labels: ${{ steps.meta.outputs.labels }}

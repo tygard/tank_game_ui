@@ -5,15 +5,14 @@ const packageJson = require("./package.json");
 const { DefinePlugin } = require("webpack");
 
 // Collect version info
-function getGitHash() {
-    return childProcess.spawnSync("echo @ $(git rev-parse --short HEAD)", { shell: true })
+function getBuildInfo() {
+    return childProcess.spawnSync("\"$(git rev-parse --show-toplevel)/scripts/get-version\" webpack", { shell: true })
         .stdout.toString("utf-8")
         .replace(/(\r|\n)/g, "");
 }
 
-const gitRevision = process.env.BUILD_INFO || getGitHash();
-
-const version = `TankGameUI v${packageJson.version} ${gitRevision}`;
+const buildInfo = process.env.BUILD_INFO || getBuildInfo();
+const version = `TankGameUI ${buildInfo}`;
 
 
 module.exports = {

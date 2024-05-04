@@ -6,7 +6,7 @@ on:
   workflow_call:
 
 jobs:
-  unit_test:
+  unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - run: npm test
         working-directory: backend/
 
-  integration_test:
+  integration:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

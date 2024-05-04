@@ -1,0 +1,25 @@
+#!/bin/bash
+set -e
+
+flavor="${1:-${GITHUB_RUN_NUMBER:-unknown}}"
+
+version="$(git describe --tags --abbrev=0)"
+
+# Get the current git branch and hash
+git_info=""
+ref_name="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$ref_name" != "HEAD" ]; then
+    git_info="$ref_name @ "
+fi
+
+git_info+="$(git rev-parse --short HEAD)"
+
+
+build_info="${version}-${flavor} ${git_info}"
+
+if [ -n "$GITHUB_OUTPUT" ]; then
+    echo "version=$version" >> "$GITHUB_OUTPUT"
+    echo "build_info=$build_info" >> "$GITHUB_OUTPUT"
+fi
+
+echo "$build_info"
