@@ -61,7 +61,7 @@ class TankGameEngine {
     _sendRequest(request_data) {
         this._startTankGame();
 
-        logger.debug({
+        logger.trace({
             request_data,
             msg: "Send data to tank game engine",
         });
@@ -75,7 +75,7 @@ class TankGameEngine {
     }
 
     _waitForData() {
-        logger.debug("Waiting for response");
+        logger.trace("Waiting for response");
         return new Promise((resolve, reject) => {
             const stdoutHandler = buffer => {
                 this._stdout += buffer.toString("utf-8")
@@ -96,7 +96,7 @@ class TankGameEngine {
 
                 this._proc.stdout.off("data", stdoutHandler);
 
-                logger.debug({
+                logger.trace({
                     msg: "Recieve data from tank game engine",
                     response_data: data,
                 });

@@ -63,11 +63,15 @@ export function defineTestsForEngine(createEngine) {
             let incrementalInteractor = new GameInteractor(incrementalEngine, { logBook: emptyLogBook, initialGameState });
 
             for(const entry of logBook) {
-                await incrementalInteractor.addLogBookEntry(entry.rawLogEntry);
+                const entryId = await incrementalInteractor.addLogBookEntry(entry.rawLogEntry);
 
-                // Compare the states and make sure they match
+                // Compare the entries and states and make sure they match
+                assert.deepEqual(logBook.getEntry(entryId), emptyLogBook.getEntry(entryId));
                 assert.deepEqual(fullInteractor.getGameStateById(entry.id), incrementalInteractor.getGameStateById(entry.id));
             }
+
+            // Make sure the log books are identical
+            assert.deepEqual(emptyLogBook, logBook);
         }
         finally {
             await Promise.all([

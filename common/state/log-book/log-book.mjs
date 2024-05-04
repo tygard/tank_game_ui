@@ -72,6 +72,7 @@ export class LogBook {
 
     addEntry(entry) {
         this._entries.push(entry);
+        this._buildDayMap();
         return entry.id;
     }
 

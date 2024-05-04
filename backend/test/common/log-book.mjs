@@ -99,7 +99,6 @@ describe("LogBook", () => {
 
         const firstEntryFirstDay = logBook.getEntry(firstDayIndex);
         const firstEntrySecondDay = logBook.getEntry(secondDayIndex);
-        const secondEntrySecondDay = logBook.getEntry(secondDayIndex + 1);
 
         // Confirm the indicies point to the correct things
         assert.equal(firstEntryFirstDay.type, "start_of_day");
@@ -122,5 +121,7 @@ describe("LogBook", () => {
         });
 
         assert.equal(newId, logBook.getLastEntryId());
+        assert.equal(3, logBook.getMaxDay());
+        assert.equal(newId, logBook.getFirstEntryOfDay(3).id);
     });
 });

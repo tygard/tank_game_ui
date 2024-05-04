@@ -40,6 +40,6 @@ export default class Players {
     }
 
     getPlayersByType(userType) {
-        return this._playersByType[userType];
+        return this._playersByType[userType] || [];
     }
 }

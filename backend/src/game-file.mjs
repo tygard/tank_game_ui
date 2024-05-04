@@ -37,7 +37,7 @@ export async function load(filePath, gameConfig, saveBack = false) {
         });
     }
 
-    const logBook = LogBook.deserialize(content.logBook);
+    const logBook = LogBook.deserialize(content.logBook, gameConfig);
 
     const fileData = {
         logBook,

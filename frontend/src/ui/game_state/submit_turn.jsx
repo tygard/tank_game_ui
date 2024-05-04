@@ -9,8 +9,15 @@ export function SubmitTurn({ isLastTurn, gameState, refreshGameInfo, game, debug
     const [selectedUser, setSelectedUser] = useState();
     const [currentFactory, setCurrentFactory] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
-    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, entryId);
+    // Set this to undefined so we don't send a request for anthing other than the last turn
+    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, isLastTurn ? entryId : undefined);
     const [status, setStatus] = useState();
+
+    if(!isLastTurn) {
+        return (
+            <p>You can only submit actions on the most recent turn.</p>
+        );
+    }
 
     if(error) {
         return <ErrorMessage error={error}></ErrorMessage>
@@ -18,12 +25,6 @@ export function SubmitTurn({ isLastTurn, gameState, refreshGameInfo, game, debug
 
     if(status) {
         return <p>{status}</p>;
-    }
-
-    if(!isLastTurn) {
-        return (
-            <p>You can only submit actions on the most recent turn.</p>
-        );
     }
 
     // Reset the action type

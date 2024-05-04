@@ -45,7 +45,7 @@ function EntityDetails({ entity }) {
 function getBadgesForEntity(spec, entity) {
     const badgeAttribute = entity.get(spec.badgeAttribute);
 
-    const rightBadge = badgeAttribute ? (
+    const rightBadge = badgeAttribute !== undefined ? (
         <div className="board-space-entity-badge right-badge" style={{ background: spec.badgeColor, color: spec.badgeTextColor }}>
             {badgeAttribute}
         </div>

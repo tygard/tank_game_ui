@@ -133,8 +133,8 @@ export const useGameState = makeReactDataFetchHelper({
 
 export const usePossibleActionFactories = makeReactDataFetchHelper({
     resetBeforeFetch: true,
-    shouldSendRequest: (game, user) => game && user,
-    url: (game, user) => `/api/game/${game}/possible-actions/${user}`,
+    shouldSendRequest: (game, user, entryId) => game && user && entryId,
+    url: (game, user, entryId) => `/api/game/${game}/possible-actions/${user}/${entryId}`,
     parse: rawActionFactories => NamedFactorySet.deserialize(rawActionFactories),
 });
 

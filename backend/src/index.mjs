@@ -9,11 +9,6 @@ import { createEngine } from "./java-engine/engine-interface.mjs";
 const buildInfo = process.env.BUILD_INFO;
 if(buildInfo) logger.info(`Build info: ${buildInfo}`);
 
-const app = express();
-
-app.use(makeHttpLogger());
-app.use(express.json());
-
 // Helper to make interacting with games easier for routes
 function gameAccessor(gameManager, config) {
     return (req, res, next) => {
@@ -53,12 +48,17 @@ function gameAccessor(gameManager, config) {
 
 (async () => {
     let { config, gameManager } = await loadConfigAndGames(createEngine, true /* save updated files */);
+    const {port, disableHttpLogging} = config.getConfig().backend;
 
+    const app = express();
+
+    if(!disableHttpLogging) app.use(makeHttpLogger());
+
+    app.use(express.json());
     app.use(gameAccessor(gameManager, config));
 
     defineRoutes(app);
 
-    const {port} = config.getConfig().backend;
     app.listen(port, () => {
         logger.info(`Listening on ${port}`);
     });
