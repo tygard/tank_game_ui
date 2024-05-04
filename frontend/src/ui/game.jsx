@@ -3,7 +3,7 @@ import { useCallback, useState } from "preact/hooks";
 import { ServerError, useGameInfo } from "../api/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit_turn.jsx";
-import { UserList } from "./game_state/user_list.jsx";
+import { Council } from "./game_state/council.jsx";
 import { LogBook } from "./game_state/log_book.jsx";
 import { useGameStateManager } from "../api/game-state-manager.js";
 import { ErrorMessage } from "./error_message.jsx";
@@ -47,8 +47,7 @@ export function Game({ game, setGame, debug }) {
                     <GameBoard board={gameStateManager.gameState?.board} config={versionConfig}></GameBoard>
                 </div>
                 <div>
-                    <p>Coffer: {gameStateManager.gameState?.council?.coffer}</p>
-                    <UserList gameState={gameStateManager.gameState}></UserList>
+                    <Council gameState={gameStateManager.gameState} config={versionConfig}></Council>
                 </div>
             </div>
             <div className="centered">

@@ -3,6 +3,7 @@ import "./entity-tile.css";
 import { Popup } from "../generic/popup.jsx";
 import { prettyifyName } from "../../../../common/state/utils.mjs";
 import { takeAllMatches, takeFirstMatch } from "../../../../common/state/config/expressions.mjs";
+import { AttributeList } from "./attribute-list.jsx";
 
 
 function getStyleInfo(choices, entity) {
@@ -27,16 +28,7 @@ function EntityDetails({ entity }) {
                 <h2>{title}</h2>
                 {title != subTitle ? <i className="entity-details-title-type">{subTitle}</i> : undefined}
             </div>
-            <table>
-                {Array.from(entity.resources).map(attribute => {
-                    return (
-                        <tr>
-                            <td>{prettyifyName(attribute.name)}</td>
-                            <td>{attribute.toString()}</td>
-                        </tr>
-                    );
-                })}
-            </table>
+            <AttributeList attributes={entity.resources}></AttributeList>
         </>
     )
 }

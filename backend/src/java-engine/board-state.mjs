@@ -10,8 +10,7 @@ import { GameState } from "../../../common/state/game-state.mjs";
 import Player from "../../../common/state/players/player.mjs";
 import Players from "../../../common/state/players/players.mjs";
 import { Position } from "../../../common/state/board/position.mjs";
-import { Resource } from "../../../common/state/resource.mjs";
-import { Council } from "../../../common/state/players/council.mjs";
+import { Resource, ResourceHolder } from "../../../common/state/resource.mjs";
 
 
 // User keys that should be treated as resources
@@ -36,12 +35,25 @@ export function gameStateFromRawState(rawGameState) {
     let gameState = new GameState(
         new Players(Object.values(playersByName)),
         board,
-        new Council(rawGameState.council.coffer),
+        convertCouncil(rawGameState.council),
     );
 
     gameState.__day = rawGameState.day;
 
     return gameState;
+}
+
+
+function convertCouncil(rawCouncil) {
+    let resources = [
+        new Resource("coffer", rawCouncil.coffer),
+    ];
+
+    if(rawCouncil.armistice_vote_cap !== undefined) {
+        resources.push(new Resource("armistice", rawCouncil.armistice_vote_count, rawCouncil.armistice_vote_cap));
+    }
+
+    return new ResourceHolder(resources);
 }
 
 

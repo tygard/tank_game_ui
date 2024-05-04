@@ -23,4 +23,8 @@ export class GameVersionConfig {
 
         return floorTileDescriptors && floorTileDescriptors[type];
     }
+
+    getCouncilPlayerTypes() {
+        return this._gameVersionConfig.councilPlayerTypes || [];
+    }
 }

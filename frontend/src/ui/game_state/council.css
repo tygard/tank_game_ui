@@ -11,3 +11,9 @@
     background: #333;
     color: #fff;
 }
+
+.armistice-clock circle {
+    fill: transparent;
+    stroke: #f00;
+    stroke-width: 7;
+}

@@ -67,6 +67,10 @@ defaultGameVersion:
     gold_mine:
       color: "var(--tank-game-orange)"
 
+  councilPlayerTypes:
+    - councilor
+    - senator
+
 gameVersions:
     version3:
       entityDescriptors:

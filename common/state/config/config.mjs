@@ -4,7 +4,8 @@ import { deepMerge, getCombinedKeys } from "./merge.mjs";
 const GAME_VERSION_MERGE_OPTIONS = {
     objectsToOverwrite: [
         // The following paths are conditionals and should be not be merged
-        /^\/entityDescriptors\/[^/]+\/(tileColor|indicators)/
+        /^\/entityDescriptors\/[^/]+\/(tileColor|indicators)/,
+        "councilPlayerTypes",
     ]
 };
 
