@@ -113,7 +113,7 @@ export const useGameList = makeReactDataFetchHelper({
 });
 
 export const useGameInfo = makeReactDataFetchHelper({
-    shouldSendRequest: game => !!game,
+    shouldSendRequest: game => game !== undefined,
     url: game => `/api/game/${game}/`,
     parse: data => {
         const config = Config.deserialize(data.config);
@@ -127,13 +127,13 @@ export const useGameInfo = makeReactDataFetchHelper({
 });
 
 export const useGameState = makeReactDataFetchHelper({
-    shouldSendRequest: (game, entryId) => game && entryId !== undefined,
+    shouldSendRequest: (game, entryId) => game !== undefined && entryId !== undefined,
     url: (game, entryId) => `/api/game/${game}/turn/${entryId}`
 });
 
 export const usePossibleActionFactories = makeReactDataFetchHelper({
     resetBeforeFetch: true,
-    shouldSendRequest: (game, user, entryId) => game && user && entryId,
+    shouldSendRequest: (game, user, entryId) => game !== undefined && user !== undefined && entryId !== undefined,
     url: (game, user, entryId) => `/api/game/${game}/possible-actions/${user}/${entryId}`,
     parse: rawActionFactories => NamedFactorySet.deserialize(rawActionFactories),
 });

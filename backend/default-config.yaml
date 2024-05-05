@@ -72,7 +72,7 @@ defaultGameVersion:
     - senator
 
 gameVersions:
-    version3:
+    3:
       entityDescriptors:
         tank:
           badgeAttribute: attr:actions:value

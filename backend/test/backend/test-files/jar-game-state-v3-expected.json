@@ -1,17 +1,22 @@
 {
     "players": [
         {
+            "name": "Dan",
+            "type": "councilor",
+            "entities": [
+                "C1"
+            ]
+        },
+        {
+            "name": "Josh",
+            "type": "senator",
+            "entities": []
+        },
+        {
             "name": "Schmude",
             "type": "tank",
             "entities": [
                 "A1"
-            ]
-        },
-        {
-            "name": "Dan",
-            "type": "council",
-            "entities": [
-                "C1"
             ]
         },
         {
@@ -123,17 +128,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -189,19 +194,19 @@
                 "type": "tank",
                 "resources": {
                     "gold": {
+                        "value": 8
+                    },
+                    "health": {
+                        "value": 3
+                    },
+                    "actions": {
                         "value": 0
                     },
                     "bounty": {
                         "value": 0
                     },
-                    "health": {
-                        "value": 3
-                    },
                     "range": {
                         "value": 2
-                    },
-                    "actions": {
-                        "value": 0
                     }
                 }
             },
@@ -211,17 +216,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -263,17 +268,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -283,17 +288,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -343,17 +348,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -361,19 +366,19 @@
                 "type": "tank",
                 "resources": {
                     "gold": {
+                        "value": 5
+                    },
+                    "health": {
+                        "value": 3
+                    },
+                    "actions": {
                         "value": 0
                     },
                     "bounty": {
                         "value": 0
                     },
-                    "health": {
-                        "value": 3
-                    },
                     "range": {
                         "value": 2
-                    },
-                    "actions": {
-                        "value": 0
                     }
                 }
             },
@@ -807,17 +812,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -827,17 +832,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -887,17 +892,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -907,17 +912,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -959,17 +964,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -979,17 +984,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -1039,17 +1044,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             },
@@ -1059,17 +1064,17 @@
                     "gold": {
                         "value": 0
                     },
-                    "bounty": {
-                        "value": 0
-                    },
                     "health": {
                         "value": 3
                     },
-                    "range": {
-                        "value": 2
-                    },
                     "actions": {
                         "value": 0
+                    },
+                    "bounty": {
+                        "value": 0
+                    },
+                    "range": {
+                        "value": 2
                     }
                 }
             }

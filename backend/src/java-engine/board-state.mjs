@@ -20,6 +20,30 @@ const resourceKeys = {
     "wall": new Set(["health"]),
 };
 
+// The prefix used for the max value of an attribute
+const MAX_PREFIX = "MAX_";
+
+// Attributes to remove from all entities
+const globalAttributesToDrop = ["dead"];
+
+// Attributes to remove from specific entities
+const attributesToDropByType = {
+    "dead-tank": ["actions", "range", "gold", "bounty"],
+};
+
+// Attributes that have a different name in the board state from what is internally expected
+const attributesToRenameByType = {
+    "wall": {
+        durability: "health",
+    },
+    "tank": {
+        durability: "health",
+    },
+    "dead-tank": {
+        durability: "health",
+    },
+};
+
 
 export function gameStateFromRawState(rawGameState) {
     const playersByName = buildUserLists(rawGameState);
@@ -43,6 +67,11 @@ export function gameStateFromRawState(rawGameState) {
     return gameState;
 }
 
+function getAttributeName(name, type) {
+    name = name.toLowerCase();
+    return attributesToRenameByType[type]?.[name] || name;
+}
+
 
 function convertCouncil(rawCouncil) {
     let resources = [
@@ -58,12 +87,32 @@ function convertCouncil(rawCouncil) {
 
 
 function entityFromBoard(rawEntity, position, playersByName) {
-    const type = rawEntity.type == "tank" && rawEntity.dead ? "dead-tank" : rawEntity.type;
+    let resources;
+    const isDead = (rawEntity.attributes !== undefined) ? rawEntity.attributes.DEAD : rawEntity.dead;
+    const type = rawEntity.type == "tank" && isDead ? "dead-tank" : rawEntity.type;
 
-    // Resources are stored as properties directly on the rawEntity extract them
-    const resources = Object.keys(rawEntity)
-        .filter(name => (resourceKeys[type] || new Set()).has(name))
-        .map(name => new Resource(name, rawEntity[name]));
+    if(rawEntity.attributes) {
+        resources = Object.keys(rawEntity.attributes)
+            .filter(name => !name.startsWith(MAX_PREFIX))
+            .map(name => {
+                return new Resource(
+                    getAttributeName(name, type),
+                    rawEntity.attributes[name],
+                    rawEntity.attributes[`${MAX_PREFIX}${name}`]);
+            });
+    }
+    else {
+        // Resources are stored as properties directly on the rawEntity extract them
+        resources = Object.keys(rawEntity)
+            .filter(name => (resourceKeys[type] || new Set()).has(name))
+            .map(name => new Resource(getAttributeName(name, type), rawEntity[name]));
+    }
+
+    // Remove any attributes we don't want on this entity
+    let attributesToDrop = (attributesToDropByType[type] || []).concat(globalAttributesToDrop);
+    resources = resources.filter(resource => !attributesToDrop.includes(resource.name));
+
+    resources = new ResourceHolder(resources);
 
     const player = playersByName[rawEntity.name];
     let entity = new Entity(type, position, resources);

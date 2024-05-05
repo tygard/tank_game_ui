@@ -14,3 +14,18 @@ export function prettyifyName(name) {
         .map(word => word.length > 0 ? (word[0].toUpperCase() + word.slice(1)) : "")
         .join(" ");
 }
+
+export class PromiseLock {
+    constructor() {
+        this._lockingPromise = Promise.resolve();
+    }
+
+    use(callback) {
+        const promiseForCurrentJob = this._lockingPromise.then(() => callback());
+
+        // Swallow any errors so we don't get a string of failures
+        this._lockingPromise = promiseForCurrentJob.catch(() => {});
+
+        return promiseForCurrentJob;
+    }
+}

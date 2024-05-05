@@ -1,4 +1,3 @@
-import { Position } from "../../../common/state/board/position.mjs";
 import { GenericPossibleAction } from "../../../common/state/possible-actions/generic-possible-action.mjs";
 import { prettyifyName } from "../../../common/state/utils.mjs";
 
@@ -84,7 +83,7 @@ export class JavaEngineSource {
             if(field.data_type == "position") {
                 return {
                     type: "select-position",
-                    options: field.range.map(({x, y}) => new Position(x, y).humanReadable),
+                    options: field.range,
                     ...commonFields,
                 };
             }

@@ -5,25 +5,23 @@
     },
     "initialGameState": {
         "type": "state",
-        "running": true,
-        "winner": "",
         "day": 0,
         "board": {
             "type": "board",
             "unit_board": [
                 [
                     {
-                        "type": "tank",
                         "name": "Schmude",
-                        "position": "A1",
                         "attributes": {
                             "GOLD": 30,
-                            "BOUNTY": 0,
                             "DURABILITY": 3,
-                            "RANGE": 2,
                             "ACTIONS": 5,
-                            "DEAD": false
-                        }
+                            "DEAD": false,
+                            "BOUNTY": 0,
+                            "RANGE": 2
+                        },
+                        "position": "A1",
+                        "type": "tank"
                     },
                     {
                         "type": "empty"
@@ -60,36 +58,26 @@
                         "type": "empty"
                     },
                     {
-                        "type": "tank",
                         "name": "Lena",
-                        "position": "B3",
                         "attributes": {
-                            "DEAD": true,
+                            "GOLD": 0,
                             "DURABILITY": 3,
                             "ACTIONS": 0,
-                            "RANGE": 0,
-                            "GOLD": 0,
-                            "BOUNTY": 0
-                        }
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Josh",
-                        "position": "E3",
-                        "attributes": {
                             "DEAD": false,
-                            "DURABILITY": 3,
-                            "ACTIONS": 5,
-                            "RANGE": 0,
-                            "GOLD": 15,
-                            "BOUNTY": 0
-                        }
+                            "BOUNTY": 0,
+                            "RANGE": 2
+                        },
+                        "position": "B3",
+                        "type": "tank"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
                     }
                 ],
                 [
