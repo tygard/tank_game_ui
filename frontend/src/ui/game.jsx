@@ -44,6 +44,10 @@ export function Game({ game, setGame, debug }) {
                     <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
                 </div>
                 <div className="app-side-by-side-main">
+                    <div>
+                        {gameStateManager?.gameState?.winner !== undefined ?
+                            <div className="success message">{gameStateManager?.gameState?.winner} is victorious!</div> : undefined}
+                    </div>
                     <GameBoard board={gameStateManager.gameState?.board} config={versionConfig}></GameBoard>
                 </div>
                 <div>

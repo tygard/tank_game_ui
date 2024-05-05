@@ -1090,5 +1090,6 @@
         "coffer": {
             "value": 0
         }
-    }
+    },
+    "running": true
 }

@@ -10,8 +10,13 @@ export function SubmitTurn({ isLastTurn, gameState, refreshGameInfo, game, debug
     const [currentFactory, setCurrentFactory] = useState();
     const [actionSpecific, setActionSpecific] = useState({});
     // Set this to undefined so we don't send a request for anthing other than the last turn
-    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, isLastTurn ? entryId : undefined);
+    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, isLastTurn && gameState?.running ? entryId : undefined);
     const [status, setStatus] = useState();
+
+    // Game over no more actions to submit
+    if(!gameState?.running) {
+        return;
+    }
 
     if(!isLastTurn) {
         return (

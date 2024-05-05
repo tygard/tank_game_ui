@@ -60,6 +60,8 @@ export function gameStateFromRawState(rawGameState) {
         new Players(Object.values(playersByName)),
         board,
         convertCouncil(rawGameState.council),
+        rawGameState.running,
+        rawGameState.winner,
     );
 
     gameState.__day = rawGameState.day;
