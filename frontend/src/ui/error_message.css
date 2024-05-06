@@ -15,3 +15,8 @@
     background: #0f0;
     border-color: #0a0;
 }
+
+.warning {
+    background: #ff0;
+    border-color: #aa0;
+}

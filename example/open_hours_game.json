@@ -1,27 +1,47 @@
 {
     "fileFormatVersion": 5,
+    "openHours": [
+        {
+            "daysOfWeek": ["u", "r"],
+            "startTime": "5:00am",
+            "endTime": "8:15pm"
+        },
+        {
+            "daysOfWeek": ["m"],
+            "startTime": "9:17pm",
+            "endTime": "9:30pm"
+        }
+    ],
     "logBook": {
-        "gameVersion": "3"
+        "gameVersion": "3",
+        "rawEntries": [
+            {
+                "type": "action",
+                "day": 1
+            }
+        ]
     },
     "initialGameState": {
         "type": "state",
+        "running": true,
+        "winner": "",
         "day": 0,
         "board": {
             "type": "board",
             "unit_board": [
                 [
                     {
+                        "type": "tank",
                         "name": "Schmude",
+                        "position": "A1",
                         "attributes": {
                             "GOLD": 30,
-                            "DURABILITY": 3,
-                            "ACTIONS": 5,
-                            "DEAD": false,
                             "BOUNTY": 0,
-                            "RANGE": 2
-                        },
-                        "position": "A1",
-                        "type": "tank"
+                            "DURABILITY": 3,
+                            "RANGE": 2,
+                            "ACTIONS": 5,
+                            "DEAD": false
+                        }
                     },
                     {
                         "type": "empty"
@@ -58,26 +78,36 @@
                         "type": "empty"
                     },
                     {
+                        "type": "tank",
                         "name": "Lena",
+                        "position": "B3",
                         "attributes": {
-                            "GOLD": 0,
+                            "DEAD": true,
                             "DURABILITY": 3,
                             "ACTIONS": 0,
+                            "RANGE": 0,
+                            "GOLD": 0,
+                            "BOUNTY": 0
+                        }
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "empty"
+                    },
+                    {
+                        "type": "tank",
+                        "name": "Josh",
+                        "position": "E3",
+                        "attributes": {
                             "DEAD": false,
-                            "BOUNTY": 0,
-                            "RANGE": 2
-                        },
-                        "position": "B3",
-                        "type": "tank"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
+                            "DURABILITY": 3,
+                            "ACTIONS": 5,
+                            "RANGE": 0,
+                            "GOLD": 15,
+                            "BOUNTY": 0
+                        }
                     }
                 ],
                 [

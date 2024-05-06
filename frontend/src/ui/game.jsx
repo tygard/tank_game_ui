@@ -1,12 +1,13 @@
 import { GameBoard } from "./game_state/board.jsx";
 import { useCallback, useState } from "preact/hooks";
-import { ServerError, useGameInfo } from "../api/fetcher.js";
+import { useGameInfo } from "../api/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit_turn.jsx";
 import { Council } from "./game_state/council.jsx";
 import { LogBook } from "./game_state/log_book.jsx";
 import { useGameStateManager } from "../api/game-state-manager.js";
 import { ErrorMessage } from "./error_message.jsx";
+import { OpenHours } from "./open-hours.jsx";
 
 
 export function Game({ game, setGame, debug }) {
@@ -32,6 +33,20 @@ export function Game({ game, setGame, debug }) {
 
     const versionConfig = gameInfo?.config?.getGameVersion?.(gameInfo?.logBook?.gameVersion);
 
+    let gameMessage;
+    if(gameStateManager?.gameState?.winner !== undefined) {
+        gameMessage = <div className="success message">{gameStateManager?.gameState?.winner} is victorious!</div>;
+    }
+
+    const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
+    if(!gameMessage && gameIsClosed) {
+        gameMessage =(
+            <div className="warning message">
+                You are currently outside of this game's scheduled hours.  Action submission is disabled.
+            </div>
+        );
+    }
+
     return (
         <>
             <LogEntrySelector
@@ -44,25 +59,23 @@ export function Game({ game, setGame, debug }) {
                     <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
                 </div>
                 <div className="app-side-by-side-main">
-                    <div>
-                        {gameStateManager?.gameState?.winner !== undefined ?
-                            <div className="success message">{gameStateManager?.gameState?.winner} is victorious!</div> : undefined}
-                    </div>
+                    {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
                     <GameBoard board={gameStateManager.gameState?.board} config={versionConfig}></GameBoard>
                 </div>
                 <div>
                     <Council gameState={gameStateManager.gameState} config={versionConfig}></Council>
+                    <OpenHours openHours={gameInfo?.openHours}></OpenHours>
                 </div>
             </div>
             <div className="centered">
                 <div>
-                    <SubmitTurn
+                    {gameIsClosed ? undefined : <SubmitTurn
                         game={game}
                         isLastTurn={gameStateManager.isLatestEntry}
                         refreshGameInfo={refreshGameInfo}
                         debug={debug}
                         gameState={gameStateManager.gameState}
-                        entryId={gameStateManager.entryId}></SubmitTurn>
+                        entryId={gameStateManager.entryId}></SubmitTurn>}
                     {debug ? <div>
                         <details>
                             <summary>Current board state (JSON)</summary>

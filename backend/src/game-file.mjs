@@ -6,6 +6,7 @@ import { logger } from "./logging.mjs";
 import { GameInteractor } from "../../common/game/game-interactor.mjs";
 import { PossibleActionSourceSet } from "../../common/state/possible-actions/index.mjs";
 import { StartOfDaySource } from "../../common/state/possible-actions/start-of-day-source.mjs";
+import { OpenHours } from "../../common/open-hours/index.mjs";
 
 export const FILE_FORMAT_VERSION = 5;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
@@ -38,8 +39,11 @@ export async function load(filePath, gameConfig, saveBack = false) {
     }
 
     const logBook = LogBook.deserialize(content.logBook, gameConfig);
+    const openHours = content.openHours ?
+        OpenHours.deserialize(content.openHours) : new OpenHours([]);
 
     const fileData = {
+        openHours,
         logBook,
         initialGameState: content.initialGameState,
     };
@@ -51,9 +55,10 @@ export async function load(filePath, gameConfig, saveBack = false) {
     return fileData;
 }
 
-export async function save(filePath, {logBook, initialGameState}) {
+export async function save(filePath, {logBook, initialGameState, openHours}) {
     await writeJson(filePath, {
         fileFormatVersion: FILE_FORMAT_VERSION,
+        openHours: openHours.serialize(),
         logBook: logBook.serialize(),
         initialGameState,
     });

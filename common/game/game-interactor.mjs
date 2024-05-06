@@ -1,13 +1,14 @@
 import { PromiseLock } from "../state/utils.mjs";
 
 export class GameInteractor {
-    constructor(engine, { logBook, initialGameState }, saveHandler) {
+    constructor(engine, { logBook, initialGameState, openHours }, saveHandler) {
         this._saveHandler = saveHandler;
         this._engine = engine;
         this._logBook = logBook;
         this._gameStates = [];
         this._lock = new PromiseLock();
         this._initialGameState = this._previousState = initialGameState;
+        this._openHours = openHours;
 
         // Process any unprocessed log book entries.
         this.loaded = this._processActions();
@@ -55,10 +56,27 @@ export class GameInteractor {
         return this._gameStates[id];
     }
 
+    getOpenHours() {
+        return this._openHours;
+    }
+
+    isGameOpen() {
+        return this._openHours !== undefined ?
+            this._openHours.isGameOpen() : true;
+    }
+
+    _throwIfGameNotOpen() {
+        if(!this.isGameOpen()) {
+            throw new Error("You're currently outside this games open hours.  New actions will be blocked until the game opens back up.");
+        }
+    }
+
     async _addLogBookEntry(entry) {
         if(this._gameStates.length !== this._logBook.getLastEntryId() + 1) { // +1 for index to length
             throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
         }
+
+        this._throwIfGameNotOpen();
 
         await this.sendPreviousState();
         const state = await this._engine.processAction(entry);
@@ -80,6 +98,8 @@ export class GameInteractor {
         if(this._gameStates.length !== this._logBook.getLastEntryId() + 1) { // +1 for index to length
             throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
         }
+
+        this._throwIfGameNotOpen();
 
         await this.sendPreviousState();
 

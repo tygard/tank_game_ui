@@ -4,6 +4,8 @@
 
 For a quick and easy demo run `docker run --rm -it -p 3333:3333 --init ghcr.io/tankgameorg/ui` and visit [localhost:3333](http://localhost:3333/).  This has a sample game but will not save your changes across container restarts.
 
+If you plan on using open hours make sure to add `-e TZ="<your locale>"` i.e. `docker run --rm -it -p 3333:3333 -e TZ=America/New_York --init ghcr.io/tankgameorg/ui`
+
 If you want to save your games run run `docker run --rm -it -p 3333:3333 -v <path to your data folder>:/data --init ghcr.io/tankgameorg/ui` where <path to your data folder> is the absolute path to your data folder (if you're not sure `$(pwd)/tank-game` is a good start).
 
 ## Developing

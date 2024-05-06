@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "preact/hooks";
 import { LogBook } from "../../../common/state/log-book/log-book.mjs";
 import { Config } from "../../../common/state/config/config.mjs";
 import { NamedFactorySet } from "../../../common/state/possible-actions/index.mjs";
+import { OpenHours } from "../../../common/open-hours/index.mjs";
 
 const FETCH_FREQUENCY = 2; // seconds
 const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
@@ -119,6 +120,7 @@ export const useGameInfo = makeReactDataFetchHelper({
         const config = Config.deserialize(data.config);
 
         return {
+            openHours: OpenHours.deserialize(data.openHours),
             logBook: LogBook.deserialize(data.logBook, config),
             config,
         };
