@@ -1,0 +1,28 @@
+.manual-popup {
+    top: 25px;
+    left: 25px;
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    background: #fff;
+    border: 1px solid #333;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 0px 8px #000;
+}
+
+.manual-popup-title {
+    background: #333;
+    color: #fff;
+    padding: 8px;
+    display: flex;
+}
+
+.manual-popup-title h3 {
+    flex-grow: 1;
+}
+
+.manual-popup-body {
+    flex-grow: 1;
+    border: none;
+}

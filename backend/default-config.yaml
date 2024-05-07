@@ -40,26 +40,39 @@ defaultGameVersion:
     "dead-tank":
       featuredAttribute: attr:health:value
       tileColor:
-        - background: "#700"
+        - background: "#027"
+          textColor: "#fff"
           expr:
             eq: 1
             var: attr:health:value
-        - background: "#a00"
+        - background: "#04c"
+          textColor: "#fff"
           expr:
             eq: 2
             var: attr:health:value
-        - background: "#e00"
+        - background: "#08e"
+          textColor: "#fff"
 
     wall:
       featuredAttribute: attr:health:value
       tileColor:
-      - background: "#055"
+      - background: "#022"
+        textColor: "#fff"
         expr:
           eq: 1
           var: attr:health:value
-      - background: "#0aa"
+      - background: "#055"
+        textColor: "#fff"
         expr:
           eq: 2
+          var: attr:health:value
+      - background: "#099"
+        expr:
+          eq: 3
+          var: attr:health:value
+      - background: "#0cc"
+        expr:
+          eq: 4
           var: attr:health:value
       - background: "#0ff"
 
@@ -73,6 +86,21 @@ defaultGameVersion:
 
 gameVersions:
     3:
+      manual: /manuals/Tank_Game_Rules_v3.pdf
+      entityDescriptors:
+        tank:
+          badgeAttribute: attr:actions:value
+          badgeColor: "#00f"
+          badgeTextColor: "#fff"
+          indicators:
+            - symbol: B
+              expr:
+                var: attr:bounty:value
+                gt: 0
+              color: orange
+
+    4:
+      manual: /manuals/Tank_Game_Rules_v4.pdf
       entityDescriptors:
         tank:
           badgeAttribute: attr:actions:value

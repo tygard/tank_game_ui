@@ -2,6 +2,7 @@
     height: 33%;
     width: 100%;
     background: var(--tank-game-bg);
+    color: #000;
 }
 
 .board-space-entity-title-inner {

@@ -38,6 +38,7 @@ ENV BUILD_INFO=${BUILD_INFO}
 # Copy everything over to the final image
 COPY backend/ /app/backend/
 COPY common/ /app/common/
+COPY frontend/public/ /app/www/
 COPY --from=frontend /build/frontend/dist/ /app/www/
 COPY --from=engine /build/tankgame/target/TankGame-*.jar /app/engine/
 

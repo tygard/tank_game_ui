@@ -9,6 +9,7 @@ import { useGameStateManager } from "../api/game-state-manager.js";
 import { ErrorMessage } from "./error_message.jsx";
 import { OpenHours } from "./open-hours.jsx";
 import { AppContent } from "./app-content.jsx";
+import { GameManual } from "./game-manual.jsx";
 
 
 export function Game({ game, setGame, debug }) {
@@ -97,6 +98,7 @@ export function Game({ game, setGame, debug }) {
                             setSelectedUser={setSelectedUser}
                             canSubmitAction={canSubmitAction}></Council>
                         <OpenHours openHours={gameInfo?.openHours}></OpenHours>
+                        <GameManual manualPath={versionConfig?.getManual?.()}></GameManual>
                     </div>
                 </div>
                 <div className="centered">

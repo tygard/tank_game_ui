@@ -27,4 +27,8 @@ export class GameVersionConfig {
     getCouncilPlayerTypes() {
         return this._gameVersionConfig.councilPlayerTypes || [];
     }
+
+    getManual() {
+        return this._gameVersionConfig.manual;
+    }
 }
