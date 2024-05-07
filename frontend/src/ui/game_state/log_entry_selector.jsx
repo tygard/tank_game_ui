@@ -1,6 +1,6 @@
 import "./log_entry_selector.css";
 
-export function LogEntrySelector({ gameStateManager, logBook, setGame, debug }) {
+export function LogEntrySelector({ gameStateManager, logBook, debug, extraButtonsLeft }) {
     if(!logBook || gameStateManager.entryId === undefined) {
         return (
             <div className="turn-selector">
@@ -29,7 +29,7 @@ export function LogEntrySelector({ gameStateManager, logBook, setGame, debug }) 
 
     return (
         <div className="turn-selector centered">
-            <button onClick={() => setGame(undefined)}>Back to games</button>
+            {extraButtonsLeft}
             <button
                 onClick={() => gameStateManager.togglePlayback()}
                 disabled={gameStateManager.isLatestEntry}>

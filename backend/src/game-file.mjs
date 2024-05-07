@@ -12,7 +12,7 @@ export const FILE_FORMAT_VERSION = 5;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
 
 
-export async function load(filePath, gameConfig, saveBack = false) {
+export async function load(filePath, gameConfig, { saveBack = false, makeTimeStamp } = {}) {
     let content = await readJson(filePath);
 
     if(content?.fileFormatVersion === undefined) {
@@ -38,7 +38,7 @@ export async function load(filePath, gameConfig, saveBack = false) {
         });
     }
 
-    const logBook = LogBook.deserialize(content.logBook, gameConfig);
+    const logBook = LogBook.deserialize(content.logBook, gameConfig, makeTimeStamp);
     const openHours = content.openHours ?
         OpenHours.deserialize(content.openHours) : new OpenHours([]);
 
@@ -65,14 +65,14 @@ export async function save(filePath, {logBook, initialGameState, openHours}) {
 }
 
 export class GameManager {
-    constructor(gameConfig, createEngine, saveBack = false) {
+    constructor(gameConfig, createEngine, opts = {}) {
         this.gameConfig = gameConfig;
         this._createEngine = createEngine;
-        this.loaded = this._loadGamesFromFolder(saveBack);
+        this.loaded = this._loadGamesFromFolder(opts);
         this._interactors = [];
     }
 
-    async _loadGamesFromFolder(saveBack) {
+    async _loadGamesFromFolder({ saveBack, makeTimeStamp }) {
         this._gamePromises = {};
         this._games = {};
 
@@ -88,7 +88,7 @@ export class GameManager {
             const saveHandler = data => save(filePath, data);
 
             // Load and process the game asyncronously
-            this._gamePromises[name] = load(filePath, this.gameConfig, saveBack)
+            this._gamePromises[name] = load(filePath, this.gameConfig, { saveBack, makeTimeStamp })
                 .then(this._initilizeGame.bind(this, name, saveHandler));
 
             // Update the status on error but don't remove the error from the promise

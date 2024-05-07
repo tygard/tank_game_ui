@@ -30,7 +30,7 @@ function repositionPopup(ownSize, anchorRef, setPosition) {
 
     setPosition({
         left,
-        top: centerOfAnchor - (ownSize.height / 2),
+        top: Math.max(0, centerOfAnchor - (ownSize.height / 2)),
     });
 }
 

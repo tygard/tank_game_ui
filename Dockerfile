@@ -8,7 +8,7 @@ RUN cd /build/frontend && npm ci
 ARG BUILD_INFO
 COPY frontend/ /build/frontend/
 COPY common/ /build/common/
-RUN cd /build/frontend && ls /build/* && npm run build
+RUN cd /build/frontend && npm run build
 
 FROM docker.io/openjdk:21-jdk-bookworm AS engine
 WORKDIR /build/

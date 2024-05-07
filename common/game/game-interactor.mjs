@@ -90,6 +90,7 @@ export class GameInteractor {
             await this._saveHandler({
                 initialGameState: this._initialGameState,
                 logBook: this._logBook,
+                openHours: this._openHours,
             });
         }
     }

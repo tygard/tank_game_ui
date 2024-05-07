@@ -159,6 +159,7 @@ describe("GameInteractor", () => {
         assert.deepEqual(saveData, {
             initialGameState,
             logBook,
+            openHours: undefined,
         });
     });
 

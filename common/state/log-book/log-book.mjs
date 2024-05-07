@@ -1,10 +1,16 @@
 import { LogEntry } from "./entry.mjs";
 
+const defaultMakeTimeStamp = () => Math.floor(Date.now() / 1000);
+
+const DEFAULT_TIME_INTERVAL = 20 * 60; // 20 minutes
+
+
 export class LogBook {
-    constructor(gameVersion, entries, versionConfig) {
+    constructor(gameVersion, entries, versionConfig, makeTimeStamp = defaultMakeTimeStamp) {
         this.gameVersion = gameVersion;
         this._entries = entries;
         this._versionConfig = versionConfig;
+        this._makeTimeStamp = makeTimeStamp;
         this._buildDayMap();
     }
 
@@ -31,7 +37,7 @@ export class LogBook {
         }
     }
 
-    static deserialize({gameVersion, rawEntries}, gameConfig) {
+    static deserialize({gameVersion, rawEntries}, gameConfig, makeTimeStamp) {
         const versionConfig = gameConfig && gameConfig.getGameVersion(gameVersion);
 
         // 0 length log books are not supported start day 1 if we have no entries
@@ -45,13 +51,24 @@ export class LogBook {
         }
 
         let previousDay = 0;
+        let previousTime = 0;
         const entries = rawEntries.map((rawEntry, idx) => {
+            if(rawEntry.timestamp === undefined) {
+                rawEntry.timestamp = previousTime + DEFAULT_TIME_INTERVAL;
+            }
+
+            if(previousTime >= rawEntry.timestamp && idx > 0) {
+                throw new Error(`Entry timestamps must be ascending ${idx}: ${rawEntry.timestamp} and ${idx - 1}: ${previousTime}`);
+            }
+
+            previousTime = rawEntry.timestamp;
+
             const entry = LogEntry.deserialize(idx, previousDay, rawEntry, versionConfig);
             previousDay = entry.day;
             return entry;
         });
 
-        return new LogBook(gameVersion, entries, versionConfig);
+        return new LogBook(gameVersion, entries, versionConfig, makeTimeStamp);
     }
 
     serialize() {
@@ -67,6 +84,7 @@ export class LogBook {
 
     makeEntryFromRaw(rawEntry) {
         const day = rawEntry.day || this.getMaxDay();
+        rawEntry.timestamp = this._makeTimeStamp();
         return new LogEntry(day, rawEntry, this._entries.length, this._versionConfig);
     }
 

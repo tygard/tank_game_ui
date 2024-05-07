@@ -25,13 +25,13 @@ function makeReactDataFetchHelper(options) {
 
         const fetchData = useCallback(async () => {
             try {
-                if(options.shouldSendRequest && !options.shouldSendRequest(...args)) {
-                    return;
-                }
-
                 if(options.resetBeforeFetch) {
                     setData(undefined);
                     setError(undefined);
+                }
+
+                if(options.shouldSendRequest && !options.shouldSendRequest(...args)) {
+                    return;
                 }
 
                 let url = options.url;

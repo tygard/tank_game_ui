@@ -9,6 +9,7 @@ class TargetSelectionState {
     }
 
     clearPossibleTargets() {
+        console.log("Clear");
         this.setPossibleTargets(undefined);
         this.setSelectedTarget(undefined);
     }

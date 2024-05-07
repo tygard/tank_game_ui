@@ -62,5 +62,5 @@ export function useDebugMode() {
         You are currently in debug mode <a href="#" onClick={exitDebugMode}>exit</a>
     </div> : undefined;
 
-    return [debug, debugModeMessage];
+    return debugModeMessage;
 }

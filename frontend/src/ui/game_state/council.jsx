@@ -4,7 +4,7 @@ import "./council.css";
 
 const EXCLUDED_ATTRIBUTES = new Set(["armistice"]);
 
-export function Council({ gameState, config }) {
+export function Council({ gameState, config, setSelectedUser, canSubmitAction }) {
     if(!gameState || !config) {
         return "Loading...";
     }
@@ -15,8 +15,16 @@ export function Council({ gameState, config }) {
             <AttributeList attributes={gameState.council} excludedAttributes={EXCLUDED_ATTRIBUTES}></AttributeList>
             <div className="user-list">
                 {config.getCouncilPlayerTypes().map(playerType => {
+                    const players = gameState.players.getPlayersByType(playerType);
+
+                    if(players.length === 0) return;
+
                     return (
-                        <Section name={playerType} users={gameState.players.getPlayersByType(playerType)}></Section>
+                        <Section
+                            name={playerType}
+                            users={players}
+                            canSubmitAction={canSubmitAction}
+                            setSelectedUser={setSelectedUser}></Section>
                     );
                 })}
             </div>
@@ -25,12 +33,20 @@ export function Council({ gameState, config }) {
 }
 
 
-function Section({ name, users }) {
+function Section({ name, users, setSelectedUser, canSubmitAction }) {
     return (
         <>
             <h3>{prettyifyName(name)}s</h3>
             <ul>
-                {users.map(user => <li>{user.name}</li>)}
+                {users.map(user => {
+                    const actionButton = user.entities.length === 0 && canSubmitAction ? (
+                        <button onClick={() => setSelectedUser(user.name)} className="council-action-button">
+                            Take Action
+                        </button>
+                    ) : undefined;
+
+                    return <li>{user.name}{actionButton}</li>
+                })}
             </ul>
         </>
     );

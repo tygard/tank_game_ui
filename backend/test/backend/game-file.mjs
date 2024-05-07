@@ -3,8 +3,8 @@ import { FILE_FORMAT_VERSION, GameManager, MINIMUM_SUPPORTED_FILE_FORMAT_VERSION
 import { Config } from "../../../common/state/config/config.mjs";
 import path from "node:path";
 import fs from"node:fs";
-import crypto from "node:crypto";
 import { MockEngine } from "../common/game-interactor.mjs";
+import { hashFile } from "../../src/utils.mjs";
 
 const TEST_FILES = "test/backend/test-files";
 const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
@@ -40,19 +40,6 @@ function validateSampleFile({logBook, initialGameState}) {
     assert.deepEqual(initialGameState.council.council, []);
 }
 
-function hashFile(filePath) {
-    return new Promise((resolve) => {
-        let hashStream = crypto.createHash("sha256");
-        let fileStream = fs.createReadStream(filePath);
-
-        fileStream.on("end", function() {
-            hashStream.end();
-            resolve(hashStream.read().toString("hex"));
-        });
-
-        fileStream.pipe(hashStream);
-    });
-}
 
 describe("GameFile", () => {
     it("can load and deserialize the latest format with version specific config", async () => {

@@ -1,5 +1,6 @@
 import { GenericPossibleAction } from "../../../common/state/possible-actions/generic-possible-action.mjs";
 import { prettyifyName } from "../../../common/state/utils.mjs";
+import { logger } from "../logging.mjs";
 
 export class JavaEngineSource {
     constructor(engine) {
@@ -13,18 +14,8 @@ export class JavaEngineSource {
         const isCouncil = ["senator", "councilor"].includes(player.type);
         const subject = playerName;
 
-        let possibleActions;
-        if(isCouncil) {
-            // getPossibleActions returns an error for Senators and tank actions for councilors
-            possibleActions = (await this._engine.getRules())
-                .filter(action => action.subject == "council");
-
-            this._fillInPossibleTanks(possibleActions, gameState);
-        }
-        else {
-            await interactor.sendPreviousState();
-            possibleActions = await this._engine.getPossibleActions(playerName);
-        }
+        await interactor.sendPreviousState();
+        let possibleActions = await this._engine.getPossibleActions(isCouncil ? "Council" : playerName);
 
         return possibleActions.map(possibleAction => {
             const actionName = possibleAction.rule || possibleAction.name;
@@ -44,19 +35,6 @@ export class JavaEngineSource {
         .filter(possibleAction => possibleAction !== undefined);
     }
 
-    _fillInPossibleTanks(possibleActions, gameState) {
-        const tankNames = gameState.players.getPlayersByType("tank")
-            .concat(gameState.players.getPlayersByType("councilor"));
-
-        for(let action of possibleActions) {
-            for(let field of action.fields) {
-                if(field.data_type == "tank") {
-                    field.range = tankNames;
-                }
-            }
-        }
-    }
-
     _buildFieldSpecs(fields) {
         let unSubmitableAction = false;
         const specs = fields.map(field => {
@@ -74,8 +52,24 @@ export class JavaEngineSource {
             // Handle the custom data types
             if(field.data_type == "tank") {
                 return {
-                    type: "select",
-                    options: field.range.map(tank => tank.name),
+                    type: "select-position",
+                    options: field.range.map(tank => {
+                        const position = tank.entities?.[0]?.position?.humanReadable || tank.position;
+                        if(typeof position !== "string") {
+                            logger.error({
+                                msg: "Expected a object with position or player",
+                                obj: tank,
+                            });
+                            throw new Error(`Got bad data expected a position but got ${position}`);
+                        }
+
+                        logger.info({ tank, msg: "Tank is" });
+
+                        return {
+                            position,
+                            value: tank.name,
+                        };
+                    }),
                     ...commonFields,
                 };
             }
@@ -83,7 +77,7 @@ export class JavaEngineSource {
             if(field.data_type == "position") {
                 return {
                     type: "select-position",
-                    options: field.range,
+                    options: field.range.map(position => ({ position, value: position })),
                     ...commonFields,
                 };
             }

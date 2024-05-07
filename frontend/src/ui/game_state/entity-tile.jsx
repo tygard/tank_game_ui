@@ -18,9 +18,14 @@ function getStyleInfo(choices, entity) {
 }
 
 
-function EntityDetails({ entity }) {
+function EntityDetails({ entity, setSelectedUser, canSubmitAction, closePopup }) {
     const title = prettyifyName(entity.player?.name || entity.type);
     const subTitle = prettyifyName(entity.type);
+
+    const takeActionHandler = () => {
+        setSelectedUser(entity.player.name);
+        closePopup();
+    };
 
     return (
         <>
@@ -29,6 +34,11 @@ function EntityDetails({ entity }) {
                 {title != subTitle ? <i className="entity-details-title-type">{subTitle}</i> : undefined}
             </div>
             <AttributeList attributes={entity.resources}></AttributeList>
+            {entity.player && canSubmitAction ? (
+                <div className="entity-details-take-action centered">
+                    <button onClick={takeActionHandler}>Take Action</button>
+                </div>
+            ) : undefined}
         </>
     )
 }
@@ -57,7 +67,7 @@ function getBadgesForEntity(spec, entity) {
 }
 
 
-export function EntityTile({ entity, showPopupOnClick, config }) {
+export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, canSubmitAction }) {
     const cardRef = useRef();
     const [opened, setOpened] = useState(false);
 
@@ -84,7 +94,11 @@ export function EntityTile({ entity, showPopupOnClick, config }) {
                 {badges}
             </div>
             <Popup opened={opened} anchorRef={cardRef} onClose={close}>
-                <EntityDetails entity={entity}></EntityDetails>
+                <EntityDetails
+                    entity={entity}
+                    canSubmitAction={canSubmitAction}
+                    setSelectedUser={setSelectedUser}
+                    closePopup={() => setOpened(false)}></EntityDetails>
             </Popup>
         </>
     );

@@ -8,6 +8,7 @@ import { LogBook } from "./game_state/log_book.jsx";
 import { useGameStateManager } from "../api/game-state-manager.js";
 import { ErrorMessage } from "./error_message.jsx";
 import { OpenHours } from "./open-hours.jsx";
+import { AppContent } from "./app-content.jsx";
 
 
 export function Game({ game, setGame, debug }) {
@@ -22,13 +23,30 @@ export function Game({ game, setGame, debug }) {
 
     const gameStateManager = useGameStateManager(gameInfo?.logBook, game);
 
+    // The user that's currently submitting actions
+    const [selectedUser, setSelectedUserDirect] = useState();
+    const canSubmitAction = gameStateManager.gameState?.running;
+
+    const setSelectedUser = user => {
+        setSelectedUserDirect(user);
+        gameStateManager.playerSetEntry(gameInfo?.logBook.getLastEntryId())
+    };
+
+    const backToGamesButton = <button onClick={() => setGame(undefined)}>Back to games</button>;
+
     // The backend is still loading the game
     if(error?.code == "game-loading") {
-        return <p>Loading Game...</p>;
+        return <AppContent>
+            {backToGamesButton}
+            <p>Loading Game...</p>
+        </AppContent>;
     }
 
     if(error || gameStateManager.error) {
-        return <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
+        return <AppContent>
+            {backToGamesButton}
+            <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
+        </AppContent>;
     }
 
     const versionConfig = gameInfo?.config?.getGameVersion?.(gameInfo?.logBook?.gameVersion);
@@ -47,54 +65,54 @@ export function Game({ game, setGame, debug }) {
         );
     }
 
+    const toolBar = (
+        <LogEntrySelector
+            extraButtonsLeft={backToGamesButton}
+            debug={debug}
+            logBook={gameInfo?.logBook}
+            setGame={setGame}
+            gameStateManager={gameStateManager}></LogEntrySelector>
+    );
+
     return (
         <>
-            <LogEntrySelector
-                debug={debug}
-                logBook={gameInfo?.logBook}
-                setGame={setGame}
-                gameStateManager={gameStateManager}></LogEntrySelector>
-            <div className="app-side-by-side centered">
-                <div>
-                    <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
-                </div>
-                <div className="app-side-by-side-main">
-                    {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
-                    <GameBoard board={gameStateManager.gameState?.board} config={versionConfig}></GameBoard>
-                </div>
-                <div>
-                    <Council gameState={gameStateManager.gameState} config={versionConfig}></Council>
-                    <OpenHours openHours={gameInfo?.openHours}></OpenHours>
-                </div>
+            <div className="app-sidebar">
+                <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
             </div>
-            <div className="centered">
-                <div>
-                    {gameIsClosed ? undefined : <SubmitTurn
-                        game={game}
-                        isLastTurn={gameStateManager.isLatestEntry}
-                        refreshGameInfo={refreshGameInfo}
-                        debug={debug}
-                        gameState={gameStateManager.gameState}
-                        entryId={gameStateManager.entryId}></SubmitTurn>}
-                    {debug ? <div>
-                        <details>
-                            <summary>Current board state (JSON)</summary>
-                            <pre>{gameStateManager?.gameState && JSON.stringify(gameStateManager?.gameState.serialize(), null, 4)}</pre>
-                        </details>
-                        <details>
-                            <summary>Current logbook (JSON)</summary>
-                            <pre>{gameInfo?.logBook && JSON.stringify(gameInfo?.logBook.serialize(), null, 4)}</pre>
-                        </details>
-                        <details>
-                            <summary>Current config (JSON)</summary>
-                            <pre>{gameInfo?.config && JSON.stringify(gameInfo?.config.serialize(), null, 4)}</pre>
-                        </details>
-                    </div> : undefined}
+            <AppContent withSidebar debugMode={debug} toolbar={toolBar}>
+                <div className="app-side-by-side centered">
+                    <div className="app-side-by-side-main">
+                        {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
+                        <GameBoard
+                            board={gameStateManager.gameState?.board}
+                            config={versionConfig}
+                            debug={debug}
+                            canSubmitAction={canSubmitAction}
+                            setSelectedUser={setSelectedUser}></GameBoard>
+                    </div>
+                    <div>
+                        <Council
+                            gameState={gameStateManager.gameState}
+                            config={versionConfig}
+                            setSelectedUser={setSelectedUser}
+                            canSubmitAction={canSubmitAction}></Council>
+                        <OpenHours openHours={gameInfo?.openHours}></OpenHours>
+                    </div>
                 </div>
-            </div>
-            <footer>
-                <i>{APP_VERSION}</i>
-            </footer>
+                <div className="centered">
+                    <div>
+                        {gameIsClosed ? undefined : <SubmitTurn
+                            game={game}
+                            selectedUser={selectedUser}
+                            setSelectedUser={setSelectedUser}
+                            canSubmitAction={canSubmitAction}
+                            refreshGameInfo={refreshGameInfo}
+                            debug={debug}
+                            entryId={gameStateManager.entryId}
+                            isLatestEntry={gameStateManager?.isLatestEntry}></SubmitTurn>}
+                    </div>
+                </div>
+            </AppContent>
         </>
     );
 }

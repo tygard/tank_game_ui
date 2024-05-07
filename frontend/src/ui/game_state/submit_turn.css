@@ -1,6 +1,27 @@
+.submit-turn-box {
+    background: #eee;
+    padding: 7px 15px;
+    margin: 10px;
+}
+
+.submit-turn-title {
+    display: flex;
+}
+
+.submit-turn-title > h2 {
+    flex-grow: 1;
+}
+
+.submit-turn-form {
+    min-width: 650px;
+}
+
+.submit-turn-field-wrapper {
+    display: flex;
+}
+
 .submit-turn-field {
     padding: 5px;
-    display: inline-flex;
 }
 
 .submit-turn-field:first-child {
@@ -13,6 +34,10 @@
 
 .submit-turn-field > b {
     padding-right: 5px;
+}
+
+.submit-action-button-wrapper {
+    text-align: right;
 }
 
 .radio-container {

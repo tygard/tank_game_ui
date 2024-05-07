@@ -1,15 +1,22 @@
 import { useCallback } from "preact/hooks";
 import { useGameList } from "../api/fetcher";
 import { ErrorMessage } from "./error_message.jsx";
+import { AppContent } from "./app-content.jsx";
 
-export function GameSelector({ setGame }) {
+export function GameSelector({ setGame, debug }) {
     const [games, error] = useGameList();
 
-    if(error) return <ErrorMessage error={error}></ErrorMessage>
+    if(error) {
+        return (
+            <AppContent debugMode={debug}>
+                <ErrorMessage error={error}></ErrorMessage>
+            </AppContent>
+        );
+    }
 
     if(!games) {
         return (
-            <div>Loading...</div>
+            <AppContent debugMode={debug}>Loading...</AppContent>
         );
     }
 
@@ -19,7 +26,7 @@ export function GameSelector({ setGame }) {
     }, [setGame]);
 
     return (
-        <>
+        <AppContent debugMode={debug}>
             <h1>Games</h1>
             <ul>
                 {games.map(game => {
@@ -30,6 +37,6 @@ export function GameSelector({ setGame }) {
                     );
                 })}
             </ul>
-        </>
+        </AppContent>
     );
 }

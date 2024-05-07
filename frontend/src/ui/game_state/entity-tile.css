@@ -1,4 +1,3 @@
-
 .board-space-entity-title {
     height: 33%;
     width: 100%;
@@ -25,6 +24,11 @@
 .entity-details-title-wrapper {
     display: flex;
     border-bottom: 1px solid;
+}
+
+.entity-details-take-action {
+    padding-top: 10px;
+    padding-bottom: 5px;
 }
 
 .entity-details-title-type {

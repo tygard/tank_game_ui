@@ -7,23 +7,14 @@ import { useDebugMode } from "./debug_mode.js";
 
 function App() {
     const [game, setGame] = useGame();
-    const [debug, debugModeMessage] = useDebugMode();
-
-    let content;
+    const debug = useDebugMode();
 
     if(game) {
-        content = <Game game={game} setGame={setGame} debug={debug}></Game>;
+        return <Game game={game} setGame={setGame} debug={debug}></Game>;
     }
     else {
-        content = <GameSelector setGame={setGame}></GameSelector>;
+        return <GameSelector setGame={setGame} debug={debug}></GameSelector>;
     }
-
-    return (
-        <>
-            {debugModeMessage}
-            <div className="app-wrapper">{content}</div>
-        </>
-    );
 }
 
 render(<App></App>, document.body);

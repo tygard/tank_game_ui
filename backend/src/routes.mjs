@@ -48,7 +48,11 @@ export function defineRoutes(app) {
             res.json({ success: true });
         }
         catch(err) {
-            log.info({ msg: "Rejected log book entry", entry: req.body });
+            log.info({
+                msg: "Rejected log book entry",
+                entry: req.body,
+                err
+            });
             res.json({ success: false, error: err.message });
         }
     });
