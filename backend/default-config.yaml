@@ -35,7 +35,7 @@ defaultGameVersion:
           expr:
             eq: 2
             var: attr:health:value
-        - background: "#0e0"
+        - background: "url('/assets/T.png')"
 
     "dead-tank":
       featuredAttribute: attr:health:value
@@ -61,7 +61,7 @@ defaultGameVersion:
         expr:
           eq: 1
           var: attr:health:value
-      - background: "#055"
+      - background: "url('/assets/T.png')"
         textColor: "#fff"
         expr:
           eq: 2
