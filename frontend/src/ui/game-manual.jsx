@@ -14,7 +14,7 @@ export function GameManual({ manualPath }) {
                     <h3>Rules</h3>
                     <button onClick={() => setManualOpen(false)}>Close</button>
                 </div>
-                <iframe className="manual-popup-body" src={manualPath} sandbox="allow-scripts"></iframe>
+                <iframe className="manual-popup-body" src={manualPath}></iframe>
             </div> : undefined}
         </>
     )

@@ -20,12 +20,10 @@
     flex-direction: column;
 }
 
-.board-space-entity {
+.board-space-entity-wrapper {
     width: 90%;
     height: 90%;
     border: 1px solid #000;
-    display: flex;
-    flex-direction: column;
 }
 
 .board-space-coordinate {

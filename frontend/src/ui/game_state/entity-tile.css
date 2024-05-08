@@ -1,8 +1,8 @@
 .board-space-entity-title {
     height: 33%;
     width: 100%;
-    background: var(--tank-game-bg);
-    color: #000;
+    background: #333;
+    color: #fff;
 }
 
 .board-space-entity-title-inner {
@@ -37,6 +37,13 @@
     display: flex;
     align-items: end;
     margin-left: 10px;
+}
+
+.board-space-entity {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }
 
 .board-space-entity-badge {

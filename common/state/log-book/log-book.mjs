@@ -57,7 +57,7 @@ export class LogBook {
                 rawEntry.timestamp = previousTime + DEFAULT_TIME_INTERVAL;
             }
 
-            if(previousTime >= rawEntry.timestamp && idx > 0) {
+            if(previousTime > rawEntry.timestamp && idx > 0) {
                 throw new Error(`Entry timestamps must be ascending ${idx}: ${rawEntry.timestamp} and ${idx - 1}: ${previousTime}`);
             }
 

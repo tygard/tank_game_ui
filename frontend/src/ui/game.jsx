@@ -23,10 +23,11 @@ export function Game({ game, setGame, debug }) {
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
     const gameStateManager = useGameStateManager(gameInfo?.logBook, game);
+    const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
 
     // The user that's currently submitting actions
     const [selectedUser, setSelectedUserDirect] = useState();
-    const canSubmitAction = gameStateManager.gameState?.running;
+    const canSubmitAction = gameStateManager.gameState?.running && !gameIsClosed;
 
     const setSelectedUser = user => {
         setSelectedUserDirect(user);
@@ -57,7 +58,6 @@ export function Game({ game, setGame, debug }) {
         gameMessage = <div className="success message">{gameStateManager?.gameState?.winner} is victorious!</div>;
     }
 
-    const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
     if(!gameMessage && gameIsClosed) {
         gameMessage =(
             <div className="warning message">

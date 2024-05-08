@@ -27,54 +27,14 @@ defaultGameVersion:
       indicatorBackground: "#000"
       indicatorDefaultColor: "#fff"
       tileColor:
-        - background: "#070"
-          expr:
-            eq: 1
-            var: attr:health:value
-        - background: "#0a0"
-          expr:
-            eq: 2
-            var: attr:health:value
-        - background: "url('/assets/T.png')"
+        - background: "url('/assets/Tank.png')"
+          textColor: "#fff"
 
     "dead-tank":
       featuredAttribute: attr:health:value
       tileColor:
-        - background: "#027"
+        - background: "url('/assets/DeadTank.png')"
           textColor: "#fff"
-          expr:
-            eq: 1
-            var: attr:health:value
-        - background: "#04c"
-          textColor: "#fff"
-          expr:
-            eq: 2
-            var: attr:health:value
-        - background: "#08e"
-          textColor: "#fff"
-
-    wall:
-      featuredAttribute: attr:health:value
-      tileColor:
-      - background: "#022"
-        textColor: "#fff"
-        expr:
-          eq: 1
-          var: attr:health:value
-      - background: "url('/assets/T.png')"
-        textColor: "#fff"
-        expr:
-          eq: 2
-          var: attr:health:value
-      - background: "#099"
-        expr:
-          eq: 3
-          var: attr:health:value
-      - background: "#0cc"
-        expr:
-          eq: 4
-          var: attr:health:value
-      - background: "#0ff"
 
   floorTileDescriptors:
     gold_mine:
@@ -99,6 +59,20 @@ gameVersions:
                 gt: 0
               color: orange
 
+        wall:
+          tileColor:
+          - background: "url('/assets/Wall-1.png')"
+            textColor: "#fff"
+            expr:
+              eq: 1
+              var: attr:health:value
+          - background: "url('/assets/Wall-2.png')"
+            textColor: "#fff"
+            expr:
+              eq: 2
+              var: attr:health:value
+          - background: "url('/assets/Wall-4.png')"
+
     4:
       manual: /manuals/Tank_Game_Rules_v4.pdf
       entityDescriptors:
@@ -112,3 +86,29 @@ gameVersions:
                 var: attr:bounty:value
                 gt: 0
               color: orange
+
+        wall:
+          tileColor:
+          - background: "url('/assets/Wall-1.png')"
+            textColor: "#fff"
+            expr:
+              eq: 1
+              var: attr:health:value
+          - background: "url('/assets/Wall-2.png')"
+            textColor: "#fff"
+            expr:
+              eq: 2
+              var: attr:health:value
+          - background: "url('/assets/Wall-3.png')"
+            expr:
+              eq: 3
+              var: attr:health:value
+          - background: "url('/assets/Wall-4.png')"
+            expr:
+              eq: 4
+              var: attr:health:value
+          - background: "url('/assets/Wall-5.png')"
+            expr:
+              eq: 5
+              var: attr:health:value
+          - background: "url('/assets/Wall-6.png')"

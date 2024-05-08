@@ -85,7 +85,7 @@ export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, 
     const badges = getBadgesForEntity(spec, entity);
 
     return (
-        <>
+        <div className="board-space-entity-wrapper">
             <div className="board-space-entity" ref={cardRef} onClick={() => showPopupOnClick && setOpened(open => !open)} style={tileStyles}>
                 {label}
                 <div className={`board-space-centered board-space-resource-featured ${label ? "" : "board-space-no-label"}`}>
@@ -100,6 +100,6 @@ export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, 
                     setSelectedUser={setSelectedUser}
                     closePopup={() => setOpened(false)}></EntityDetails>
             </Popup>
-        </>
+        </div>
     );
 }
