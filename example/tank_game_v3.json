@@ -2816,7 +2816,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "G8",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 451200
             },
             {
@@ -2824,7 +2824,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "G8",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 452400
             },
             {
@@ -2839,7 +2839,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "G8",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 454800
             },
             {
@@ -2868,7 +2868,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "D9",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 459600
             },
             {
@@ -2876,7 +2876,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "D9",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 460800
             },
             {
@@ -2884,7 +2884,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "D9",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 462000
             },
             {
@@ -2927,7 +2927,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "C5",
-                "hit": "false",
+                "hit": false,
                 "timestamp": 469200
             },
             {
@@ -2942,7 +2942,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "C5",
-                "hit": "false",
+                "hit": false,
                 "timestamp": 471600
             },
             {
@@ -2950,7 +2950,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "C5",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 472800
             },
             {
@@ -2958,7 +2958,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "C5",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 474000
             },
             {
@@ -2966,7 +2966,7 @@
                 "action": "shoot",
                 "subject": "Corey",
                 "target": "C5",
-                "hit": "true",
+                "hit": true,
                 "timestamp": 475200
             }
         ]

@@ -145,6 +145,9 @@
             "C1": {
                 "type": "dead-tank",
                 "resources": {
+                    "gold": {
+                        "value": 0
+                    },
                     "health": {
                         "value": 3
                     }

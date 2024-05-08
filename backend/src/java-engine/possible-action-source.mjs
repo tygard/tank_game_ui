@@ -84,9 +84,15 @@ export class JavaEngineSource {
 
             // Generic data type with a list of options
             if(field.range?.length > 0) {
+                let options = field.range;
+
+                if(field.data_type == "boolean") {
+                    options = [true, false];
+                }
+
                 return {
                     type: "select",
-                    options: field.range,
+                    options,
                     ...commonFields,
                 };
             }

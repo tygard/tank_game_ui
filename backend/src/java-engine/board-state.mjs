@@ -16,7 +16,7 @@ import { Resource, ResourceHolder } from "../../../common/state/resource.mjs";
 // User keys that should be treated as resources
 const resourceKeys = {
     "tank": new Set(["health", "actions", "range", "gold", "bounty"]),
-    "dead-tank": new Set(["health"]),
+    "dead-tank": new Set(["health", "gold"]),
     "wall": new Set(["health"]),
 };
 
@@ -28,7 +28,7 @@ const globalAttributesToDrop = ["dead"];
 
 // Attributes to remove from specific entities
 const attributesToDropByType = {
-    "dead-tank": ["actions", "range", "gold", "bounty"],
+    "dead-tank": ["actions", "range", "bounty"],
 };
 
 // Attributes that have a different name in the board state from what is internally expected
