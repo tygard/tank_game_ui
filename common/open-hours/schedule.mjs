@@ -38,7 +38,7 @@ function parseTimeString(timeString) {
 }
 
 function serializeToTimeString(minutes) {
-    let hours = minutes / 60;
+    let hours = Math.floor(minutes / 60);
     let isPm = false;
 
     if(hours >= 12) {
@@ -51,7 +51,7 @@ function serializeToTimeString(minutes) {
     minutes = minutes % 60;
     if(minutes < 10) minutes = `0${minutes}`;
 
-    return `${Math.floor(hours)}:${minutes}${isPm ? "pm" : "am"}`;
+    return `${hours}:${minutes}${isPm ? "pm" : "am"}`;
 }
 
 export function getCurrentTime(now) {
@@ -66,7 +66,7 @@ export class Schedule {
         this._startMinutes = startMinutes;
         this._endMinutes = endMinutes;
         if(startMinutes > endMinutes) {
-            throw new Error("Scheduled time cannot be before start time (start = ${serializeToTimeString(this._startMinutes)}, end = ${serializeToTimeString(this._endMinutes)})");
+            throw new Error(`Scheduled time cannot be before start time (start = ${serializeToTimeString(this._startMinutes)}, end = ${serializeToTimeString(this._endMinutes)})`);
         }
     }
 

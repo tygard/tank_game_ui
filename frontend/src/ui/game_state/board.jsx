@@ -2,14 +2,17 @@ import "./board.css";
 import { targetSelectionState } from "../../api/space-selecting-state";
 import { Position } from "../../../../common/state/board/position.mjs";
 import { EntityTile } from "./entity-tile.jsx";
+import { useRef, useState } from "preact/hooks";
+import { Popup } from "../generic/popup.jsx";
+import { prettyifyName } from "../../../../common/state/utils.mjs";
 
 
-export function GameBoard({ board, config, debug, setSelectedUser, canSubmitAction, emptyMessage = "No board data supplied" }) {
+export function GameBoard({ board, config, setSelectedUser, canSubmitAction, emptyMessage = "No board data supplied" }) {
     if(!board) return <p>{emptyMessage}</p>;
 
     try {
         return (
-            <GameBoardView width={board.width} board={board} config={config} debug={debug} canSubmitAction={canSubmitAction} setSelectedUser={setSelectedUser}></GameBoardView>
+            <GameBoardView width={board.width} board={board} config={config} canSubmitAction={canSubmitAction} setSelectedUser={setSelectedUser}></GameBoardView>
         );
     }
     catch(err) {
@@ -19,7 +22,7 @@ export function GameBoard({ board, config, debug, setSelectedUser, canSubmitActi
     }
 }
 
-export function GameBoardView({ board, config, debug, setSelectedUser, canSubmitAction }) {
+export function GameBoardView({ board, config, setSelectedUser, canSubmitAction }) {
     const possibleTargets = targetSelectionState.usePossibleTargets();
     let selectedTarget = targetSelectionState.useSelectedTarget();
     selectedTarget = selectedTarget && Position.fromHumanReadable(selectedTarget);
@@ -30,14 +33,10 @@ export function GameBoardView({ board, config, debug, setSelectedUser, canSubmit
         letters.push(<Tile className="board-space-coordinate">{letter}</Tile>);
     }
 
-    let renderedBoard = [];
-    if(debug) {
-        renderedBoard.push(<div className="game-board-row">{letters}</div>);
-    }
+    let renderedBoard = [<div className="game-board-row">{letters}</div>];
 
     for(let y = 0; y < board.width; ++y) {
-        let renderedRow = [];
-        if(debug) renderedRow.push(<Tile className="board-space-coordinate">{y + 1}</Tile>);
+        let renderedRow = [<Tile className="board-space-coordinate">{y + 1}</Tile>];
 
         for(let x = 0; x < board.height; ++x) {
             const position = new Position(x, y);
@@ -89,18 +88,31 @@ function Space({ entity, floorTile, disabled, onClick, selected, config, setSele
 }
 
 function Tile({ className = "", children, floorTile, disabled, onClick, selected, config } = {}) {
+    const [popupOpen, setPopupOpen] = useState(false);
+    const anchorRef = useRef();
+
+    if(onClick) {
+        className += " board-space-selectable";
+    }
+
     let style = {};
-    if(floorTile && config) {
-        const spec = config.getFloorTileDescriptor(floorTile.type);
-        if(spec) style.background = spec.color;
+    if(floorTile) {
+        if(config) {
+            const spec = config.getFloorTileDescriptor(floorTile.type);
+            if(spec) style.background = spec.color;
+        }
+
+        if(!onClick && !disabled && floorTile.type !== "empty" && !children?.length) {
+            onClick = () => setPopupOpen(popupOpen => !popupOpen);
+        }
+        else if(popupOpen) {
+            // We're doing something else with this space hide the popup
+            setPopupOpen(false);
+        }
     }
 
     if(disabled) {
         className += " board-space-disabled";
-    }
-
-    if(onClick) {
-        className += " board-space-selectable";
     }
 
     if(selected) {
@@ -109,7 +121,16 @@ function Tile({ className = "", children, floorTile, disabled, onClick, selected
 
     return (
         <>
-            <div className={`board-space board-space-centered ${className}`} onClick={onClick} style={style}>{children}</div>
+            <div
+                className={`board-space board-space-centered ${className}`}
+                onClick={onClick}
+                style={style}
+                ref={anchorRef}>
+                    {children}
+            </div>
+            <Popup opened={popupOpen} anchorRef={anchorRef} onClose={() => setPopupOpen(false)}>
+                <h2>{prettyifyName(floorTile?.type)}</h2>
+            </Popup>
         </>
     );
 }

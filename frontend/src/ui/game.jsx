@@ -87,7 +87,6 @@ export function Game({ game, setGame, debug }) {
                         <GameBoard
                             board={gameStateManager.gameState?.board}
                             config={versionConfig}
-                            debug={debug}
                             canSubmitAction={canSubmitAction}
                             setSelectedUser={setSelectedUser}></GameBoard>
                     </div>

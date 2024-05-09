@@ -10,6 +10,8 @@ export function objectMap(obj, mapFn) {
 
 // Remove _, - and capitalize names
 export function prettyifyName(name) {
+    if(name === undefined) return;
+
     return name.split(/_|-|\s+/)
         .map(word => word.length > 0 ? (word[0].toUpperCase() + word.slice(1)) : "")
         .join(" ");
