@@ -26,6 +26,7 @@ module.exports = {
     plugins: [
         new DefinePlugin({
             "APP_VERSION": `"${version}"`,
+            "BUILD_INFO": `"${buildInfo}"`,
         }),
         new HtmlWebpackPlugin({ title: "Tank Game", publicPath: "/" }),
     ],

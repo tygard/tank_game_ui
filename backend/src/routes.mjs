@@ -5,7 +5,7 @@ import { logger } from "./logging.mjs";
 
 const STATIC_DIR = "../www";
 
-export function defineRoutes(app) {
+export function defineRoutes(app, buildInfo) {
     try {
         fs.accessSync(STATIC_DIR);
         app.use(express.static(STATIC_DIR));
@@ -22,6 +22,7 @@ export function defineRoutes(app) {
         if(!valid) return;
 
         res.json({
+            buildInfo,
             openHours: interactor.getOpenHours().serialize({ resolved: true }),
             logBook: interactor.getLogBook().serialize(),
             config: req.games.config.serialize(),

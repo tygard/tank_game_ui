@@ -57,7 +57,7 @@ function gameAccessor(gameManager, config) {
     app.use(express.json());
     app.use(gameAccessor(gameManager, config));
 
-    defineRoutes(app);
+    defineRoutes(app, buildInfo);
 
     app.listen(port, () => {
         logger.info(`Listening on ${port}`);

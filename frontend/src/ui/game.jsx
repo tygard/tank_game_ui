@@ -80,7 +80,7 @@ export function Game({ game, setGame, debug }) {
             <div className="app-sidebar">
                 <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
             </div>
-            <AppContent withSidebar debugMode={debug} toolbar={toolBar}>
+            <AppContent withSidebar debugMode={debug} toolbar={toolBar} buildInfo={gameInfo?.buildInfo}>
                 <div className="app-side-by-side centered">
                     <div className="app-side-by-side-main">
                         {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
