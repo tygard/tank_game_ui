@@ -21,6 +21,6 @@
         "webpack-dev-server": "^5.0.4"
     },
     "dependencies": {
-        "preact": "^10.20.2"
+        "preact": "^10.21.0"
     }
 }
