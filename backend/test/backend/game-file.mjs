@@ -91,7 +91,7 @@ describe("GameFile", () => {
                 .map(name => gameManager.getGamePromise(name).catch(() => {}))
         );
 
-        const game = gameManager.getGame(sampleFileBaseName).interactor;
+        const {interactor: game} = await gameManager.getGamePromise(sampleFileBaseName);
 
         validateLogBook(game.getLogBook());
 

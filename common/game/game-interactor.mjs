@@ -1,3 +1,5 @@
+import { logger } from "../../backend/src/logging.mjs";
+import { AutomaticStartOfDay } from "../open-hours/automatic-start-of-day.mjs";
 import { PromiseLock } from "../state/utils.mjs";
 
 export class GameInteractor {
@@ -12,6 +14,11 @@ export class GameInteractor {
 
         // Process any unprocessed log book entries.
         this.loaded = this._processActions();
+
+        if(openHours?.hasAutomaticStartOfDay?.()) {
+            this._automaticStartOfDay = new AutomaticStartOfDay(this);
+            this.loaded.then(() => this._automaticStartOfDay.start());
+        }
     }
 
     getLogBook() {
@@ -85,6 +92,11 @@ export class GameInteractor {
         this._logBook.addEntry(entry);
         this._gameStates.push(this._engine.getGameStateFromEngineState(state));
 
+        logger.info({
+            msg: "Add logbook entry",
+            entry,
+        });
+
         // Save the modified log book if we know were to save it too
         if(this._saveHandler) {
             await this._saveHandler({
@@ -127,6 +139,14 @@ export class GameInteractor {
     }
 
     shutdown() {
+        if(this._automaticStartOfDay) {
+            this._automaticStartOfDay.stop();
+        }
+
         return this._engine.shutdown();
+    }
+
+    hasAutomaticStartOfDay() {
+        return !!this._automaticStartOfDay;
     }
 }

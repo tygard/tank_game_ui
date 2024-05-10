@@ -63,8 +63,6 @@ export class JavaEngineSource {
                             throw new Error(`Got bad data expected a position but got ${position}`);
                         }
 
-                        logger.info({ tank, msg: "Tank is" });
-
                         return {
                             position,
                             value: tank.name,

@@ -22,4 +22,8 @@ export class LogEntry {
     serialize() {
         return this.rawLogEntry;
     }
+
+    getTimestamp() {
+        return new Date(this.rawLogEntry.timestamp * 1000);
+    }
 }

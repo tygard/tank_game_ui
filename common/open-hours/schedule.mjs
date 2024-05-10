@@ -61,10 +61,11 @@ export function getCurrentTime(now) {
 
 
 export class Schedule {
-    constructor(daysOfWeek, startMinutes, endMinutes) {
+    constructor(daysOfWeek, startMinutes, endMinutes, autoStartOfDay) {
         this._daysOfWeek = daysOfWeek;
         this._startMinutes = startMinutes;
         this._endMinutes = endMinutes;
+        this.autoStartOfDay = autoStartOfDay;
         if(startMinutes > endMinutes) {
             throw new Error(`Scheduled time cannot be before start time (start = ${serializeToTimeString(this._startMinutes)}, end = ${serializeToTimeString(this._endMinutes)})`);
         }
@@ -82,6 +83,7 @@ export class Schedule {
             }),
             parseTimeString(rawSchedule.startTime),
             parseTimeString(rawSchedule.endTime),
+            rawSchedule.autoStartOfDay,
         );
     }
 
@@ -90,6 +92,7 @@ export class Schedule {
             daysOfWeek: this.daysOfWeek,
             startTime: this.startTime,
             endTime: this.endTime,
+            autoStartOfDay: this.autoStartOfDay,
         };
     }
 
@@ -120,5 +123,27 @@ export class Schedule {
 
     get endTime() {
         return serializeToTimeString(this._endMinutes);
+    }
+
+    getNextOpenHoursStart(now) {
+        if(!now) now = new Date();
+        let nextStartDate = new Date(now.getTime());
+
+        nextStartDate.setHours(Math.floor(this._startMinutes / 60));
+        nextStartDate.setMinutes(this._startMinutes % 60);
+        nextStartDate.setSeconds(0);
+        nextStartDate.setMilliseconds(0);
+
+        // Find the next play day (assumption: it can't be more than 1 week away)
+        for(let dayOffset = 0; dayOffset < 7; ++dayOffset) {
+            nextStartDate.setDate(now.getDate() + dayOffset);
+
+            // We're in the past keep looking
+            if(now.getTime() >= nextStartDate.getTime()) continue;
+
+            if(this._daysOfWeek.includes(nextStartDate.getDay())) break;
+        }
+
+        return nextStartDate.getTime();
     }
 }

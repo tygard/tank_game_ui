@@ -96,7 +96,7 @@ export function Game({ game, setGame, debug }) {
                             config={versionConfig}
                             setSelectedUser={setSelectedUser}
                             canSubmitAction={canSubmitAction}></Council>
-                        <OpenHours openHours={gameInfo?.openHours}></OpenHours>
+                        <OpenHours openHours={gameInfo?.openHours} debug={debug}></OpenHours>
                         <GameManual manualPath={versionConfig?.getManual?.()}></GameManual>
                     </div>
                 </div>

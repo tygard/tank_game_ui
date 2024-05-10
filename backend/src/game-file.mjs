@@ -120,9 +120,11 @@ export class GameManager {
         this._interactors.push(interactor);
         await interactor.loaded;
 
-        let actionSets = [
-            new StartOfDaySource(),
-        ];
+        let actionSets = [];
+
+        if(!interactor.hasAutomaticStartOfDay()) {
+            actionSets.push(new StartOfDaySource());
+        }
 
         const engineSpecificSource = engine.getEngineSpecificSource &&
             engine.getEngineSpecificSource();
