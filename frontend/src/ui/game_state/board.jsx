@@ -102,7 +102,7 @@ function Tile({ className = "", children, floorTile, disabled, onClick, selected
             if(spec) style.background = spec.color;
         }
 
-        if(!onClick && !disabled && floorTile.type !== "empty" && !children?.length) {
+        if(!onClick && !disabled && floorTile.type !== "empty" && children === null) {
             onClick = () => setPopupOpen(popupOpen => !popupOpen);
         }
         else if(popupOpen) {

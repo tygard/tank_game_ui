@@ -1,3 +1,4 @@
+import { useCallback } from "preact/hooks";
 import "./log_entry_selector.css";
 
 export function LogEntrySelector({ gameStateManager, logBook, debug, extraButtonsLeft }) {
@@ -27,6 +28,20 @@ export function LogEntrySelector({ gameStateManager, logBook, debug, extraButton
     const previousEntryId = Math.max(logBook.getFirstEntryId(), gameStateManager.entryId - 1);
     const nextEntryId = Math.min(logBook.getLastEntryId(), gameStateManager.entryId + 1);
 
+    const isFirstEntryOfDay = dayRelativeEntryId === 1;
+
+    const goToPreviousDay = useCallback(() => {
+        // Jump to the start of today
+        let targetDay = today;
+
+        if(isFirstEntryOfDay) {
+            // Start of day go to previous day
+            targetDay = previousDay;
+        }
+
+        playerSetEntry(logBook.getFirstEntryOfDay(targetDay).id);
+    }, [today, previousDay, isFirstEntryOfDay, playerSetEntry, logBook]);
+
     return (
         <div className="turn-selector centered">
             {extraButtonsLeft}
@@ -36,8 +51,8 @@ export function LogEntrySelector({ gameStateManager, logBook, debug, extraButton
                     {gameStateManager.isPlayingBack ? "Pause playback" : "Playback turns"}
             </button>
             <button
-                onClick={() => playerSetEntry(logBook.getFirstEntryOfDay(previousDay).id)}
-                disabled={today == previousDay}>
+                onClick={goToPreviousDay}
+                disabled={gameStateManager.entryId <= logBook.getFirstEntryId()}>
                     &lt;&lt; Day
             </button>
             <button
