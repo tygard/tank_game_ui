@@ -35,10 +35,10 @@ export function GameBoardView({ board, config, setSelectedUser, canSubmitAction 
 
     let renderedBoard = [<div key="coords-row" className="game-board-row">{letters}</div>];
 
-    for(let y = 0; y < board.width; ++y) {
+    for(let y = 0; y < board.height; ++y) {
         let renderedRow = [<Tile key={`coord-y-${y}`} className="board-space-coordinate">{y + 1}</Tile>];
 
-        for(let x = 0; x < board.height; ++x) {
+        for(let x = 0; x < board.width; ++x) {
             const position = new Position(x, y);
             const disabled = possibleTargets && !possibleTargets.has(position.humanReadable);
 

@@ -41,8 +41,12 @@ html, body {
 }
 
 .app-content {
-    flex-grow: 1;
     margin: 8px;
+}
+
+.app-wrapper {
+    width: 100%;
+    overflow: auto;
 }
 
 .app-wrapper.with-sidebar {
