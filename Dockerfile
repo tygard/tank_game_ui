@@ -1,14 +1,13 @@
 FROM node:20-alpine AS frontend
 
-# Install frontend build dependencies
-COPY frontend/package*.json /build/frontend/
-RUN cd /build/frontend && npm ci
+# Install build dependencies
+COPY package*.json /build/
+RUN cd /build/ && npm ci
 
 # Build frontend
 ARG BUILD_INFO
-COPY frontend/ /build/frontend/
-COPY common/ /build/common/
-RUN cd /build/frontend && npm run build
+COPY . /build/
+RUN cd /build/ && npm run build
 
 FROM docker.io/openjdk:21-jdk-bookworm AS engine
 WORKDIR /build/
@@ -23,23 +22,23 @@ RUN --mount=type=cache,target=/root/.m2 /build/build-java-engine all
 
 FROM node:20-alpine
 
-WORKDIR /app/backend
+WORKDIR /app/
 
 # Install java for the entine
 RUN apk --no-cache --update add openjdk21-jre-headless
 
 # Install backend dependencies
-COPY backend/package*.json /app/backend/
-RUN npm ci
+COPY package*.json /app/
+RUN npm ci --omit=dev
 
 ARG BUILD_INFO
 ENV BUILD_INFO=${BUILD_INFO}
 
 # Copy everything over to the final image
-COPY backend/ /app/backend/
-COPY common/ /app/common/
-COPY frontend/public/ /app/www/
-COPY --from=frontend /build/frontend/dist/ /app/www/
+COPY src /app/src
+COPY default-config.yaml /app/
+COPY public /app/www/
+COPY --from=frontend /build/dist/ /app/www/
 COPY --from=engine /build/tankgame/target/TankGame-*.jar /app/engine/
 
 # Place some sample data in /data so users can try out the app

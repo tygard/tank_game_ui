@@ -1,0 +1,46 @@
+{
+    "name": "tank_game_ui_backend",
+    "version": "0.0.0",
+    "description": "A basic web UI for playing tank game",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "LOG_LEVEL=error mocha --reporter-option maxDiffSize=0 --recursive test/unit/",
+        "integration-test": "LOG_FILE=integration-test.log TANK_GAME_UI_CONFIG=example/tank-game-ui.yaml LOG_LEVEL=trace mocha --reporter-option maxDiffSize=0 --recursive --timeout 10000 test/integration-test/",
+        "develop-backend": "BUILD_INFO=$(./scripts/get-version webpack) LOG_LEVEL=debug TANK_GAME_UI_CONFIG=example/tank-game-ui.yaml npm start",
+        "start": "node src/drivers/rest/index.mjs",
+        "develop-frontend": "webpack serve",
+        "build": "NODE_ENV=production webpack",
+        "eslint": "eslint src/ test/"
+    },
+    "author": "Ryan Ray <ryan314r@gmail.com>",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.1",
+        "pino": "^9.0.0",
+        "pino-http": "^10.0.0",
+        "pino-pretty": "^11.0.0",
+        "yaml": "^2.4.2"
+    },
+    "devDependencies": {
+        "@babel/eslint-parser": "^7.24.5",
+        "@babel/plugin-transform-react-jsx": "^7.23.4",
+        "@babel/preset-env": "^7.24.5",
+        "@eslint/js": "^8.57.0",
+        "babel-loader": "^9.1.3",
+        "css-loader": "^7.1.1",
+        "eslint": "^8.57.0",
+        "eslint-plugin-react": "^7.34.1",
+        "eslint-plugin-react-hooks": "^4.6.2",
+        "html-webpack-plugin": "^5.6.0",
+        "mocha": "^10.4.0",
+        "preact": "^10.21.0",
+        "style-loader": "^4.0.0",
+        "webpack": "^5.90.3",
+        "webpack-cli": "^5.1.4",
+        "webpack-dev-server": "^5.0.4"
+    },
+    "imports": {
+        "#platform/*": "./src/drivers/platforms/node/*"
+    }
+}

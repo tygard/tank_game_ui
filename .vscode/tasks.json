@@ -5,10 +5,7 @@
             "label": "Develop frontend",
             "type": "process",
             "command": "npm",
-            "args": ["run", "develop"],
-            "options": {
-                "cwd": "${workspaceFolder}/frontend"
-            },
+            "args": ["run", "develop-frontend"],
             "problemMatcher": [],
             "presentation": {
                 "echo": false,
@@ -23,10 +20,7 @@
             "label": "Develop backend",
             "type": "process",
             "command": "npm",
-            "args": ["run", "develop"],
-            "options": {
-                "cwd": "${workspaceFolder}/backend"
-            },
+            "args": ["run", "develop-backend"],
             "problemMatcher": [],
             "presentation": {
                 "echo": false,
@@ -42,9 +36,6 @@
             "type": "process",
             "command": "npm",
             "args": ["test"],
-            "options": {
-                "cwd": "${workspaceFolder}/backend"
-            },
             "isBackground": true,
             "problemMatcher": [],
             "presentation": {
@@ -61,9 +52,6 @@
             "type": "process",
             "command": "npm",
             "args": ["run", "integration-test"],
-            "options": {
-                "cwd": "${workspaceFolder}/backend"
-            },
             "isBackground": true,
             "problemMatcher": [],
             "presentation": {
@@ -75,5 +63,20 @@
                 "clear": true
             }
         },
+        {
+            "label": "Eslint",
+            "type": "process",
+            "command": "npm",
+            "args": ["run", "eslint"],
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        }
     ]
 }
