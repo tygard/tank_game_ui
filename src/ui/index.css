@@ -44,11 +44,6 @@ html, body {
     margin: 8px;
 }
 
-.app-wrapper {
-    width: 100%;
-    overflow: auto;
-}
-
 .app-wrapper.with-sidebar {
     margin-left: var(--sidebar-width);
 }
