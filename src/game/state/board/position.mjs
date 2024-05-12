@@ -1,4 +1,5 @@
 const encodedA = "A".charCodeAt(0);
+const POSITION_EXPR = /([A-Za-z]+)(\d+)/;
 
 export class Position {
     constructor(x, y) {
@@ -7,11 +8,33 @@ export class Position {
     }
 
     static fromHumanReadable(humanReadable) {
-        return new Position(humanReadable.charCodeAt(0) - encodedA, +humanReadable.slice(1) - 1);
+        const match = humanReadable.match(POSITION_EXPR);
+        if(!match) throw new Error(`Invalid human reabale position: ${humanReadable}`);
+
+        let x = -1;
+        let xStr = match[1];
+
+        for(let i = 0; i < xStr.length; ++i) {
+            x = (x + 1) * 26;
+            x += xStr[i].toUpperCase().charCodeAt(0) - encodedA;
+        }
+
+        return new Position(x, +match[2] - 1);
     }
 
     get humanReadableX() {
-        return String.fromCharCode(encodedA + this.x);
+        let strPosition = "";
+        let x = this.x;
+
+        for(;;) {
+            strPosition = String.fromCharCode(encodedA + (x % 26)) + strPosition;
+
+            const remaining = Math.floor(x / 26);
+            if(remaining === 0) break;
+            x = remaining - 1;
+        }
+
+        return strPosition;
     }
 
     get humanReadableY() {
