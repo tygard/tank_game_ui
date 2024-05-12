@@ -16,7 +16,6 @@ html, body {
 }
 
 .app-side-by-side {
-    display: flex;
     flex-wrap: wrap;
 }
 
@@ -52,7 +51,6 @@ html, body {
 
 .app-wrapper.with-sidebar {
     margin-left: var(--sidebar-width);
-    width: calc(100% - var(--sidebar-width));
 }
 
 footer {
