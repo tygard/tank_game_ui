@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+image="${REGISTRY}/${IMAGE_NAME}"
 flavor="${1:-${GITHUB_RUN_NUMBER:-unknown}}"
 
 version="$(git describe --tags --abbrev=0)"
@@ -14,12 +15,17 @@ fi
 
 git_info+="$(git rev-parse --short HEAD)"
 
+addtional_tags="${image}:testing"
+if echo "${version}" | grep -P '^v\d+\.\d+\.\d+$' &>/dev/null; then
+    addtional_tags+=",${image}:latest"
+fi
 
 build_info="${version}-${flavor} ${git_info}"
 
 if [ -n "$GITHUB_OUTPUT" ]; then
     echo "version=$version" >> "$GITHUB_OUTPUT"
     echo "build_info=$build_info" >> "$GITHUB_OUTPUT"
+    echo "additional_tags=$addtional_tags" >> "$GITHUB_OUTPUT"
 fi
 
 echo "$build_info"
