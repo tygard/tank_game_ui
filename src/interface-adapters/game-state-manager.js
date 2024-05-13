@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import { useGameState } from "../drivers/rest/fetcher.js";
-import { GameState } from "../game/state/game-state.mjs";
+import { GameState } from "../game/state/game-state.js";
 
 
 const TURN_SWITCH_FREQENCY = 700;  // 0.7 seconds in ms

@@ -1,4 +1,4 @@
-import { prettyifyName } from "../../utils.mjs";
+import { prettyifyName } from "../../utils.js";
 import { AttributeList } from "./attribute-list.jsx";
 import "./council.css";
 
