@@ -164,7 +164,9 @@ describe("GameInteractor", () => {
     });
 
     it("can process valid actions after failing actions", async () => {
-        const { interactor, mockEngine, logBook } = await configureInteractor([]);
+        const { interactor, mockEngine, logBook } = await configureInteractor([
+            new LogEntry(1, { type: "action", day: 1 }, 0),
+        ]);
 
         mockEngine.throwOnNext = true;
         let error;
@@ -178,17 +180,19 @@ describe("GameInteractor", () => {
         assert.ok(error);
 
         // Make sure that bad action didn't get added
-        assert.equal(logBook.getLastEntryId(), -1);
-        assert.deepEqual(getAllStates(interactor, 0 /* expect 0 states (loads 1) */), [
+        assert.equal(logBook.getLastEntryId(), 0);
+        assert.deepEqual(getAllStates(interactor, 1 /* expect 0 states (loads 1) */), [
+            { stateNo: 2, converted: true, },
             undefined,
         ]);
 
         await interactor.addLogBookEntry({ action: "passes" });
 
         // Make sure the good action did get added
-        assert.equal(logBook.getLastEntryId(), 0);
-        assert.deepEqual(getAllStates(interactor, 1 /* expect 1 states (loads 2) */), [
+        assert.equal(logBook.getLastEntryId(), 1);
+        assert.deepEqual(getAllStates(interactor, 2 /* expect 2 states (loads 3) */), [
             { stateNo: 2, converted: true },
+            { stateNo: 3, converted: true, },
             undefined,
         ]);
     });

@@ -32,7 +32,7 @@ export class GameInteractor {
 
     async _processActionsLogic() {
         // Nothing to process
-        if(this._gameStates.length === this._logBook.getLastEntryId() + 1) return; // +1 for index to length
+        if(this._gameStates.length === this._logBook.getLength()) return;
 
         const startIndex = this._gameStates.length;
         const endIndex = this._logBook.getLastEntryId();
@@ -79,8 +79,8 @@ export class GameInteractor {
     }
 
     async _addLogBookEntry(entry) {
-        if(this._gameStates.length !== this._logBook.getLastEntryId() + 1) { // +1 for index to length
-            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
+        if(this._gameStates.length !== this._logBook.getLength()) {
+            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLength()}, states = ${this._gameStates.length})`);
         }
 
         this._throwIfGameNotOpen();
@@ -108,8 +108,8 @@ export class GameInteractor {
     }
 
     async _canProcessAction(entry) {
-        if(this._gameStates.length !== this._logBook.getLastEntryId() + 1) { // +1 for index to length
-            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLastEntryId() + 1}, states = ${this._gameStates.length})`);
+        if(this._gameStates.length !== this._logBook.getLength()) {
+            throw new Error(`Logbook length and states length should be identical (log book = ${this._logBook.getLength()}, states = ${this._gameStates.length})`);
         }
 
         this._throwIfGameNotOpen();

@@ -53,7 +53,7 @@ export function useGameStateManager(logBook, game) {
     const [state, error] = useGameState(game, entryId);
 
     // Change the current entry and track the latest entry if we set it to that
-    const setEntryIdAndTrackLastEntry = useCallback((newEntryId) => {
+    const setEntryIdAndTrackLastEntry = useCallback((newEntryId) => { // <-- internal?
         setEntryId(newEntryId);
 
         // If the user moves to the latest entry stay on the latest entry
@@ -62,11 +62,11 @@ export function useGameStateManager(logBook, game) {
 
 
     // If entry hasn't been set jump to the latest entry
-    if(logBook && entryId === undefined) {
+    if(logBook && entryId === undefined) { // <-- initialize?
         setEntryIdAndTrackLastEntry(logBook.getLastEntryId());
     }
 
-    const [playback, setPlayback] = useAutoTurnAdvance(logBook, entryId, setEntryIdAndTrackLastEntry);
+    const [playback, setPlayback] = useAutoTurnAdvance(logBook, entryId, setEntryIdAndTrackLastEntry); // TBD
 
     const togglePlayback = useCallback(() => {
         setPlayback(!playback);
@@ -84,7 +84,7 @@ export function useGameStateManager(logBook, game) {
     const isLatestEntry = logBook ? entryId >= logBook.getLastEntryId() : false;
 
 
-    const playerSetEntry = newEntryId => {
+    const playerSetEntry = newEntryId => { // <-- action
         setEntryIdAndTrackLastEntry(newEntryId);
         // If the user changes the entry stop playback
         setPlayback(false);
@@ -102,3 +102,113 @@ export function useGameStateManager(logBook, game) {
         error,
     };
 }
+
+function determineDayRelativeIds(state) {
+    const currentEntry = state._logBook.getEntry(state.entryId);
+    state.today = currentEntry?.day || 0;
+    const firstIdOfDay = state._logBook.getFirstEntryOfDay(state.today)?.id || 0;
+    const lastIdOfDay = state._logBook.getLastEntryOfDay(state.today)?.id || 0;
+    state.maxEntryIdToday = (lastIdOfDay - firstIdOfDay) + 1;
+    state.dayRelativeEntryId = (state.entryId - firstIdOfDay) + 1;
+}
+
+
+export function currentLogGameStateReducer(state, action) {
+    // Create the default state
+    if(!state) {
+        state = {};
+    }
+
+    if(action.type == "go-to-entry") {
+        state.entryId = action.entryId;
+    }
+
+    // If entry hasn't been set or we are already on the last entry jump to any new entries that come in
+    const trackingLastEntry = state.entryId === undefined || state.entryId === state?._logBook?.getLastEntryId?.();
+
+    if(action.type == "set-log-book") {
+        state._logBook = action.logBook;
+    }
+    else if(!state._logBook && action.type != "go-to-entry") {
+        throw new Error("set-log-book or go-to-entry must be dispatched before any other");
+    }
+
+    if(state._logBook && trackingLastEntry) {
+        state.entryId = state._logBook.getLastEntryId();
+    }
+
+    if(state._logBook) {
+        // Make sure our log entry is in bounds for the current log book
+        state.entryId = Math.max(state._logBook.getFirstEntryId(), Math.min(state._logBook.getLastEntryId(), state.entryId));
+
+        determineDayRelativeIds(state);
+
+        // Handle user updates to the entry
+        if(action.type == "next-entry") {
+            state.entryId = Math.min(state._logBook.getLastEntryId(), state.entryId + 1);
+        }
+
+        if(action.type == "previous-entry") {
+            state.entryId = Math.max(state._logBook.getFirstEntryId(), state.entryId - 1);
+        }
+
+        const nextDay = Math.min(state._logBook.getMaxDay(), state.today + 1);
+        if(action.type == "next-day") {
+            state.entryId = state._logBook.getFirstEntryOfDay(nextDay).id;
+        }
+
+        if(action.type == "previous-day") {
+            // Jump to the start of today (if not already there)
+            let targetDay = state.today;
+
+            if(state.dayRelativeEntryId === 1) {
+                // Start of day go to previous day
+                targetDay = Math.max(state._logBook.getMinDay(), state.today - 1);
+            }
+
+            state.entryId = state._logBook.getFirstEntryOfDay(targetDay).id;
+        }
+
+        if(action.type == "latest-turn") {
+            state.entryId = state._logBook.getLastEntryId();
+        }
+
+        determineDayRelativeIds(state);
+
+        // Tell the UI whether certain actions can be taken
+        state.isLatestEntry = state.entryId === state._logBook.getLastEntryId();
+
+        state.canGoTo = {
+            previousDay: state.entryId > state._logBook.getFirstEntryId(),
+            previousTurn: state.entryId > state._logBook.getFirstEntryId(),
+            nextTurn: !state.isLatestEntry,
+            nextDay: state.today < state._logBook.getMaxDay(),
+            latestTurn: !state.isLatestEntry,
+        };
+    }
+    else {
+        // Fill with defaults
+        state.isLatestEntry = false;
+        state.today = 0;
+        state.dayRelativeEntryId = state.entryId;
+        state.maxEntryIdToday = state.entryId;
+
+        state.canGoTo = {
+            previousDay: false,
+            previousTurn: false,
+            nextTurn: false,
+            nextDay: false,
+            latestTurn: false,
+        };
+    }
+
+    return state;
+}
+
+export const setLogBook = logBook => ({ type: "set-log-book", logBook });
+export const goToNextEntry = () => ({ type: "next-entry" });
+export const goToPreviousEntry = () => ({ type: "previous-entry" });
+export const goToNextDay = () => ({ type: "next-day" });
+export const goToPreviousDay = () => ({ type: "previous-day" });
+export const goToLatestTurn = () => ({ type: "latest-turn" });
+export const goToEntryId = entryId => ({ type: "go-to-entry", entryId });

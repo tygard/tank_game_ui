@@ -99,7 +99,7 @@ export class LogBook {
     }
 
     getLastEntryId() {
-        return this._entries.length - 1;
+        return Math.max(0, this._entries.length - 1);
     }
 
     getMinDay() {
@@ -135,5 +135,9 @@ export class LogBook {
 
     getAllDays() {
         return Object.keys(this._entriesPerDay);
+    }
+
+    getLength() {
+        return this._entries.length;
     }
 }
