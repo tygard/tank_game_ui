@@ -112,6 +112,56 @@ function determineDayRelativeIds(state) {
     state.dayRelativeEntryId = (state.entryId - firstIdOfDay) + 1;
 }
 
+function processTurnUpdateAction(state, action) {
+    // Handle user updates to the entry
+    if(action.type == "next-entry" || action.type == "auto-advance-entry") {
+        state.entryId = Math.min(state._logBook.getLastEntryId(), state.entryId + 1);
+    }
+
+    // Note the time that we so we can advance at a consisent rate
+    if(action.type == "auto-advance-entry") {
+        state.lastAutoAdvance = Date.now();
+    }
+
+    if(action.type == "previous-entry") {
+        state.entryId = Math.max(state._logBook.getFirstEntryId(), state.entryId - 1);
+    }
+
+    const nextDay = Math.min(state._logBook.getMaxDay(), state.today + 1);
+    if(action.type == "next-day") {
+        state.entryId = state._logBook.getFirstEntryOfDay(nextDay).id;
+    }
+
+    if(action.type == "previous-day") {
+        // Jump to the start of today (if not already there)
+        let targetDay = state.today;
+
+        if(state.dayRelativeEntryId === 1) {
+            // Start of day go to previous day
+            targetDay = Math.max(state._logBook.getMinDay(), state.today - 1);
+        }
+
+        state.entryId = state._logBook.getFirstEntryOfDay(targetDay).id;
+    }
+
+    if(action.type == "latest-turn") {
+        state.entryId = state._logBook.getLastEntryId();
+    }
+
+    if(action.type == "toggle-playback") {
+        state.playbackInProgress = !state.playbackInProgress;
+
+        // Set the last auto advance time when we start playing so we don't immediately jump to the next turn
+        state.lastAutoAdvance = state.playbackInProgress ? Date.now() : 0;
+    }
+
+    // If this was a player initiated turn change stop playback
+    if(action.type != "auto-advance-entry" && action.type != "set-log-book" && action.type != "toggle-playback") {
+        state.playbackInProgress = false;
+        state.lastAutoAdvance = 0;
+    }
+}
+
 
 export function currentLogGameStateReducer(state, action) {
     // Create the default state
@@ -142,41 +192,17 @@ export function currentLogGameStateReducer(state, action) {
         state.entryId = Math.max(state._logBook.getFirstEntryId(), Math.min(state._logBook.getLastEntryId(), state.entryId));
 
         determineDayRelativeIds(state);
-
-        // Handle user updates to the entry
-        if(action.type == "next-entry") {
-            state.entryId = Math.min(state._logBook.getLastEntryId(), state.entryId + 1);
-        }
-
-        if(action.type == "previous-entry") {
-            state.entryId = Math.max(state._logBook.getFirstEntryId(), state.entryId - 1);
-        }
-
-        const nextDay = Math.min(state._logBook.getMaxDay(), state.today + 1);
-        if(action.type == "next-day") {
-            state.entryId = state._logBook.getFirstEntryOfDay(nextDay).id;
-        }
-
-        if(action.type == "previous-day") {
-            // Jump to the start of today (if not already there)
-            let targetDay = state.today;
-
-            if(state.dayRelativeEntryId === 1) {
-                // Start of day go to previous day
-                targetDay = Math.max(state._logBook.getMinDay(), state.today - 1);
-            }
-
-            state.entryId = state._logBook.getFirstEntryOfDay(targetDay).id;
-        }
-
-        if(action.type == "latest-turn") {
-            state.entryId = state._logBook.getLastEntryId();
-        }
-
+        processTurnUpdateAction(state, action);
         determineDayRelativeIds(state);
 
         // Tell the UI whether certain actions can be taken
         state.isLatestEntry = state.entryId === state._logBook.getLastEntryId();
+
+        // We're on the most recent entry stop playback
+        if(state.isLatestEntry) {
+            state.playbackInProgress = false;
+            state.lastAutoAdvance = 0;
+        }
 
         state.canGoTo = {
             previousDay: state.entryId > state._logBook.getFirstEntryId(),
@@ -189,6 +215,8 @@ export function currentLogGameStateReducer(state, action) {
     else {
         // Fill with defaults
         state.isLatestEntry = false;
+        state.playbackInProgress = false;
+        state.lastAutoAdvance = 0;
         state.today = 0;
         state.dayRelativeEntryId = state.entryId;
         state.maxEntryIdToday = state.entryId;
@@ -212,3 +240,5 @@ export const goToNextDay = () => ({ type: "next-day" });
 export const goToPreviousDay = () => ({ type: "previous-day" });
 export const goToLatestTurn = () => ({ type: "latest-turn" });
 export const goToEntryId = entryId => ({ type: "go-to-entry", entryId });
+export const togglePlayback = () => ({ type: "toggle-playback" });
+export const autoAdvanceEntry = () => ({ type: "auto-advance-entry" });

@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import { currentLogGameStateReducer, goToEntryId, goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, setLogBook } from "../../../src/interface-adapters/game-state-manager.js";
+import { autoAdvanceEntry, currentLogGameStateReducer, goToEntryId, goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, setLogBook, togglePlayback } from "../../../src/interface-adapters/game-state-manager.js";
 import { LogBook } from "../../../src/game/state/log-book/log-book.js";
 
 
@@ -42,6 +42,8 @@ const expectedFirstEntry = {
     maxEntryIdToday: 3,
     entryId: 0,
     isLatestEntry: false,
+    playbackInProgress: false,
+    lastAutoAdvance: 0,
 };
 
 
@@ -58,6 +60,8 @@ const expectedEntryId1 = {
     maxEntryIdToday: 3,
     entryId: 1,
     isLatestEntry: false,
+    playbackInProgress: false,
+    lastAutoAdvance: 0,
 };
 
 
@@ -74,6 +78,8 @@ const expectedEntryId3 = {
     maxEntryIdToday: 6,
     entryId: 3,
     isLatestEntry: false,
+    playbackInProgress: false,
+    lastAutoAdvance: 0,
 };
 
 
@@ -90,6 +96,8 @@ const expectedLastTurnState = {
     maxEntryIdToday: 4,
     entryId: 12,
     isLatestEntry: true,
+    playbackInProgress: false,
+    lastAutoAdvance: 0,
 };
 
 
@@ -110,6 +118,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 1,
             entryId: 0,
             isLatestEntry: true,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
     });
 
@@ -133,6 +143,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 15,
             entryId: 15,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
     });
 
@@ -154,6 +166,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 4,
             entryId: 11,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Go back 1 more turn
@@ -171,6 +185,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 4,
             entryId: 10,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // go back to the previous day
@@ -189,6 +205,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 6,
             entryId: 8,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Jump to the start of the day
@@ -206,6 +224,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 6,
             entryId: 3,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Jump to the start of the previous day also the first day of the log book
@@ -242,6 +262,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 3,
             entryId: 1,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Go forward another entry
@@ -259,6 +281,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 3,
             entryId: 2,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Advance to the next day
@@ -280,6 +304,8 @@ describe("GameStateManager", () => {
             maxEntryIdToday: 4,
             entryId: 9,
             isLatestEntry: false,
+            playbackInProgress: false,
+            lastAutoAdvance: 0,
         });
 
         // Advance to the end
@@ -301,5 +327,59 @@ describe("GameStateManager", () => {
         let state = currentLogGameStateReducer(undefined, goToEntryId(1));
         state = currentLogGameStateReducer(state, setLogBook(testLogbook));
         compareStates(state, expectedEntryId1);
+    });
+
+    it("all user actions reset playback", () => {
+        let state = currentLogGameStateReducer(undefined, setLogBook(testLogbook));
+        state = currentLogGameStateReducer(state, goToEntryId(3));
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(state.playbackInProgress);
+
+        const actions = [
+            goToEntryId(0),
+            goToPreviousDay(),
+            goToPreviousEntry(),
+            goToNextDay(),
+            goToNextEntry(),
+            goToLatestTurn(),
+        ];
+
+        for(const action of actions) {
+            assert.ok(!currentLogGameStateReducer(state, action).playbackInProgress, action.type);
+        }
+    });
+
+    it("playback is halted when the last action is reached", async () => {
+        let state = currentLogGameStateReducer(undefined, setLogBook(testLogbook));
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(!state.playbackInProgress, "Playback can't be enabled on last turn");
+        assert.equal(state.lastAutoAdvance, 0);
+
+        state = currentLogGameStateReducer(state, goToEntryId(10)); // 3nd to last turn
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(state.playbackInProgress, "Playback can be enabled on the 3nd to last turn");
+        assert.notEqual(state.lastAutoAdvance, 0);
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(!state.playbackInProgress, "Playback can be disabled by toggle playback");
+        assert.equal(state.lastAutoAdvance, 0);
+
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(state.playbackInProgress, "Playback can be enabled on the 3nd to last turn");
+        assert.notEqual(state.lastAutoAdvance, 0);
+
+        // Wait a few ms so Date.now() returns a different value
+        await new Promise(resolve => setTimeout(resolve, 10));
+
+        const lastAdvance = state.lastAutoAdvance;
+        state = currentLogGameStateReducer(state, autoAdvanceEntry());
+        assert.ok(state.playbackInProgress, "Playback can stays enabled on the 2nd to last turn");
+        assert.ok(lastAdvance < state.lastAutoAdvance);
+
+        state = currentLogGameStateReducer(state, autoAdvanceEntry());
+        assert.ok(!state.playbackInProgress, "Playback is disabled on the last turn");
+        assert.equal(state.lastAutoAdvance, 0);
+        state = currentLogGameStateReducer(state, togglePlayback());
+        assert.ok(!state.playbackInProgress, "Playback can't be enabled on last turn");
+        assert.equal(state.lastAutoAdvance, 0);
     });
 });
