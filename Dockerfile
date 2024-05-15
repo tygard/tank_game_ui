@@ -39,7 +39,7 @@ COPY src /app/src
 COPY default-config.yaml /app/
 COPY public /app/www/
 COPY --from=frontend /build/dist/ /app/www/
-COPY --from=engine /build/tankgame/target/TankGame-*.jar /app/engine/
+COPY --from=engine /build/engine/target/TankGame-*.jar /app/engine/
 
 # Place some sample data in /data so users can try out the app
 COPY example/*.json /data/games/

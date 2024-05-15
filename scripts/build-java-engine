@@ -7,19 +7,19 @@ ENGINE_VERSION=ba66276ffb8303ab0d480caccc4b71eeddaa5da8
 
 checkout() {
     # Build tank game engine
-    if [ -d "tankgame" ]; then
-        git -C tankgame fetch origin
+    if [ -d "engine" ]; then
+        git -C engine fetch origin
     else
         git clone https://github.com/TankGameOrg/engine.git
     fi
 
-    pushd tankgame &>/dev/null
+    pushd engine &>/dev/null
     git checkout "${ENGINE_VERSION}"
     popd &>/dev/null
 }
 
 build() {
-    pushd tankgame &>/dev/null
+    pushd engine &>/dev/null
     mvn compile package
 
     # Rename the executable to include the git hash for easy debugging
@@ -30,7 +30,7 @@ build() {
 
     if [ -n "$1" ]; then
         mkdir -p "$1"
-        mv -v tankgame/target/TankGame-*.jar "$1"
+        mv -v engine/target/TankGame-*.jar "$1"
     fi
 }
 
