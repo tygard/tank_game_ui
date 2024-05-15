@@ -1,107 +1,39 @@
-import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import { useGameState } from "../drivers/rest/fetcher.js";
-import { GameState } from "../game/state/game-state.js";
-
+import { useEffect, useReducer } from "preact/hooks";
 
 const TURN_SWITCH_FREQENCY = 700;  // 0.7 seconds in ms
 
 
-function useAutoTurnAdvance(logBook, entryId, setEntryIdAndTrackLastEntry) {
-    const [playback, setPlayback] = useState(false);
-    const [lastAutoTurnAdvance, setLastAutoTurnAdvance] = useState();
-
-    // If we stop playing clear the last auto entry advance we don't double advance on the first entry
-    const setPlaybackWrapper = useCallback((newPlayback) => {
-        if(!newPlayback) setLastAutoTurnAdvance(undefined);
-        setPlayback(newPlayback);
-    }, [setPlayback, setLastAutoTurnAdvance]);
-
+function useAutoTurnAdvance(state, dispatch) {
     useEffect(() => {
         // Not playing nothing to do
-        if(!playback || !logBook) return () => {};
-
-        // Hit the end stop playing
-        if(entryId == logBook.getLastEntryId()) {
-            setPlaybackWrapper(false);
-            return () => {};
-        }
+        if(!state.playbackInProgress) return;
 
         // This effect block can update for lots of reasons so keep track of the last time we advanced the logEntry
-        let timeSinceLastAutoAdvance = Date.now() - lastAutoTurnAdvance;
-        if(lastAutoTurnAdvance === undefined) {
-            setLastAutoTurnAdvance(Date.now());
-            timeSinceLastAutoAdvance = 0;
-        }
-
+        let timeSinceLastAutoAdvance = Date.now() - state.lastAutoAdvance;
         const timeBeforeNextAdvance = TURN_SWITCH_FREQENCY - timeSinceLastAutoAdvance;
 
         const handle = setTimeout(() => {
-            setLastAutoTurnAdvance(Date.now());
-            setEntryIdAndTrackLastEntry(Math.min(entryId + 1, logBook.getLastEntryId()));
+            dispatch(autoAdvanceEntry());
         }, timeBeforeNextAdvance);
 
         return () => clearTimeout(handle);
-    }, [logBook, entryId, setEntryIdAndTrackLastEntry, playback, lastAutoTurnAdvance, setLastAutoTurnAdvance, setPlaybackWrapper]);
-
-    return [playback, setPlaybackWrapper];
+    }, [state, dispatch]);
 }
 
 
-export function useGameStateManager(logBook, game) {
-    const [entryId, setEntryId] = useState();
-    const [trackingLastEntry, setTrackingLastEntry] = useState();
-    const [state, error] = useGameState(game, entryId);
+export function useCurrentTurnManager(logBook) {
+    // Set and empty log book to create an initial state
+    const initFn = () => currentLogGameStateReducer(undefined, { type: "set-log-book" });
+    const [state, dispatch] = useReducer(currentLogGameStateReducer, undefined, initFn);
+    useAutoTurnAdvance(state, dispatch);
 
-    // Change the current entry and track the latest entry if we set it to that
-    const setEntryIdAndTrackLastEntry = useCallback((newEntryId) => { // <-- internal?
-        setEntryId(newEntryId);
-
-        // If the user moves to the latest entry stay on the latest entry
-        setTrackingLastEntry(newEntryId >= logBook.getLastEntryId());
-    }, [setTrackingLastEntry, setEntryId, logBook]);
-
-
-    // If entry hasn't been set jump to the latest entry
-    if(logBook && entryId === undefined) { // <-- initialize?
-        setEntryIdAndTrackLastEntry(logBook.getLastEntryId());
-    }
-
-    const [playback, setPlayback] = useAutoTurnAdvance(logBook, entryId, setEntryIdAndTrackLastEntry); // TBD
-
-    const togglePlayback = useCallback(() => {
-        setPlayback(!playback);
-    }, [playback, setPlayback]);
-
-
-    // If we're following the last entry and a new entry gets added change to that one
     useEffect(() => {
-        if(trackingLastEntry && logBook) {
-            setEntryId(logBook.getLastEntryId());
-        }
-    }, [logBook, trackingLastEntry, setEntryId]);
+        dispatch(setLogBook(logBook));
+    }, [dispatch, logBook]);
 
-
-    const isLatestEntry = logBook ? entryId >= logBook.getLastEntryId() : false;
-
-
-    const playerSetEntry = newEntryId => { // <-- action
-        setEntryIdAndTrackLastEntry(newEntryId);
-        // If the user changes the entry stop playback
-        setPlayback(false);
-    };
-
-    const gameState = useMemo(() => state ? GameState.deserialize(state) : undefined, [state]);
-
-    return {
-        gameState,
-        entryId,
-        isLatestEntry,
-        isPlayingBack: playback,
-        togglePlayback,
-        playerSetEntry,
-        error,
-    };
+    return [state, dispatch];
 }
+
 
 function determineDayRelativeIds(state) {
     const currentEntry = state._logBook.getEntry(state.entryId);
@@ -111,6 +43,7 @@ function determineDayRelativeIds(state) {
     state.maxEntryIdToday = (lastIdOfDay - firstIdOfDay) + 1;
     state.dayRelativeEntryId = (state.entryId - firstIdOfDay) + 1;
 }
+
 
 function processTurnUpdateAction(state, action) {
     // Handle user updates to the entry
@@ -165,9 +98,7 @@ function processTurnUpdateAction(state, action) {
 
 export function currentLogGameStateReducer(state, action) {
     // Create the default state
-    if(!state) {
-        state = {};
-    }
+    state = state ? Object.assign({}, state) : {};
 
     if(action.type == "go-to-entry") {
         state.entryId = action.entryId;

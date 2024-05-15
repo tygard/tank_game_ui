@@ -1,15 +1,15 @@
 import { GameBoard } from "./game_state/board.jsx";
 import { useCallback, useState } from "preact/hooks";
-import { useGameInfo } from "../drivers/rest/fetcher.js";
+import { useGameInfo, useGameState } from "../drivers/rest/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit_turn.jsx";
 import { Council } from "./game_state/council.jsx";
 import { LogBook } from "./game_state/log_book.jsx";
-import { useGameStateManager } from "../interface-adapters/game-state-manager.js";
 import { ErrorMessage } from "./error_message.jsx";
 import { OpenHours } from "./open-hours.jsx";
 import { AppContent } from "./app-content.jsx";
 import { GameManual } from "./game-manual.jsx";
+import { goToEntryId, goToLatestTurn, useCurrentTurnManager } from "../interface-adapters/game-state-manager.js";
 
 
 export function Game({ game, setGame, debug }) {
@@ -17,21 +17,24 @@ export function Game({ game, setGame, debug }) {
     // so we create this state that game info depends on so when change it game info
     // gets refreshed
     const [gameInfoTrigger, setGameInfoTrigger] = useState();
-    const [gameInfo, error] = useGameInfo(game, gameInfoTrigger);
+    const [gameInfo, infoError] = useGameInfo(game, gameInfoTrigger);
     const refreshGameInfo = useCallback(() => {
         setGameInfoTrigger(!gameInfoTrigger);
     }, [gameInfoTrigger, setGameInfoTrigger]);
 
-    const gameStateManager = useGameStateManager(gameInfo?.logBook, game);
+    const [currentTurnMgrState, distachLogEntryMgr] = useCurrentTurnManager(gameInfo?.logBook);
+    const [gameState, stateError] = useGameState(game, currentTurnMgrState.entryId);
     const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
+
+    const error = infoError || stateError;
 
     // The user that's currently submitting actions
     const [selectedUser, setSelectedUserDirect] = useState();
-    const canSubmitAction = gameStateManager.gameState?.running && !gameIsClosed;
+    const canSubmitAction = gameState?.running && !gameIsClosed;
 
     const setSelectedUser = user => {
         setSelectedUserDirect(user);
-        gameStateManager.playerSetEntry(gameInfo?.logBook.getLastEntryId())
+        distachLogEntryMgr(goToLatestTurn());
     };
 
     const backToGamesButton = <button onClick={() => setGame(undefined)}>Back to games</button>;
@@ -44,18 +47,18 @@ export function Game({ game, setGame, debug }) {
         </AppContent>;
     }
 
-    if(error || gameStateManager.error) {
+    if(error) {
         return <AppContent>
             {backToGamesButton}
-            <ErrorMessage error={error || gameStateManager.error}></ErrorMessage>
+            <ErrorMessage error={error}></ErrorMessage>
         </AppContent>;
     }
 
     const versionConfig = gameInfo?.config?.getGameVersion?.(gameInfo?.logBook?.gameVersion);
 
     let gameMessage;
-    if(gameStateManager?.gameState?.winner !== undefined) {
-        gameMessage = <div className="success message">{gameStateManager?.gameState?.winner} is victorious!</div>;
+    if(gameState?.winner !== undefined) {
+        gameMessage = <div className="success message">{gameState?.winner} is victorious!</div>;
     }
 
     if(!gameMessage && gameIsClosed) {
@@ -72,27 +75,31 @@ export function Game({ game, setGame, debug }) {
             debug={debug}
             logBook={gameInfo?.logBook}
             setGame={setGame}
-            gameStateManager={gameStateManager}></LogEntrySelector>
+            currentTurnMgrState={currentTurnMgrState}
+            distachLogEntryMgr={distachLogEntryMgr}></LogEntrySelector>
     );
 
     return (
         <>
             <div className="app-sidebar">
-                <LogBook logBook={gameInfo?.logBook} currentEntryId={gameStateManager.entryId} changeEntryId={gameStateManager.playerSetEntry}></LogBook>
+                <LogBook
+                    logBook={gameInfo?.logBook}
+                    currentEntryId={currentTurnMgrState.entryId}
+                    changeEntryId={entryId => distachLogEntryMgr(goToEntryId(entryId))}></LogBook>
             </div>
             <AppContent withSidebar debugMode={debug} toolbar={toolBar} buildInfo={gameInfo?.buildInfo}>
                 <div className="app-side-by-side centered">
                     <div className="app-side-by-side-main">
                         {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
                         <GameBoard
-                            board={gameStateManager.gameState?.board}
+                            board={gameState?.board}
                             config={versionConfig}
                             canSubmitAction={canSubmitAction}
                             setSelectedUser={setSelectedUser}></GameBoard>
                     </div>
                     <div>
                         <Council
-                            gameState={gameStateManager.gameState}
+                            gameState={gameState}
                             config={versionConfig}
                             setSelectedUser={setSelectedUser}
                             canSubmitAction={canSubmitAction}></Council>
@@ -109,8 +116,8 @@ export function Game({ game, setGame, debug }) {
                             canSubmitAction={canSubmitAction}
                             refreshGameInfo={refreshGameInfo}
                             debug={debug}
-                            entryId={gameStateManager.entryId}
-                            isLatestEntry={gameStateManager?.isLatestEntry}></SubmitTurn>}
+                            entryId={currentTurnMgrState.entryId}
+                            isLatestEntry={currentTurnMgrState.isLatestEntry}></SubmitTurn>}
                     </div>
                 </div>
             </AppContent>
