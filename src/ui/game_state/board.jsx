@@ -1,10 +1,10 @@
 import "./board.css";
 import { targetSelectionState } from "../space-selecting-state";
-import { Position } from "../../game/state/board/position.mjs";
+import { Position } from "../../game/state/board/position.js";
 import { EntityTile } from "./entity-tile.jsx";
 import { useRef, useState } from "preact/hooks";
 import { Popup } from "../generic/popup.jsx";
-import { prettyifyName } from "../../utils.mjs";
+import { prettyifyName } from "../../utils.js";
 
 
 export function GameBoard({ board, config, setSelectedUser, canSubmitAction, emptyMessage = "No board data supplied" }) {

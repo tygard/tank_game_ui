@@ -1,9 +1,10 @@
 /* globals window, location, history, fetch */
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { LogBook } from "../../game/state/log-book/log-book.mjs";
-import { Config } from "../../config/config.mjs";
-import { NamedFactorySet } from "../../game/possible-actions/index.mjs";
-import { OpenHours } from "../../game/open-hours/index.mjs";
+import { LogBook } from "../../game/state/log-book/log-book.js";
+import { Config } from "../../config/config.js";
+import { NamedFactorySet } from "../../game/possible-actions/index.js";
+import { OpenHours } from "../../game/open-hours/index.js";
+import { GameState } from "../../game/state/game-state.js";
 
 const FETCH_FREQUENCY = 2; // seconds
 const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
@@ -132,7 +133,8 @@ export const useGameInfo = makeReactDataFetchHelper({
 
 export const useGameState = makeReactDataFetchHelper({
     shouldSendRequest: (game, entryId) => game !== undefined && entryId !== undefined,
-    url: (game, entryId) => `/api/game/${game}/turn/${entryId}`
+    url: (game, entryId) => `/api/game/${game}/turn/${entryId}`,
+    parse: rawGameState => GameState.deserialize(rawGameState),
 });
 
 export const usePossibleActionFactories = makeReactDataFetchHelper({

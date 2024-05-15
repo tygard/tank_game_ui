@@ -1,4 +1,4 @@
-import { prettyifyName } from "../../utils.mjs";
+import { prettyifyName } from "../../utils.js";
 
 export function AttributeList({ attributes, excludedAttributes = new Set() }) {
     return (

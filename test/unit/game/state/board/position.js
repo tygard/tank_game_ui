@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import { Position } from "../../../../../src/game/state/board/position.mjs";
+import { Position } from "../../../../../src/game/state/board/position.js";
 
 describe("Position", () => {
     it("can encode xy coordinates as letters", () => {

@@ -8,7 +8,7 @@
         "test": "LOG_LEVEL=error mocha --reporter-option maxDiffSize=0 --recursive test/unit/",
         "integration-test": "LOG_FILE=integration-test.log TANK_GAME_UI_CONFIG=example/tank-game-ui.yaml LOG_LEVEL=trace mocha --reporter-option maxDiffSize=0 --recursive --timeout 10000 test/integration-test/",
         "develop-backend": "BUILD_INFO=$(./scripts/get-version webpack) LOG_LEVEL=debug TANK_GAME_UI_CONFIG=example/tank-game-ui.yaml npm start",
-        "start": "node src/drivers/rest/index.mjs",
+        "start": "node src/drivers/rest/index.js",
         "develop-frontend": "webpack serve",
         "build": "NODE_ENV=production webpack",
         "eslint": "eslint src/ test/"

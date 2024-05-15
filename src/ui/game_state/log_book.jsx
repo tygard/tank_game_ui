@@ -49,7 +49,7 @@ function LogEntry({ currentEntryId, logEntry, selectEntry }) {
     const scrollRef = useRef();
 
     useEffect(() => {
-        if(isCurrent) {
+        if(isCurrent && scrollRef.current) {
             scrollRef.current.scrollIntoView({ block: "center", behavior: "smooth" });
         }
     }, [scrollRef, isCurrent])
