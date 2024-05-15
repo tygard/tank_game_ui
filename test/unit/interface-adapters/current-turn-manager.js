@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import { autoAdvanceEntry, currentLogGameStateReducer, goToEntryId, goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, setLogBook, togglePlayback } from "../../../src/interface-adapters/game-state-manager.js";
+import { autoAdvanceEntry, currentLogGameStateReducer, goToEntryId, goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, setLogBook, togglePlayback } from "../../../src/interface-adapters/current-turn-manager.js";
 import { LogBook } from "../../../src/game/state/log-book/log-book.js";
 
 
