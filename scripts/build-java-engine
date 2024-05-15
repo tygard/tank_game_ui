@@ -10,7 +10,7 @@ checkout() {
     if [ -d "tankgame" ]; then
         git -C tankgame fetch origin
     else
-        git clone https://github.com/TrevorBrunette/tankgame.git
+        git clone https://github.com/TankGameOrg/engine.git
     fi
 
     pushd tankgame &>/dev/null
