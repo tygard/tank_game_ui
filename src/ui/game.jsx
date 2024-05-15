@@ -9,7 +9,7 @@ import { ErrorMessage } from "./error_message.jsx";
 import { OpenHours } from "./open-hours.jsx";
 import { AppContent } from "./app-content.jsx";
 import { GameManual } from "./game-manual.jsx";
-import { goToEntryId, goToLatestTurn, useCurrentTurnManager } from "../interface-adapters/game-state-manager.js";
+import { goToEntryId, goToLatestTurn, useCurrentTurnManager } from "../interface-adapters/current-turn-manager.js";
 
 
 export function Game({ game, setGame, debug }) {

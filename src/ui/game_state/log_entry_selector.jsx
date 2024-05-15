@@ -1,5 +1,5 @@
 import "./log_entry_selector.css";
-import { goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, togglePlayback } from "../../interface-adapters/game-state-manager";
+import { goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, togglePlayback } from "../../interface-adapters/current-turn-manager";
 
 export function LogEntrySelector({ currentTurnMgrState, distachLogEntryMgr, debug, extraButtonsLeft }) {
     if(currentTurnMgrState.entryId === undefined) {
