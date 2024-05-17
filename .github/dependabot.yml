@@ -10,7 +10,13 @@ updates:
    directory: "/"
    schedule:
      interval: weekly
+     day: "saturday"
  - package-ecosystem: "npm"
    directory: "/"
    schedule:
      interval: weekly
+     day: "saturday"
+   ignore:
+    # eslint-plugin-react and eslint-plugin-react-hooks don't support recent versions of eslint
+    - dependency-name: eslint
+    - dependency-name: @eslint/js

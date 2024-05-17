@@ -32,12 +32,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: "recursive"
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - name: Checkout java engine
-        run: ./scripts/build-java-engine checkout
       - name: Use JDK
         uses: actions/setup-java@v4
         with:
@@ -45,7 +45,8 @@ jobs:
           cache: 'maven'
           distribution: 'temurin'
       - name: Build java engine
-        run: ./scripts/build-java-engine build engine
+        working-directory: engine
+        run: mvn clean compile package
       - name: Install dependencies
         run: npm ci
       - name: Run integration tests

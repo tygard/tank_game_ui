@@ -1,10 +1,26 @@
 #!/bin/bash
 set -e
 
+sortable_version() {
+    local major="$(echo "$1" | grep -Po 'v\K\d+')"
+    local minor="$(echo "$1" | grep -Po 'v\d+\.\K\d+')"
+    local patch="$(echo "$1" | grep -Po 'v\d+\.\d+\.\K\d+')"
+
+    printf "%04d.%04d.%04d\n" $major $minor $patch
+}
+
 image="${REGISTRY}/${IMAGE_NAME}"
 flavor="${1:-${GITHUB_RUN_NUMBER:-unknown}}"
 
 version="$(git describe --tags --abbrev=0)"
+
+# Find the highest tag
+latest_version="$(git tag -l | while read version; do
+    sortable_version "$version"
+done | sort | tail -1)"
+
+echo "Verion: $version ($(sortable_version "$version"))" >&2
+echo "Latest: $latest_version" >&2
 
 # Get the current git branch and hash
 git_info=""
@@ -15,10 +31,31 @@ fi
 
 git_info+="$(git rev-parse --short HEAD)"
 
-addtional_tags="${image}:testing"
-if echo "${version}" | grep -P '^v\d+\.\d+\.\d+$' &>/dev/null; then
-    addtional_tags+=",${image}:latest"
+# Grab the major and major.minor versions and use the as tags
+major_minor="$(echo "${version}" | grep -Po '^v\d+\.\d+' || :)"
+major="$(echo "${version}" | grep -Po '^v[1-9][0-9]*' || :)"
+
+if [ -n "${major_minor}" ]; then
+    addtional_tags="${image}:${major_minor}"
 fi
+
+if [ -n "${major}" ]; then
+    if [ -n "${addtional_tags}" ]; then
+        addtional_tags+=","
+    fi
+
+    addtional_tags+="${image}:${major}"
+fi
+
+if [ "$(sortable_version "$version")" == "$latest_version" ]; then
+    if [ -n "${addtional_tags}" ]; then
+        addtional_tags+=","
+    fi
+
+    addtional_tags+="${image}:latest"
+fi
+
+echo "Tags: $(echo "$addtional_tags" | sed 's/,/, /')" >&2
 
 build_info="${version}-${flavor} ${git_info}"
 

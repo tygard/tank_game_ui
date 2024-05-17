@@ -8,7 +8,6 @@ import { createEngine } from "../java-engine/engine-interface.js";
 
 // If build info is supplied print it
 const buildInfo = process.env.BUILD_INFO;
-if(buildInfo) logger.info(`Build info: ${buildInfo}`);
 
 // Helper to make interacting with games easier for routes
 function gameAccessor(gameManager, config) {

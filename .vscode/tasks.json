@@ -77,6 +77,42 @@
                 "showReuseMessage": true,
                 "clear": true
             }
+        },
+        {
+            "label": "Build java engine",
+            "type": "process",
+            "command": "mvn",
+            "args": ["compile", "package"],
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}/engine"
+            },
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Clean engine",
+            "type": "process",
+            "command": "git",
+            "args": ["clean", "-Xdff"],
+            "options": {
+                "cwd": "${workspaceFolder}/engine"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
         }
     ]
 }

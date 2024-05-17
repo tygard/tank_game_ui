@@ -8,14 +8,22 @@ If you plan on using open hours make sure to add `-e TZ="<your locale>"` i.e. `d
 
 If you want to save your games run run `docker run --rm -it -p 3333:3333 -v <path to your data folder>:/data --init ghcr.io/tankgameorg/ui` where <path to your data folder> is the absolute path to your data folder (if you're not sure `$(pwd)/tank-game` is a good start).
 
-## Developing
-
-If you're using vscode open the devcontainer.  Then run `npm run develop-frontend` and `npm run develop-backend` to start the development servers.  You may need to run `npm install` in one or both of those folders.  You will also need a copy of TankGame.jar which you can get by running `scripts/aquire_jar` outside the container or by building [TankGameOrg/engine](https://github.com/TankGameOrg/engine) directly.  Then navigate to http://localhost:3000/.
-
-### Running with custom tank game jar
+### Running releases with a custom tank game jar
 
 You can sepecify a custom tank game engine with `TANK_GAME_ENGINE_COMMAND` or by placing a jar in `/app/engine/` ex `docker run --rm -it -p 3333:3333 --init -v $(pwd):/app/engine ghcr.io/tankgameorg/ui`.
 
 ### Debugging
 
 If you encounter a strange behavior you can enter debug mode by typing `up arrow` `up arrow` `down arrow` `down arrow` `left arrow` `right arrow` which will display the extra state information which can be useful for debugging.
+
+## Developing
+
+1. Setup your environment
+  * If you're using vscode install the dev containers extension and reopen in dev container. (go to step 2)
+  * If you're not using vscode, checkout the engine submodule `git submodule init`, and `git submodule update`
+  * Then build the engine `cd engine` and `mvn compile package`
+  * Install the UI dependencies `npm install` (from the repo root)
+2. Run `npm run develop-frontend` and `npm run develop-backend` to start the development servers.  Vscode users can run Ctrl+Shift+P Run task and select the corresponding tasks.
+3. Then navigate to http://localhost:3000/.
+
+When checking out new versions of tank game you may need to rerun step 1.  Vscode users can type Ctrl+Shift+P Rebuild Container.

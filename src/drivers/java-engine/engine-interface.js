@@ -9,7 +9,7 @@ import { PromiseLock } from "../../utils.js";
 
 const TANK_GAME_TIMEOUT = 3; // seconds
 
-const ENGINE_SEARCH_DIR = "engine";
+const ENGINE_SEARCH_DIR = process.env.TANK_GAME_ENGINE_SEARCH_DIR || "engine";
 const TANK_GAME_ENGINE_COMMAND = (function() {
     let command = process.env.TANK_GAME_ENGINE_COMMAND;
 
@@ -33,6 +33,10 @@ logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND && TANK_GAME_E
 
 class TankGameEngine {
     constructor(command, timeout) {
+        if(!Array.isArray(command) || command.length <= 0) {
+            throw new Error(`Expected an array in the form ["command", ...args] but got ${command}`);
+        }
+
         this._command = command;
         this._stdout = "";
         this._timeout = timeout;
