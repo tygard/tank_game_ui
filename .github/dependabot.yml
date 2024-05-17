@@ -19,4 +19,4 @@ updates:
    ignore:
     # eslint-plugin-react and eslint-plugin-react-hooks don't support recent versions of eslint
     - dependency-name: eslint
-    - dependency-name: @eslint/js
+    - dependency-name: "@eslint/js"
