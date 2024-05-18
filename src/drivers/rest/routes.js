@@ -25,7 +25,6 @@ export function defineRoutes(app, buildInfo) {
             buildInfo,
             openHours: interactor.getOpenHours().serialize({ resolved: true }),
             logBook: interactor.getLogBook().serialize(),
-            config: req.games.config.serialize(),
         });
     });
 
@@ -78,7 +77,6 @@ export function defineRoutes(app, buildInfo) {
             logEntry: logBook.getEntry(lastId),
             gameState: interactor.getGameStateById(lastId),
             interactor: interactor,
-            config: req.games.config,
         });
 
         res.json(factories.serialize());

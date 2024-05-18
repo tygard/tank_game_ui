@@ -1,7 +1,6 @@
 /* globals window, location, history, fetch */
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { LogBook } from "../../game/state/log-book/log-book.js";
-import { Config } from "../../config/config.js";
 import { NamedFactorySet } from "../../game/possible-actions/index.js";
 import { OpenHours } from "../../game/open-hours/index.js";
 import { GameState } from "../../game/state/game-state.js";
@@ -119,13 +118,10 @@ export const useGameInfo = makeReactDataFetchHelper({
     shouldSendRequest: game => game !== undefined,
     url: game => `/api/game/${game}/`,
     parse: data => {
-        const config = Config.deserialize(data.config);
-
         return {
             buildInfo: data.buildInfo,
             openHours: OpenHours.deserialize(data.openHours),
-            logBook: LogBook.deserialize(data.logBook, config),
-            config,
+            logBook: LogBook.deserialize(data.logBook),
         };
     },
     frequency: FETCH_FREQUENCY,

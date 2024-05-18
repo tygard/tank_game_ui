@@ -10,6 +10,7 @@ import { OpenHours } from "./open-hours.jsx";
 import { AppContent } from "./app-content.jsx";
 import { GameManual } from "./game-manual.jsx";
 import { goToEntryId, goToLatestTurn, useCurrentTurnManager } from "../interface-adapters/current-turn-manager.js";
+import { getGameVersion } from "../versions/index.js";
 
 
 export function Game({ game, setGame, debug }) {
@@ -54,7 +55,8 @@ export function Game({ game, setGame, debug }) {
         </AppContent>;
     }
 
-    const versionConfig = gameInfo?.config?.getGameVersion?.(gameInfo?.logBook?.gameVersion);
+    const versionConfig = gameInfo?.logBook?.gameVersion !== undefined ?
+        getGameVersion(gameInfo.logBook.gameVersion) : undefined;
 
     let gameMessage;
     if(gameState?.winner !== undefined) {

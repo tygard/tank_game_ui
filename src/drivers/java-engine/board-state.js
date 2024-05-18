@@ -12,37 +12,10 @@ import Players from "../../game/state/players/players.js";
 import { Position } from "../../game/state/board/position.js";
 import { Resource, ResourceHolder } from "../../game/state/resource.js";
 
-
-// User keys that should be treated as resources
-const resourceKeys = {
-    "tank": new Set(["health", "actions", "range", "gold", "bounty"]),
-    "dead-tank": new Set(["health", "gold"]),
-    "wall": new Set(["health"]),
-};
-
 // The prefix used for the max value of an attribute
 const MAX_PREFIX = "MAX_";
 
-// Attributes to remove from all entities
-const globalAttributesToDrop = ["dead"];
-
-// Attributes to remove from specific entities
-const attributesToDropByType = {
-    "dead-tank": ["actions", "range", "bounty"],
-};
-
-// Attributes that have a different name in the board state from what is internally expected
-const attributesToRenameByType = {
-    "wall": {
-        durability: "health",
-    },
-    "tank": {
-        durability: "health",
-    },
-    "dead-tank": {
-        durability: "health",
-    },
-};
+const deadTankAttributesToRemove = ["ACTIONS", "RANGE", "BOUNTY"];
 
 
 export function gameStateFromRawState(rawGameState) {
@@ -69,9 +42,14 @@ export function gameStateFromRawState(rawGameState) {
     return gameState;
 }
 
-function getAttributeName(name, type) {
+function getAttributeName(name, rawEntity) {
     name = name.toLowerCase();
-    return attributesToRenameByType[type]?.[name] || name;
+
+    if(rawEntity.type == "tank" && !rawEntity.attributes.DEAD && name == "durability") {
+        return "health";
+    }
+
+    return name;
 }
 
 
@@ -87,37 +65,37 @@ function convertCouncil(rawCouncil) {
     return new ResourceHolder(resources);
 }
 
+function shouldKeepAttribute(attributeName, rawEntity) {
+    if(attributeName == "DEAD" || attributeName.startsWith(MAX_PREFIX)) {
+        return false;
+    }
+
+    if(rawEntity.type == "tank" && rawEntity.attributes.DEAD) {
+        return !deadTankAttributesToRemove.includes(attributeName);
+    }
+
+    return true;
+}
+
 
 function entityFromBoard(rawEntity, position, playersByName) {
-    let resources;
-    const isDead = (rawEntity.attributes !== undefined) ? rawEntity.attributes.DEAD : rawEntity.dead;
-    const type = rawEntity.type == "tank" && isDead ? "dead-tank" : rawEntity.type;
+    let resources = [];
 
     if(rawEntity.attributes) {
         resources = Object.keys(rawEntity.attributes)
-            .filter(name => !name.startsWith(MAX_PREFIX))
+            .filter(name => shouldKeepAttribute(name, rawEntity))
             .map(name => {
                 return new Resource(
-                    getAttributeName(name, type),
+                    getAttributeName(name, rawEntity),
                     rawEntity.attributes[name],
                     rawEntity.attributes[`${MAX_PREFIX}${name}`]);
             });
     }
-    else {
-        // Resources are stored as properties directly on the rawEntity extract them
-        resources = Object.keys(rawEntity)
-            .filter(name => (resourceKeys[type] || new Set()).has(name))
-            .map(name => new Resource(getAttributeName(name, type), rawEntity[name]));
-    }
-
-    // Remove any attributes we don't want on this entity
-    let attributesToDrop = (attributesToDropByType[type] || []).concat(globalAttributesToDrop);
-    resources = resources.filter(resource => !attributesToDrop.includes(resource.name));
 
     resources = new ResourceHolder(resources);
 
     const player = playersByName[rawEntity.name];
-    let entity = new Entity(type, position, resources);
+    let entity = new Entity(rawEntity.type, position, resources);
 
     if(player) {
         player.adopt(entity);

@@ -1,8 +1,8 @@
 /* globals process */
 import express from "express";
+import { createGameManager } from "../game-file.js";
 import { logger } from "#platform/logging.js"
 import { makeHttpLogger } from "#platform/logging.js";
-import { loadConfigAndGames } from "../config-loader.js";
 import { defineRoutes } from "./routes.js";
 import { createEngine } from "../java-engine/engine-interface.js";
 
@@ -10,7 +10,7 @@ import { createEngine } from "../java-engine/engine-interface.js";
 const buildInfo = process.env.BUILD_INFO;
 
 // Helper to make interacting with games easier for routes
-function gameAccessor(gameManager, config) {
+function gameAccessor(gameManager) {
     return (req, res, next) => {
         function getGameIfAvailable() {
             const {loaded, error, sourceSet, interactor} = gameManager.getGame(req.params.gameName);
@@ -38,24 +38,22 @@ function gameAccessor(gameManager, config) {
         req.games = {
             getGameIfAvailable,
             gameManager,
-            config
         };
 
         next();
     };
 }
 
+const port = 3333;
 
 (async () => {
-    let { config, gameManager } = await loadConfigAndGames(createEngine, true /* save updated files */);
-    const {port, disableHttpLogging} = config.getConfig().backend;
+    let gameManager = await createGameManager(createEngine, true /* save updated files */);
 
     const app = express();
 
-    if(!disableHttpLogging) app.use(makeHttpLogger());
-
+    app.use(makeHttpLogger());
     app.use(express.json());
-    app.use(gameAccessor(gameManager, config));
+    app.use(gameAccessor(gameManager));
 
     defineRoutes(app, buildInfo);
 

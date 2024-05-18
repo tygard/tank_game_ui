@@ -4,11 +4,11 @@ import assert from "node:assert";
 import fs from "node:fs";
 import { GameInteractor } from "../../src/game/execution/game-interactor.js";
 import { LogBook } from "../../src/game/state/log-book/log-book.js";
-import { loadConfig, loadConfigAndGames } from "../../src/drivers/config-loader.js";
-import { load, save } from "../../src/drivers/game-file.js";
+import { load, save, createGameManager } from "../../src/drivers/game-file.js";
 import { logger } from "#platform/logging.js";
 import { OpenHours } from "../../src/game/open-hours/index.js";
 import { hashFile } from "../../src/drivers/file-utils.js";
+import { getGameVersion } from "../../src/versions/index.js";
 
 export function defineTestsForEngine(createEngine) {
     function defTest(name, testFunc) {
@@ -32,7 +32,7 @@ export function defineTestsForEngine(createEngine) {
     const TEST_GAME_RECREATE_PATH = `example/tank_game_v3-recreate.json`;
 
     defTest("can process the entire example folder", async () => {
-        let { gameManager } = await loadConfigAndGames(createEngine);
+        let gameManager = await createGameManager(createEngine);
         try {
             await gameManager.loaded;
 
@@ -48,15 +48,14 @@ export function defineTestsForEngine(createEngine) {
     });
 
     defTest("can process actions together and individually", async () => {
-        const config = await loadConfig();
-        let { logBook, initialGameState } = await load(TEST_GAME_PATH, config);
+        let { logBook, initialGameState } = await load(TEST_GAME_PATH);
 
         let timeStampEntryId = 0;
         const makeTimeStamp = () => {
             return logBook.getEntry(timeStampEntryId)?.rawLogEntry?.timestamp || -1;
         };
 
-        let emptyLogBook = new LogBook(logBook.gameVersion, [], config.getGameVersion(logBook.gameVersion), makeTimeStamp);
+        let emptyLogBook = new LogBook(logBook.gameVersion, [], getGameVersion(logBook.gameVersion), makeTimeStamp);
 
         let fullEngine = createEngine();
         let incrementalEngine = createEngine();
@@ -107,7 +106,7 @@ export function defineTestsForEngine(createEngine) {
     });
 
     defTest("can provide a list of possible actions", async () => {
-        let { gameManager, config } = await loadConfigAndGames(createEngine);
+        let gameManager = await createGameManager(createEngine);
         try {
             await gameManager.loaded;
 
@@ -129,7 +128,6 @@ export function defineTestsForEngine(createEngine) {
                     logEntry: logBook.getEntry(lastId),
                     gameState: interactor.getGameStateById(lastId),
                     interactor: interactor,
-                    config,
                 });
 
                 for(const factory of factories) {

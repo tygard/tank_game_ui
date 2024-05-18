@@ -2,20 +2,7 @@ import { useCallback, useRef, useState } from "preact/hooks";
 import "./entity-tile.css";
 import { Popup } from "../generic/popup.jsx";
 import { prettyifyName } from "../../utils.js";
-import { takeAllMatches, takeFirstMatch } from "../../config/expressions.js";
 import { AttributeList } from "./attribute-list.jsx";
-
-
-function getStyleInfo(choices, entity) {
-    if(!choices) return {};
-
-    const info = takeFirstMatch(choices, entity.get.bind(entity));
-
-    return {
-        background: info.background,
-        color: info.textColor,
-    };
-}
 
 
 function EntityDetails({ entity, setSelectedUser, canSubmitAction, closePopup }) {
@@ -44,20 +31,20 @@ function EntityDetails({ entity, setSelectedUser, canSubmitAction, closePopup })
 }
 
 
-function getBadgesForEntity(spec, entity) {
-    const badgeAttribute = entity.get(spec.badgeAttribute);
+function getBadgesForEntity(descriptor) {
+    const badgeAttribute = descriptor.getBadge();
 
     const rightBadge = badgeAttribute !== undefined ? (
-        <div className="board-space-entity-badge right-badge" style={{ background: spec.badgeColor, color: spec.badgeTextColor }}>
-            {badgeAttribute}
+        <div className="board-space-entity-badge right-badge" style={badgeAttribute.style}>
+            {badgeAttribute.text}
         </div>
     ): undefined;
 
-    const indicators = takeAllMatches(spec.indicators || [], entity.get.bind(entity))
-        .map(indicator => <span key={indicator.name} style={{ color: indicator.color }}>{indicator.symbol}</span>);
+    const indicators = descriptor.getIndicators()
+        .map(indicator => <span key={indicator.symbol} style={indicator.style}>{indicator.symbol}</span>);
 
     const leftBadge = indicators.length > 0 ? (
-        <div className="board-space-entity-badge left-badge" style={{ background: spec.indicatorBackground, color: spec.indicatorDefaultColor }}>
+        <div className="board-space-entity-badge left-badge" style={{ background: descriptor.getIndicatorBackground() }}>
             {indicators}
         </div>
     ): undefined;
@@ -79,17 +66,18 @@ export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, 
         </div>
     );
 
-    const spec = (config && config.getEntityDescriptor(entity.type)) || { color: {} };
-    const featuredAttribute = entity.get(spec.featuredAttribute);
-    const tileStyles = getStyleInfo(spec.tileColor, entity);
-    const badges = getBadgesForEntity(spec, entity);
+    const descriptor = config && config.getEntityDescriptor(entity);
+    if(!descriptor) return;
+
+    const tileStyles = descriptor.getTileStyle().style;
+    const badges = getBadgesForEntity(descriptor);
 
     return (
         <div className="board-space-entity-wrapper">
             <div className="board-space-entity" ref={cardRef} onClick={() => showPopupOnClick && setOpened(open => !open)} style={tileStyles}>
                 {label}
                 <div className={`board-space-centered board-space-resource-featured ${label ? "" : "board-space-no-label"}`}>
-                    {featuredAttribute?.toString?.()}
+                    {descriptor.getFeaturedAttribute()}
                 </div>
                 {badges}
             </div>

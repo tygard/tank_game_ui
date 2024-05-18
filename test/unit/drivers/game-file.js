@@ -1,6 +1,5 @@
 import assert from "node:assert";
 import { FILE_FORMAT_VERSION, GameManager, MINIMUM_SUPPORTED_FILE_FORMAT_VERSION, load, save } from "../../../src/drivers/game-file.js";
-import { Config } from "../../../src/config/config.js";
 import path from "node:path";
 import fs from"node:fs";
 import { MockEngine } from "../game/execution/game-interactor.js";
@@ -10,22 +9,6 @@ const TEST_FILES = "test/unit/drivers/test-files";
 const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
 const sampleFilePath = path.join(TEST_FILES, `${sampleFileBaseName}.json`);
 
-const gameConfig = new Config({
-    defaultGameVersion: {},
-    gameVersions: {
-        3: {},
-    },
-    config: {
-        backend: {
-            gamesFolder: TEST_FILES,
-        },
-    },
-});
-
-const emptyConfig = new Config({
-    gameVersions: {},
-    defaultGameVersion: {},
-});
 
 function validateLogBook(logBook) {
     assert.equal(logBook.getMaxDay(), 16);
@@ -43,19 +26,19 @@ function validateSampleFile({logBook, initialGameState}) {
 
 describe("GameFile", () => {
     it("can load and deserialize the latest format with version specific config", async () => {
-        validateSampleFile(await load(sampleFilePath, gameConfig));
+        validateSampleFile(await load(sampleFilePath));
     });
 
     it("can load and deserialize the latest format without version specific config", async () => {
-        validateSampleFile(await load(sampleFilePath, emptyConfig));
+        validateSampleFile(await load(sampleFilePath));
     });
 
     for(let version = MINIMUM_SUPPORTED_FILE_FORMAT_VERSION; version < FILE_FORMAT_VERSION; ++version) {
         it(`loading version ${version} returns the same data as version ${FILE_FORMAT_VERSION}`, async () => {
             const oldFilePath = path.join(TEST_FILES, `tank_game_v3_format_v${version}.json`);
 
-            const oldFile = await load(oldFilePath, gameConfig);
-            const newFile = await load(sampleFilePath, gameConfig);
+            const oldFile = await load(oldFilePath);
+            const newFile = await load(sampleFilePath);
 
             assert.deepEqual(oldFile, newFile);
         });
@@ -64,7 +47,7 @@ describe("GameFile", () => {
     it("loading and saving a file recreates the original file", async () => {
         const tempFile = path.join(TEST_FILES, `tank_game_temp_test_file-load-save.json`);
 
-        await save(tempFile, await load(sampleFilePath, gameConfig));
+        await save(tempFile, await load(sampleFilePath));
 
         const orig = await hashFile(sampleFilePath);
         const recreated = await hashFile(tempFile);
@@ -81,7 +64,7 @@ describe("GameFile", () => {
 
         // This test logs load errors to the console as warnings.  You may want to set the LOG_LEVEL to info
         // in the package.json if you want to debug this test.
-        const gameManager = new GameManager(gameConfig, mockEngineFactory);
+        const gameManager = new GameManager(TEST_FILES, mockEngineFactory);
 
         await gameManager.loaded;
 

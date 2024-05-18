@@ -1,26 +1,7 @@
 import assert from "node:assert";
-import { Config } from "../../../../../src/config/config.js";
 import { LogBook } from "../../../../../src/game/state/log-book/log-book.js";
 
 const GAME_VERSION = 3;
-
-const config = new Config({
-    defaultGameVersion: {},
-    gameVersions: {
-        3: {
-            logEntryFormatters: {
-                shoot: "{subject} took aim at {position} and {hit}",
-                buy_action: "{subject} traded {quantity} gold for actions.  Big spender.",
-            },
-        },
-        5: {
-            logEntryFormatters: {
-                shoot: "This better now show up (shoot)",
-                move: "This better now show up (move)",
-            },
-        },
-    },
-});
 
 // These should point to the start of day actions in the list below
 const firstDayIndex = 0;
@@ -34,7 +15,7 @@ const rawEntries = [
     {
         "type": "action",
         "subject": "Corey",
-        "position": "I6",
+        "target": "I6",
         "hit": true,
         "action": "shoot"
     },
@@ -45,13 +26,13 @@ const rawEntries = [
     {
         "type": "action",
         "subject": "Xavion",
-        "quantity": 5,
+        "gold": 5,
         "action": "buy_action"
     },
     {
         "type": "action",
         "subject": "Corey",
-        "position": "H4",
+        "target": "H4",
         "action": "move"
     },
 ];
@@ -65,14 +46,14 @@ describe("LogBook", () => {
     describe("LogEntry", () => {
         it("can format messages based on the game version config", () => {
             const expectedMessages = [
-                "You might want to define a formatter for start_of_day",
-                "Corey took aim at I6 and hit",
-                "You might want to define a formatter for start_of_day",
-                "Xavion traded 5 gold for actions.  Big spender.",
-                "You might want to define a formatter for move",
+                "Start of day 1",
+                "Corey shot I6",
+                "Start of day 2",
+                "Xavion traded 5 gold for actions",
+                "Corey moved to H4",
             ];
 
-            const logBook = LogBook.deserialize(rawLogBook, config);
+            const logBook = LogBook.deserialize(rawLogBook);
             for(let i = 0; i <= logBook.getLastEntryId(); ++i) {
                 assert.equal(logBook.getEntry(i).message, expectedMessages[i]);
             }
@@ -80,14 +61,14 @@ describe("LogBook", () => {
     });
 
     it("can deserialize and reserialize itself", () => {
-        const logBook = LogBook.deserialize(rawLogBook, config);
+        const logBook = LogBook.deserialize(rawLogBook);
         const serialized = logBook.serialize();
 
         assert.deepEqual(serialized, rawLogBook);
     });
 
     it("can determine its boundaries", () => {
-        const logBook = LogBook.deserialize(rawLogBook, config);
+        const logBook = LogBook.deserialize(rawLogBook);
         assert.equal(logBook.getFirstEntryId(), 0);
         assert.equal(logBook.getLastEntryId(), rawEntries.length - 1);
         assert.equal(logBook.getMinDay(), 1);
@@ -95,7 +76,7 @@ describe("LogBook", () => {
     });
 
     it("can walk through entries by day", () => {
-        const logBook = LogBook.deserialize(rawLogBook, config);
+        const logBook = LogBook.deserialize(rawLogBook);
 
         const firstEntryFirstDay = logBook.getEntry(firstDayIndex);
         const firstEntrySecondDay = logBook.getEntry(secondDayIndex);
@@ -112,7 +93,7 @@ describe("LogBook", () => {
     });
 
     it("can add entries", () => {
-        let logBook = LogBook.deserialize(rawLogBook, config, () => 15);
+        let logBook = LogBook.deserialize(rawLogBook, () => 15);
         const newId = logBook.addEntry(logBook.makeEntryFromRaw({ type: "action", day: 3 }));
 
         assert.deepEqual(logBook.getEntry(newId).serialize(), {

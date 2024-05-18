@@ -36,7 +36,6 @@ ENV BUILD_INFO=${BUILD_INFO}
 
 # Copy everything over to the final image
 COPY src /app/src
-COPY default-config.yaml /app/
 COPY public /app/www/
 COPY --from=frontend /build/dist/ /app/www/
 COPY --from=engine /build/target/TankGame-*.jar /app/engine/
@@ -45,7 +44,7 @@ COPY entrypoint.sh /entrypoint.sh
 # Place some sample data in /data so users can try out the app
 COPY example/*.json /data/games/
 
-ENV TANK_GAMES_FOLDER=/data
+ENV TANK_GAMES_FOLDER=/data/games/
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/usr/local/bin/npm", "start"]

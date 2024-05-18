@@ -31,12 +31,16 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
 logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND && TANK_GAME_ENGINE_COMMAND.join(" ")}`);
 
 
+// Put ids on the engines so we can differentiate them in logs
+let uniqueIdCounter = 0;
+
 class TankGameEngine {
     constructor(command, timeout) {
         if(!Array.isArray(command) || command.length <= 0) {
             throw new Error(`Expected an array in the form ["command", ...args] but got ${command}`);
         }
 
+        this._id = `java-${++uniqueIdCounter}`;
         this._command = command;
         this._stdout = "";
         this._timeout = timeout;
@@ -46,7 +50,10 @@ class TankGameEngine {
     _startTankGame() {
         if(this._proc) return;
 
-        logger.debug("Starting tank game engine");
+        logger.debug({
+            msg: "Starting tank game engine",
+            id: this._id,
+        });
 
         const args = this._command.slice(1);
         this._proc = spawn(this._command[0], args);
@@ -55,12 +62,16 @@ class TankGameEngine {
             logger.info({
                 msg: "Tank game engine stderr",
                 output: buffer.toString("utf-8").split(/\r?\n\t?/),
+                id: this._id,
             });
         });
 
         this._proc.on("exit", status => {
             const logLevel = status > 0 ? "warn" : "debug";
-            logger[logLevel](`Tank game engine exited with ${status}`);
+            logger[logLevel]({
+                msg: `Tank game engine exited with ${status}`,
+                id: this._id,
+            });
             this._proc = undefined;
         });
     }
@@ -71,6 +82,7 @@ class TankGameEngine {
         logger.trace({
             request_data,
             msg: "Send data to tank game engine",
+            id: this._id,
         });
 
         return new Promise((resolve, reject) => {
@@ -88,7 +100,10 @@ class TankGameEngine {
 
         this._isWaitingForData = true;
 
-        logger.trace("Waiting for response");
+        logger.trace({
+            msg: "Waiting for response",
+            id: this._id,
+        });
         const promise = new Promise((resolve, reject) => {
             const stdoutHandler = buffer => {
                 this._stdout += buffer.toString("utf-8")
@@ -115,6 +130,7 @@ class TankGameEngine {
                     logger.trace({
                         msg: "Recieve data from tank game engine",
                         response_data: data,
+                        id: this._id,
                     });
 
                     clearTimeout(timeoutTimer);
@@ -131,6 +147,7 @@ class TankGameEngine {
                         msg: "Got bad data from tank game engine",
                         err,
                         unparsedData: unparsedData.split(/\r?\n\t?/),
+                        id: this._id,
                     });
 
                     reject(err);
@@ -147,6 +164,7 @@ class TankGameEngine {
                     msg: "Tank game engine took too long to respond with valid json",
                     stdout: this._stdout.split(/\r?\n\t?/),
                     timeout: this._timeout,
+                    id: this._id,
                 });
                 reject(new Error("Tank game engine took too long to respond with valid json"))
             }, timeoutMs);
@@ -179,11 +197,21 @@ class TankGameEngine {
     }
 
     // Helper functions
-    shutdown() {
-        return this._sendRequestAndWait({
-            "type": "command",
-            "command": "exit",
-        });
+    async shutdown() {
+        try {
+            await this._sendRequestAndWait({
+                "type": "command",
+                "command": "exit",
+            });
+
+            logger.info({ msg: "Exited", id: this._id });
+        }
+        catch(err) {
+            logger.warn({ msg: "Exit command failed", err, id: this._id });
+            if(this._proc) {
+                this._proc.kill();
+            }
+        }
     }
 
     getGameStateFromEngineState(state) {

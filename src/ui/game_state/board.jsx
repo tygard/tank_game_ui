@@ -97,9 +97,9 @@ function Tile({ className = "", children, floorTile, disabled, onClick, selected
 
     let style = {};
     if(floorTile) {
-        if(config) {
-            const spec = config.getFloorTileDescriptor(floorTile.type);
-            if(spec) style.background = spec.color;
+        if(config && floorTile.type != "empty") {
+            const descriptor = config.getFloorTileDescriptor(floorTile);
+            style.background = descriptor.getBackground();
         }
 
         if(!onClick && !disabled && floorTile.type !== "empty" && children === null) {

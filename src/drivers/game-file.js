@@ -1,3 +1,4 @@
+/* global process */
 import fs from "node:fs/promises";
 import path from "node:path";
 import { LogBook } from "../game/state/log-book/log-book.js";
@@ -7,12 +8,13 @@ import { GameInteractor } from "../game/execution/game-interactor.js";
 import { PossibleActionSourceSet } from "../game/possible-actions/index.js";
 import { StartOfDaySource } from "../game/possible-actions/start-of-day-source.js";
 import { OpenHours } from "../game/open-hours/index.js";
+import { getGameVersion } from "../versions/index.js";
 
 export const FILE_FORMAT_VERSION = 5;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
 
 
-export async function load(filePath, gameConfig, { saveBack = false, makeTimeStamp } = {}) {
+export async function load(filePath, { saveBack = false, makeTimeStamp } = {}) {
     let content = await readJson(filePath);
 
     if(content?.fileFormatVersion === undefined) {
@@ -31,14 +33,11 @@ export async function load(filePath, gameConfig, { saveBack = false, makeTimeSta
 
     // Make sure we have the config required to load this game.  This
     // does not check if the engine supports this game version.
-    if(!gameConfig.isGameVersionSupported(content.logBook.gameVersion)) {
-        logger.warn({
-            msg: `Tank Game UI is not configured for game version ${content.logBook.gameVersion}.  You may experience strage behavior.`,
-            supportedVersions: gameConfig.getSupportedGameVersions(),
-        });
+    if(!getGameVersion(content.logBook.gameVersion)) {
+        throw new Error(`Game version ${content.logBook.gameVersion} is not supported`);
     }
 
-    const logBook = LogBook.deserialize(content.logBook, gameConfig, makeTimeStamp);
+    const logBook = LogBook.deserialize(content.logBook, makeTimeStamp);
     const openHours = content.openHours ?
         OpenHours.deserialize(content.openHours) : new OpenHours([]);
 
@@ -65,8 +64,8 @@ export async function save(filePath, {logBook, initialGameState, openHours}) {
 }
 
 export class GameManager {
-    constructor(gameConfig, createEngine, opts = {}) {
-        this.gameConfig = gameConfig;
+    constructor(gamesFolder, createEngine, opts = {}) {
+        this._gamesFolder = gamesFolder;
         this._createEngine = createEngine;
         this.loaded = this._loadGamesFromFolder(opts);
         this._interactors = [];
@@ -76,19 +75,18 @@ export class GameManager {
         this._gamePromises = {};
         this._games = {};
 
-        const dir = this.gameConfig.getConfig().backend.gamesFolder;
-        for(const gameFile of await fs.readdir(dir)) {
+        for(const gameFile of await fs.readdir(this._gamesFolder)) {
             // Only load json files
             if(!gameFile.endsWith(".json")) continue;
 
-            const filePath = path.join(dir, gameFile);
+            const filePath = path.join(this._gamesFolder, gameFile);
             const {name} = path.parse(gameFile);
 
             logger.info(`Loading ${name} from ${filePath}`);
             const saveHandler = data => save(filePath, data);
 
             // Load and process the game asyncronously
-            this._gamePromises[name] = load(filePath, this.gameConfig, { saveBack, makeTimeStamp })
+            this._gamePromises[name] = load(filePath, { saveBack, makeTimeStamp })
                 .then(this._initilizeGame.bind(this, name, saveHandler));
 
             // Update the status on error but don't remove the error from the promise
@@ -113,8 +111,7 @@ export class GameManager {
     }
 
     async _initilizeGame(name, saveHandler, file) {
-        const config = this.gameConfig.getConfig();
-        const engine = this._createEngine(config?.engineInterface?.timeout);
+        const engine = this._createEngine();
         const interactor = new GameInteractor(engine, file, saveHandler);
         // Save our interactor incase we get shutdown
         this._interactors.push(interactor);
@@ -162,4 +159,10 @@ export class GameManager {
     shutdown() {
         return Promise.all(this._interactors.map(interactor => interactor.shutdown()));
     }
+}
+
+export async function createGameManager(createEngine, saveUpdatedFiles) {
+    const gamesFolder = path.join(process.env.TANK_GAMES_FOLDER || ".");
+    const gameManager = new GameManager(gamesFolder, createEngine, { saveBack: saveUpdatedFiles });
+    return gameManager;
 }
