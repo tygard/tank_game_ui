@@ -62,9 +62,12 @@ describe("LogBook", () => {
 
     it("can deserialize and reserialize itself", () => {
         const logBook = LogBook.deserialize(rawLogBook);
-        const serialized = logBook.serialize();
 
+        const serialized = logBook.serialize({ justRawEntries: true });
         assert.deepEqual(serialized, rawLogBook);
+
+        const serializedWithMessage = LogBook.deserialize(logBook.serialize());
+        assert.deepEqual(serializedWithMessage, logBook);
     });
 
     it("can determine its boundaries", () => {
@@ -96,7 +99,7 @@ describe("LogBook", () => {
         let logBook = LogBook.deserialize(rawLogBook, () => 15);
         const newId = logBook.addEntry(logBook.makeEntryFromRaw({ type: "action", day: 3 }));
 
-        assert.deepEqual(logBook.getEntry(newId).serialize(), {
+        assert.deepEqual(logBook.getEntry(newId).serialize({ justRawEntries: true }), {
             type: "action",
             timestamp: 15,
             day: 3,

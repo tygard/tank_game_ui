@@ -38,4 +38,18 @@ export class TankDescriptor extends EntityDescriptor {
 
         return [];
     }
+
+    getName() {
+        return this.entity.player?.name;
+    }
+
+    formatForLogEntry() {
+        let formatted = this.getName();
+
+        if(this.entity.resources.durability !== undefined) {
+            formatted += " [dead]";
+        }
+
+        return formatted;
+    }
 }

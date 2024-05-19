@@ -9,11 +9,11 @@ export function objectMap(obj, mapFn) {
 }
 
 // Remove _, - and capitalize names
-export function prettyifyName(name) {
+export function prettyifyName(name, { capitalize = true } = {}) {
     if(name === undefined) return;
 
     return name.split(/_|-|\s+/)
-        .map(word => word.length > 0 ? (word[0].toUpperCase() + word.slice(1)) : "")
+        .map(word => word.length > 0 && capitalize ? (word[0].toUpperCase() + word.slice(1)) : word)
         .join(" ");
 }
 

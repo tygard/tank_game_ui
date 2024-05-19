@@ -38,8 +38,11 @@ export class EntityDescriptor {
 
     // Get the name to display for this entity
     // returns: string or undefined to hide name tag
-    getName() {
-        return this.entity?.name;
+    getName() {}
+
+    // Get a human readable string for when this entity is referenced in a log entry
+    formatForLogEntry() {
+        return this.getName() || this.entity.type;
     }
 }
 
@@ -88,5 +91,10 @@ export class FloorTileDescriptor {
         if(icon) return imageBackground(icon);
 
         return "#aaa";
+    }
+
+    // Get a human readable string for when this floor tile is referenced in a log entry
+    formatForLogEntry() {
+        return this.floorTile.type;
     }
 }

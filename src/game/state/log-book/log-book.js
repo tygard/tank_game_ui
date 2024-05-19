@@ -72,10 +72,10 @@ export class LogBook {
         return new LogBook(gameVersion, entries, versionConfig, makeTimeStamp);
     }
 
-    serialize() {
+    serialize({ justRawEntries } = {}) {
         return {
             gameVersion: this.gameVersion,
-            rawEntries: this._entries.map(entry => entry.serialize()),
+            rawEntries: this._entries.map(entry => entry.serialize({ justRawEntries })),
         }
     }
 

@@ -9,8 +9,8 @@ export class GameVersion {
         this._manualPath = manualPath;
     }
 
-    formatLogEntry(logEntry) {
-        return this._logFormatter.format(logEntry);
+    formatLogEntry(logEntry, gameState) {
+        return this._logFormatter.format(logEntry, gameState, this);
     }
 
     getEntityDescriptor(entity) {

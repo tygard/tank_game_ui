@@ -6,6 +6,18 @@ import { LogEntry } from "../../../../src/game/state/log-book/entry.js";
 const GAME_VERSION = 3;
 
 
+function makeMockState(obj) {
+    let state = Object.create({
+        board: {
+            getFloorTileAt() {},
+            getEntityAt() {},
+        },
+    });
+
+    Object.assign(state, obj);
+    return state;
+}
+
 export class MockEngine {
     constructor() {
         this._returnIdx = 1;
@@ -16,10 +28,10 @@ export class MockEngine {
     }
 
     getGameStateFromEngineState(state) {
-        return {
+        return makeMockState({
             converted: true,
             ...state
-        };
+        });
     }
 
     wereAllDelaysApplied() {
@@ -41,7 +53,7 @@ export class MockEngine {
         await this._delayOp();
 
         this.operations.push({ operation: "process-action",  logEntry });
-        return { stateNo: ++this._returnIdx };
+        return makeMockState({ stateNo: ++this._returnIdx });
     }
 
     async setBoardState(state) {
@@ -56,9 +68,9 @@ export class MockEngine {
 }
 
 
-async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays } = {}) {
-    let logBook = new LogBook(GAME_VERSION, logEntries, undefined);
-    let initialGameState = { stateNo: 1 };
+async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig } = {}) {
+    let logBook = new LogBook(GAME_VERSION, logEntries, versionConfig);
+    let initialGameState = makeMockState({ stateNo: 1 });
 
     let mockEngine = new MockEngine();
     mockEngine.processingDelays = processingDelays;
@@ -87,13 +99,38 @@ function getAllLogBookEntries(logBook) {
     return entries;
 }
 
+const callsSym = Symbol();
+class FakeVersionConfig {
+    constructor() {
+        this.reset();
+    }
+
+    reset() {
+        this[callsSym] = [];
+    }
+
+    getCalls() {
+        return this[callsSym];
+    }
+
+    formatLogEntry(logEntry, gameState) {
+        // Ignore calls to formatLogEntry from the LogEntry constuctor
+        if(gameState) {
+            this[callsSym].push([logEntry, gameState]);
+            return "";
+        }
+    }
+}
+
 
 describe("GameInteractor", () => {
     it("can process the actions in the logbook on startup", async () => {
+        let versionConfig = new FakeVersionConfig();
+
         let logEntries = [
-            new LogEntry(1, { action: "sit" }, 0),
-            new LogEntry(1, { action: "stand" }, 1),
-            new LogEntry(2, { action: "walk" }, 2),
+            new LogEntry(1, { action: "sit" }, 0, versionConfig),
+            new LogEntry(1, { action: "stand" }, 1, versionConfig),
+            new LogEntry(2, { action: "walk" }, 2, versionConfig),
         ];
 
         const { interactor, mockEngine, initialGameState } = await configureInteractor(logEntries);
@@ -112,20 +149,28 @@ describe("GameInteractor", () => {
             { stateNo: 4, converted: true },
             undefined,
         ]);
+
+        assert.deepEqual(versionConfig.getCalls(), [
+            // First call is ignored because state is undefined
+            [logEntries[1], { stateNo: 2, converted: true }],
+            [logEntries[2], { stateNo: 3, converted: true }],
+        ]);
     });
 
     it("can process new actions", async () => {
+        let versionConfig = new FakeVersionConfig();
+
         let logEntries = [
-            new LogEntry(1, { action: "sit" }, 0),
+            new LogEntry(1, { action: "sit" }, 0, versionConfig),
         ];
 
-        const { logBook, interactor, mockEngine } = await configureInteractor(logEntries);
+        const { logBook, interactor, mockEngine } = await configureInteractor(logEntries, {versionConfig});
 
         // Reset operations after initialization
         mockEngine.operations = [];
 
         const rawEntry = { action: "run" };
-        let newEntry = new LogEntry(1, rawEntry, 1);
+        let newEntry = new LogEntry(1, rawEntry, 1, versionConfig);
         await interactor.addLogBookEntry(rawEntry);
 
         assert.deepEqual(mockEngine.operations, [
@@ -144,14 +189,20 @@ describe("GameInteractor", () => {
             { stateNo: 3, converted: true },
             undefined,
         ]);
+
+        assert.deepEqual(versionConfig.getCalls(), [
+            // First call is ignored because state is undefined
+            [newEntry, { stateNo: 2, converted: true }],
+        ]);
     });
 
     it("can save after processing actions", async () => {
+        let versionConfig = new FakeVersionConfig();
         let saveHandler;
         let promise = new Promise(resolve => saveHandler = resolve);
         assert.ok(saveHandler);  // Sanity check that the promise callback has been called
 
-        const { interactor, initialGameState, logBook } = await configureInteractor([], { saveHandler });
+        const { interactor, initialGameState, logBook } = await configureInteractor([], { saveHandler, versionConfig });
 
         await interactor.addLogBookEntry({ action: "run" });
 
@@ -164,9 +215,11 @@ describe("GameInteractor", () => {
     });
 
     it("can process valid actions after failing actions", async () => {
+        let versionConfig = new FakeVersionConfig();
+
         const { interactor, mockEngine, logBook } = await configureInteractor([
-            new LogEntry(1, { type: "action", day: 1 }, 0),
-        ]);
+            new LogEntry(1, { type: "action", day: 1 }, 0, versionConfig),
+        ], {versionConfig});
 
         mockEngine.throwOnNext = true;
         let error;
@@ -198,10 +251,12 @@ describe("GameInteractor", () => {
     });
 
     it("can process actions in order and all promises waits for all promises to resolve", async () => {
+        let versionConfig = new FakeVersionConfig();
+
         let logEntries = [
-            new LogEntry(1, { action: "sit" }, 0),
-            new LogEntry(1, { action: "stand" }, 1),
-            new LogEntry(2, { action: "walk" }, 2),
+            new LogEntry(1, { action: "sit" }, 0, versionConfig),
+            new LogEntry(1, { action: "stand" }, 1, versionConfig),
+            new LogEntry(2, { action: "walk" }, 2, versionConfig),
         ];
 
         const initialDelay = 3;
@@ -217,11 +272,12 @@ describe("GameInteractor", () => {
                 firstAddActionDelay, firstAddActionDelay, firstAddActionDelay, // set state + version then process action
                 secondAddActionDelay, secondAddActionDelay, secondAddActionDelay, // set state + version then process action
             ],
+            versionConfig,
         });
 
         const rawEntry = { action: "run" };
-        let newEntry = new LogEntry(2, rawEntry, 3);
-        let newEntry2 = new LogEntry(2, rawEntry, 4);
+        let newEntry = new LogEntry(2, rawEntry, 3, versionConfig);
+        let newEntry2 = new LogEntry(2, rawEntry, 4, versionConfig);
         mockEngine.processingDelay = firstAddActionDelay;
         interactor.addLogBookEntry(rawEntry);
         mockEngine.processingDelay = secondAddActionDelay;

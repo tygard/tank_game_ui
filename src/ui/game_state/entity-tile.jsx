@@ -5,8 +5,8 @@ import { prettyifyName } from "../../utils.js";
 import { AttributeList } from "./attribute-list.jsx";
 
 
-function EntityDetails({ entity, setSelectedUser, canSubmitAction, closePopup }) {
-    const title = prettyifyName(entity.player?.name || entity.type);
+function EntityDetails({ descriptor, entity, setSelectedUser, canSubmitAction, closePopup }) {
+    const title = prettyifyName(descriptor.getName() || entity.type);
     const subTitle = prettyifyName(entity.type);
 
     const takeActionHandler = () => {
@@ -60,17 +60,17 @@ export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, 
 
     const close = useCallback(() => setOpened(false), [setOpened]);
 
-    const label = entity.player && (
-        <div className="board-space-entity-title board-space-centered">
-            <div className="board-space-entity-title-inner">{prettyifyName(entity.player?.name || "")}</div>
-        </div>
-    );
-
     const descriptor = config && config.getEntityDescriptor(entity);
     if(!descriptor) return;
 
     const tileStyles = descriptor.getTileStyle().style;
     const badges = getBadgesForEntity(descriptor);
+
+    const label = descriptor.getName() && (
+        <div className="board-space-entity-title board-space-centered">
+            <div className="board-space-entity-title-inner">{prettyifyName(descriptor.getName())}</div>
+        </div>
+    );
 
     return (
         <div className="board-space-entity-wrapper">
@@ -83,6 +83,7 @@ export function EntityTile({ entity, showPopupOnClick, config, setSelectedUser, 
             </div>
             <Popup opened={opened} anchorRef={cardRef} onClose={close}>
                 <EntityDetails
+                    descriptor={descriptor}
                     entity={entity}
                     canSubmitAction={canSubmitAction}
                     setSelectedUser={setSelectedUser}
