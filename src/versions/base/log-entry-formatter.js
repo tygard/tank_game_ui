@@ -26,7 +26,7 @@ export const move = entry => `${entry.subject} moved to ${entry.target}`
 
 
 export function shoot(entry) {
-    const verb = entry.hit ? "shot" : "miss";
+    const verb = entry.hit ? "shot" : "missed";
     return `${entry.subject} ${verb} ${entry.target}`
 }
 

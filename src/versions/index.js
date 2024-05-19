@@ -10,3 +10,7 @@ const gameVersions = {
 export function getGameVersion(version) {
     return gameVersions[version];
 }
+
+export function getAllVersions() {
+    return Object.keys(gameVersions);
+}

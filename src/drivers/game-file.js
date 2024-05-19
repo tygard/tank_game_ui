@@ -81,13 +81,24 @@ export class GameManager {
 
             const filePath = path.join(this._gamesFolder, gameFile);
             const {name} = path.parse(gameFile);
-
             logger.info(`Loading ${name} from ${filePath}`);
-            const saveHandler = data => save(filePath, data);
 
             // Load and process the game asyncronously
-            this._gamePromises[name] = load(filePath, { saveBack, makeTimeStamp })
-                .then(this._initilizeGame.bind(this, name, saveHandler));
+            this._gamePromises[name] = loadGameFromFile(filePath, this._createEngine, { saveBack, makeTimeStamp })
+                .then(({ interactor, sourceSet }) => {
+                    // We've already been asked to shutdown kill this game
+                    if(this._isShutDown) interactor.shutdown();
+
+                    this._interactors.push(interactor);
+
+                    this._games[name] = {
+                        loaded: true,
+                        interactor,
+                        sourceSet,
+                    };
+
+                    return this._games[name];
+                });
 
             // Update the status on error but don't remove the error from the promise
             this._gamePromises[name].catch(err => {
@@ -110,37 +121,6 @@ export class GameManager {
         });
     }
 
-    async _initilizeGame(name, saveHandler, file) {
-        const engine = this._createEngine();
-        const interactor = new GameInteractor(engine, file, saveHandler);
-        // Save our interactor incase we get shutdown
-        this._interactors.push(interactor);
-        await interactor.loaded;
-
-        let actionSets = [];
-
-        if(!interactor.hasAutomaticStartOfDay()) {
-            actionSets.push(new StartOfDaySource());
-        }
-
-        const engineSpecificSource = engine.getEngineSpecificSource &&
-            engine.getEngineSpecificSource();
-
-        if(engineSpecificSource) {
-            actionSets.push(engineSpecificSource);
-        }
-
-        const sourceSet = new PossibleActionSourceSet(actionSets);
-
-        this._games[name] = {
-            loaded: true,
-            interactor,
-            sourceSet,
-        };
-
-        return this._games[name];
-    }
-
     getGamePromise(name) {
         return this._gamePromises[name];
     }
@@ -157,8 +137,38 @@ export class GameManager {
     }
 
     shutdown() {
+        this._isShutDown = true;
         return Promise.all(this._interactors.map(interactor => interactor.shutdown()));
     }
+}
+
+export async function loadGameFromFile(filePath, createEngine, { saveBack, makeTimeStamp } = {}) {
+    const file = await load(filePath, { saveBack, makeTimeStamp });
+
+    const engine = createEngine();
+    const saveHandler = data => save(filePath, data);
+    const interactor = new GameInteractor(engine, file, saveHandler);
+    await interactor.loaded;
+
+    let actionSets = [];
+
+    if(!interactor.hasAutomaticStartOfDay()) {
+        actionSets.push(new StartOfDaySource());
+    }
+
+    const engineSpecificSource = engine.getEngineSpecificSource &&
+        engine.getEngineSpecificSource();
+
+    if(engineSpecificSource) {
+        actionSets.push(engineSpecificSource);
+    }
+
+    const sourceSet = new PossibleActionSourceSet(actionSets);
+
+    return {
+        interactor,
+        sourceSet,
+    };
 }
 
 export async function createGameManager(createEngine, saveUpdatedFiles) {

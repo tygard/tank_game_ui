@@ -1,42 +1,28 @@
 import assert from "node:assert";
 import { GenericPossibleAction } from "../../../../src/game/possible-actions/generic-possible-action.js";
+import { LogFieldSpec } from "../../../../src/game/possible-actions/log-field-spec.js";
 
 const possibleAction = new GenericPossibleAction({
     subject: "John",
     actionName: "buy_action",
     fieldSpecs: [
-        { logBookField: "foo" },
-        { logBookField: "bar" },
+        new LogFieldSpec({ name: "foo", type: "input" }),
+        new LogFieldSpec({ name: "bar", type: "input" }),
     ]
 });
 
 describe("GenericPossibleAction", () => {
     it("can validate that all fields have been supplied", () => {
-        assert.ok(possibleAction.areParemetersValid({
+        assert.ok(possibleAction.isValidEntry({
             foo: 1,
             bar: "bla",
         }));
 
-        assert.ok(!possibleAction.areParemetersValid({
+        assert.ok(!possibleAction.isValidEntry({
             foo: 1,
         }));
 
-        assert.ok(!possibleAction.areParemetersValid({}));
-    });
-
-    it("can generate a log entry", () => {
-        const entry = possibleAction.buildRawEntry({
-            foo: true,
-            bar: 23,
-        });
-
-        assert.deepEqual(entry, {
-            type: "action",
-            action: "buy_action",
-            subject: "John",
-            foo: true,
-            bar: 23,
-        });
+        assert.ok(!possibleAction.isValidEntry({}));
     });
 
     it("can serialize and deserialize actions", () => {

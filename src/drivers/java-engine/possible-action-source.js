@@ -1,6 +1,7 @@
 import { GenericPossibleAction } from "../../game/possible-actions/generic-possible-action.js";
 import { prettyifyName } from "../../utils.js";
 import { logger } from "#platform/logging.js";
+import { LogFieldSpec } from "../../game/possible-actions/log-field-spec.js";
 
 export class JavaEngineSource {
     constructor(engine) {
@@ -39,8 +40,7 @@ export class JavaEngineSource {
         let unSubmitableAction = false;
         const specs = fields.map(field => {
             const commonFields = {
-                name: prettyifyName(field.name),
-                logBookField: field.name,
+                name: field.name,
             };
 
             // No possible inputs for this action
@@ -51,7 +51,7 @@ export class JavaEngineSource {
 
             // Handle the custom data types
             if(field.data_type == "tank") {
-                return {
+                return new LogFieldSpec({
                     type: "select-position",
                     options: field.range.map(tank => {
                         const position = tank.entities?.[0]?.position?.humanReadable || tank.position;
@@ -69,15 +69,15 @@ export class JavaEngineSource {
                         };
                     }),
                     ...commonFields,
-                };
+                });
             }
 
             if(field.data_type == "position") {
-                return {
+                return new LogFieldSpec({
                     type: "select-position",
                     options: field.range.map(position => ({ position, value: position })),
                     ...commonFields,
-                };
+                });
             }
 
             // Generic data type with a list of options
@@ -88,25 +88,25 @@ export class JavaEngineSource {
                     options = [true, false];
                 }
 
-                return {
+                return new LogFieldSpec({
                     type: "select",
                     options,
                     ...commonFields,
-                };
+                });
             }
 
             // Data types with no options
             if(field.data_type == "integer") {
-                return {
+                return new LogFieldSpec({
                     type: "input-number",
                     ...commonFields,
-                };
+                });
             }
 
-            return {
+            return new LogFieldSpec({
                 type: "input",
                 ...commonFields,
-            };
+            });
         });
 
         return unSubmitableAction ? undefined : specs;

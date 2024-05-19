@@ -7,12 +7,19 @@ import { Popup } from "../generic/popup.jsx";
 import { prettyifyName } from "../../utils.js";
 
 
-export function GameBoard({ board, config, setSelectedUser, canSubmitAction, emptyMessage = "No board data supplied" }) {
+export function GameBoard({ board, config, setSelectedUser, canSubmitAction, locationSelector, selectLocation, emptyMessage = "No board data supplied" }) {
     if(!board) return <p>{emptyMessage}</p>;
 
     try {
         return (
-            <GameBoardView width={board.width} board={board} config={config} canSubmitAction={canSubmitAction} setSelectedUser={setSelectedUser}></GameBoardView>
+            <GameBoardView
+                width={board.width}
+                board={board}
+                config={config}
+                canSubmitAction={canSubmitAction}
+                setSelectedUser={setSelectedUser}
+                locationSelector={locationSelector}
+                selectLocation={selectLocation}></GameBoardView>
         );
     }
     catch(err) {
@@ -22,10 +29,8 @@ export function GameBoard({ board, config, setSelectedUser, canSubmitAction, emp
     }
 }
 
-export function GameBoardView({ board, config, setSelectedUser, canSubmitAction }) {
-    const possibleTargets = targetSelectionState.usePossibleTargets();
-    let selectedTarget = targetSelectionState.useSelectedTarget();
-    selectedTarget = selectedTarget && Position.fromHumanReadable(selectedTarget);
+export function GameBoardView({ board, config, setSelectedUser, canSubmitAction, locationSelector, selectLocation }) {
+    const selectedTarget = locationSelector.location && Position.fromHumanReadable(locationSelector.location);
 
     let letters = [<Tile key="empty-coord" className="board-space-coordinate"></Tile>];
     for(let x = 0; x < board.width; ++x) {
@@ -40,10 +45,11 @@ export function GameBoardView({ board, config, setSelectedUser, canSubmitAction 
 
         for(let x = 0; x < board.width; ++x) {
             const position = new Position(x, y);
-            const disabled = possibleTargets && !possibleTargets.has(position.humanReadable);
+            const disabled = locationSelector.isSelecting &&
+                !locationSelector.selectableLocations.includes(position.humanReadable);
 
-            const onClick = possibleTargets && !disabled ? () => {
-                targetSelectionState.setSelectedTarget(position.humanReadable);
+            const onClick = locationSelector.isSelecting && !disabled ? () => {
+                selectLocation(position.humanReadable);
             } : undefined;
 
             renderedRow.push(

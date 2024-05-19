@@ -1,12 +1,15 @@
+import { GenericPossibleAction } from "./generic-possible-action.js";
+import { LogFieldSpec } from "./log-field-spec.js";
+
 export class StartOfDaySource {
     async getActionFactoriesForPlayer({logEntry}) {
         return [new StartOfDayFactory(logEntry.day + 1)];
     }
 }
 
-export class StartOfDayFactory {
+export class StartOfDayFactory extends GenericPossibleAction {
     constructor(dayToStart) {
-        this.type = StartOfDayFactory.type;
+        super({ actionName: "start_of_day" });
         this._dayToStart = dayToStart;
     }
 
@@ -24,22 +27,18 @@ export class StartOfDayFactory {
         };
     }
 
-    areParemetersValid() {
-        return true;
-    }
-
     getParameterSpec() {
-        return [];
-    }
-
-    buildRawEntry() {
-        return {
-            type: "action",
-            day: this._dayToStart,
-        };
+        return [
+            new LogFieldSpec({
+                name: "day",
+                type: "set-value",
+                value: this._dayToStart,
+                hidden: true,
+            }),
+        ];
     }
 
     toString() {
-        return `Start day ${this._dayToStart}`;
+        return "Start day";
     }
 }

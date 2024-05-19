@@ -11,6 +11,7 @@ import { AppContent } from "./app-content.jsx";
 import { GameManual } from "./game-manual.jsx";
 import { goToEntryId, goToLatestTurn, useCurrentTurnManager } from "../interface-adapters/current-turn-manager.js";
 import { getGameVersion } from "../versions/index.js";
+import { selectLocation, setSubject, useBuildTurn } from "../interface-adapters/build-turn.js";
 
 
 export function Game({ game, setGame, debug }) {
@@ -27,14 +28,15 @@ export function Game({ game, setGame, debug }) {
     const [gameState, stateError] = useGameState(game, currentTurnMgrState.entryId);
     const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
 
+    const [builtTurnState, buildTurnDispatch] = useBuildTurn();
+
     const error = infoError || stateError;
 
     // The user that's currently submitting actions
-    const [selectedUser, setSelectedUserDirect] = useState();
     const canSubmitAction = gameState?.running && !gameIsClosed;
 
     const setSelectedUser = user => {
-        setSelectedUserDirect(user);
+        buildTurnDispatch(setSubject(user));
         distachLogEntryMgr(goToLatestTurn());
     };
 
@@ -97,7 +99,9 @@ export function Game({ game, setGame, debug }) {
                             board={gameState?.board}
                             config={versionConfig}
                             canSubmitAction={canSubmitAction}
-                            setSelectedUser={setSelectedUser}></GameBoard>
+                            setSelectedUser={setSelectedUser}
+                            locationSelector={builtTurnState.locationSelector}
+                            selectLocation={location => buildTurnDispatch(selectLocation(location))}></GameBoard>
                     </div>
                     <div>
                         <Council
@@ -113,8 +117,8 @@ export function Game({ game, setGame, debug }) {
                     <div>
                         {gameIsClosed ? undefined : <SubmitTurn
                             game={game}
-                            selectedUser={selectedUser}
-                            setSelectedUser={setSelectedUser}
+                            builtTurnState={builtTurnState}
+                            buildTurnDispatch={buildTurnDispatch}
                             canSubmitAction={canSubmitAction}
                             refreshGameInfo={refreshGameInfo}
                             debug={debug}

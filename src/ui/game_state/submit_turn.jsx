@@ -1,54 +1,66 @@
 /* global alert */
 import { submitTurn, usePossibleActionFactories } from "../../drivers/rest/fetcher.js";
-import { targetSelectionState } from "../space-selecting-state.js";
 import { ErrorMessage } from "../error_message.jsx";
 import "./submit_turn.css";
-import { useCallback, useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import { resetPossibleActions, selectActionType, setActionSpecificField, setPossibleActions, setSubject } from "../../interface-adapters/build-turn.js";
+import { prettyifyName } from "../../utils.js";
 
-export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, game, debug, entryId, selectedUser, setSelectedUser }) {
-    const [currentFactory, setCurrentFactory] = useState();
-    const [actionSpecific, setActionSpecific] = useState({});
+export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, game, debug, entryId, builtTurnState, buildTurnDispatch }) {
     // Set this to undefined so we don't send a request for anthing other than the last turn
     const possibleActionsEntryId = canSubmitAction && isLatestEntry ? entryId : undefined;
-    const [actionFactories, error] = usePossibleActionFactories(game, selectedUser, possibleActionsEntryId);
+    const [actionFactories, error] = usePossibleActionFactories(game, builtTurnState.subject, possibleActionsEntryId);
+    useEffect(() => {
+        buildTurnDispatch(setPossibleActions(actionFactories));
+    }, [actionFactories, buildTurnDispatch]);
+
     const [status, setStatus] = useState();
-
-    // Reset the action type
-    useEffect(() => {
-        setCurrentFactory(undefined);
-    }, [selectedUser, setCurrentFactory]);
-
-    // Reset any action specific fields if user or action type changes
-    useEffect(() => {
-        setActionSpecific({});
-        targetSelectionState.clearPossibleTargets();
-    }, [selectedUser, currentFactory, setActionSpecific]);
-
-    const logBookEntry = (currentFactory && currentFactory != "unset") && currentFactory.buildRawEntry(actionSpecific);
-    const isValid = currentFactory && currentFactory.areParemetersValid(logBookEntry);
 
     const submitTurnHandler = useCallback(async e => {
         e.preventDefault();
-        if(isValid) {
-            targetSelectionState.clearPossibleTargets();
+        if(builtTurnState.isValid) {
             setStatus("Submitting action...");
 
             try {
-                await submitTurn(game, logBookEntry);
+                await submitTurn(game, builtTurnState.logBookEntry);
             }
             catch(err) {
                 alert(`Failed to submit action: ${err.message}`);
             }
 
             // Reset the form
-            setCurrentFactory(undefined);
+            buildTurnDispatch(resetPossibleActions());
             refreshGameInfo();
             setStatus(undefined);
         }
-    }, [setCurrentFactory, refreshGameInfo, isValid, setStatus, logBookEntry, game]);
+    }, [builtTurnState, buildTurnDispatch, refreshGameInfo, setStatus, game]);
+
+    // Reuse the select widget for choosing an action
+    const possibleActions = useMemo(() => {
+        let prettyToInternal = {};
+        let internalToPretty = {};
+        let options = [];
+
+        for(const action of builtTurnState.actions) {
+            const pretty = prettyifyName(action.name);
+            options.push(pretty);
+            prettyToInternal[pretty] = action.name;
+            internalToPretty[action.name] = pretty;
+        }
+
+        return {
+            options,
+            prettyToInternal,
+            internalToPretty,
+        };
+    }, [builtTurnState]);
+
+    const selectAction = actionName => {
+        return buildTurnDispatch(selectActionType(possibleActions.prettyToInternal[actionName]));
+    };
 
     // Game over no more actions to submit or we haven't picked a user yet
-    if(!canSubmitAction || !selectedUser) {
+    if(!canSubmitAction || builtTurnState.actions.length === 0) {
         return;
     }
 
@@ -66,37 +78,39 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
         return <p>{status}</p>;
     }
 
-    const possibleActions = actionFactories || [];
-
     return (
         <div className="submit-turn-box">
             <div className="submit-turn-title">
-                <h2>Submit action as {selectedUser}</h2>
+                <h2>Submit action as {builtTurnState.subject}</h2>
                 <div>
-                <button onClick={() => setSelectedUser(undefined)}>Close</button>
+                <button onClick={() => buildTurnDispatch(setSubject(undefined))}>Close</button>
                 </div>
             </div>
             <div className="submit-turn">
                 <form onSubmit={submitTurnHandler} className="submit-turn-form">
                     <div className="submit-turn-field-wrapper">
-                        {possibleActions?.length > 0 ? <LabelElement name="Action">
-                            <Select spec={{ options: possibleActions }} value={currentFactory} setValue={setCurrentFactory}></Select>
-                        </LabelElement> : undefined}
-                        <SubmissionForm factory={currentFactory} values={actionSpecific} setValues={setActionSpecific}></SubmissionForm>
+                        <LabelElement name="Action">
+                            <Select
+                                spec={possibleActions}
+                                value={possibleActions.internalToPretty[builtTurnState.currentActionName]}
+                                setValue={selectAction}></Select>
+                        </LabelElement>
+                        <SubmissionForm
+                            builtTurnState={builtTurnState}
+                            buildTurnDispatch={buildTurnDispatch}></SubmissionForm>
                     </div>
                     <div className="submit-action-button-wrapper">
-                        <button type="submit" disabled={!isValid}>Submit action</button>
+                        <button type="submit" disabled={!builtTurnState.isValid}>Submit action</button>
                     </div>
                 </form>
                 {debug ? <div>
                     <details>
                         <summary>Log book entry (JSON)</summary>
-                        <pre>{JSON.stringify(logBookEntry, null, 4)}</pre>
+                        <pre>{JSON.stringify(builtTurnState.logBookEntry, null, 4)}</pre>
                     </details>
                     <details>
-                        <summary>Log book entry factory (JSON)</summary>
-                        <p>Displaying: {currentFactory ? "Factory" : "Actions + Factories"}</p>
-                        <pre>{JSON.stringify(currentFactory || actionFactories, null, 4)}</pre>
+                        <summary>Build turn state (JSON)</summary>
+                        <pre>{JSON.stringify(builtTurnState, null, 4)}</pre>
                     </details>
                 </div> : undefined}
             </div>
@@ -104,14 +118,13 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
     );
 }
 
-function SubmissionForm({ factory, values, setValues }) {
-    if(!factory) return;
-
-    const spec = factory.getParameterSpec();
-
+function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
     return (
         <>
-            {spec.map(fieldSpec => {
+            {builtTurnState.currentSpecs.map(fieldSpec => {
+                // Don't display this field at all
+                if(fieldSpec.hidden) return;
+
                 let Element;
 
                 if(fieldSpec.type == "select-position") {
@@ -124,14 +137,19 @@ function SubmissionForm({ factory, values, setValues }) {
                     Element = Input;
                 }
 
+                const setValue = newValue => {
+                    buildTurnDispatch(setActionSpecificField(fieldSpec.name, newValue));
+                };
+
                 if(Element) {
                     return (
                         <LabelElement key={fieldSpec.name} name={fieldSpec.name}>
                             <Element
                                 type={fieldSpec.type}
+                                builtTurnState={builtTurnState}
                                 spec={fieldSpec}
-                                value={values[fieldSpec.logBookField]}
-                                setValue={newValues => setValues({ ...values, [fieldSpec.logBookField]: newValues })}></Element>
+                                value={builtTurnState.uiFieldValues[fieldSpec.name]}
+                                setValue={setValue}></Element>
                         </LabelElement>
                     );
                 }
@@ -192,19 +210,10 @@ function Input({ spec, type, value, setValue }) {
     );
 }
 
-function SelectPosition({ spec, value, setValue }) {
-    useEffect(() => {
-        targetSelectionState.setPossibleTargets(new Set(spec.options.map(option => option.position)));
-        targetSelectionState.setSelectedTargetCallback(position => {
-            const option = spec.options.find(option => option.position == position);
-            setValue(option?.value);
-        });
-
-        return () => targetSelectionState.setSelectedTargetCallback(undefined);
-    }, [setValue, spec.options]);
-
-    const message = value ?
-        `${value} (select a different space to change)` :
+function SelectPosition({ builtTurnState }) {
+    const {location} = builtTurnState.locationSelector;
+    const message = location ?
+        `${location} (select a different space to change)` :
         `Select a location on the board`;
 
     return (

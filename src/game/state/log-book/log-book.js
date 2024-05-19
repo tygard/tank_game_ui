@@ -90,6 +90,12 @@ export class LogBook {
     }
 
     addEntry(entry) {
+        // Sanity check start of day
+        // Max day is undefined if we add a start of day entry in the constructor
+        if(entry.rawLogEntry.day !== undefined && this.getMaxDay() !== undefined && entry.rawLogEntry.day != this.getMaxDay() + 1) {
+            throw new Error(`Cannot start day ${entry.rawLogEntry.day} on day ${this.getMaxDay()}`);
+        }
+
         this._entries.push(entry);
         this._buildDayMap();
         return entry.id;

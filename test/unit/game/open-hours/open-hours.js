@@ -178,6 +178,7 @@ describe("Automatic start of day", () => {
         automaticStart.attemptToStartDay(makeDate(2024, 7, 22, 2, 0));
         assert.deepEqual(addedEntry, {
             type: "action",
+            action: "start_of_day",
             day: 3,
         });
     });

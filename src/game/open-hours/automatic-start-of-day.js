@@ -34,8 +34,11 @@ export class AutomaticStartOfDay {
         if(!this._interactor.isGameOpen()) return;
 
         let logBook = this._interactor.getLogBook();
-        const factory = new StartOfDayFactory(logBook.getMaxDay() + 1);
-        this._interactor.addLogBookEntry(factory.buildRawEntry());
+        this._interactor.addLogBookEntry({
+            type: "action",
+            action: "start_of_day",
+            day: logBook.getMaxDay() + 1
+        });
     }
 
     start() {
