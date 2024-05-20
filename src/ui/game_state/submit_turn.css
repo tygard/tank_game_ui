@@ -47,3 +47,7 @@
 .radio-button-wrapper, .radio-button-wrapper > label {
     padding: 5px 0px;
 }
+
+.submit-turn-description {
+    max-width: 250px;
+}

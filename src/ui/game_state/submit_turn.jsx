@@ -144,6 +144,7 @@ function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
                 if(Element) {
                     return (
                         <LabelElement key={fieldSpec.name} name={fieldSpec.name}>
+                            <p className="submit-turn-description">{fieldSpec.description}</p>
                             <Element
                                 type={fieldSpec.type}
                                 builtTurnState={builtTurnState}

@@ -83,14 +83,25 @@ export class JavaEngineSource {
             // Generic data type with a list of options
             if(field.range?.length > 0) {
                 let options = field.range;
+                let description;
 
                 if(field.data_type == "boolean") {
                     options = [true, false];
                 }
 
+                if(field.name == "hit") {
+                    description = "If your target is a tank roll (Range – Distance) + 1 dice if any are hits you hit.  For other targets you always hit.";
+
+                    options = [
+                        { display: "hit", value: true },
+                        { display: "miss", value: false },
+                    ];
+                }
+
                 return new LogFieldSpec({
                     type: "select",
                     options,
+                    description,
                     ...commonFields,
                 });
             }
