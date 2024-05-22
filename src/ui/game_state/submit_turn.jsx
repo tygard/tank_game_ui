@@ -23,14 +23,15 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
 
             try {
                 await submitTurn(game, builtTurnState.logBookEntry);
+
+                // Reset the form
+                refreshGameInfo();
+                buildTurnDispatch(resetPossibleActions());
             }
             catch(err) {
                 alert(`Failed to submit action: ${err.message}`);
             }
 
-            // Reset the form
-            buildTurnDispatch(resetPossibleActions());
-            refreshGameInfo();
             setStatus(undefined);
         }
     }, [builtTurnState, buildTurnDispatch, refreshGameInfo, setStatus, game]);
