@@ -51,3 +51,22 @@
 .submit-turn-description {
     max-width: 250px;
 }
+
+.submission-error-wrapper {
+    background: #f00;
+    border: 5px solid #a00;
+    padding: 10px 5px;
+    border-radius: 6px;
+    margin-top: 15px;
+    color: #fff;
+}
+
+.submission-error-title {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.submission-error-title h3 {
+    margin: 0px;
+    flex-grow: 1;
+}

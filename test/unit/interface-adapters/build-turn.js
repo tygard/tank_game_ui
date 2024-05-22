@@ -2,7 +2,7 @@ import assert from "node:assert";
 import { NamedFactorySet } from "../../../src/game/possible-actions/index.js";
 import { GenericPossibleAction } from "../../../src/game/possible-actions/generic-possible-action.js";
 import { LogFieldSpec } from "../../../src/game/possible-actions/log-field-spec.js";
-import { buildTurnReducer, makeInitalState, resetPossibleActions, selectActionType, selectLocation, setActionSpecificField, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
+import { buildTurnReducer, makeInitalState, resetPossibleActions, selectActionType, selectLocation, setActionSpecificField, setLastError, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
 
 const swappingBaseSpec = new LogFieldSpec({
     name: "pick",
@@ -128,6 +128,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setPossibleActions(possibleActions));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentSpecs: [],
@@ -142,6 +143,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, selectActionType("multiply"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentActionName: "multiply",
@@ -164,6 +166,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setActionSpecificField("right", 8));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentActionName: "multiply",
@@ -188,6 +191,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, selectActionType("shoot"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentActionName: "shoot",
@@ -211,6 +215,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setActionSpecificField("hit", true));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentActionName: "shoot",
@@ -236,6 +241,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, selectLocation("J12"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Teddy",
             actions,
             currentActionName: "shoot",
@@ -269,6 +275,7 @@ describe("BuildTurn", () => {
         const preResetState = buildTurnReducer(state, selectLocation("H1"));
 
         compareState(preResetState, {
+            lastError: undefined,
             subject: "Pam",
             actions,
             currentSpecs: shootFieldSpecs,
@@ -295,6 +302,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(preResetState, resetPossibleActions());
 
         compareState(state, {
+            lastError: undefined,
             subject: "Pam",
             actions: [],
             currentSpecs: [],
@@ -309,6 +317,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(preResetState, setSubject("Walter"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Walter",
             actions,
             currentSpecs: [],
@@ -323,6 +332,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(preResetState, setPossibleActions(undefined));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Pam",
             actions: [],
             currentSpecs: [],
@@ -337,6 +347,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(preResetState, setPossibleActions(possibleActions));
 
         compareState(state, {
+            lastError: undefined,
             subject: "Pam",
             actions,
             currentSpecs: [],
@@ -356,6 +367,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, selectActionType("swapper"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "George",
             actions,
             currentSpecs: [swappingBaseSpec],
@@ -376,6 +388,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setActionSpecificField("pick", "field"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "George",
             actions,
             currentSpecs: [swappingBaseSpec, swappingFieldSpec],
@@ -402,6 +415,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setActionSpecificField("pick", "yep"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "George",
             actions,
             currentSpecs: [swappingBaseSpec, ...swappingYepSpec],
@@ -427,6 +441,7 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setActionSpecificField("pick", "thing"));
 
         compareState(state, {
+            lastError: undefined,
             subject: "George",
             actions,
             currentSpecs: [swappingBaseSpec, swappingThingSpec],
@@ -446,5 +461,16 @@ describe("BuildTurn", () => {
                 pick: "thing",
             },
         });
+    });
+
+    it("can set the turn state and have it reset by another action", () => {
+        let state = makeInitalState();
+        assert.equal(state.lastError, undefined);
+        state = buildTurnReducer(state, setLastError("Something went wrong"));
+        assert.equal(state.lastError, "Something went wrong");
+        state = buildTurnReducer(state, setLastError("It happened again maybe we should fix it"));
+        assert.equal(state.lastError, "It happened again maybe we should fix it");
+        state = buildTurnReducer(state, setSubject(undefined));
+        assert.equal(state.lastError, undefined);
     });
 });

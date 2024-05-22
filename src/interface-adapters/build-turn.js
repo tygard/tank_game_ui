@@ -10,6 +10,7 @@ export function makeInitalState() {
         },
         isValid: false,
         logBookEntry: {},
+        lastError: undefined,
     };
 }
 
@@ -106,6 +107,17 @@ function updateActionData(state) {
 }
 
 export function buildTurnReducer(state, invocation) {
+    if(invocation.type == "set-last-error") {
+        return {
+            ...state,
+            lastError: invocation.error,
+        };
+    }
+    else {
+        // Clear the last error on any user interaction
+        state.lastError = undefined;
+    }
+
     if(invocation.type == "set-subject") {
         return {
             ...makeInitalState(),
@@ -185,6 +197,7 @@ export const setPossibleActions = possibleActions => ({ type: "set-possible-acti
 export const selectActionType = actionName => ({ type: "select-action-type", actionName });
 export const setActionSpecificField = (name, value) => ({ type: "set-action-specific-field", name, value });
 export const selectLocation = location => ({ type: "select-location", location });
+export const setLastError = error => ({ type: "set-last-error", error });
 
 export function useBuildTurn() {
     return useReducer(buildTurnReducer, undefined, makeInitalState);

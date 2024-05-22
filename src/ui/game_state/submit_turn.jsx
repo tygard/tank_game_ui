@@ -1,9 +1,8 @@
-/* global alert */
 import { submitTurn, usePossibleActionFactories } from "../../drivers/rest/fetcher.js";
 import { ErrorMessage } from "../error_message.jsx";
 import "./submit_turn.css";
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import { resetPossibleActions, selectActionType, setActionSpecificField, setPossibleActions, setSubject } from "../../interface-adapters/build-turn.js";
+import { resetPossibleActions, selectActionType, setActionSpecificField, setLastError, setPossibleActions, setSubject } from "../../interface-adapters/build-turn.js";
 import { prettyifyName } from "../../utils.js";
 
 export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, game, debug, entryId, builtTurnState, buildTurnDispatch }) {
@@ -20,6 +19,7 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
         e.preventDefault();
         if(builtTurnState.isValid) {
             setStatus("Submitting action...");
+            buildTurnDispatch(setLastError(undefined));
 
             try {
                 await submitTurn(game, builtTurnState.logBookEntry);
@@ -29,7 +29,7 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
                 buildTurnDispatch(resetPossibleActions());
             }
             catch(err) {
-                alert(`Failed to submit action: ${err.message}`);
+                buildTurnDispatch(setLastError(err.message));
             }
 
             setStatus(undefined);
@@ -103,6 +103,16 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
                     <div className="submit-action-button-wrapper">
                         <button type="submit" disabled={!builtTurnState.isValid}>Submit action</button>
                     </div>
+                    {builtTurnState.lastError !== undefined ? (
+                        <div className="submission-error-wrapper">
+                            <div className="submission-error-title">
+                                <h3>Failed to submit action</h3>
+                            </div>
+                            <div>
+                                <code>{builtTurnState.lastError}</code>
+                            </div>
+                        </div>
+                    ) : undefined}
                 </form>
                 {debug ? <div>
                     <details>
