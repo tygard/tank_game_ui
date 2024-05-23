@@ -32,12 +32,14 @@ const tuesday1159 = makeDate(2024, 2, 13, 11, 58);
 const tuesday1200 = makeDate(2024, 2, 13, 12, 0);
 const sunday0400 = makeDate(2024, 7, 7, 16, 0);
 const friday0501 = makeDate(2024, 7, 19, 17, 5);
+const laborDayMonday = makeDate(2024, 9, 2, 10, 2);
 
 const nineToFive = Schedule.deserialize({ // 9am to 5pm week days
     daysOfWeek: ["M", "t", "w", "r", "f"], // M tests case insensitivity
     startTime: "9:00am",
     endTime: "5:00pm",
     autoStartOfDay: true,
+    holidays: ["9/2" /* (labor day) */],
 });
 
 const noonTo9 = new Schedule([2, 4, 0], 12 * 60, 21 * 60, true); // 12pm to 9pm Tu, Th, Su (autostart day)
@@ -49,6 +51,7 @@ describe("Schedule", () => {
         checkIsOpen("9to5", nineToFive, tuesday0348, true);
         checkIsOpen("9to5", nineToFive, sunday0400, false);
         checkIsOpen("9to5", nineToFive, friday0501, false);
+        checkIsOpen("9to5", nineToFive, laborDayMonday, false); // holiday
 
         checkIsOpen("noonTo9", noonTo9, monday1133, false);
         checkIsOpen("noonTo9", noonTo9, monday0217, false);
@@ -64,6 +67,7 @@ describe("Schedule", () => {
         checkNextStart(nineToFive, tuesday0348, makeDate(2024, 2, 14, 9, 0));
         checkNextStart(nineToFive, sunday0400, makeDate(2024, 7, 8, 9, 0));
         checkNextStart(nineToFive, friday0501, makeDate(2024, 7, 22, 9, 0));
+        checkNextStart(nineToFive, laborDayMonday, makeDate(2024, 9, 3, 9, 0)); // holiday jump to tuesday
 
         checkNextStart(noonTo9, monday1133, makeDate(2024, 4, 30, 12, 0));
         checkNextStart(noonTo9, monday0217, makeDate(2022, 12, 27, 12, 0));

@@ -7,7 +7,8 @@
                 "Thursday"
             ],
             "startTime": "10:00pm",
-            "endTime": "10:30pm"
+            "endTime": "10:30pm",
+            "holidays": []
         }
     ],
     "logBook": {

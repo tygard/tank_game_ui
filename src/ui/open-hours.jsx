@@ -1,6 +1,8 @@
 export function OpenHours({ openHours, debug }) {
     if(!openHours || openHours.schedules.length === 0) return;
 
+    const showHolidays = openHours.schedules.find(schedule => schedule.holidays.length > 0);
+
     return (
         <>
             <h3>Schedule</h3>
@@ -10,6 +12,7 @@ export function OpenHours({ openHours, debug }) {
                     <th>Days</th>
                     <th>Start Time</th>
                     <th>End Time</th>
+                    {showHolidays ? <th>Holidays</th> : undefined}
                     {debug ? <th>Auto Start Day</th> : undefined}
                 </tr>
                 {openHours.schedules.map(schedule => {
@@ -18,6 +21,7 @@ export function OpenHours({ openHours, debug }) {
                             <td>{schedule.daysOfWeek.join(", ")}</td>
                             <td>{schedule.startTime}</td>
                             <td>{schedule.endTime}</td>
+                            {showHolidays ? <td>{schedule.holidays.join(", ")}</td> : undefined}
                             {debug ? <td>{schedule.autoStartOfDay ? "yes" : "no"}</td> : undefined}
                         </tr>
                     );

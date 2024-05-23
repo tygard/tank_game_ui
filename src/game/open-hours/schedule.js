@@ -1,5 +1,8 @@
 import { prettyifyName } from "../../utils.js";
 
+// The maximum number of days to check for a new play day
+const MAX_DAYS_TO_SEARCH = 100;
+
 // Mappings from human readable days of the week to js integers
 const DAY_OF_WEEK_SHORTHAND = {
     monday: 1,
@@ -19,6 +22,7 @@ const DAY_OF_WEEK_SHORTHAND = {
 };
 
 const TIME_EXPR = /(\d+):(\d+)(AM|PM|am|pm)?/;
+const HOLIDAY_EXPR = /([1-9]\d*)\/([1-9]\d*)/;
 
 
 function parseTimeString(timeString) {
@@ -61,11 +65,19 @@ export function getCurrentTime(now) {
 
 
 export class Schedule {
-    constructor(daysOfWeek, startMinutes, endMinutes, autoStartOfDay) {
+    constructor(daysOfWeek, startMinutes, endMinutes, autoStartOfDay, holidays) {
         this._daysOfWeek = daysOfWeek;
         this._startMinutes = startMinutes;
         this._endMinutes = endMinutes;
         this.autoStartOfDay = autoStartOfDay;
+        this.holidays = holidays || [];
+
+        for(const holiday of this.holidays) {
+            if(!HOLIDAY_EXPR.exec(holiday)) {
+                throw new Error(`Expected holiday to be in the form month/day (no leading 0s) but got ${holiday}`);
+            }
+        }
+
         if(startMinutes > endMinutes) {
             throw new Error(`Scheduled time cannot be before start time (start = ${serializeToTimeString(this._startMinutes)}, end = ${serializeToTimeString(this._endMinutes)})`);
         }
@@ -84,6 +96,7 @@ export class Schedule {
             parseTimeString(rawSchedule.startTime),
             parseTimeString(rawSchedule.endTime),
             rawSchedule.autoStartOfDay,
+            rawSchedule.holidays,
         );
     }
 
@@ -93,11 +106,15 @@ export class Schedule {
             startTime: this.startTime,
             endTime: this.endTime,
             autoStartOfDay: this.autoStartOfDay,
+            holidays: this.holidays,
         };
     }
 
     isGameOpen(now) {
         if(!now) now = new Date();
+
+        // It's a holiday no game today
+        if(this._isHoliday(now)) return false;
 
         // Not a valid date for this schedule
         if(!this._daysOfWeek.includes(now.getDay())) {
@@ -134,16 +151,24 @@ export class Schedule {
         nextStartDate.setSeconds(0);
         nextStartDate.setMilliseconds(0);
 
-        // Find the next play day (assumption: it can't be more than 1 week away)
-        for(let dayOffset = 0; dayOffset < 7; ++dayOffset) {
+        // Find the next play day
+        for(let dayOffset = 0; dayOffset < MAX_DAYS_TO_SEARCH; ++dayOffset) {
             nextStartDate.setDate(now.getDate() + dayOffset);
 
             // We're in the past keep looking
             if(now.getTime() >= nextStartDate.getTime()) continue;
 
+            // If it's a holiday keep looking
+            if(this._isHoliday(nextStartDate)) continue;
+
             if(this._daysOfWeek.includes(nextStartDate.getDay())) break;
         }
 
         return nextStartDate.getTime();
+    }
+
+    _isHoliday(date) {
+        const dateString = `${date.getMonth() + 1}/${date.getDate()}`;
+        return this.holidays.includes(dateString);
     }
 }
