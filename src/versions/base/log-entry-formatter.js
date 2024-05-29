@@ -12,14 +12,15 @@ export class LogEntryFormatter {
             throw new Error(`Log entry type ${logEntry.type} is not supported`);
         }
 
-        return formatFunction(logEntry.rawLogEntry, new FormatingHelpers(gameState, version));
+        return formatFunction(logEntry.rawLogEntry, new FormatingHelpers(gameState, version, logEntry));
     }
 }
 
 class FormatingHelpers {
-    constructor(gameState, version) {
+    constructor(gameState, version, logEntry) {
         this._gameState = gameState;
         this._version = version;
+        this._logEntry = logEntry;
     }
 
     describeLocation(location, { locationInParenthisis, entity = true, floor = false }) {
@@ -59,6 +60,15 @@ class FormatingHelpers {
         if(locationInParenthisis) return `${info} (${location})`;
         return `${location} (${info})`;
     }
+
+    dieRoll(field, { prefix="", suffix="" }) {
+        const roll = this._logEntry.dieRolls?.[field];
+        if(!roll) return "";
+
+        const manual = this._logEntry.rawLogEntry?.[field]?.manual;
+
+        return `${prefix}${roll.map(dieSide => dieSide.display).join(", ")}${manual ? " (manual)": ""}${suffix}`;
+    }
 }
 
 
@@ -70,6 +80,7 @@ export const upgradeRange = entry => `${entry.subject} upgraded their range`
 export const bounty = entry => `${entry.subject} placed a ${entry.bounty} gold bounty on ${entry.target}`
 export const stimulus = entry => `${entry.subject} granted a stimulus of 1 action to ${entry.target}`
 export const grantLife = entry => `${entry.subject} granted 1 life to ${entry.target}`
+
 
 export function move(entry, formatter) {
     const location = formatter.describeLocation(entry.target, {
@@ -88,7 +99,7 @@ export function shoot(entry, formatter) {
         locationInParenthisis: false,
     });
 
-    return `${entry.subject} ${verb} ${target}`
+    return `${entry.subject} ${verb} ${target}${formatter.dieRoll("hit_roll", { prefix: " [", suffix: "]" })}`
 }
 
 

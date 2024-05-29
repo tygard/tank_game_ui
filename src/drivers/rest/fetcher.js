@@ -4,6 +4,7 @@ import { LogBook } from "../../game/state/log-book/log-book.js";
 import { NamedFactorySet } from "../../game/possible-actions/index.js";
 import { OpenHours } from "../../game/open-hours/index.js";
 import { GameState } from "../../game/state/game-state.js";
+import { LogEntry } from "../../game/state/log-book/entry.js";
 
 const FETCH_FREQUENCY = 2; // seconds
 const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
@@ -119,6 +120,7 @@ export const useGameInfo = makeReactDataFetchHelper({
     url: game => `/api/game/${game}/`,
     parse: data => {
         return {
+            gameSettings: data.gameSettings,
             buildInfo: data.buildInfo,
             openHours: OpenHours.deserialize(data.openHours),
             logBook: LogBook.deserialize(data.logBook),
@@ -153,5 +155,5 @@ export async function submitTurn(game, logbookEntry) {
 
     if(!result.success) throw new Error(result.error);
 
-    return result.turnId;
+    return LogEntry.deserialize(-1, -1, result.entry);
 }

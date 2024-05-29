@@ -37,29 +37,12 @@ const rawEntries = [
     },
 ];
 
-const rawLogBook = {
+export const rawLogBook = {
     gameVersion: GAME_VERSION,
     rawEntries
 };
 
 describe("LogBook", () => {
-    describe("LogEntry", () => {
-        it("can format messages based on the game version config", () => {
-            const expectedMessages = [
-                "Start of day 1",
-                "Corey shot I6",
-                "Start of day 2",
-                "Xavion traded 5 gold for actions",
-                "Corey moved to H4",
-            ];
-
-            const logBook = LogBook.deserialize(rawLogBook);
-            for(let i = 0; i <= logBook.getLastEntryId(); ++i) {
-                assert.equal(logBook.getEntry(i).message, expectedMessages[i]);
-            }
-        });
-    });
-
     it("can deserialize and reserialize itself", () => {
         const logBook = LogBook.deserialize(rawLogBook);
 

@@ -1,19 +1,23 @@
-import { submitTurn, usePossibleActionFactories } from "../../drivers/rest/fetcher.js";
-import { ErrorMessage } from "../error_message.jsx";
-import "./submit_turn.css";
+import "./submit-turn.css";
+import { submitTurn, usePossibleActionFactories } from "../../../drivers/rest/fetcher.js";
+import { ErrorMessage } from "../../error_message.jsx";
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
-import { resetPossibleActions, selectActionType, setActionSpecificField, setLastError, setPossibleActions, setSubject } from "../../interface-adapters/build-turn.js";
-import { prettyifyName } from "../../utils.js";
+import { resetPossibleActions, selectActionType, setActionSpecificField, setLastError, setLastRollEntry, setPossibleActions, setSubject } from "../../../interface-adapters/build-turn.js";
+import { prettyifyName } from "../../../utils.js";
+import { LabelElement } from "./base.jsx";
+import { Select, SelectPosition } from "./select.jsx";
+import { Input } from "./input.jsx";
+import { DieRollResults, RollDice } from "./roll-dice.jsx";
 
-export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, game, debug, entryId, builtTurnState, buildTurnDispatch }) {
+export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, game, debug, entryId, builtTurnState, buildTurnDispatch, allowManualRolls }) {
     // Set this to undefined so we don't send a request for anthing other than the last turn
     const possibleActionsEntryId = canSubmitAction && isLatestEntry ? entryId : undefined;
     const [actionFactories, error] = usePossibleActionFactories(game, builtTurnState.subject, possibleActionsEntryId);
+    const [status, setStatus] = useState();
+
     useEffect(() => {
         buildTurnDispatch(setPossibleActions(actionFactories));
     }, [actionFactories, buildTurnDispatch]);
-
-    const [status, setStatus] = useState();
 
     const submitTurnHandler = useCallback(async e => {
         e.preventDefault();
@@ -22,11 +26,12 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
             buildTurnDispatch(setLastError(undefined));
 
             try {
-                await submitTurn(game, builtTurnState.logBookEntry);
+                const lastEntry = await submitTurn(game, builtTurnState.logBookEntry);
 
                 // Reset the form
                 refreshGameInfo();
                 buildTurnDispatch(resetPossibleActions());
+                buildTurnDispatch(setLastRollEntry(lastEntry));
             }
             catch(err) {
                 buildTurnDispatch(setLastError(err.message));
@@ -60,19 +65,28 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
         return buildTurnDispatch(selectActionType(possibleActions.prettyToInternal[actionName]));
     };
 
-    // Game over no more actions to submit or we haven't picked a user yet
-    if(!canSubmitAction || builtTurnState.actions.length === 0) {
+    if(builtTurnState.lastRollEntry) {
+        return <DieRollResults
+            rollLogEntry={builtTurnState.lastRollEntry}
+            onClose={() => buildTurnDispatch(setLastRollEntry(undefined))}/>;
+    }
+
+    // Game over no more actions to submit
+    if(!canSubmitAction) {
         return;
     }
+
+    if(error) {
+        return <ErrorMessage error={error}></ErrorMessage>
+    }
+
+    // Actions aren't available yet
+    if(builtTurnState.actions.length === 0) return;
 
     if(!isLatestEntry) {
         return (
             <p>You can only submit actions on the most recent turn.</p>
         );
-    }
-
-    if(error) {
-        return <ErrorMessage error={error}></ErrorMessage>
     }
 
     if(status) {
@@ -98,7 +112,8 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
                         </LabelElement>
                         <SubmissionForm
                             builtTurnState={builtTurnState}
-                            buildTurnDispatch={buildTurnDispatch}></SubmissionForm>
+                            buildTurnDispatch={buildTurnDispatch}
+                            allowManualRolls={allowManualRolls}></SubmissionForm>
                     </div>
                     <div className="submit-action-button-wrapper">
                         <button type="submit" disabled={!builtTurnState.isValid}>Submit action</button>
@@ -119,17 +134,13 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
                         <summary>Log book entry (JSON)</summary>
                         <pre>{JSON.stringify(builtTurnState.logBookEntry, null, 4)}</pre>
                     </details>
-                    <details>
-                        <summary>Build turn state (JSON)</summary>
-                        <pre>{JSON.stringify(builtTurnState, null, 4)}</pre>
-                    </details>
                 </div> : undefined}
             </div>
         </div>
     );
 }
 
-function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
+function SubmissionForm({ builtTurnState, buildTurnDispatch, allowManualRolls }) {
     return (
         <>
             {builtTurnState.currentSpecs.map(fieldSpec => {
@@ -140,6 +151,9 @@ function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
 
                 if(fieldSpec.type == "select-position") {
                     Element = SelectPosition;
+                }
+                else if(fieldSpec.type == "roll-dice") {
+                    Element = RollDice;
                 }
                 else if(fieldSpec.type.startsWith("select")) {
                     Element = Select;
@@ -154,14 +168,14 @@ function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
 
                 if(Element) {
                     return (
-                        <LabelElement key={fieldSpec.name} name={fieldSpec.name}>
-                            <p className="submit-turn-description">{fieldSpec.description}</p>
+                        <LabelElement key={fieldSpec.name} name={fieldSpec.display}>
                             <Element
                                 type={fieldSpec.type}
                                 builtTurnState={builtTurnState}
                                 spec={fieldSpec}
                                 value={builtTurnState.uiFieldValues[fieldSpec.name]}
-                                setValue={setValue}></Element>
+                                setValue={setValue}
+                                allowManualRolls={allowManualRolls}></Element>
                         </LabelElement>
                     );
                 }
@@ -171,64 +185,4 @@ function SubmissionForm({ builtTurnState, buildTurnDispatch }) {
             })}
         </>
     )
-}
-
-function LabelElement({ name, children }) {
-    return (
-        <label className="submit-turn-field" key={name}>
-            <h3>{name}</h3>
-            {children}
-        </label>
-    );
-}
-
-function Select({ spec, value, setValue }) {
-    const onChange = useCallback(e => {
-        setValue(e.target.value == "unset" ? undefined : spec.options[+e.target.value]);
-    }, [setValue, spec]);
-
-    const currentIndex = value !== undefined ? spec.options.indexOf(value) : -1;
-
-    return (
-        <div className="radio-container">
-            {spec.options.map((element, index) => {
-                const value = element.toString();
-
-                return (
-                    <div key={index} className="radio-button-wrapper">
-                        <label>
-                            <input type="radio" value={index} onChange={onChange} checked={index === currentIndex}/>
-                            {value}
-                        </label>
-                    </div>
-                );
-            })}
-        </div>
-    );
-}
-
-function Input({ spec, type, value, setValue }) {
-    const inputType = type.split("-")[1];
-    const convert = value => {
-        return inputType == "number" ? +value : value;
-    };
-
-    return (
-        <input
-            type={inputType || "text"}
-            value={value}
-            onInput={e => setValue(convert(e.target.value))}
-            placeholder={spec.placeholder || spec.name}/>
-    );
-}
-
-function SelectPosition({ builtTurnState }) {
-    const {location} = builtTurnState.locationSelector;
-    const message = location ?
-        `${location} (select a different space to change)` :
-        `Select a location on the board`;
-
-    return (
-        <span>{message}</span>
-    );
 }

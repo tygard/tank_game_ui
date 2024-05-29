@@ -1,3 +1,5 @@
+import { logger } from "#platform/logging.js";
+
 export function objectMap(obj, mapFn) {
     let mappedObject = {};
 
@@ -30,4 +32,23 @@ export class PromiseLock {
 
         return promiseForCurrentJob;
     }
+}
+
+export function buildDeserializer(Types) {
+    return (raw) => {
+        let MatchingType;
+        for(const Type of Types) {
+            if(Type.canConstruct(raw.type)) {
+                MatchingType = Type;
+                break;
+            }
+        }
+
+        if(!MatchingType) {
+            logger.error({ msg: "Action factory not found", raw });
+            throw new Error(`No action factory for ${raw.type}`);
+        }
+
+        return MatchingType.deserialize(raw);
+    };
 }

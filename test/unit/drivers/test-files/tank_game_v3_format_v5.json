@@ -1,5 +1,8 @@
 {
     "fileFormatVersion": 5,
+    "gameSettings": {
+        "something": "else"
+    },
     "openHours": [
         {
             "daysOfWeek": [

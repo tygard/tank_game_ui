@@ -19,4 +19,11 @@ describe("Position", () => {
         assert.deepEqual(Position.fromHumanReadable("AB30"), { x: 27, y: 29 });
         assert.deepEqual(Position.fromHumanReadable("BA51"), { x: 26 * 2, y: 50 });
     });
+
+    it("can find the distance between two positions", () => {
+        assert.equal(new Position(0, 0).distanceTo(new Position(2, 2)), 2);
+        assert.equal(new Position(0, 0).distanceTo(new Position(1, 2)), 2);
+        assert.equal(new Position(0, 0).distanceTo(new Position(1, 0)), 1);
+        assert.equal(new Position(0, 0).distanceTo(new Position(0, 0)), 0);
+    });
 });

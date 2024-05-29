@@ -2,19 +2,24 @@ import { GenericPossibleAction } from "./generic-possible-action.js";
 import { LogFieldSpec } from "./log-field-spec.js";
 
 export class StartOfDaySource {
-    async getActionFactoriesForPlayer({logEntry}) {
-        return [new StartOfDayFactory(logEntry.day + 1)];
+    async getActionFactoriesForPlayer({day, interactor}) {
+        // Don't give the users the ability to start new days
+        if(interactor.hasAutomaticStartOfDay()) {
+            return [];
+        }
+
+        return [new StartOfDayFactory(day + 1)];
     }
 }
 
 export class StartOfDayFactory extends GenericPossibleAction {
     constructor(dayToStart) {
-        super({ actionName: "start_of_day" });
+        super({ actionName: "start_of_day", type: "start-of-day" });
         this._dayToStart = dayToStart;
     }
 
-    getType() {
-        return "start-of-day";
+    static canConstruct(type) {
+        return type == "start-of-day";
     }
 
     static deserialize(rawStartOfDayFactory) {
@@ -28,17 +33,14 @@ export class StartOfDayFactory extends GenericPossibleAction {
     }
 
     getParameterSpec() {
-        return [
-            new LogFieldSpec({
-                name: "day",
-                type: "set-value",
-                value: this._dayToStart,
-                hidden: true,
-            }),
-        ];
+        return [];
     }
 
-    toString() {
-        return "Start day";
+    finalizeLogEntry(rawLogEntry) {
+        if(rawLogEntry.day === undefined) {
+            rawLogEntry.day = this._dayToStart;
+        }
+
+        return rawLogEntry;
     }
 }

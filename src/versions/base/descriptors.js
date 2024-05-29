@@ -1,5 +1,5 @@
 export function imageBackground(url) {
-    return `url("/assets/${url}.png")`;
+    return url?.length > 0 ? `url("/assets/${url}.png")` : undefined;
 }
 
 export class EntityDescriptor {

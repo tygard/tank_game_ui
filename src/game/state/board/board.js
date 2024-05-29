@@ -56,4 +56,8 @@ export default class Board {
             this._floor[tile.position.humanReadable] = tile;
         }
     }
+
+    isInBounds(position) {
+        return position.x < this.width && position.y < this.height;
+    }
 }

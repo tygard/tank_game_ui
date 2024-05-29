@@ -9,7 +9,7 @@ const VALID_TYPES = [
 ];
 
 export class LogFieldSpec {
-    constructor({ name, type, options, value, description }) {
+    constructor({ name, display, type, options, value, description }) {
         if(!VALID_TYPES.includes(type)) {
             throw new Error(`Invalid log field spec type ${type}`);
         }
@@ -23,7 +23,7 @@ export class LogFieldSpec {
         }
 
         this.name = name;
-        this.displayName = prettyifyName(name);
+        this.display = display || prettyifyName(name);
         this.description = description;
         this.type = type;
         this.hidden = type == "set-value";
@@ -57,6 +57,10 @@ export class LogFieldSpec {
         return option;
     }
 
+    static canConstruct(type) {
+        return VALID_TYPES.includes(type);
+    }
+
     static deserialize(rawSpec) {
         return new LogFieldSpec(rawSpec);
     }
@@ -64,6 +68,7 @@ export class LogFieldSpec {
     serialize() {
         return {
             name: this.name,
+            display: this.display,
             type: this.type,
             options: this._origOptions,
             value: this.options?.[0],
@@ -79,7 +84,9 @@ export class LogFieldSpec {
     isValid(value) {
         if(value === undefined) return false;
 
-        if(this._logEntryValidValues) return this._logEntryValidValues.has(value);
+        if(this._logEntryValidValues) {
+            return this._logEntryValidValues.has(value);
+        }
 
         return true;
     }

@@ -11,6 +11,7 @@ export function makeInitalState() {
         isValid: false,
         logBookEntry: {},
         lastError: undefined,
+        lastRollEntry: undefined,
     };
 }
 
@@ -115,7 +116,24 @@ export function buildTurnReducer(state, invocation) {
     }
     else {
         // Clear the last error on any user interaction
-        state.lastError = undefined;
+        state = {
+            ...state,
+            lastError: undefined,
+        };
+    }
+
+    if(invocation.type == "set-last-roll-entry") {
+        return {
+            ...state,
+            lastRollEntry: invocation.lastRollEntry,
+        };
+    }
+    else if(invocation.type != "set-possible-actions") {
+        // Reset for anything except for possible actions being set
+        state = {
+            ...state,
+            lastRollEntry: undefined,
+        };
     }
 
     if(invocation.type == "set-subject") {
@@ -131,7 +149,8 @@ export function buildTurnReducer(state, invocation) {
             ...makeInitalState(),
             subject: state.subject,
             _possibleActions: invocation.possibleActions,
-            actions: (invocation.possibleActions || []).map(factory => ({
+            lastRollEntry: state.lastRollEntry,
+            actions: Array.from(invocation.possibleActions || []).map(factory => ({
                 name: factory.getActionName(),
             })),
         };
@@ -151,7 +170,7 @@ export function buildTurnReducer(state, invocation) {
     let currentFactory;
     switch(invocation.type) {
         case "select-action-type":
-            currentFactory = state._possibleActions.find(factory => factory.getActionName() == invocation.actionName);
+            currentFactory = Array.from(state._possibleActions).find(factory => factory.getActionName() == invocation.actionName);
             if(!currentFactory) {
                 throw new Error(`${invocation.actionName} does not match any known possible actions`);
             }
@@ -198,6 +217,7 @@ export const selectActionType = actionName => ({ type: "select-action-type", act
 export const setActionSpecificField = (name, value) => ({ type: "set-action-specific-field", name, value });
 export const selectLocation = location => ({ type: "select-location", location });
 export const setLastError = error => ({ type: "set-last-error", error });
+export const setLastRollEntry = lastRollEntry => ({ type: "set-last-roll-entry", lastRollEntry });
 
 export function useBuildTurn() {
     return useReducer(buildTurnReducer, undefined, makeInitalState);

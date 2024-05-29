@@ -1,45 +1,65 @@
+import { buildDeserializer } from "../../utils.js";
+import { DiceLogFieldSpec } from "./dice-log-field-spec.js";
 import { GenericPossibleAction } from "./generic-possible-action.js";
+import { LogFieldSpec } from "./log-field-spec.js";
+import { ShootAction } from "./shoot.js";
 import { StartOfDayFactory } from "./start-of-day-source.js";
 
 
-export function buildRegistry(Types) {
-    let registry = {};
-    for(const Type of Types) {
-        registry[Type.prototype.getType()] = Type;
-    }
-
-    return registry;
-}
-
 // Build the default registry with all of the action types
-const defaultRegistry = buildRegistry([
+const possibleActionsDeserializer = buildDeserializer([
     StartOfDayFactory,
     GenericPossibleAction,
+    ShootAction,
 ]);
 
 
-export class NamedFactorySet extends Array {
+export class NamedFactorySet {
+    constructor(...actions) {
+        this._actionsByName = {};
+        for(const action of actions) {
+            this._mapActionToName(action);
+        }
+    }
+
+    *[Symbol.iterator]() {
+        for(const action of Object.values(this._actionsByName)) {
+            yield action;
+        }
+    }
+
+    push(action) {
+        this._mapActionToName(action);
+    }
+
+    _mapActionToName(action) {
+        const name = action.getActionName();
+
+        if(this._actionsByName[name]) {
+            throw new Error(`Multiple actions name ${name} (types = [${this._actionsByName[name].type}, ${action.type}])`);
+        }
+
+        this._actionsByName[name] = action;
+    }
+
     serialize() {
-        return this.map(factory => {
-            return({
-                type: factory.getType(),
+        return Object.values(this._actionsByName).map(factory => {
+            return {
+                type: factory.type,
                 ...factory.serialize()
-            })
+            };
         });
     }
 
-    static deserialize(factories, registry = defaultRegistry) {
+    static deserialize(factories, deserializer = possibleActionsDeserializer) {
+        const f = factories.map(rawFactory => deserializer(rawFactory));
         return new NamedFactorySet(
-            ...factories.map(rawFactory => {
-                const Type = registry[rawFactory.type];
-
-                if(!Type) {
-                    throw new Error(`No action factory for ${rawFactory.type}`);
-                }
-
-                return Type.deserialize(rawFactory);
-            })
+            ...f,
         );
+    }
+
+    get(actionName) {
+        return this._actionsByName[actionName];
     }
 }
 

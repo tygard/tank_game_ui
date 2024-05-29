@@ -29,8 +29,4 @@ describe("GenericPossibleAction", () => {
         const newAction = GenericPossibleAction.deserialize(possibleAction.serialize());
         assert.deepEqual(newAction, possibleAction);
     });
-
-    it("can return a human readable name", () => {
-        assert.deepEqual(possibleAction.toString(), "Buy Action");
-    });
 });

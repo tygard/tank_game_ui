@@ -1,8 +1,8 @@
 import { GameBoard } from "./game_state/board.jsx";
-import { useCallback, useState } from "preact/hooks";
+import { useCallback, useMemo, useState } from "preact/hooks";
 import { useGameInfo, useGameState } from "../drivers/rest/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
-import { SubmitTurn } from "./game_state/submit_turn.jsx";
+import { SubmitTurn } from "./game_state/submit-turn/submit-turn.jsx";
 import { Council } from "./game_state/council.jsx";
 import { LogBook } from "./game_state/log_book.jsx";
 import { ErrorMessage } from "./error_message.jsx";
@@ -30,6 +30,14 @@ export function Game({ game, setGame, debug }) {
 
     const [builtTurnState, buildTurnDispatch] = useBuildTurn();
 
+    const versionConfig = gameInfo?.logBook?.gameVersion !== undefined ?
+        getGameVersion(gameInfo.logBook.gameVersion) : undefined;
+
+    const possibleActionsContext = useMemo(() => ({
+        gameState,
+        versionConfig,
+    }), [gameState, versionConfig]);
+
     const error = infoError || stateError;
 
     // The user that's currently submitting actions
@@ -56,9 +64,6 @@ export function Game({ game, setGame, debug }) {
             <ErrorMessage error={error}></ErrorMessage>
         </AppContent>;
     }
-
-    const versionConfig = gameInfo?.logBook?.gameVersion !== undefined ?
-        getGameVersion(gameInfo.logBook.gameVersion) : undefined;
 
     let gameMessage;
     if(gameState?.winner !== undefined) {
@@ -116,6 +121,7 @@ export function Game({ game, setGame, debug }) {
                 <div className="centered">
                     <div>
                         {gameIsClosed ? undefined : <SubmitTurn
+                            context={possibleActionsContext}
                             game={game}
                             builtTurnState={builtTurnState}
                             buildTurnDispatch={buildTurnDispatch}
@@ -123,7 +129,8 @@ export function Game({ game, setGame, debug }) {
                             refreshGameInfo={refreshGameInfo}
                             debug={debug}
                             entryId={currentTurnMgrState.entryId}
-                            isLatestEntry={currentTurnMgrState.isLatestEntry}></SubmitTurn>}
+                            isLatestEntry={currentTurnMgrState.isLatestEntry}
+                            allowManualRolls={gameInfo?.gameSettings?.allowManualRolls}></SubmitTurn>}
                     </div>
                 </div>
             </AppContent>

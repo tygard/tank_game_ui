@@ -23,6 +23,7 @@ export function defineRoutes(app, buildInfo) {
 
         res.json({
             buildInfo,
+            gameSettings: interactor.getSettings(),
             openHours: interactor.getOpenHours().serialize({ resolved: true }),
             logBook: interactor.getLogBook().serialize(),
         });
@@ -43,8 +44,8 @@ export function defineRoutes(app, buildInfo) {
         const log = req.log || logger;
 
         try {
-            await interactor.addLogBookEntry(req.body);
-            res.json({ success: true });
+            const entry = await interactor.addLogBookEntry(req.body);
+            res.json({ success: true, entry: entry.serialize() });
         }
         catch(err) {
             log.info({
@@ -57,7 +58,7 @@ export function defineRoutes(app, buildInfo) {
     });
 
     app.get("/api/game/:gameName/possible-actions/:playerName/:lastTurnId", async (req, res) => {
-        const {valid, interactor, sourceSet} = req.games.getGameIfAvailable();
+        const {valid, interactor} = req.games.getGameIfAvailable();
         if(!valid) return;
 
         const logBook = interactor.getLogBook();
@@ -71,14 +72,7 @@ export function defineRoutes(app, buildInfo) {
             return;
         }
 
-        const factories = await sourceSet.getActionFactoriesForPlayer({
-            playerName: req.params.playerName,
-            logBook,
-            logEntry: logBook.getEntry(lastId),
-            gameState: interactor.getGameStateById(lastId),
-            interactor: interactor,
-        });
-
+        const factories = await interactor.getActions(req.params.playerName);
         res.json(factories.serialize());
     });
 

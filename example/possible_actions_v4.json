@@ -86,7 +86,7 @@
                             "DEAD": false,
                             "DURABILITY": 3,
                             "ACTIONS": 5,
-                            "RANGE": 0,
+                            "RANGE": 4,
                             "GOLD": 15,
                             "BOUNTY": 0
                         }

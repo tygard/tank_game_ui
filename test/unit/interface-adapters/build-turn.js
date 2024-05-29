@@ -2,7 +2,7 @@ import assert from "node:assert";
 import { NamedFactorySet } from "../../../src/game/possible-actions/index.js";
 import { GenericPossibleAction } from "../../../src/game/possible-actions/generic-possible-action.js";
 import { LogFieldSpec } from "../../../src/game/possible-actions/log-field-spec.js";
-import { buildTurnReducer, makeInitalState, resetPossibleActions, selectActionType, selectLocation, setActionSpecificField, setLastError, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
+import { buildTurnReducer, makeInitalState, resetPossibleActions, selectActionType, selectLocation, setActionSpecificField, setLastError, setLastRollEntry, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
 
 const swappingBaseSpec = new LogFieldSpec({
     name: "pick",
@@ -106,7 +106,18 @@ const possibleActions = new NamedFactorySet(
     new SwappingPossibleAction(),
 );
 
+function deepFreeze(object) {
+    if(typeof object == "object") {
+        Object.freeze(object);
+
+        for(const key of Object.keys(object)) {
+            deepFreeze(object[key]);
+        }
+    }
+}
+
 function compareState(state, expected) {
+    deepFreeze(state);
     state = Object.assign({}, state);
     delete state._possibleActions;
     delete state._currentFactory;
@@ -131,6 +142,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [],
             isValid: false,
             locationSelector: {
@@ -146,6 +158,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentActionName: "multiply",
             currentSpecs: mutliplyFieldSpecs,
             isValid: false,
@@ -169,6 +182,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentActionName: "multiply",
             currentSpecs: mutliplyFieldSpecs,
             isValid: true,
@@ -194,6 +208,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentActionName: "shoot",
             currentSpecs: shootFieldSpecs,
             isValid: false,
@@ -218,6 +233,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentActionName: "shoot",
             currentSpecs: shootFieldSpecs,
             isValid: false,
@@ -244,6 +260,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Teddy",
             actions,
+            lastRollEntry: undefined,
             currentActionName: "shoot",
             currentSpecs: shootFieldSpecs,
             isValid: true,
@@ -272,12 +289,14 @@ describe("BuildTurn", () => {
         state = buildTurnReducer(state, setPossibleActions(possibleActions));
         state = buildTurnReducer(state, selectActionType("shoot"));
         state = buildTurnReducer(state, setActionSpecificField("hit", false));
-        const preResetState = buildTurnReducer(state, selectLocation("H1"));
+        state = buildTurnReducer(state, selectLocation("H1"));
+        const preResetState = state = buildTurnReducer(state, setLastRollEntry("foo"));
 
         compareState(preResetState, {
             lastError: undefined,
             subject: "Pam",
             actions,
+            lastRollEntry: "foo",
             currentSpecs: shootFieldSpecs,
             currentActionName: "shoot",
             isValid: true,
@@ -305,6 +324,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Pam",
             actions: [],
+            lastRollEntry: undefined,
             currentSpecs: [],
             isValid: false,
             locationSelector: {
@@ -320,6 +340,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "Walter",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [],
             isValid: false,
             locationSelector: {
@@ -334,6 +355,7 @@ describe("BuildTurn", () => {
         compareState(state, {
             lastError: undefined,
             subject: "Pam",
+            lastRollEntry: "foo",
             actions: [],
             currentSpecs: [],
             isValid: false,
@@ -349,6 +371,7 @@ describe("BuildTurn", () => {
         compareState(state, {
             lastError: undefined,
             subject: "Pam",
+            lastRollEntry: "foo",
             actions,
             currentSpecs: [],
             isValid: false,
@@ -370,6 +393,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "George",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [swappingBaseSpec],
             currentActionName: "swapper",
             isValid: false,
@@ -391,6 +415,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "George",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [swappingBaseSpec, swappingFieldSpec],
             currentActionName: "swapper",
             isValid: false,
@@ -418,6 +443,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "George",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [swappingBaseSpec, ...swappingYepSpec],
             currentActionName: "swapper",
             isValid: false,
@@ -444,6 +470,7 @@ describe("BuildTurn", () => {
             lastError: undefined,
             subject: "George",
             actions,
+            lastRollEntry: undefined,
             currentSpecs: [swappingBaseSpec, swappingThingSpec],
             currentActionName: "swapper",
             isValid: false,

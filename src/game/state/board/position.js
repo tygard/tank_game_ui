@@ -3,6 +3,10 @@ const POSITION_EXPR = /([A-Za-z]+)(\d+)/;
 
 export class Position {
     constructor(x, y) {
+        if(x < 0 || y < 0) {
+            throw new Error(`Invalid position (${x}, ${y})`);
+        }
+
         this.x = x;
         this.y = y;
     }
@@ -43,5 +47,12 @@ export class Position {
 
     get humanReadable() {
         return this.humanReadableX + this.humanReadableY;
+    }
+
+    distanceTo(position) {
+        const xDiff = Math.abs(position.x - this.x);
+        const yDiff = Math.abs(position.y - this.y);
+        const sqrt = Math.sqrt(xDiff ** 2 + yDiff ** 2);
+        return Math.floor(sqrt);
     }
 }

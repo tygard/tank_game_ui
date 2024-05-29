@@ -1,36 +1,55 @@
 import assert from "node:assert";
-import { NamedFactorySet, buildRegistry } from "../../../../src/game/possible-actions/index.js";
+import { NamedFactorySet } from "../../../../src/game/possible-actions/index.js";
+import { buildDeserializer } from "../../../../src/utils.js";
 
 
 class MockPossibleAction {
-    getType() {
-        return "mock-action"
+    constructor(flag) {
+        this.flag = flag;
+        this.type = "mock-action";
+    }
+
+    getActionName() {
+        return "mock";
+    }
+
+    static canConstruct(type) {
+        return type == "mock-action";
     }
 
     static deserialize(raw) {
-        return { from: "main", flag: raw.flag };
+        return new MockPossibleAction(raw.flag);
     }
 
     serialize() {
-        return { flag: 3 };
+        return { flag: this.flag };
     }
 }
 
 class OtherMockPossibleAction {
-    getType() {
-        return "other-mock-action"
+    constructor(otherFlag) {
+        this.type = "other-mock-action";
+        this.otherFlag = otherFlag;
+    }
+
+    getActionName() {
+        return "other";
+    }
+
+    static canConstruct(type) {
+        return type == "other-mock-action";
     }
 
     static deserialize(raw) {
-        return { from: "other", otherFlag: raw.otherFlag, };
+        return new OtherMockPossibleAction(raw.otherFlag + 3);
     }
 
     serialize() {
-        return { otherFlag: 4 };
+        return { otherFlag: this.otherFlag };
     }
 }
 
-const testRegistry = buildRegistry([MockPossibleAction, OtherMockPossibleAction]);
+const testDeserializer = buildDeserializer([MockPossibleAction, OtherMockPossibleAction]);
 
 
 describe("NamedFactorySet", () => {
@@ -44,24 +63,24 @@ describe("NamedFactorySet", () => {
                 type: "other-mock-action",
                 otherFlag: 2,
             },
-        ], testRegistry);
+        ], testDeserializer);
 
-        assert.deepEqual(deserialized, [
+        assert.deepEqual(Array.from(deserialized), [
             {
-                from: "main",
+                type: "mock-action",
                 flag: 1,
             },
             {
-                from: "other",
-                otherFlag: 2,
+                type: "other-mock-action",
+                otherFlag: 5,
             },
         ]);
     });
 
     it("can serialize factories", () => {
         const set = new NamedFactorySet(
-            new MockPossibleAction(),
-            new OtherMockPossibleAction(),
+            new MockPossibleAction(3),
+            new OtherMockPossibleAction(4),
         );
 
         assert.deepEqual(set.serialize(), [

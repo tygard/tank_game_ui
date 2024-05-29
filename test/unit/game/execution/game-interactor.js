@@ -2,6 +2,7 @@ import assert from "node:assert";
 import { LogBook } from "../../../../src/game/state/log-book/log-book.js";
 import { GameInteractor } from "../../../../src/game/execution/game-interactor.js";
 import { LogEntry } from "../../../../src/game/state/log-book/entry.js";
+import { PossibleActionSourceSet } from "../../../../src/game/possible-actions/index.js";
 
 const GAME_VERSION = 3;
 
@@ -67,14 +68,21 @@ export class MockEngine {
     }
 }
 
-
-async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig } = {}) {
+async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig, actionFactories = [] } = {}) {
     let logBook = new LogBook(GAME_VERSION, logEntries, versionConfig);
     let initialGameState = makeMockState({ stateNo: 1 });
 
     let mockEngine = new MockEngine();
     mockEngine.processingDelays = processingDelays;
-    let interactor = new GameInteractor(mockEngine, { logBook, initialGameState }, saveHandler);
+    let interactor = new GameInteractor({
+        engine: mockEngine,
+        gameData: {
+            logBook,
+            initialGameState,
+        },
+        saveHandler,
+        actionFactories: new PossibleActionSourceSet(actionFactories),
+    });
 
     if(waitForLoaded) await interactor.loaded;
 
@@ -152,6 +160,7 @@ describe("GameInteractor", () => {
 
         assert.deepEqual(versionConfig.getCalls(), [
             // First call is ignored because state is undefined
+            [logEntries[0], { stateNo: 1, converted: true }],
             [logEntries[1], { stateNo: 2, converted: true }],
             [logEntries[2], { stateNo: 3, converted: true }],
         ]);
@@ -171,6 +180,9 @@ describe("GameInteractor", () => {
 
         const rawEntry = { action: "run" };
         let newEntry = new LogEntry(1, rawEntry, 1, versionConfig);
+        newEntry.updateMessageWithBoardState({
+            previousState: { stateNo: 2 },
+        });
         await interactor.addLogBookEntry(rawEntry);
 
         assert.deepEqual(mockEngine.operations, [
@@ -192,6 +204,8 @@ describe("GameInteractor", () => {
 
         assert.deepEqual(versionConfig.getCalls(), [
             // First call is ignored because state is undefined
+            [logEntries[0], { stateNo: 1, converted: true }],
+            [newEntry, { stateNo: 2 }],
             [newEntry, { stateNo: 2, converted: true }],
         ]);
     });
@@ -210,7 +224,6 @@ describe("GameInteractor", () => {
         assert.deepEqual(saveData, {
             initialGameState,
             logBook,
-            openHours: undefined,
         });
     });
 
@@ -277,7 +290,13 @@ describe("GameInteractor", () => {
 
         const rawEntry = { action: "run" };
         let newEntry = new LogEntry(2, rawEntry, 3, versionConfig);
+        newEntry.updateMessageWithBoardState({
+            previousState: { stateNo: 3 },
+        });
         let newEntry2 = new LogEntry(2, rawEntry, 4, versionConfig);
+        newEntry2.updateMessageWithBoardState({
+            previousState: { stateNo: 4 },
+        });
         mockEngine.processingDelay = firstAddActionDelay;
         interactor.addLogBookEntry(rawEntry);
         mockEngine.processingDelay = secondAddActionDelay;

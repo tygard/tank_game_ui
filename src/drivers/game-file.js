@@ -5,8 +5,6 @@ import { LogBook } from "../game/state/log-book/log-book.js";
 import { readJson, writeJson } from "./file-utils.js";
 import { logger } from "#platform/logging.js";
 import { GameInteractor } from "../game/execution/game-interactor.js";
-import { PossibleActionSourceSet } from "../game/possible-actions/index.js";
-import { StartOfDaySource } from "../game/possible-actions/start-of-day-source.js";
 import { OpenHours } from "../game/open-hours/index.js";
 import { getGameVersion } from "../versions/index.js";
 
@@ -44,6 +42,7 @@ export async function load(filePath, { saveBack = false, makeTimeStamp } = {}) {
     const fileData = {
         openHours,
         logBook,
+        gameSettings: content.gameSettings,
         initialGameState: content.initialGameState,
     };
 
@@ -54,9 +53,10 @@ export async function load(filePath, { saveBack = false, makeTimeStamp } = {}) {
     return fileData;
 }
 
-export async function save(filePath, {logBook, initialGameState, openHours}) {
+export async function save(filePath, {logBook, initialGameState, openHours, gameSettings}) {
     await writeJson(filePath, {
         fileFormatVersion: FILE_FORMAT_VERSION,
+        gameSettings,
         openHours: openHours.serialize(),
         logBook: logBook.serialize({ justRawEntries: true }),
         initialGameState,
@@ -71,7 +71,7 @@ export class GameManager {
         this._interactors = [];
     }
 
-    async _loadGamesFromFolder({ saveBack, makeTimeStamp }) {
+    async _loadGamesFromFolder(gameOptions) {
         this._gamePromises = {};
         this._games = {};
 
@@ -84,8 +84,8 @@ export class GameManager {
             logger.info(`Loading ${name} from ${filePath}`);
 
             // Load and process the game asyncronously
-            this._gamePromises[name] = loadGameFromFile(filePath, this._createEngine, { saveBack, makeTimeStamp })
-                .then(({ interactor, sourceSet }) => {
+            this._gamePromises[name] = loadGameFromFile(filePath, this._createEngine, gameOptions)
+                .then((interactor) => {
                     // We've already been asked to shutdown kill this game
                     if(this._isShutDown) interactor.shutdown();
 
@@ -94,7 +94,6 @@ export class GameManager {
                     this._games[name] = {
                         loaded: true,
                         interactor,
-                        sourceSet,
                     };
 
                     return this._games[name];
@@ -142,33 +141,25 @@ export class GameManager {
     }
 }
 
-export async function loadGameFromFile(filePath, createEngine, { saveBack, makeTimeStamp } = {}) {
-    const file = await load(filePath, { saveBack, makeTimeStamp });
+export async function loadGameFromFile(filePath, createEngine, { saveBack, makeTimeStamp, gameVersion } = {}) {
+    const gameData = await load(filePath, { saveBack, makeTimeStamp });
+
+    if(gameVersion === undefined) {
+        gameVersion = getGameVersion(gameData.logBook.gameVersion);
+    }
 
     const engine = createEngine();
     const saveHandler = data => save(filePath, data);
-    const interactor = new GameInteractor(engine, file, saveHandler);
+    const interactor = new GameInteractor({
+        engine,
+        gameData,
+        saveHandler,
+        actionFactories: gameVersion.getActionFactories(engine),
+    });
+
     await interactor.loaded;
 
-    let actionSets = [];
-
-    if(!interactor.hasAutomaticStartOfDay()) {
-        actionSets.push(new StartOfDaySource());
-    }
-
-    const engineSpecificSource = engine.getEngineSpecificSource &&
-        engine.getEngineSpecificSource();
-
-    if(engineSpecificSource) {
-        actionSets.push(engineSpecificSource);
-    }
-
-    const sourceSet = new PossibleActionSourceSet(actionSets);
-
-    return {
-        interactor,
-        sourceSet,
-    };
+    return interactor;
 }
 
 export async function createGameManager(createEngine, saveUpdatedFiles) {

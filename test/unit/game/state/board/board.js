@@ -45,4 +45,11 @@ describe("Board", () => {
         const reSerializedBoard = Board.deserialize(board.serialize());
         assert.deepEqual(reSerializedBoard, board);
     });
+
+    it("can check if a position is in bounds", () => {
+        assert.ok(!board.isInBounds(new Position(7, 5)));
+        assert.ok(!board.isInBounds(new Position(7, 0)));
+        assert.ok(!board.isInBounds(new Position(0, 5)));
+        assert.ok(!board.isInBounds(new Position(50, 50)));
+    });
 });

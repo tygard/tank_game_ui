@@ -13,7 +13,7 @@ const buildInfo = process.env.BUILD_INFO;
 function gameAccessor(gameManager) {
     return (req, res, next) => {
         function getGameIfAvailable() {
-            const {loaded, error, sourceSet, interactor} = gameManager.getGame(req.params.gameName);
+            const {loaded, error, interactor} = gameManager.getGame(req.params.gameName);
 
             if(error) {
                 res.json({
@@ -32,7 +32,7 @@ function gameAccessor(gameManager) {
                 return {valid: false};
             }
 
-            return {valid: true, interactor, sourceSet};
+            return {valid: true, interactor};
         }
 
         req.games = {

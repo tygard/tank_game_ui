@@ -1,25 +1,27 @@
 import { GenericPossibleAction } from "../../game/possible-actions/generic-possible-action.js";
-import { prettyifyName } from "../../utils.js";
 import { logger } from "#platform/logging.js";
 import { LogFieldSpec } from "../../game/possible-actions/log-field-spec.js";
 
 export class JavaEngineSource {
-    constructor(engine) {
-        this._engine = engine;
+    constructor({ actionsToSkip = [] } = {}) {
+        this._actionsToSkip = new Set(actionsToSkip);
     }
 
-    async getActionFactoriesForPlayer({playerName, gameState, interactor}) {
+    async getActionFactoriesForPlayer({playerName, gameState, engine}) {
         const player = gameState.players.getPlayerByName(playerName);
         if(!player) return [];
 
         const isCouncil = ["senator", "councilor"].includes(player.type);
         const subject = playerName;
 
-        await interactor.sendPreviousState();
-        let possibleActions = await this._engine.getPossibleActions(isCouncil ? "Council" : playerName);
+        let possibleActions = await engine.getPossibleActions(isCouncil ? "Council" : playerName);
 
         return possibleActions.map(possibleAction => {
             const actionName = possibleAction.rule || possibleAction.name;
+
+            // This action will be handled by another factory
+            if(this._actionsToSkip.has(actionName)) return;
+
             const fieldSpecs = this._buildFieldSpecs(possibleAction.fields);
 
             // There is no way this action could be taken
