@@ -113,7 +113,6 @@ describe("LogEntry", () => {
 
         assert.deepEqual(actions.diceArgs, [
             ["hit_roll", {
-                gameState: { stateNo: 2 },
                 rawLogEntry: hitEntry.rawLogEntry
             }],
         ]);

@@ -38,6 +38,10 @@ function getDiceForShot({ gameState, subject, target }) {
         const distance = playerEntity.position.distanceTo(targetEntity.position);
         const numDice = (playerEntity.resources.range.value - distance) + 1;
 
+        if(numDice < 0) {
+            throw new Error(`Dice were negative (${numDice}) when getting dice for ${player.name} (${playerEntity.position.humanReadable}) shooting ${target}`);
+        }
+
         return [new Dice(numDice, "hit die")];
     }
 

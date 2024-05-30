@@ -26,7 +26,11 @@ export class ShootActionSource {
                 return Position.fromHumanReadable(position);
             }
             catch(err) {
-                logger.warn({ msg: "Recieved invalid position from engine (dropping)", err, position });
+                logger.warn({
+                    msg: "Recieved invalid position from engine (dropping)",
+                    message: err.message,
+                    position,
+                });
             }
         }).filter(position => position && gameState.board.isInBounds(position));
 

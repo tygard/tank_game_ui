@@ -52,8 +52,8 @@ export class GameInteractor {
 
             logEntry.updateMessageWithBoardState({
                 previousState,
-                actions: await this.getActions(logEntry.rawLogEntry.subject, {
-                    day: logEntry.day,
+                actions: await this._getActions(logEntry.rawLogEntry.subject, {
+                    entryId: i,
                 }),
             });
 
@@ -191,17 +191,22 @@ export class GameInteractor {
     }
 
     // Some action factories communicate with the backend directly so it's assumed we're on the state before this action is submitted
-    async _getActions(playerName, { day } = {}) {
+    async _getActions(playerName, { entryId } = {}) {
         const {logBook} = this._gameData;
-        const lastEntryId = logBook.getLastEntryId();
+        if(entryId === undefined) {
+            entryId = logBook.getLength();
+        }
 
-        const gameState = this.getGameStateById(lastEntryId) ||
+        const gameState = entryId > 0 ?
+            this.getGameStateById(entryId - 1) :
             this._engine.getGameStateFromEngineState(this._gameData.initialGameState);
+
+        const logEntry = logBook.getEntry(entryId);
 
         return await this._actionFactories.getActionFactoriesForPlayer({
             playerName,
             logBook,
-            day: day === undefined ? logBook.getMaxDay() : day,
+            day: logEntry !== undefined ? logEntry.day : logBook.getMaxDay(),
             gameState,
             interactor: this,
             engine: this._engine,

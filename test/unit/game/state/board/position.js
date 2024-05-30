@@ -25,5 +25,6 @@ describe("Position", () => {
         assert.equal(new Position(0, 0).distanceTo(new Position(1, 2)), 2);
         assert.equal(new Position(0, 0).distanceTo(new Position(1, 0)), 1);
         assert.equal(new Position(0, 0).distanceTo(new Position(0, 0)), 0);
+        assert.equal(new Position(2, 0).distanceTo(new Position(0, 0)), 2);
     });
 });

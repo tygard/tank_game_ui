@@ -50,7 +50,6 @@ export class LogEntry {
 
         for(const rollField of rollFields) {
             const dice = actions.get(this.type).getDiceFor(rollField.key, {
-                gameState: previousState,
                 rawLogEntry: this.rawLogEntry,
             });
 
@@ -61,7 +60,7 @@ export class LogEntry {
         this.message = this._versionConfig.formatLogEntry(this, previousState);
     }
 
-    finalizeEntry({ gameState, allowManualRolls, actions }) {
+    finalizeEntry({ allowManualRolls, actions }) {
         const action = actions.get(this.type);
 
         for(const field of Object.keys(this.rawLogEntry)) {
@@ -73,7 +72,6 @@ export class LogEntry {
 
                 if(!value.manual) {
                     const dice = action.getDiceFor(field, {
-                        gameState,
                         rawLogEntry: this.rawLogEntry,
                     });
 
