@@ -45,7 +45,7 @@ const nineToFive = Schedule.deserialize({ // 9am to 5pm week days
 const noonTo9 = new Schedule([2, 4, 0], 12 * 60, 21 * 60, true); // 12pm to 9pm Tu, Th, Su (autostart day)
 
 describe("Schedule", () => {
-    xit("can determine if a given date/time is part of its schedule", () => {
+    it("can determine if a given date/time is part of its schedule", () => {
         checkIsOpen("9to5", nineToFive, monday1133, true);
         checkIsOpen("9to5", nineToFive, monday0217, true);
         checkIsOpen("9to5", nineToFive, tuesday0348, true);
@@ -61,7 +61,7 @@ describe("Schedule", () => {
         checkIsOpen("noonTo9", noonTo9, friday0501, false);
     });
 
-    xit("can determine it's next start time", () => {
+    it("can determine it's next start time", () => {
         checkNextStart(nineToFive, monday1133, makeDate(2024, 4, 30, 9, 0));
         checkNextStart(nineToFive, monday0217, makeDate(2022, 12, 27, 9, 0));
         checkNextStart(nineToFive, tuesday0348, makeDate(2024, 2, 14, 9, 0));
@@ -118,7 +118,7 @@ describe("OpenHours", () => {
         assert.deepEqual(recreated, openHours);
     });
 
-    xit("can find the next start of day out of all of its schedules", () => {
+    it("can find the next start of day out of all of its schedules", () => {
         const openHours = new OpenHours([nineToFive, noonTo9]);
 
         checkNextStart(openHours, monday1133, makeDate(2024, 4, 30, 9, 0));

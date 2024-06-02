@@ -28,9 +28,6 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     return command;
 })();
 
-logger.info(`Tank game engine command: ${TANK_GAME_ENGINE_COMMAND && TANK_GAME_ENGINE_COMMAND.join(" ")}`);
-
-
 // Put ids on the engines so we can differentiate them in logs
 let uniqueIdCounter = 0;
 
@@ -53,6 +50,7 @@ class TankGameEngine {
         logger.debug({
             msg: "Starting tank game engine",
             id: this._id,
+            args: this._command,
         });
 
         const args = this._command.slice(1);
@@ -243,7 +241,7 @@ class TankGameEngine {
     async processAction(action) {
         await this._sendRequestAndWait({
             type: "action",
-            ...action.serialize(),
+            ...action.serialize({ justRawEntries: true }),
         });
 
         return this.getBoardState();

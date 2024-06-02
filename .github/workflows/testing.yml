@@ -30,6 +30,7 @@ jobs:
 
   integration:
     runs-on: ubuntu-latest
+    timeout-minutes: 2
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,4 +51,4 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run integration tests
-        run: npm run integration-test
+        run: TEST_MODE=ci npm run integration-test

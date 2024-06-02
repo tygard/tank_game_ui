@@ -126,7 +126,7 @@ export class ShootAction extends GenericPossibleAction {
     }
 
     finalizeLogEntry(rawLogEntry) {
-        if(rawLogEntry.hit === undefined) {
+        if(rawLogEntry.hit_roll?.roll?.length > 0) {
             // If any dice hit the shot hits
             rawLogEntry.hit = !!rawLogEntry.hit_roll.roll.find(hit => hit);
         }

@@ -21,8 +21,8 @@ class MockGameVersion {
 }
 
 function validateLogBook(logBook) {
-    assert.equal(logBook.getMaxDay(), 16);
-    assert.equal(logBook.getEntry(77).type, "shoot");
+    assert.equal(logBook.getMaxDay(), 2);
+    assert.equal(logBook.getEntry(2).type, "move");
 }
 
 function validateSampleFile({logBook, initialGameState, gameSettings}) {

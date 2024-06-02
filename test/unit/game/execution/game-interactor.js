@@ -68,6 +68,27 @@ export class MockEngine {
     }
 }
 
+class MockAction {
+    constructor(state) {
+        this.state = state;
+    }
+
+    getActionName() { return "run"; }
+
+    finalizeLogEntry(rawLogEntry) {
+        return {
+            panda: 12,
+            ...rawLogEntry,
+        };
+    }
+}
+
+class MockActionFactory {
+    async getActionFactoriesForPlayer(state) {
+        return [new MockAction(state)];
+    }
+}
+
 async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig, actionFactories = [] } = {}) {
     let logBook = new LogBook(GAME_VERSION, logEntries, versionConfig);
     let initialGameState = makeMockState({ stateNo: 1 });
@@ -336,5 +357,63 @@ describe("GameInteractor", () => {
             { stateNo: 6, converted: true },
             undefined,
         ]);
+    });
+
+    it("can get the action objects for the current state", async () => {
+        let versionConfig = new FakeVersionConfig();
+
+        const { interactor, logBook, mockEngine } = await configureInteractor([], {
+            waitForLoaded: true,
+            versionConfig,
+            actionFactories: [new MockActionFactory()],
+        });
+
+        let actions = await interactor.getActions("fred");
+        assert.deepEqual(actions.get("run").state, {
+            playerName: "fred",
+            day: undefined,
+            engine: mockEngine,
+            interactor,
+            // Initial state converted
+            gameState: {
+                converted: true,
+                stateNo: 1,
+            },
+        });
+
+        await interactor.addLogBookEntry({ day: 1 });
+        await interactor.addLogBookEntry({ action: "stand" });
+        await interactor.addLogBookEntry({ day: 2 });
+
+        actions = await interactor.getActions("fred");
+        assert.deepEqual(actions.get("run").state, {
+            playerName: "fred",
+            day: 2,
+            engine: mockEngine,
+            interactor,
+            gameState: {
+                converted: true,
+                stateNo: 4,
+            },
+        });
+
+        const rawEntry = { action: "run" };
+        await interactor.addLogBookEntry(rawEntry);
+        await interactor.addLogBookEntry({ day: 3 });
+
+        actions = await interactor.getActions("bob");
+        assert.deepEqual(actions.get("run").state, {
+            playerName: "bob",
+            day: 3,
+            engine: mockEngine,
+            interactor,
+            gameState: {
+                converted: true,
+                stateNo: 6,
+            },
+        });
+
+        assert.deepEqual(getAllLogBookEntries(logBook)[3],
+            new LogEntry(2, { panda: 12, ...rawEntry }, 3, versionConfig, "", {}));
     });
 });

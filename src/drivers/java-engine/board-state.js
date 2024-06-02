@@ -143,6 +143,10 @@ function buildUserLists(rawGameState) {
 
 
 function processCouncil(rawGameState, playersByName) {
+    // Ensure that players remain in the same order
+    rawGameState.council.council.sort();
+    rawGameState.council.senate.sort();
+
     const councilGroups = [
         [rawGameState.council.council, "councilor"],
         [rawGameState.council.senate, "senator"]

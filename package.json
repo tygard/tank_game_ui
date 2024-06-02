@@ -6,7 +6,7 @@
     "type": "module",
     "scripts": {
         "test": "LOG_LEVEL=error mocha --reporter-option maxDiffSize=0 --recursive test/unit/",
-        "integration-test": "TANK_GAME_ENGINE_SEARCH_DIR=engine/target LOG_FILE=integration-test.log TANK_GAMES_FOLDER=example/ LOG_LEVEL=trace mocha --reporter-option maxDiffSize=0 --recursive --timeout 10000 test/integration-test/",
+        "integration-test": "TANK_GAME_ENGINE_SEARCH_DIR=engine/target mocha --reporter-option maxDiffSize=0 --recursive --timeout 10000 test/integration-test/",
         "develop-backend": "TANK_GAME_ENGINE_SEARCH_DIR=engine/target BUILD_INFO=$(./scripts/get-version webpack) LOG_LEVEL=debug TANK_GAMES_FOLDER=example/ npm start",
         "start": "node src/drivers/rest/index.js",
         "develop-frontend": "webpack serve",
