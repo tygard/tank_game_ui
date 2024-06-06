@@ -1,5 +1,12 @@
 import { Badge, EntityDescriptor, Indicator, TileStyle, imageBackground } from "../base/descriptors.js";
 
+const TANK_TEAMS_WITH_ICONS = new Set([
+    "abrams",
+    "centurion",
+    "leopard",
+    "olifant",
+]);
+
 export class TankDescriptor extends EntityDescriptor {
     getFeaturedAttribute() {
         const {health, durability} = this.entity.resources;
@@ -8,9 +15,17 @@ export class TankDescriptor extends EntityDescriptor {
 
     getTileStyle() {
         const isDead = this.entity.resources.durability !== undefined;
+
+        let icon = isDead ? "DeadTank" : "Tank"
+
+        const team = this.entity.resources.team?.value?.toLowerCase?.();
+        if(TANK_TEAMS_WITH_ICONS.has(team)) {
+            icon = `Tank-${team}${isDead ? "-dead" : ""}`;
+        }
+
         return new TileStyle({
             textColor: "#fff",
-            background: imageBackground(isDead ? "DeadTank" : "Tank"),
+            background: imageBackground(icon),
         });
     }
 

@@ -17,7 +17,7 @@ class Die {
     }
 
     roll() {
-        const sideIdx = Math.round(Math.random() * (this.sides.length - 1));
+        const sideIdx = Math.floor(Math.random() * this.sides.length);
         return this.sides[sideIdx].value;
     }
 
