@@ -1,4 +1,4 @@
-import { ResourceHolder } from "../resource.js";
+import { AttributeHolder } from "../attribute.js";
 import { objectMap } from "../../../utils.js";
 import Entity from "./entity.js";
 import { FloorTile } from "./floor-tile.js";
@@ -32,7 +32,7 @@ export default class Board {
     }
 
     getEntityAt(position) {
-        return this._entities[position.humanReadable] || (new Entity("empty", position, new ResourceHolder()));
+        return this._entities[position.humanReadable] || (new Entity("empty", position, new AttributeHolder()));
     }
 
     setEntity(entity) {

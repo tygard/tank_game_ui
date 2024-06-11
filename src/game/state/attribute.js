@@ -1,14 +1,14 @@
 import { prettyifyName } from "../../utils.js";
 
-export class Resource {
+export class Attribute {
     constructor(name, value, max) {
         this.name = name;
         this.value = value;
         this.max = max;
     }
 
-    static deserialize(rawResource, name) {
-        return new Resource(name, rawResource.value, rawResource.max);
+    static deserialize(rawAttribute, name) {
+        return new Attribute(name, rawAttribute.value, rawAttribute.max);
     }
 
     serialize() {
@@ -37,31 +37,31 @@ export class Resource {
 }
 
 
-export class ResourceHolder {
-    constructor(resources = []) {
-        for(const resource of resources) {
-            this[resource.name] = resource;
+export class AttributeHolder {
+    constructor(attributes = []) {
+        for(const attribute of attributes) {
+            this[attribute.name] = attribute;
         }
     }
 
-    static deserialize(rawResources) {
-        return new ResourceHolder(
-            Object.keys(rawResources).map(resourceName => Resource.deserialize(rawResources[resourceName], resourceName)));
+    static deserialize(rawAttributes) {
+        return new AttributeHolder(
+            Object.keys(rawAttributes).map(attributeName => Attribute.deserialize(rawAttributes[attributeName], attributeName)));
     }
 
     serialize() {
         let serialized = {};
 
         Object.keys(this)
-            .map(resourceName => serialized[resourceName] = this[resourceName].serialize());
+            .map(attributeName => serialized[attributeName] = this[attributeName].serialize());
 
         return serialized;
     }
 
     // Helper to reduce the number of Object.keys calls
     *[Symbol.iterator]() {
-        for(const resourceName of Object.keys(this)) {
-            yield this[resourceName];
+        for(const attributeName of Object.keys(this)) {
+            yield this[attributeName];
         }
     }
 }

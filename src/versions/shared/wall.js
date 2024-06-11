@@ -4,7 +4,7 @@ export class Wall extends EntityDescriptor {
     static wallUrls = {};
 
     getTileStyle() {
-        const durability = this.entity.resources.durability.value;
+        const durability = this.entity.attributes.durability.value;
         const url = this.wallUrls[durability];
         if(!url) {
             throw new Error(`Walls can't have a durability of ${durability}`);

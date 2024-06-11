@@ -13,12 +13,12 @@
     text-align: center;
 }
 
-.board-space-resource-featured {
+.board-space-attribute-featured {
     flex-grow: 1;
     width: 100%;
 }
 
-.board-space-resource-featured.board-space-no-label {
+.board-space-attribute-featured.board-space-no-label {
     height: 100%;
 }
 

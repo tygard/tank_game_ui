@@ -2,15 +2,15 @@ import assert from "node:assert";
 import Board from "../../../../../src/game/state/board/board.js";
 import Entity from "../../../../../src/game/state/board/entity.js";
 import { Position } from "../../../../../src/game/state/board/position.js";
-import { ResourceHolder } from "../../../../../src/game/state/resource.js";
+import { AttributeHolder } from "../../../../../src/game/state/attribute.js";
 import { FloorTile } from "../../../../../src/game/state/board/floor-tile.js";
 
 let board = new Board(7, 5);
 
-const tank1 = new Entity("tank", new Position(0, 0), new ResourceHolder());
-const destroyedTank = new Entity("dead-tank", new Position(2, 3), new ResourceHolder());
-const tank2 = new Entity("tank", new Position(6, 4), new ResourceHolder());
-const baloon = new Entity("baloon", new Position(1, 1), new ResourceHolder());
+const tank1 = new Entity("tank", new Position(0, 0), new AttributeHolder());
+const destroyedTank = new Entity("dead-tank", new Position(2, 3), new AttributeHolder());
+const tank2 = new Entity("tank", new Position(6, 4), new AttributeHolder());
+const baloon = new Entity("baloon", new Position(1, 1), new AttributeHolder());
 
 board.setEntity(tank1);
 board.setEntity(destroyedTank);
@@ -24,7 +24,7 @@ board.setFloorTile(goldMine1);
 board.setFloorTile(goldMine2);
 board.setFloorTile(base);
 
-const empty = new Entity("empty", new Position(3, 2), new ResourceHolder());
+const empty = new Entity("empty", new Position(3, 2), new AttributeHolder());
 const emptyTile = new FloorTile("empty", new Position(6, 4));
 
 

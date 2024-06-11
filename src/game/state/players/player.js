@@ -1,5 +1,5 @@
 import { Position } from "../board/position.js";
-import { ResourceHolder } from "../resource.js";
+import { AttributeHolder } from "../attribute.js";
 
 export default class Player {
     constructor(name, type, entities) {
@@ -32,12 +32,12 @@ export default class Player {
         entity.player = this;
     }
 
-    getControlledResources() {
-        let controlledResources = new ResourceHolder();
+    getControlledAttributes() {
+        let controlledAttributes = new AttributeHolder();
         for(const entity of this.entities) {
-            Object.assign(controlledResources, entity.resources);
+            Object.assign(controlledAttributes, entity.attributes);
         }
 
-        return controlledResources;
+        return controlledAttributes;
     }
 }

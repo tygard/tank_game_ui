@@ -10,7 +10,7 @@ import { GameState } from "../../game/state/game-state.js";
 import Player from "../../game/state/players/player.js";
 import Players from "../../game/state/players/players.js";
 import { Position } from "../../game/state/board/position.js";
-import { Resource, ResourceHolder } from "../../game/state/resource.js";
+import { Attribute, AttributeHolder } from "../../game/state/attribute.js";
 
 // The prefix used for the max value of an attribute
 const MAX_PREFIX = "MAX_";
@@ -54,15 +54,15 @@ function getAttributeName(name, rawEntity) {
 
 
 function convertCouncil(rawCouncil) {
-    let resources = [
-        new Resource("coffer", rawCouncil.coffer),
+    let attributes = [
+        new Attribute("coffer", rawCouncil.coffer),
     ];
 
     if(rawCouncil.armistice_vote_cap !== undefined) {
-        resources.push(new Resource("armistice", rawCouncil.armistice_vote_count, rawCouncil.armistice_vote_cap));
+        attributes.push(new Attribute("armistice", rawCouncil.armistice_vote_count, rawCouncil.armistice_vote_cap));
     }
 
-    return new ResourceHolder(resources);
+    return new AttributeHolder(attributes);
 }
 
 function shouldKeepAttribute(attributeName, rawEntity) {
@@ -79,23 +79,23 @@ function shouldKeepAttribute(attributeName, rawEntity) {
 
 
 function entityFromBoard(rawEntity, position, playersByName) {
-    let resources = [];
+    let attributes = [];
 
     if(rawEntity.attributes) {
-        resources = Object.keys(rawEntity.attributes)
+        attributes = Object.keys(rawEntity.attributes)
             .filter(name => shouldKeepAttribute(name, rawEntity))
             .map(name => {
-                return new Resource(
+                return new Attribute(
                     getAttributeName(name, rawEntity),
                     rawEntity.attributes[name],
                     rawEntity.attributes[`${MAX_PREFIX}${name}`]);
             });
     }
 
-    resources = new ResourceHolder(resources);
+    attributes = new AttributeHolder(attributes);
 
     const player = playersByName[rawEntity.name];
-    let entity = new Entity(rawEntity.type, position, resources);
+    let entity = new Entity(rawEntity.type, position, attributes);
 
     if(player) {
         player.adopt(entity);

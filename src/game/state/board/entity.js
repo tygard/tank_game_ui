@@ -1,21 +1,21 @@
-import { ResourceHolder } from "../resource.js";
+import { AttributeHolder } from "../attribute.js";
 
 export default class Entity {
-    constructor(type, position, resources) {
+    constructor(type, position, attributes) {
         this.type = type;
         this.position = position;
         this.player = undefined;
-        this.resources = new ResourceHolder(resources);
+        this.attributes = new AttributeHolder(attributes);
     }
 
     static deserialize(rawEntity, position) {
-        return new Entity(rawEntity.type, position, ResourceHolder.deserialize(rawEntity.resources))
+        return new Entity(rawEntity.type, position, AttributeHolder.deserialize(rawEntity.attributes))
     }
 
     serialize() {
         return {
             type: this.type,
-            resources: this.resources.serialize(),
+            attributes: this.attributes.serialize(),
         }
     }
 }
