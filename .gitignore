@@ -4,3 +4,4 @@ dist
 *.log*
 tank_game_temp_test_file*.json
 *-recreate.json
+coverage

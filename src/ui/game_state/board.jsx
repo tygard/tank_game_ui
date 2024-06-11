@@ -1,5 +1,4 @@
 import "./board.css";
-import { targetSelectionState } from "../space-selecting-state";
 import { Position } from "../../game/state/board/position.js";
 import { EntityTile } from "./entity-tile.jsx";
 import { useRef, useState } from "preact/hooks";

@@ -220,10 +220,6 @@ class TankGameEngine {
         return await this._runCommand("display");
     }
 
-    async getRules() {
-        return (await this._runCommand("rules")).rules;
-    }
-
     async getPossibleActions(player) {
         return (await this._sendRequestAndWait({
             type: "possible_actions",

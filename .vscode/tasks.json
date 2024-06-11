@@ -13,7 +13,7 @@
                 "focus": false,
                 "panel": "dedicated",
                 "showReuseMessage": true,
-                "clear": false
+                "clear": true
             }
         },
         {
@@ -28,14 +28,46 @@
                 "focus": false,
                 "panel": "dedicated",
                 "showReuseMessage": true,
-                "clear": false
+                "clear": true
             }
         },
         {
-            "label": "Test",
+            "label": "Unit Test",
             "type": "process",
             "command": "npm",
             "args": ["test"],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Unit Test Coverage",
+            "type": "process",
+            "command": "npm",
+            "args": ["run", "coverage"],
+            "isBackground": true,
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "Full Test Coverage",
+            "type": "process",
+            "command": "npm",
+            "args": ["run", "coverage-full"],
             "isBackground": true,
             "problemMatcher": [],
             "presentation": {

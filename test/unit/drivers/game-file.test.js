@@ -2,7 +2,7 @@ import assert from "node:assert";
 import { FILE_FORMAT_VERSION, GameManager, MINIMUM_SUPPORTED_FILE_FORMAT_VERSION, load, save } from "../../../src/drivers/game-file.js";
 import path from "node:path";
 import fs from"node:fs";
-import { MockEngine } from "../game/execution/game-interactor.js";
+import { MockEngine } from "../game/execution/game-interactor.test.js";
 import { hashFile } from "../../../src/drivers/file-utils.js";
 
 const TEST_FILES = "test/unit/drivers/test-files";

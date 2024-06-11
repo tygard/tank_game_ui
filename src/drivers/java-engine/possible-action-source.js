@@ -17,7 +17,7 @@ export class JavaEngineSource {
         let possibleActions = await engine.getPossibleActions(isCouncil ? "Council" : playerName);
 
         return possibleActions.map(possibleAction => {
-            const actionName = possibleAction.rule || possibleAction.name;
+            const actionName = possibleAction.rule;
 
             // This action will be handled by another factory
             if(this._actionsToSkip.has(actionName)) return;
@@ -86,19 +86,6 @@ export class JavaEngineSource {
             if(field.range?.length > 0) {
                 let options = field.range;
                 let description;
-
-                if(field.data_type == "boolean") {
-                    options = [true, false];
-                }
-
-                if(field.name == "hit") {
-                    description = "If your target is a tank roll (Range – Distance) + 1 dice if any are hits you hit.  For other targets you always hit.";
-
-                    options = [
-                        { display: "hit", value: true },
-                        { display: "miss", value: false },
-                    ];
-                }
 
                 return new LogFieldSpec({
                     type: "select",

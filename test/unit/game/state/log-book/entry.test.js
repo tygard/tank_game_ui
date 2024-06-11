@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { LogBook } from "../../../../../src/game/state/log-book/log-book.js";
-import { rawLogBook } from "./log-book.js";
+import { rawLogBook } from "./log-book.test.js";
 import { LogEntry } from "../../../../../src/game/state/log-book/entry.js";
 import { Dice } from "../../../../../src/game/possible-actions/die.js";
 
