@@ -1,6 +1,5 @@
 import { Dice } from "../game/possible-actions/die.js";
 import { ShootActionSource } from "../game/possible-actions/shoot.js";
-import { StartOfDaySource } from "../game/possible-actions/start-of-day-source.js";
 import { Position } from "../game/state/board/position.js";
 import { GameVersion } from "./base/index.js";
 import { LogEntryFormatter, baseEntryFunctions } from "./base/log-entry-formatter.js";
@@ -51,7 +50,6 @@ function getDiceForShot({ gameState, subject, target }) {
 
 function actionFactory(engine) {
     let actionSources = [
-        new StartOfDaySource(),
         new ShootActionSource({
             getDiceForTarget: getDiceForShot,
             playerCanShoot: player => player.type == "tank",

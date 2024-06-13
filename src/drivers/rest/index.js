@@ -13,16 +13,23 @@ const buildInfo = process.env.BUILD_INFO;
 function gameAccessor(gameManager) {
     return (req, res, next) => {
         function getGameIfAvailable() {
-            const {loaded, error, interactor} = gameManager.getGame(req.params.gameName);
+            const game = gameManager.getGame(req.params.gameName);
 
-            if(error) {
+            if(!game) {
                 res.json({
-                    error: `Failed to load game: ${error}`,
+                    error: `${req.params.gameName} is not a game`,
                 });
                 return {valid: false};
             }
 
-            if(!loaded) {
+            if(game.getState() == "error") {
+                res.json({
+                    error: game.getStatusText(),
+                });
+                return {valid: false};
+            }
+
+            if(game.getState() == "loading") {
                 res.json({
                     error: {
                         message: "Game is still loading",
@@ -32,7 +39,7 @@ function gameAccessor(gameManager) {
                 return {valid: false};
             }
 
-            return {valid: true, interactor};
+            return {valid: true, interactor: game.getInteractor(), game};
         }
 
         req.games = {
@@ -45,19 +52,16 @@ function gameAccessor(gameManager) {
 }
 
 const port = 3333;
+let gameManager = createGameManager(createEngine, true /* save updated files */);
 
-(async () => {
-    let gameManager = await createGameManager(createEngine, true /* save updated files */);
+const app = express();
 
-    const app = express();
+app.use(makeHttpLogger());
+app.use(express.json());
+app.use(gameAccessor(gameManager));
 
-    app.use(makeHttpLogger());
-    app.use(express.json());
-    app.use(gameAccessor(gameManager));
+defineRoutes(app, buildInfo);
 
-    defineRoutes(app, buildInfo);
-
-    app.listen(port, () => {
-        logger.info(`Listening on ${port}`);
-    });
-})();
+app.listen(port, () => {
+    logger.info(`Listening on ${port}`);
+});

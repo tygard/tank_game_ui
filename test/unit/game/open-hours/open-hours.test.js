@@ -156,7 +156,11 @@ const logBook = LogBook.deserialize({
 describe("Automatic start of day", () => {
     it("can check if a start of day entry has been added today already", () => {
         const automaticStart = new AutomaticStartOfDay({
-            getLogBook() { return logBook; },
+            getInteractor() {
+                return {
+                    getLogBook() { return logBook; },
+                };
+            },
             isGameOpen() { return true; },
         });
 
@@ -169,9 +173,13 @@ describe("Automatic start of day", () => {
     it("can add a start of day entry if the day hasn't already started", () => {
         let addedEntry;
         const automaticStart = new AutomaticStartOfDay({
-            getLogBook() { return logBook; },
-            addLogBookEntry(entry) { addedEntry = entry; },
-            isGameOpen() { return true; },
+            getInteractor() {
+                return {
+                    getLogBook() { return logBook; },
+                    addLogBookEntry(entry) { addedEntry = entry; },
+                };
+            },
+            getState() { return "running"; },
         });
 
         // Day has already started this won't do anything

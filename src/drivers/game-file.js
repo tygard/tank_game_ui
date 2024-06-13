@@ -4,9 +4,9 @@ import path from "node:path";
 import { LogBook } from "../game/state/log-book/log-book.js";
 import { readJson, writeJson } from "./file-utils.js";
 import { logger } from "#platform/logging.js";
-import { GameInteractor } from "../game/execution/game-interactor.js";
 import { OpenHours } from "../game/open-hours/index.js";
 import { getGameVersion } from "../versions/index.js";
+import { Game } from "../game/execution/game.js";
 
 export const FILE_FORMAT_VERSION = 5;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
@@ -68,7 +68,6 @@ export class GameManager {
         this._gamesFolder = gamesFolder;
         this._createEngine = createEngine;
         this.loaded = this._loadGamesFromFolder(opts);
-        this._interactors = [];
     }
 
     async _loadGamesFromFolder(gameOptions) {
@@ -81,88 +80,41 @@ export class GameManager {
 
             const filePath = path.join(this._gamesFolder, gameFile);
             const {name} = path.parse(gameFile);
-            logger.info(`Loading ${name} from ${filePath}`);
 
-            // Load and process the game asyncronously
-            this._gamePromises[name] = loadGameFromFile(filePath, this._createEngine, gameOptions)
-                .then((interactor) => {
-                    // We've already been asked to shutdown kill this game
-                    if(this._isShutDown) interactor.shutdown();
-
-                    this._interactors.push(interactor);
-
-                    this._games[name] = {
-                        loaded: true,
-                        interactor,
-                    };
-
-                    return this._games[name];
-                });
-
-            // Update the status on error but don't remove the error from the promise
-            this._gamePromises[name].catch(err => {
-                logger.warn({
-                    msg: `An error occured while loading ${name} from ${filePath}`,
-                    err,
-                });
-
-                this._games[name] = {
-                    loaded: false,
-                    error: err.message,
-                };
-            });
+            // Load and process the game asyncronously (does not return a promise)
+            this._games[name] = loadGameFromFile(filePath, this._createEngine, gameOptions);
         }
-
-        Object.keys(this._gamePromises).forEach(name => {
-            this._games[name] = {
-                loaded: false,
-            };
-        });
-    }
-
-    getGamePromise(name) {
-        return this._gamePromises[name];
     }
 
     getGame(name) {
-        return this._games[name] || {
-            loaded: false,
-            error: `${name} is not a valid game`,
-        };
+        return this._games[name];
     }
 
     getAllGames() {
-        return Object.keys(this._games) || [];
+        return Object.values(this._games) || [];
     }
 
     shutdown() {
-        this._isShutDown = true;
-        return Promise.all(this._interactors.map(interactor => interactor.shutdown()));
+        return Promise.all(this.getAllGames().map(game => game.shutdown()));
     }
 }
 
-export async function loadGameFromFile(filePath, createEngine, { saveBack, makeTimeStamp, gameVersion } = {}) {
-    const gameData = await load(filePath, { saveBack, makeTimeStamp });
+export function loadGameFromFile(filePath, createEngine, { saveBack, makeTimeStamp } = {}) {
+    const {name} = path.parse(filePath);
+    logger.info(`Loading ${name} from ${filePath}`);
 
-    if(gameVersion === undefined) {
-        gameVersion = getGameVersion(gameData.logBook.gameVersion);
-    }
+    const gameDataPromise = load(filePath, { saveBack, makeTimeStamp });
+    const saveHandler = gameData => save(filePath, gameData);
 
-    const engine = createEngine();
-    const saveHandler = data => save(filePath, data);
-    const interactor = new GameInteractor({
-        engine,
-        gameData,
+    return new Game({
+        name,
+        gameDataPromise,
+        createEngine,
         saveHandler,
-        actionFactories: gameVersion.getActionFactories(engine),
     });
-
-    await interactor.loaded;
-
-    return interactor;
 }
 
-export async function createGameManager(createEngine, saveUpdatedFiles) {
+export function createGameManager(createEngine, saveUpdatedFiles) {
     const gamesFolder = path.join(process.env.TANK_GAMES_FOLDER || ".");
     const gameManager = new GameManager(gamesFolder, createEngine, { saveBack: saveUpdatedFiles });
     return gameManager;

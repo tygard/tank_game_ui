@@ -1,9 +1,8 @@
 import { logger } from "#platform/logging.js";
-import { AutomaticStartOfDay } from "../open-hours/automatic-start-of-day.js";
 import { PromiseLock } from "../../utils.js";
 
 export class GameInteractor {
-    constructor({ engine, gameData, saveHandler, actionFactories }) {
+    constructor({ engine, gameData, saveHandler, actionFactories, onEntryAdded }) {
         this._saveHandler = saveHandler;
         this._engine = engine;
         this._gameData = gameData;
@@ -11,14 +10,10 @@ export class GameInteractor {
         this._lock = new PromiseLock();
         this._previousState = gameData.initialGameState;
         this._actionFactories = actionFactories;
+        this._onEntryAdded = onEntryAdded;
 
         // Process any unprocessed log book entries.
         this.loaded = this._processActions();
-
-        if(this._gameData.openHours?.hasAutomaticStartOfDay?.()) {
-            this._automaticStartOfDay = new AutomaticStartOfDay(this);
-            this.loaded.then(() => this._automaticStartOfDay.start());
-        }
     }
 
     getLogBook() {
@@ -43,8 +38,8 @@ export class GameInteractor {
 
         await this._sendPreviousState();
 
-        for(let i = startIndex; i <= endIndex; ++i) {
-            let logEntry = this._gameData.logBook.getEntry(i);
+        for(let entryId = startIndex; entryId <= endIndex; ++entryId) {
+            let logEntry = this._gameData.logBook.getEntry(entryId);
 
             // Format log entry with previous state
             const previousState = this._gameStates[this._gameStates.length - 1] ||
@@ -53,7 +48,7 @@ export class GameInteractor {
             logEntry.updateMessageWithBoardState({
                 previousState,
                 actions: await this._getActions(logEntry.rawLogEntry.subject, {
-                    entryId: i,
+                    entryId: entryId,
                 }),
             });
 
@@ -61,7 +56,11 @@ export class GameInteractor {
             const state = await this._engine.processAction(logEntry);
             this._previousState = state;
             const gameState = this._engine.getGameStateFromEngineState(state)
-            this._gameStates.splice(i, 0, gameState); // Insert state at i
+            this._gameStates.push(gameState);
+
+            if(this._onEntryAdded) {
+                this._onEntryAdded(entryId);
+            }
         }
     }
 
@@ -74,27 +73,10 @@ export class GameInteractor {
         return this._gameStates[id];
     }
 
-    getOpenHours() {
-        return this._gameData.openHours;
-    }
-
-    isGameOpen() {
-        return this._gameData.openHours !== undefined ?
-            this._gameData.openHours.isGameOpen() : true;
-    }
-
-    _throwIfGameNotOpen() {
-        if(!this.isGameOpen()) {
-            throw new Error("You're currently outside this games open hours.  New actions will be blocked until the game opens back up.");
-        }
-    }
-
     async _addLogBookEntry(entry) {
         if(this._gameStates.length !== this._gameData.logBook.getLength()) {
             throw new Error(`Logbook length and states length should be identical (log book = ${this._gameData.logBook.getLength()}, states = ${this._gameStates.length})`);
         }
-
-        this._throwIfGameNotOpen();
 
         await this._sendPreviousState();
 
@@ -117,6 +99,10 @@ export class GameInteractor {
             entry,
         });
 
+        if(this._onEntryAdded) {
+            this._onEntryAdded(this._gameData.logBook.getLastEntryId());
+        }
+
         // Save the modified log book if we know were to save it too
         if(this._saveHandler) {
             await this._saveHandler(this._gameData);
@@ -129,8 +115,6 @@ export class GameInteractor {
         if(this._gameStates.length !== this._gameData.logBook.getLength()) {
             throw new Error(`Logbook length and states length should be identical (log book = ${this._gameData.logBook.getLength()}, states = ${this._gameStates.length})`);
         }
-
-        this._throwIfGameNotOpen();
 
         await this._sendPreviousState();
 
@@ -145,12 +129,10 @@ export class GameInteractor {
     }
 
     async _finalizeEntry(entry) {
-        const {allowManualRolls} = this.getSettings();
         const lastState = this.getGameStateById(this._gameData.logBook.getLastEntryId());
         entry = this._gameData.logBook.makeEntryFromRaw(entry);
         entry.finalizeEntry({
             gameState: lastState,
-            allowManualRolls,
             actions: await this.getActions(entry.rawLogEntry.subject),
         });
         return entry;
@@ -169,25 +151,7 @@ export class GameInteractor {
     }
 
     shutdown() {
-        if(this._automaticStartOfDay) {
-            this._automaticStartOfDay.stop();
-        }
-
         return this._engine.shutdown();
-    }
-
-    hasAutomaticStartOfDay() {
-        return !!this._automaticStartOfDay;
-    }
-
-    getSettings() {
-        let settings = this._gameData.gameSettings || {};
-
-        if(settings.allowManualRolls === undefined) {
-            settings.allowManualRolls = true;
-        }
-
-        return settings;
     }
 
     // Some action factories communicate with the backend directly so it's assumed we're on the state before this action is submitted
@@ -207,7 +171,6 @@ export class GameInteractor {
             playerName,
             day: logEntry !== undefined ? logEntry.day : logBook.getMaxDay(),
             gameState,
-            interactor: this,
             engine: this._engine,
         });
     }

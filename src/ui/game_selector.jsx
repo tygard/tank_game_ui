@@ -1,3 +1,4 @@
+import "./game_selector.css";
 import { useCallback } from "preact/hooks";
 import { useGameList } from "../drivers/rest/fetcher.js";
 import { ErrorMessage } from "./error_message.jsx";
@@ -28,15 +29,16 @@ export function GameSelector({ setGame, debug }) {
     return (
         <AppContent debugMode={debug}>
             <h1>Games</h1>
-            <ul>
+            <div>
                 {games.map(game => {
                     return (
-                        <li key={game}>
-                            <a href="#" onClick={e => selectGame(e, game)}>{game}</a>
-                        </li>
+                        <div key={game.name} className="selectable-game" onClick={e => selectGame(e, game.name)}>
+                            <h2>{game.title}</h2>
+                            <p>{game.statusText}</p>
+                        </div>
                     );
                 })}
-            </ul>
+            </div>
         </AppContent>
     );
 }

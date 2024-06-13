@@ -89,7 +89,7 @@ class MockActionFactory {
     }
 }
 
-async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig, actionFactories = [] } = {}) {
+async function configureInteractor(logEntries, { saveHandler, waitForLoaded = true, processingDelays, versionConfig, actionFactories = [], onEntryAdded } = {}) {
     let logBook = new LogBook(GAME_VERSION, logEntries, versionConfig);
     let initialGameState = makeMockState({ stateNo: 1 });
 
@@ -103,6 +103,7 @@ async function configureInteractor(logEntries, { saveHandler, waitForLoaded = tr
         },
         saveHandler,
         actionFactories: new PossibleActionSourceSet(actionFactories),
+        onEntryAdded,
     });
 
     if(waitForLoaded) await interactor.loaded;
@@ -373,7 +374,6 @@ describe("GameInteractor", () => {
             playerName: "fred",
             day: undefined,
             engine: mockEngine,
-            interactor,
             // Initial state converted
             gameState: {
                 converted: true,
@@ -390,7 +390,6 @@ describe("GameInteractor", () => {
             playerName: "fred",
             day: 2,
             engine: mockEngine,
-            interactor,
             gameState: {
                 converted: true,
                 stateNo: 4,
@@ -406,7 +405,6 @@ describe("GameInteractor", () => {
             playerName: "bob",
             day: 3,
             engine: mockEngine,
-            interactor,
             gameState: {
                 converted: true,
                 stateNo: 6,
@@ -415,5 +413,41 @@ describe("GameInteractor", () => {
 
         assert.deepEqual(getAllLogBookEntries(logBook)[3],
             new LogEntry(2, { panda: 12, ...rawEntry }, 3, versionConfig, "", {}));
+    });
+
+    it("can trigger an entry added event for each entry we add", async () => {
+        let versionConfig = new FakeVersionConfig();
+
+        let lastEntryId = -1;
+        let entryCount = 0;
+        const onEntryAdded = entryId => {
+            ++entryCount;
+            assert.ok(lastEntryId < entryId);
+            lastEntryId = entryId;
+        };
+
+        let logEntries = [
+            new LogEntry(1, { action: "sit" }, 0, versionConfig),
+            new LogEntry(1, { action: "stand" }, 1, versionConfig),
+            new LogEntry(2, { action: "walk" }, 2, versionConfig),
+        ];
+
+        const { interactor } = await configureInteractor(logEntries, {
+            waitForLoaded: false,
+            onEntryAdded,
+            versionConfig,
+        });
+
+        await interactor.loaded;
+
+        assert.equal(entryCount, 3);
+        assert.equal(lastEntryId, 2);
+
+        const rawEntry = { action: "run" };
+        await interactor.addLogBookEntry(rawEntry);
+        await interactor.addLogBookEntry(rawEntry);
+
+        assert.equal(entryCount, 5);
+        assert.equal(lastEntryId, 4);
     });
 });

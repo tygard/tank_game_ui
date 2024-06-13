@@ -1,19 +1,18 @@
 import { logger } from "#platform/logging.js";
-import { StartOfDayFactory } from "../possible-actions/start-of-day-source.js";
 
 // HACK: Cap the amount of time the timer can be set for so we don't get thrown off by day light savings time
 const MAX_TIMER_INTERVAL = 60 * 60 * 1000; // 1 hour in ms
 
 
 export class AutomaticStartOfDay {
-    constructor(interactor) {
-        this._interactor = interactor;
+    constructor(game) {
+        this._game = game;
     }
 
     hasGameDayBeenStartedToday(now) {
         if(!now) now = new Date();
 
-        let logBook = this._interactor.getLogBook();
+        let logBook = this._game.getInteractor().getLogBook();
         const lastStartOfDay = logBook.getFirstEntryOfDay(logBook.getMaxDay());
         if(lastStartOfDay.type !== "start_of_day") {
             throw new Error(`First action of day ${logBook.getMaxDay()} is type ${lastStartOfDay.type} not start_of_day`);
@@ -31,10 +30,11 @@ export class AutomaticStartOfDay {
         if(this.hasGameDayBeenStartedToday(now)) return;
 
         // Game hasn't opened yet don't do anything
-        if(!this._interactor.isGameOpen()) return;
+        if(this._game.getState() != "running") return;
 
-        let logBook = this._interactor.getLogBook();
-        this._interactor.addLogBookEntry({
+        const interactor = this._game.getInteractor();
+        let logBook = interactor.getLogBook();
+        interactor.addLogBookEntry({
             type: "action",
             action: "start_of_day",
             day: logBook.getMaxDay() + 1
@@ -51,7 +51,7 @@ export class AutomaticStartOfDay {
     }
 
     _setNextTimer() {
-        const nextStartOfDay = this._interactor.getOpenHours().getNextOpenHoursStart() - Date.now();
+        const nextStartOfDay = this._game.getOpenHours().getNextOpenHoursStart() - Date.now();
         const duration = Math.min(MAX_TIMER_INTERVAL, nextStartOfDay);
 
         logger.debug({

@@ -60,24 +60,20 @@ export class LogEntry {
         this.message = this._versionConfig.formatLogEntry(this, previousState);
     }
 
-    finalizeEntry({ allowManualRolls, actions }) {
+    finalizeEntry({ actions }) {
         const action = actions.get(this.type);
 
         for(const field of Object.keys(this.rawLogEntry)) {
             const value = this.rawLogEntry[field];
 
             // Roll any unrolled dice
-            if(value?.type == "die-roll") {
-                if(!allowManualRolls) value.manual = false;
+            if(value?.type == "die-roll" && !value.manual) {
+                const dice = action.getDiceFor(field, {
+                    rawLogEntry: this.rawLogEntry,
+                });
 
-                if(!value.manual) {
-                    const dice = action.getDiceFor(field, {
-                        rawLogEntry: this.rawLogEntry,
-                    });
-
-                    const expandedDice = Dice.expandAll(dice);
-                    this.rawLogEntry[field].roll = expandedDice.map(die => die.roll());
-                }
+                const expandedDice = Dice.expandAll(dice);
+                this.rawLogEntry[field].roll = expandedDice.map(die => die.roll());
             }
         }
 

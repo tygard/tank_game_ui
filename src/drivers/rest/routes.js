@@ -14,17 +14,26 @@ export function defineRoutes(app, buildInfo) {
     catch(err) {} // eslint-disable-line no-unused-vars, no-empty
 
     app.get("/api/games", async (req, res) => {
-        res.json(req.games.gameManager.getAllGames());
+        res.json(req.games.gameManager.getAllGames().map(game => ({
+            title: game.title,
+            name: game.name,
+            state: game.getState(),
+            statusText: game.getStatusText(),
+        })));
     });
 
     app.get("/api/game/:gameName/", (req, res) => {
-        const {valid, interactor} = req.games.getGameIfAvailable();
+        const {valid, interactor, game} = req.games.getGameIfAvailable();
         if(!valid) return;
 
         res.json({
             buildInfo,
-            gameSettings: interactor.getSettings(),
-            openHours: interactor.getOpenHours().serialize({ resolved: true }),
+            game: {
+                state: game.getState(),
+                statusText: game.getStatusText(),
+            },
+            gameSettings: game.getSettings(),
+            openHours: game.getOpenHours().serialize({ resolved: true }),
             logBook: interactor.getLogBook().serialize(),
         });
     });
@@ -38,12 +47,24 @@ export function defineRoutes(app, buildInfo) {
     });
 
     app.post("/api/game/:gameName/turn", async (req, res) => {
-        const {valid, interactor} = req.games.getGameIfAvailable();
+        const {valid, interactor, game} = req.games.getGameIfAvailable();
         if(!valid) return;
 
         const log = req.log || logger;
 
         try {
+            const {canSubmit, error} = game.checkUserCreatedEntry(req.body);
+            if(!canSubmit) {
+                log.info({
+                    msg: "Rejected log book entry (pre submit)",
+                    entry: req.body,
+                    reason: error,
+                });
+
+                res.json({ success: false, error });
+                return;
+            }
+
             const entry = await interactor.addLogBookEntry(req.body);
             res.json({ success: true, entry: entry.serialize() });
         }

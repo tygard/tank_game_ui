@@ -96,30 +96,10 @@ describe("LogEntry", () => {
         let actions = new MockActionSet();
         hitEntry.finalizeEntry({
             gameState: { stateNo: 2 },
-            allowManualRolls: true,
             actions,
         });
 
         // Hit field is unmodified for manual roll
         assert.deepEqual(hitEntry.rawLogEntry.hit_roll.roll, [true, false]);
-
-        hitEntry.finalizeEntry({
-            gameState: { stateNo: 2 },
-            allowManualRolls: false,
-            actions,
-        });
-
-        assert.deepEqual(actions.getArgs, ["shoot", "shoot"]);
-
-        assert.deepEqual(actions.diceArgs, [
-            ["hit_roll", {
-                rawLogEntry: hitEntry.rawLogEntry
-            }],
-        ]);
-
-        // Manual rolls are disabled so this should be forced to be automatic
-        // and use the number of dice specified by the rules not the client
-        assert.equal(hitEntry.rawLogEntry.hit_roll.manual, false);
-        assert.equal(hitEntry.rawLogEntry.hit_roll.roll.length, 3);
     });
 });

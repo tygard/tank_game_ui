@@ -68,6 +68,10 @@ export class PossibleActionSourceSet {
         this._sources = sources;
     }
 
+    addSource(source) {
+        this._sources.push(source);
+    }
+
     async getActionFactoriesForPlayer(params) {
         let factorySet = new NamedFactorySet();
 

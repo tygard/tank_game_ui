@@ -80,7 +80,15 @@ export async function testPossibleActions(createEngine, possibleActionsPath) {
         return lastTime;
     };
 
-    const interactor = await loadGameFromFile(possibleActionsPath, createEngine, {makeTimeStamp});
+    const game = loadGameFromFile(possibleActionsPath, createEngine, {makeTimeStamp});
+    await game.loaded;
+
+    if(game.state === "error") {
+        throw new Error(game.getStatusText());
+    }
+
+    const interactor = game.getInteractor();
+
     try {
         const logBook = interactor.getLogBook();
         const lastId = logBook.getLastEntryId();
@@ -128,6 +136,6 @@ export async function testPossibleActions(createEngine, possibleActionsPath) {
         }
     }
     finally {
-        await interactor.shutdown();
+        await game.shutdown();
     }
 }
