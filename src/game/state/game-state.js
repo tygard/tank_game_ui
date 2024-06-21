@@ -1,39 +1,40 @@
 import Board from "./board/board.js";
+import Entity from "./board/entity.js";
 import Players from "./players/players.js";
-import { AttributeHolder } from "./attribute.js";
 
 export class GameState {
-    constructor(players, board, councilAttributes, running = true, winner = "") {
+    constructor(players, board, metaEntities) {
         this.players = players;
         this.board = board;
-        this.council = councilAttributes;
-        this.running = running;
-        this.winner = winner?.length > 0 ? winner : undefined;
+        this.metaEntities = metaEntities;
     }
 
     static deserialize(rawGameState) {
-        let board = Board.deserialize(rawGameState.board);
+        let players = Players.deserialize(rawGameState.players);
+
+        let metaEntities = {};
+        for(const name of Object.keys(rawGameState.metaEntities)) {
+            metaEntities[name] = Entity.deserialize(rawGameState.metaEntities[name], players);
+        }
 
         return new GameState(
-            Players.deserialize(rawGameState.players, board),
-            board,
-            AttributeHolder.deserialize(rawGameState.council),
-            rawGameState.running,
-            rawGameState.winner,
+            players,
+            Board.deserialize(rawGameState.board, players),
+            metaEntities,
         );
     }
 
     serialize() {
+        let metaEntities = {};
+        for(const entityName of Object.keys(this.metaEntities)) {
+            metaEntities[entityName] = this.metaEntities[entityName].serialize();
+        }
+
         let raw = {
             players: this.players.serialize(),
             board: this.board.serialize(),
-            council: this.council.serialize(),
-            running: this.running,
+            metaEntities,
         };
-
-        if(this.winner !== undefined) {
-            raw.winner = this.winner;
-        }
 
         return raw;
     }

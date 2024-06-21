@@ -9,10 +9,22 @@ function EntityDetails({ descriptor, entity, setSelectedUser, canSubmitAction, c
     const title = prettyifyName(descriptor.getName() || entity.type);
     const subTitle = prettyifyName(entity.type);
 
-    const takeActionHandler = () => {
-        setSelectedUser(entity.player.name);
+    const takeActionHandler = (player) => {
+        setSelectedUser(player.name);
         closePopup();
     };
+
+    const takeActionButtons = canSubmitAction ? entity.players.map(player => {
+        const buttonMessage = entity.players.length === 1 ?
+            "Take Action" :
+            `Take Action as ${player.name}`;
+
+        return (
+            <div className="entity-details-take-action centered" key={player.name}>
+                <button onClick={takeActionHandler.bind(undefined, player)}>{buttonMessage}</button>
+            </div>
+        );
+    }) : undefined;
 
     return (
         <>
@@ -21,11 +33,7 @@ function EntityDetails({ descriptor, entity, setSelectedUser, canSubmitAction, c
                 {title != subTitle ? <i className="entity-details-title-type">{subTitle}</i> : undefined}
             </div>
             <AttributeList attributes={entity.attributes} versionConfig={versionConfig}></AttributeList>
-            {entity.player && canSubmitAction ? (
-                <div className="entity-details-take-action centered">
-                    <button onClick={takeActionHandler}>Take Action</button>
-                </div>
-            ) : undefined}
+            {takeActionButtons}
         </>
     )
 }

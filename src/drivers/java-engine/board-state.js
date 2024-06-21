@@ -5,41 +5,50 @@
 
 import Board from "../../game/state/board/board.js";
 import Entity from "../../game/state/board/entity.js";
-import { FloorTile } from "../../game/state/board/floor-tile.js";
 import { GameState } from "../../game/state/game-state.js";
 import Player from "../../game/state/players/player.js";
 import Players from "../../game/state/players/players.js";
 import { Position } from "../../game/state/board/position.js";
-import { Attribute, AttributeHolder } from "../../game/state/attribute.js";
-
-// The prefix used for the max value of an attribute
-const MAX_PREFIX = "MAX_";
+import { logger } from "#platform/logging.js";
 
 const deadTankAttributesToRemove = ["ACTIONS", "RANGE", "BOUNTY"];
 
 
 export function gameStateFromRawState(rawGameState) {
-    const playersByName = buildUserLists(rawGameState);
+    let councilPlayers = [];
+    const playersByName = buildUserLists(rawGameState, councilPlayers);
 
     let board = convertBoard(undefined, rawGameState.board.unit_board, (newBoard, rawEntity, position) => {
         newBoard.setEntity(entityFromBoard(rawEntity, position, playersByName));
     });
 
     board = convertBoard(board, rawGameState.board.floor_board, (newBoard, space, position) => {
-        newBoard.setFloorTile(new FloorTile(space.type, position));
+        newBoard.setFloorTile(new Entity({ type: space.type, position }));
     });
 
     let gameState = new GameState(
         new Players(Object.values(playersByName)),
         board,
-        convertCouncil(rawGameState.council),
-        rawGameState.running,
-        rawGameState.winner,
+        {
+            council: convertCouncil(rawGameState.council, councilPlayers),
+        },
     );
 
-    gameState.__day = rawGameState.day;
+    let victoryInfo;
 
-    return gameState;
+    if(rawGameState.winner?.length > 1) {
+        victoryInfo = {
+            type: rawGameState.winner == "Council" ? "armistice_vote" : "last_tank_standing",
+            winners: rawGameState.winner == "Council" ?
+                gameState.metaEntities.council.players :
+                [gameState.players.getPlayerByName(rawGameState.winner)],
+        };
+    }
+
+    return {
+        gameState,
+        victoryInfo,
+    };
 }
 
 function getAttributeName(name, rawEntity) {
@@ -52,21 +61,23 @@ function getAttributeName(name, rawEntity) {
     return name;
 }
 
-
-function convertCouncil(rawCouncil) {
-    let attributes = [
-        new Attribute("coffer", rawCouncil.coffer),
-    ];
+function convertCouncil(rawCouncil, players) {
+    let attributes = {
+        coffer: rawCouncil.coffer,
+    };
 
     if(rawCouncil.armistice_vote_cap !== undefined) {
-        attributes.push(new Attribute("armistice", rawCouncil.armistice_vote_count, rawCouncil.armistice_vote_cap));
+        attributes.armistice = {
+            value: rawCouncil.armistice_vote_count,
+            max: rawCouncil.armistice_vote_cap
+        };
     }
 
-    return new AttributeHolder(attributes);
+    return new Entity({ type: "council", attributes, players });
 }
 
 function shouldKeepAttribute(attributeName, rawEntity) {
-    if(attributeName == "DEAD" || attributeName.startsWith(MAX_PREFIX)) {
+    if(attributeName == "DEAD") {
         return false;
     }
 
@@ -77,33 +88,28 @@ function shouldKeepAttribute(attributeName, rawEntity) {
     return true;
 }
 
-
 function entityFromBoard(rawEntity, position, playersByName) {
-    let attributes = [];
+    let attributes = {};
 
     if(rawEntity.attributes) {
-        attributes = Object.keys(rawEntity.attributes)
-            .filter(name => shouldKeepAttribute(name, rawEntity))
-            .map(name => {
-                return new Attribute(
-                    getAttributeName(name, rawEntity),
-                    rawEntity.attributes[name],
-                    rawEntity.attributes[`${MAX_PREFIX}${name}`]);
-            });
+        for(const attributeName of Object.keys(rawEntity.attributes)) {
+            if(!shouldKeepAttribute(attributeName, rawEntity)) continue;
+
+            const actualName = getAttributeName(attributeName, rawEntity);
+
+            attributes[actualName] = rawEntity.attributes[attributeName];
+        }
     }
 
-    attributes = new AttributeHolder(attributes);
-
     const player = playersByName[rawEntity.name];
-    let entity = new Entity(rawEntity.type, position, attributes);
+    let entity = new Entity({ type: rawEntity.type, position, attributes });
 
     if(player) {
-        player.adopt(entity);
+        entity.addPlayer(player);
     }
 
     return entity;
 }
-
 
 function convertBoard(newBoard, board, boardSpaceFactory) {
     if(!newBoard) {
@@ -132,17 +138,15 @@ function convertBoard(newBoard, board, boardSpaceFactory) {
     return newBoard;
 }
 
-
-function buildUserLists(rawGameState) {
+function buildUserLists(rawGameState, councilPlayers) {
     let playersByName = {};
-    processCouncil(rawGameState, playersByName);
+    processCouncil(rawGameState, playersByName, councilPlayers);
     findUsersOnGameBoard(rawGameState, playersByName);
 
     return playersByName;
 }
 
-
-function processCouncil(rawGameState, playersByName) {
+function processCouncil(rawGameState, playersByName, councilPlayers) {
     // Ensure that players remain in the same order
     rawGameState.council.council.sort();
     rawGameState.council.senate.sort();
@@ -159,12 +163,13 @@ function processCouncil(rawGameState, playersByName) {
                 playersByName[userName].type = userType;
             }
             else {
-                playersByName[userName] = new Player(userName, userType, []);
+                playersByName[userName] = new Player({ name: userName, type: userType });
             }
+
+            councilPlayers.push(playersByName[userName]);
         }
     }
 }
-
 
 function findUsersOnGameBoard(rawGameState, playersByName) {
     for(const row of rawGameState.board.unit_board) {
@@ -172,10 +177,111 @@ function findUsersOnGameBoard(rawGameState, playersByName) {
             if(rawEntity.name) {
                 let player = playersByName[rawEntity.name];
                 if(!player) {
-                    player = new Player(rawEntity.name, rawEntity.dead ? "council" : "tank", []);
+                    player = new Player({
+                        name: rawEntity.name,
+                        type: rawEntity.dead ? "council" : "tank",
+                    });
                     playersByName[rawEntity.name] = player;
                 }
             }
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function buildBoard(board, entityFn) {
+    let rawBoard = [];
+
+    for(let y = 0; y < board.height; ++y) {
+        let row = [];
+        rawBoard.push(row);
+
+        for(let x = 0; x < board.width; ++x) {
+            row.push(entityFn(new Position(x, y), board));
+        }
+    }
+
+    return rawBoard;
+}
+
+function buildUnit(position, board) {
+    const entity = board.getEntityAt(position);
+
+    let attributes = {};
+    for(const attributeName of Object.keys(entity.attributes)) {
+        attributes[attributeName.toUpperCase()] = entity.attributes[attributeName];
+    }
+
+    if(entity.type == "tank") {
+        attributes.DEAD = entity.attributes.durability !== undefined;
+
+        for(const removedAttibute of deadTankAttributesToRemove) {
+            if(attributes[removedAttibute] === undefined) {
+                attributes[removedAttibute] = 0;
+            }
+        }
+
+        if(attributes.DURABILITY === undefined) {
+            attributes.DURABILITY = attributes.HEALTH;
+            delete attributes.HEALTH;
+        }
+    }
+
+    return {
+        type: entity.type,
+        name: entity.players[0]?.attributes?.name,
+        position: entity.position.humanReadable,
+        attributes,
+    };
+}
+
+function buildFloor(position, board) {
+    const tile = board.getFloorTileAt(position);
+
+    return {
+        type: tile.type,
+    };
+}
+
+function makeCouncilList(council, playerType) {
+    return council.players
+        .filter(player => player.type == playerType)
+        .map(player => player.name);
+}
+
+function makeCouncil(councilEntity) {
+    let additionalAttributes = {};
+
+    if(councilEntity.attributes.armistice !== undefined) {
+        additionalAttributes = {
+            ...additionalAttributes,
+            armistice_vote_count: councilEntity.attributes.armistice.value,
+            armistice_vote_cap: councilEntity.attributes.armistice.max,
+        };
+    }
+
+    return {
+        type: "council",
+        coffer: councilEntity.attributes.coffer,
+        ...additionalAttributes,
+        council: makeCouncilList(councilEntity, "councilor"),
+        senate: makeCouncilList(councilEntity, "senator"),
+    };
+}
+
+export function gameStateToRawState(gameState) {
+    return {
+        type: "state",
+        // It's assumed that we only interact with the engine when the game is active
+        running: true,
+        winner: "",
+        day: 0,
+        board: {
+            type: "board",
+            unit_board: buildBoard(gameState.board, buildUnit),
+            floor_board: buildBoard(gameState.board, buildFloor),
+        },
+        council: makeCouncil(gameState.metaEntities.council),
+    };
 }

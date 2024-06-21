@@ -1,7 +1,5 @@
 import assert from "node:assert";
-import { LogBook } from "../../../../../src/game/state/log-book/log-book.js";
-import { rawLogBook } from "./log-book.test.js";
-import { LogEntry } from "../../../../../src/game/state/log-book/entry.js";
+import { LogEntry } from "../../../../../src/game/state/log-book/log-entry.js";
 import { Dice } from "../../../../../src/game/possible-actions/die.js";
 
 class MockVersionConfig {
@@ -36,7 +34,7 @@ class MockActionSet {
 function makeBasicHitEntry(roll) {
     const versionConfig = new MockVersionConfig();
 
-    let hitEntry = new LogEntry(-1, {
+    let hitEntry = new LogEntry({
         action: "shoot",
         subject: "Terence",
         target: "G5",
@@ -45,7 +43,7 @@ function makeBasicHitEntry(roll) {
             manual: true,
             roll,
         },
-    }, -1, versionConfig);
+    });
 
     // Reset after calling the constructor
     versionConfig.formatArgs = [];
@@ -54,25 +52,11 @@ function makeBasicHitEntry(roll) {
 }
 
 describe("LogEntry", () => {
-    it("can format messages based on the game version config", () => {
-        const expectedMessages = [
-            "Start of day 1",
-            "Corey shot I6",
-            "Start of day 2",
-            "Xavion traded 5 gold for actions",
-            "Corey moved to H4",
-        ];
-
-        const logBook = LogBook.deserialize(rawLogBook);
-        for(let i = 0; i <= logBook.getLastEntryId(); ++i) {
-            assert.equal(logBook.getEntry(i).message, expectedMessages[i]);
-        }
-    });
-
     it("can convert dice rolls to be UI friendly", () => {
         let {hitEntry, versionConfig} = makeBasicHitEntry([true, false, true]);
         let actions = new MockActionSet();
         hitEntry.updateMessageWithBoardState({
+            logEntryFormatter: versionConfig,
             previousState: { stateNo: 2 },
             actions,
         });

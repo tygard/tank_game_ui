@@ -13,7 +13,7 @@ export class AutomaticStartOfDay {
         if(!now) now = new Date();
 
         let logBook = this._game.getInteractor().getLogBook();
-        const lastStartOfDay = logBook.getFirstEntryOfDay(logBook.getMaxDay());
+        const lastStartOfDay = logBook.getEntry(logBook.getFirstEntryIdOfDay(logBook.getMaxDay()));
         if(lastStartOfDay.type !== "start_of_day") {
             throw new Error(`First action of day ${logBook.getMaxDay()} is type ${lastStartOfDay.type} not start_of_day`);
         }
@@ -35,7 +35,6 @@ export class AutomaticStartOfDay {
         const interactor = this._game.getInteractor();
         let logBook = interactor.getLogBook();
         interactor.addLogBookEntry({
-            type: "action",
             action: "start_of_day",
             day: logBook.getMaxDay() + 1
         });

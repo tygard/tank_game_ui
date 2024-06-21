@@ -1,8 +1,4 @@
-import { AttributeHolder } from "../attribute.js";
-import { objectMap } from "../../../utils.js";
 import Entity from "./entity.js";
-import { FloorTile } from "./floor-tile.js";
-import { Position } from "./position.js";
 
 export default class Board {
     constructor(width, height) {
@@ -12,13 +8,17 @@ export default class Board {
         this._floor = {};
     }
 
-    static deserialize(rawBoard) {
-        // Skip the constructor to avoid filling the board twice
+    static deserialize(rawBoard, players) {
         let board = new Board(rawBoard.width, rawBoard.height);
-        board._entities = objectMap(rawBoard.entities,
-            (entity, humanPos) => Entity.deserialize(entity, Position.fromHumanReadable(humanPos)));
-        board._floor = objectMap(rawBoard.floor,
-            (floor, humanPos) => FloorTile.deserialize(floor, Position.fromHumanReadable(humanPos)));
+
+        for(const rawEntry of rawBoard.entities) {
+            board.setEntity(Entity.deserialize(rawEntry, players));
+        }
+
+        for(const rawFloorTile of rawBoard.floor) {
+            board.setFloorTile(Entity.deserialize(rawFloorTile, players));
+        }
+
         return board;
     }
 
@@ -26,13 +26,22 @@ export default class Board {
         return {
             width: this.width,
             height: this.height,
-            entities: objectMap(this._entities, entity => entity.serialize()),
-            floor: objectMap(this._floor, tile => tile.serialize()),
+            entities: Object.values(this._entities).map(entity => entity.serialize()),
+            floor: Object.values(this._floor).map(tile => tile.serialize()),
         };
     }
 
+    _verifyPositon(position, entitiesObject, type) {
+        const {humanReadable} = position;
+
+        if(entitiesObject[humanReadable] != undefined && entitiesObject[humanReadable].position.humanReadable != humanReadable) {
+            throw new Error(`${type} at ${humanReadable} thinks it should be at ${entitiesObject[humanReadable].position.humanReadable}`);
+        }
+    }
+
     getEntityAt(position) {
-        return this._entities[position.humanReadable] || (new Entity("empty", position, new AttributeHolder()));
+        this._verifyPositon(position, this._entities, "Entity");
+        return this._entities[position.humanReadable] || (new Entity({ type: "empty", position }));
     }
 
     setEntity(entity) {
@@ -45,7 +54,8 @@ export default class Board {
     }
 
     getFloorTileAt(position) {
-        return this._floor[position.humanReadable] || (new FloorTile("empty", position));
+        this._verifyPositon(position, this._floor, "Floor tile");
+        return this._floor[position.humanReadable] || (new Entity({ type: "empty", position }));
     }
 
     setFloorTile(tile) {

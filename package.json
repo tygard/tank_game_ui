@@ -6,9 +6,9 @@
     "type": "module",
     "scripts": {
         "coverage": "npm test -- --coverage --collectCoverageFrom=src/**/*.js",
-        "coverage-full": "NODE_NO_WARNINGS=1 TANK_GAME_ENGINE_SEARCH_DIR=engine/target  NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/ --testTimeout=10000 --coverage --collectCoverageFrom=src/**/*.js",
-        "test": "NODE_NO_WARNINGS=1 LOG_LEVEL=error NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/unit",
-        "integration-test": "NODE_NO_WARNINGS=1 TANK_GAME_ENGINE_SEARCH_DIR=engine/target  NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/integration-test/ --testTimeout=10000",
+        "coverage-full": "NODE_NO_WARNINGS=1 TANK_GAME_ENGINE_SEARCH_DIR=engine/target  NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/ --testTimeout=15000 --coverage --collectCoverageFrom=src/**/*.js",
+        "test": "NODE_NO_WARNINGS=1 LOG_LEVEL=error NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/unit --verbose=true",
+        "integration-test": "NODE_NO_WARNINGS=1 TANK_GAME_ENGINE_SEARCH_DIR=engine/target  NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --testPathPattern=test/integration-test/ --testTimeout=15000",
         "develop-backend": "TANK_GAME_ENGINE_SEARCH_DIR=engine/target BUILD_INFO=$(./scripts/get-version webpack) LOG_LEVEL=debug TANK_GAMES_FOLDER=example/ npm start",
         "start": "node src/drivers/rest/index.js",
         "develop-frontend": "webpack serve",

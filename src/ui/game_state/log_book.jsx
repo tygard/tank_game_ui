@@ -14,6 +14,7 @@ export function LogBook({ logBook, changeEntryId, currentEntryId }) {
                         key={day}
                         day={day}
                         logEntries={logBook.getEntriesOnDay(day)}
+                        firstEntryId={logBook.getFirstEntryIdOfDay(day)}
                         changeEntryId={changeEntryId}
                         currentEntryId={currentEntryId}></DaySection>
                 );
@@ -22,19 +23,22 @@ export function LogBook({ logBook, changeEntryId, currentEntryId }) {
     );
 }
 
-function DaySection({ day, logEntries, currentEntryId, changeEntryId }) {
-    const selectEntry = useCallback((e, logEntry) => {
+function DaySection({ day, logEntries, currentEntryId, changeEntryId, firstEntryId }) {
+    const selectEntry = useCallback((e, entryId) => {
         e.preventDefault();
-        changeEntryId(logEntry.id);
+        changeEntryId(entryId);
     }, [changeEntryId]);
 
     return (
         <>
             <h3 className="log-book-day-heading">Day {day}</h3>
-            {logEntries.map(logEntry => {
+            {logEntries.map((logEntry, idx) => {
+                const entryId = firstEntryId + idx;
+
                 return (
                     <LogEntry
-                        key={currentEntryId}
+                        key={entryId}
+                        entryId={entryId}
                         currentEntryId={currentEntryId}
                         logEntry={logEntry}
                         selectEntry={selectEntry}></LogEntry>
@@ -44,8 +48,8 @@ function DaySection({ day, logEntries, currentEntryId, changeEntryId }) {
     );
 }
 
-function LogEntry({ currentEntryId, logEntry, selectEntry }) {
-    const isCurrent = currentEntryId == logEntry.id;
+function LogEntry({ currentEntryId, logEntry, selectEntry, entryId }) {
+    const isCurrent = currentEntryId == entryId;
     const scrollRef = useRef();
 
     useEffect(() => {
@@ -61,8 +65,8 @@ function LogEntry({ currentEntryId, logEntry, selectEntry }) {
     }
 
     return (
-        <div className={entryClasses} ref={scrollRef} key={logEntry.id}>
-            <a className="log-book-link" href="#" onClick={e => selectEntry(e, logEntry)}>
+        <div className={entryClasses} ref={scrollRef} key={entryId}>
+            <a className="log-book-link" href="#" onClick={e => selectEntry(e, entryId)}>
                 {logEntry.message}
             </a>
         </div>

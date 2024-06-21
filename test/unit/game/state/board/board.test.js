@@ -2,47 +2,51 @@ import assert from "node:assert";
 import Board from "../../../../../src/game/state/board/board.js";
 import Entity from "../../../../../src/game/state/board/entity.js";
 import { Position } from "../../../../../src/game/state/board/position.js";
-import { AttributeHolder } from "../../../../../src/game/state/attribute.js";
-import { FloorTile } from "../../../../../src/game/state/board/floor-tile.js";
+import Player from "../../../../../src/game/state/players/player.js";
+import Players from "../../../../../src/game/state/players/players.js";
 
 let board = new Board(7, 5);
 
-const tank1 = new Entity("tank", new Position(0, 0), new AttributeHolder());
-const destroyedTank = new Entity("dead-tank", new Position(2, 3), new AttributeHolder());
-const tank2 = new Entity("tank", new Position(6, 4), new AttributeHolder());
-const baloon = new Entity("baloon", new Position(1, 1), new AttributeHolder());
+const tank1 = new Entity({ type: "tank", position: new Position("A1") });
+const destroyedTank = new Entity({ type: "dead-tank", position: new Position("C4") });
+let tank2 = new Entity({ type: "tank", position: new Position("G5") });
+const baloon = new Entity({ type: "baloon", position: new Position("B2") });
+
+let josh = new Player({ name: "Josh", type: "tank" });
+tank2.addPlayer(josh);
 
 board.setEntity(tank1);
 board.setEntity(destroyedTank);
 board.setEntity(tank2);
 board.setEntity(baloon);
 
-const goldMine1 = new FloorTile("gold_mine", new Position(4, 4));
-const goldMine2 = new FloorTile("gold_mine", new Position(1, 3));
-const base = new FloorTile("base", new Position(2, 3));
+const goldMine1 = new Entity({ type: "gold_mine", position: new Position("E5") });
+const goldMine2 = new Entity({ type: "gold_mine", position: new Position("B4") });
+const base = new Entity({ type: "base", position: new Position("C4") });
 board.setFloorTile(goldMine1);
 board.setFloorTile(goldMine2);
 board.setFloorTile(base);
 
-const empty = new Entity("empty", new Position(3, 2), new AttributeHolder());
-const emptyTile = new FloorTile("empty", new Position(6, 4));
+const empty = new Entity({ type: "empty", position: new Position("D3") });
+const emptyTile = new Entity({ type: "empty", position: new Position("G5") });
 
 
 describe("Board", () => {
     it("can find the entity at a space", () => {
-        assert.deepEqual(board.getEntityAt(new Position(0, 0)), tank1);
-        assert.deepEqual(board.getEntityAt(new Position(2, 3)), destroyedTank);
-        assert.deepEqual(board.getEntityAt(new Position(3, 2)), empty);
+        assert.deepEqual(board.getEntityAt(new Position("A1")), tank1);
+        assert.deepEqual(board.getEntityAt(new Position("C4")), destroyedTank);
+        assert.deepEqual(board.getEntityAt(new Position("D3")), empty);
     });
 
     it("can find the floor tile at a space", () => {
-        assert.deepEqual(board.getFloorTileAt(new Position(1, 3)), goldMine2);
-        assert.deepEqual(board.getFloorTileAt(new Position(2, 3)), base);
-        assert.deepEqual(board.getFloorTileAt(new Position(6, 4)), emptyTile);
+        assert.deepEqual(board.getFloorTileAt(new Position("B4")), goldMine2);
+        assert.deepEqual(board.getFloorTileAt(new Position("C4")), base);
+        assert.deepEqual(board.getFloorTileAt(new Position("G5")), emptyTile);
     });
 
     it("can be serialize and deserialized", () => {
-        const reSerializedBoard = Board.deserialize(board.serialize());
+        let players = new Players([josh]);
+        const reSerializedBoard = Board.deserialize(board.serialize(), players);
         assert.deepEqual(reSerializedBoard, board);
     });
 

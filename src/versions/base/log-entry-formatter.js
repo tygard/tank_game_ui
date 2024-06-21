@@ -29,7 +29,7 @@ class FormatingHelpers {
         }
 
         if(this._gameState === undefined) return location;
-        const position = Position.fromHumanReadable(location);
+        const position = new Position(location);
 
         let info;
         if(entity) {

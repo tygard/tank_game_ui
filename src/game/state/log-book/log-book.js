@@ -1,5 +1,4 @@
-import { getGameVersion } from "../../../versions/index.js";
-import { LogEntry } from "./entry.js";
+import { LogEntry } from "./log-entry.js";
 
 const defaultMakeTimeStamp = () => Math.floor(Date.now() / 1000);
 
@@ -7,10 +6,8 @@ const DEFAULT_TIME_INTERVAL = 20 * 60; // 20 minutes
 
 
 export class LogBook {
-    constructor(gameVersion, entries, versionConfig, makeTimeStamp = defaultMakeTimeStamp) {
-        this.gameVersion = gameVersion;
+    constructor(entries, makeTimeStamp = defaultMakeTimeStamp) {
         this._entries = entries;
-        this._versionConfig = versionConfig;
         this._makeTimeStamp = makeTimeStamp;
         this._buildDayMap();
     }
@@ -19,39 +16,41 @@ export class LogBook {
         this._dayMap = {};
         this._entriesPerDay = {};
 
-        let previousDay = 0;
-        for(const entry of this._entries) {
-            if(entry.day != previousDay) {
-                this._dayMap[entry.day] = entry.id;
+        let day = 0;
+        for(let id = 0; id < this._entries.length; ++id) {
+            const entry = this._entries[id];
+
+            if(entry.rawLogEntry.day != undefined) {
+                if(day + 1 != entry.rawLogEntry.day) {
+                    throw new Error(`Days must be consecutive and go in ascending order starting from 1.  Found day ${entry.rawLogEntry.day} after ${day}.`);
+                }
+
+                day = entry.rawLogEntry.day;
+
+                this._dayMap[day] = id;
+
+                if(this._minDay === undefined) this._minDay = day;
+                this._maxDay = day;
             }
 
-            if(this._minDay === undefined) this._minDay = entry.day;
-            this._maxDay = entry.day;
-
-            previousDay = entry.day;
-
-            if(!this._entriesPerDay[entry.day]) {
-                this._entriesPerDay[entry.day] = [];
+            if(this._entriesPerDay[day] == undefined) {
+                this._entriesPerDay[day] = [];
             }
 
-            this._entriesPerDay[entry.day].push(entry);
+            this._entriesPerDay[day].push(entry);
         }
     }
 
-    static deserialize({gameVersion, rawEntries}, makeTimeStamp) {
+    static deserialize(rawEntries, makeTimeStamp) {
         // 0 length log books are not supported start day 1 if we have no entries
         if(rawEntries === undefined || rawEntries.length === 0) {
             rawEntries = [
                 {
-                    type: "action",
                     day: 1,
                 }
             ];
         }
 
-        const versionConfig = getGameVersion(gameVersion);
-
-        let previousDay = 0;
         let previousTime = 0;
         const entries = rawEntries.map((rawEntry, idx) => {
             if(rawEntry.timestamp === undefined) {
@@ -64,19 +63,20 @@ export class LogBook {
 
             previousTime = rawEntry.timestamp;
 
-            const entry = LogEntry.deserialize(idx, previousDay, rawEntry, versionConfig);
-            previousDay = entry.day;
+            const entry = LogEntry.deserialize(rawEntry);
             return entry;
         });
 
-        return new LogBook(gameVersion, entries, versionConfig, makeTimeStamp);
+        return new LogBook(entries, makeTimeStamp);
     }
 
-    serialize({ justRawEntries } = {}) {
-        return {
-            gameVersion: this.gameVersion,
-            rawEntries: this._entries.map(entry => entry.serialize({ justRawEntries })),
-        }
+    serialize() {
+        return this._entries.map(entry => entry.serialize());
+    }
+
+    withoutStateInfo() {
+        const entries = this._entries.map(entry => entry.withoutStateInfo());
+        return new LogBook(entries, this._makeTimeStamp);
     }
 
     getEntry(entryId) {
@@ -84,9 +84,8 @@ export class LogBook {
     }
 
     makeEntryFromRaw(rawEntry) {
-        const day = rawEntry.day || this.getMaxDay();
         rawEntry.timestamp = this._makeTimeStamp();
-        return new LogEntry(day, rawEntry, this._entries.length, this._versionConfig);
+        return new LogEntry(rawEntry);
     }
 
     addEntry(entry) {
@@ -98,7 +97,7 @@ export class LogBook {
 
         this._entries.push(entry);
         this._buildDayMap();
-        return entry.id;
+        return this._entries.length - 1;
     }
 
     getFirstEntryId() {
@@ -117,17 +116,17 @@ export class LogBook {
         return this._maxDay;
     }
 
-    getFirstEntryOfDay(day) {
-        return this.getEntry(this._dayMap[day]);
+    getFirstEntryIdOfDay(day) {
+        return this._dayMap[day];
     }
 
-    getLastEntryOfDay(day) {
+    getLastEntryIdOfDay(day) {
         let lastId = this.getLastEntryId();
         if(day < this.getMaxDay()) {
-            lastId = this.getFirstEntryOfDay(day + 1).id - 1;
+            lastId = this.getFirstEntryIdOfDay(day + 1) - 1;
         }
 
-        return this.getEntry(lastId);
+        return lastId;
     }
 
     *[Symbol.iterator]() {
@@ -146,5 +145,20 @@ export class LogBook {
 
     getLength() {
         return this._entries.length;
+    }
+
+    getDayOfEntryId(entryId) {
+        let previousDay = 0;
+
+        for(let day of Object.keys(this._dayMap)) {
+            day = +day;
+            if(entryId < this._dayMap[day]) {
+                break;
+            }
+
+            previousDay = day;
+        }
+
+        return previousDay;
     }
 }

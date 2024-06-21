@@ -124,7 +124,8 @@ export class AttributeDescriptor {
         };
     }
 
-    constructor(attribute) {
+    constructor(name, attribute) {
+        this.name = name;
         this.attribute = attribute;
     }
 
@@ -166,11 +167,15 @@ export class AttributeDescriptor {
 
     // Get the name of this attribute
     getNameText() {
-        return prettyifyName(this.attribute.name);
+        return prettyifyName(this.name);
     }
 
     // Convert the value to a string (if undefined the value will not be displayed)
     getValueText() {
-        return this.attribute.toString();
+        if(typeof this.attribute?.max == "number") {
+            return `${this.attribute.value} / ${this.attribute.max}`;
+        }
+
+        return this.attribute;
     }
 }

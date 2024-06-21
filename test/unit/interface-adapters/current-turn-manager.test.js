@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { autoAdvanceEntry, currentLogGameStateReducer, goToEntryId, goToLatestTurn, goToNextDay, goToNextEntry, goToPreviousDay, goToPreviousEntry, setLogBook, togglePlayback } from "../../../src/interface-adapters/current-turn-manager.js";
 import { LogBook } from "../../../src/game/state/log-book/log-book.js";
+import { LogEntry } from "../../../src/game/state/log-book/log-entry.js";
 
 
 function compareStates(actual, expected) {
@@ -9,24 +10,21 @@ function compareStates(actual, expected) {
     assert.deepEqual(actual, expected);
 }
 
-const testLogbook = LogBook.deserialize({
-    gameVersion: "3",
-    rawEntries: [
-        { day: 1 },
-        { subject: "Justin", action: "shoot", target: "A2" },
-        { subject: "Corey", action: "move", target: "M13" },
-        { day: 2 },
-        { subject: "Sam", action: "buy_action", gold: 3 },
-        { subject: "Corey", action: "move", target: "N12" },
-        { subject: "Justin", action: "shoot", target: "A2" },
-        { subject: "Sam", action: "move", target: "G4" },
-        { subject: "Sam", action: "move", target: "G5" },
-        { day: 3 },
-        { subject: "Corey", action: "move", target: "M11" },
-        { subject: "Corey", action: "buy_action", gold: 5 },
-        { subject: "Corey", action: "shoot", target: "M10" },
-    ]
-});
+const testLogbook = new LogBook([
+    new LogEntry({ day: 1 }),
+    new LogEntry({ subject: "Justin", action: "shoot", target: "A2" }),
+    new LogEntry({ subject: "Corey", action: "move", target: "M13" }),
+    new LogEntry({ day: 2 }),
+    new LogEntry({ subject: "Sam", action: "buy_action", gold: 3 }),
+    new LogEntry({ subject: "Corey", action: "move", target: "N12" }),
+    new LogEntry({ subject: "Justin", action: "shoot", target: "A2" }),
+    new LogEntry({ subject: "Sam", action: "move", target: "G4" }),
+    new LogEntry({ subject: "Sam", action: "move", target: "G5" }),
+    new LogEntry({ day: 3 }),
+    new LogEntry({ subject: "Corey", action: "move", target: "M11" }),
+    new LogEntry({ subject: "Corey", action: "buy_action", gold: 5 }),
+    new LogEntry({ subject: "Corey", action: "shoot", target: "M10" }),
+]);
 
 
 const expectedFirstEntry = {
@@ -103,7 +101,7 @@ const expectedLastTurnState = {
 
 describe("GameStateManager", () => {
     it("can initialize it's default state with an empty log book", () => {
-        const logBook = new LogBook("3", []);
+        const logBook = new LogBook([]);
         const actual = currentLogGameStateReducer(undefined, setLogBook(logBook));
         compareStates(actual, {
             canGoTo: {

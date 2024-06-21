@@ -16,9 +16,9 @@ export default class Players {
         }
     }
 
-    static deserialize(rawPlayers, board) {
+    static deserialize(rawPlayers) {
         return new Players(
-            rawPlayers.map(rawPlayer => Player.deserialize(rawPlayer, board))
+            rawPlayers.map(rawPlayer => Player.deserialize(rawPlayer))
         );
     }
 

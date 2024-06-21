@@ -1,8 +1,10 @@
 import assert from "node:assert";
 import { Game } from "../../../../src/game/execution/game.js";
-import { MockEngine } from "./game-interactor.test.js";
 import { LogBook } from "../../../../src/game/state/log-book/log-book.js";
 import { PossibleActionSourceSet } from "../../../../src/game/possible-actions/index.js";
+import { MockEngine } from "./mock-engine.js";
+import { LogEntry } from "../../../../src/game/state/log-book/log-entry.js";
+import Player from "../../../../src/game/state/players/player.js";
 
 class MockInteractor {
     constructor(opts) {
@@ -11,19 +13,6 @@ class MockInteractor {
 
     getLogBook() {
         return this.opts.gameData.logBook;
-    }
-
-    getGameStateById(id) {
-        if(id === 0) {
-            return {
-                running: true,
-            };
-        }
-
-        return {
-            running: false,
-            winner: "Ted",
-        };
     }
 }
 
@@ -34,16 +23,35 @@ class MockVersionConfig {
     }
 }
 
+class MockLogEntryFormatter {
+    formatLogEntry(logEntry) {
+        return `Start of day ${logEntry.rawLogEntry.day}`;
+    }
+}
+
 function addDayTwo(game) {
     const logbook = game.getInteractor().getLogBook()
     logbook.addEntry(logbook.makeEntryFromRaw({ day: 2 }));
-    game.getInteractor().opts.onEntryAdded(1);
+    game.getInteractor().opts.onGameOver({
+        type: "last_tank_standing",
+        winners: [
+            new Player({ name: "Ted", }),
+        ],
+    });
 }
 
 async function buildTestGame({ autoStartOfDay, isGameOpen = () => true, waitForLoad = true, gameSettings = {} } = {}) {
     const createAutoStartOfDay = autoStartOfDay ?
         () => ({ start() {}, }) :
         () => { throw new Error("Auto start of day should not be construced"); };
+
+    let logBook = new LogBook([
+        new LogEntry({ day: 1 }),
+    ]);
+
+    logBook.getEntry(0).updateMessageWithBoardState({
+        logEntryFormatter: new MockLogEntryFormatter(),
+    });
 
     let game = new Game({
         createEngine,
@@ -52,12 +60,7 @@ async function buildTestGame({ autoStartOfDay, isGameOpen = () => true, waitForL
         createAutoStartOfDay,
         gameDataPromise: Promise.resolve({
             gameSettings,
-            logBook: LogBook.deserialize({
-                gameVersion: "3",
-                rawEntries: [
-                    { day: 1 },
-                ],
-            }),
+            logBook,
             openHours: {
                 isGameOpen,
                 hasAutomaticStartOfDay() { return autoStartOfDay; },
@@ -84,8 +87,6 @@ describe("Game", () => {
 
         await game.loaded;
 
-        game.getInteractor().opts.onEntryAdded(0);
-
         assert.equal(game.getStatusText(), "Playing, last action: Start of day 1");
         assert.equal(game.getState(), "running");
 
@@ -96,7 +97,7 @@ describe("Game", () => {
 
         addDayTwo(game);
 
-        assert.equal(game.getStatusText(), "Game over, Ted is victorious!");
+        assert.equal(game.getStatusText(), "Game over, Ted won by last tank standing!");
         assert.equal(game.getState(), "game-over");
     });
 

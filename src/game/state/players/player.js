@@ -1,43 +1,17 @@
-import { Position } from "../board/position.js";
-import { AttributeHolder } from "../attribute.js";
-
 export default class Player {
-    constructor(name, type, entities) {
-        this.name = name;
-        this.type = type;
+    constructor(attributes = {}) {
         this.entities = [];
-
-        for(let entity of entities) {
-            this.adopt(entity);
-        }
+        this.attributes = attributes;
     }
 
-    static deserialize(rawPlayer, board) {
-        const entities = rawPlayer.entities.map(entityPos =>
-            board.getEntityAt(Position.fromHumanReadable(entityPos)));
+    get name() { return this.attributes.name; }
+    get type() { return this.attributes.type; }
 
-        return new Player(rawPlayer.name, rawPlayer.type, entities);
+    static deserialize(rawPlayer) {
+        return new Player(rawPlayer);
     }
 
     serialize() {
-        return {
-            name: this.name,
-            type: this.type,
-            entities: this.entities.map(entity => entity.position.humanReadable)
-        };
-    }
-
-    adopt(entity) {
-        this.entities.push(entity);
-        entity.player = this;
-    }
-
-    getControlledAttributes() {
-        let controlledAttributes = new AttributeHolder();
-        for(const entity of this.entities) {
-            Object.assign(controlledAttributes, entity.attributes);
-        }
-
-        return controlledAttributes;
+        return this.attributes;
     }
 }

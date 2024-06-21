@@ -20,30 +20,32 @@ export class OpenHours {
         );
     }
 
-    serialize({ resolved, now } = {}) {
+    serialize() {
         const rawSchedules = this.schedules.map(schedule => schedule.serialize());
 
-        if(resolved) {
+        if(this._resolved !== undefined) {
             return {
                 schedules: rawSchedules,
-                resolved: this._getResolved(now),
-            }
+                resolved: this._resolved,
+            };
         }
         else {
             return rawSchedules;
         }
     }
 
-    _getResolved(now) {
+    asResolved(now) {
         if(this._resolved !== undefined) {
-            return this._resolved;
+            return this;
         }
 
         // Compute (resolve) certain values on the server so we have 1 source of truth for the current time
-        return {
+        const resolved = {
             isGameOpen: this.isGameOpen(now),
             currentTime: getCurrentTime(now),
         };
+
+        return new OpenHours(this.schedules, resolved);
     }
 
     getCurrentTime(now) {

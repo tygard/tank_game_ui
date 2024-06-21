@@ -1,3386 +1,2661 @@
 {
-    "fileFormatVersion": 5,
+    "fileFormatVersion": 6,
+    "gameVersion": "4",
     "openHours": [],
-    "logBook": {
-        "gameVersion": "4",
-        "rawEntries": [
-            {
-                "type": "action",
-                "day": 1
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "move",
-                "target": "E2"
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "move",
-                "target": "H2"
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "J9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "I10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "move",
-                "target": "K8"
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "move",
-                "target": "K5"
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "move",
-                "target": "E11"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "move",
-                "target": "H11"
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "move",
-                "target": "B8"
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "move",
-                "target": "B5"
-            },
-            {
-                "type": "action",
-                "subject": "David",
-                "action": "shoot",
-                "target": "D3",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "shoot",
-                "target": "C4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "shoot",
-                "target": "C9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I3",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "start_of_day",
-                "day": 2
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "move",
-                "target": "J4"
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I3",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "move",
-                "target": "I3"
-            },
-            {
-                "type": "action",
-                "subject": "David",
-                "action": "shoot",
-                "target": "D3",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "move",
-                "target": "D3"
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "C4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "shoot",
-                "target": "D4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "C9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "shoot",
-                "target": "D10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "move",
-                "target": "D10"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "I9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "J9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "move",
-                "target": "I9"
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "start_of_day",
-                "day": 3
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "I4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "shoot",
-                "target": "K4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "shoot",
-                "target": "I2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "move",
-                "target": "H3"
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "shoot",
-                "target": "B4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "B4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "D2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "David",
-                "action": "move",
-                "target": "E3"
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "move",
-                "target": "E10"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "move",
-                "target": "C9"
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "B9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "D11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "move",
-                "target": "J9"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "move",
-                "target": "I10"
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "K9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "start_of_day",
-                "day": 4
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "move",
-                "target": "J5"
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "shoot",
-                "target": "K4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "shoot",
-                "target": "I2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "move",
-                "target": "C4"
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "B4",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "D2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "David",
-                "action": "shoot",
-                "target": "D2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "shoot",
-                "target": "B9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "B9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "D11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "I11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "K9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "K9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I2",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "D11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "upgrade_range"
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "donate",
-                "target": "John",
-                "donation": 3
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "start_of_day",
-                "day": 5
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "C9",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "C9",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "C9",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "bounty",
-                "target": "Lena",
-                "bounty": "2"
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "K9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "move",
-                "target": "J8"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "shoot",
-                "target": "J5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "shoot",
-                "target": "H3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "David",
-                "action": "move",
-                "target": "D4"
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "shoot",
-                "target": "D4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "D4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "C4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "donate",
-                "target": "John",
-                "donation": 3
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "D4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "start_of_day",
-                "day": 6
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "E10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "K10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "K10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "K10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I12",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "shoot",
-                "target": "J5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "shoot",
-                "target": "H3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "C4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "shoot",
-                "target": "B5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "C4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "E10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "E10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "K10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "K11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Xavion",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "C4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "start_of_day",
-                "day": 7
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "upgrade_range"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I12",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "L10",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "L9",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Beyer",
-                "action": "grant_life",
-                "target": "Beyer"
-            },
-            {
-                "type": "action",
-                "subject": "Dan",
-                "action": "shoot",
-                "target": "J4",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "I3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "shoot",
-                "target": "D3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "B5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "B8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "H3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "K11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "start_of_day",
-                "day": 8
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Lena",
-                "action": "shoot",
-                "target": "E10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "B8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ty",
-                "action": "shoot",
-                "target": "B8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Trevor",
-                "action": "shoot",
-                "target": "B5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "move",
-                "target": "E3"
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "move",
-                "target": "G3"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Corey"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Stomp"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Stomp"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Stomp"
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "E3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "E3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "E3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "J5",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "shoot",
-                "target": "I10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "H11",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "K8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "J8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "H11",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Schmude"
-            },
-            {
-                "type": "action",
-                "subject": "Isaac",
-                "action": "stimulus",
-                "target": "Charlie"
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "move",
-                "target": "J6"
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "D10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "H11",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "start_of_day",
-                "day": 9
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "K8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "J8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "K8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "move",
-                "target": "F10"
-            },
-            {
-                "type": "action",
-                "subject": "Stomp",
-                "action": "shoot",
-                "target": "G3",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "H11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "stimulus",
-                "target": "Schmude"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "stimulus",
-                "target": "Schmude"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "stimulus",
-                "target": "Charlie"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "stimulus",
-                "target": "Ryan"
-            },
-            {
-                "type": "action",
-                "subject": "Corey",
-                "action": "stimulus",
-                "target": "Bryan"
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "shoot",
-                "target": "K8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "J6",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "J6",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "stimulus",
-                "target": "Schmude"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "stimulus",
-                "target": "Charlie"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "stimulus",
-                "target": "Ryan"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "stimulus",
-                "target": "Bryan"
-            },
-            {
-                "type": "action",
-                "subject": "Charlie",
-                "action": "move",
-                "target": "J7"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "H11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "J7",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Bryan",
-                "action": "shoot",
-                "target": "J7",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "shoot",
-                "target": "H11",
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Schmude",
-                "action": "move",
-                "target": "G10"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "G10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false
-                    ]
-                },
-                "hit": false
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "G10",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "move",
-                "target": "J9"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "K8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "start_of_day",
-                "day": 10
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "shoot",
-                "target": "J9",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true,
-                        false
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "grant_life",
-                "target": "Ryan"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "grant_life",
-                "target": "Ryan"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        true,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "buy_action",
-                "gold": "3"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "J8",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        false,
-                        false,
-                        true
-                    ]
-                },
-                "hit": true
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "move",
-                "target": "J10"
-            },
-            {
-                "type": "action",
-                "subject": "Mike",
-                "action": "stimulus",
-                "target": "Ryan"
-            },
-            {
-                "type": "action",
-                "subject": "Ryan",
-                "action": "move",
-                "target": "I7"
-            },
-            {
-                "type": "action",
-                "subject": "John",
-                "action": "shoot",
-                "target": "I7",
-                "hit_roll": {
-                    "type": "die-roll",
-                    "manual": true,
-                    "roll": [
-                        true
-                    ]
-                },
-                "hit": true
-            }
-        ]
-    },
+    "logBook": [
+        {
+            "day": 1,
+            "action": "start_of_day",
+            "timestamp": 1200
+        },
+        {
+            "subject": "Corey",
+            "action": "move",
+            "target": "E2",
+            "timestamp": 2400
+        },
+        {
+            "subject": "Dan",
+            "action": "move",
+            "target": "H2",
+            "timestamp": 3600
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "J9",
+            "hit": true,
+            "timestamp": 4800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "I10",
+            "hit": true,
+            "timestamp": 6000
+        },
+        {
+            "subject": "Bryan",
+            "action": "move",
+            "target": "K8",
+            "timestamp": 7200
+        },
+        {
+            "subject": "Beyer",
+            "action": "move",
+            "target": "K5",
+            "timestamp": 8400
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D9",
+            "hit": true,
+            "timestamp": 9600
+        },
+        {
+            "subject": "Lena",
+            "action": "move",
+            "target": "E11",
+            "timestamp": 10800
+        },
+        {
+            "subject": "Mike",
+            "action": "move",
+            "target": "H11",
+            "timestamp": 12000
+        },
+        {
+            "subject": "Ty",
+            "action": "move",
+            "target": "B8",
+            "timestamp": 13200
+        },
+        {
+            "subject": "Trevor",
+            "action": "move",
+            "target": "B5",
+            "timestamp": 14400
+        },
+        {
+            "subject": "David",
+            "action": "shoot",
+            "target": "D3",
+            "hit": true,
+            "timestamp": 15600
+        },
+        {
+            "subject": "Xavion",
+            "action": "shoot",
+            "target": "C4",
+            "hit": true,
+            "timestamp": 16800
+        },
+        {
+            "subject": "Isaac",
+            "action": "shoot",
+            "target": "C9",
+            "hit": true,
+            "timestamp": 18000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I3",
+            "hit": true,
+            "timestamp": 19200
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J4",
+            "hit": true,
+            "timestamp": 20400
+        },
+        {
+            "subject": "Charlie",
+            "action": "start_of_day",
+            "day": 2,
+            "timestamp": 21600
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J4",
+            "hit": true,
+            "timestamp": 22800
+        },
+        {
+            "subject": "Beyer",
+            "action": "move",
+            "target": "J4",
+            "timestamp": 24000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I3",
+            "hit": true,
+            "timestamp": 25200
+        },
+        {
+            "subject": "Dan",
+            "action": "move",
+            "target": "I3",
+            "timestamp": 26400
+        },
+        {
+            "subject": "David",
+            "action": "shoot",
+            "target": "D3",
+            "hit": true,
+            "timestamp": 27600
+        },
+        {
+            "subject": "Corey",
+            "action": "move",
+            "target": "D3",
+            "timestamp": 28800
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "C4",
+            "hit": true,
+            "timestamp": 30000
+        },
+        {
+            "subject": "Xavion",
+            "action": "shoot",
+            "target": "D4",
+            "hit": true,
+            "timestamp": 31200
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "C9",
+            "hit": true,
+            "timestamp": 32400
+        },
+        {
+            "subject": "Isaac",
+            "action": "shoot",
+            "target": "D10",
+            "hit": true,
+            "timestamp": 33600
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit": true,
+            "timestamp": 34800
+        },
+        {
+            "subject": "Lena",
+            "action": "move",
+            "target": "D10",
+            "timestamp": 36000
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I10",
+            "hit": true,
+            "timestamp": 37200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "I9",
+            "hit": true,
+            "timestamp": 38400
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "J9",
+            "hit": true,
+            "timestamp": 39600
+        },
+        {
+            "subject": "Ryan",
+            "action": "move",
+            "target": "I9",
+            "timestamp": 40800
+        },
+        {
+            "subject": "Xavion",
+            "action": "start_of_day",
+            "day": 3,
+            "timestamp": 42000
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "I4",
+            "hit": true,
+            "timestamp": 43200
+        },
+        {
+            "subject": "Beyer",
+            "action": "shoot",
+            "target": "K4",
+            "hit": true,
+            "timestamp": 44400
+        },
+        {
+            "subject": "Dan",
+            "action": "shoot",
+            "target": "I2",
+            "hit": true,
+            "timestamp": 45600
+        },
+        {
+            "subject": "Stomp",
+            "action": "move",
+            "target": "H3",
+            "timestamp": 46800
+        },
+        {
+            "subject": "Xavion",
+            "action": "shoot",
+            "target": "B4",
+            "hit": true,
+            "timestamp": 48000
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "B4",
+            "hit": true,
+            "timestamp": 49200
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "D2",
+            "hit": true,
+            "timestamp": 50400
+        },
+        {
+            "subject": "David",
+            "action": "move",
+            "target": "E3",
+            "timestamp": 51600
+        },
+        {
+            "subject": "Schmude",
+            "action": "move",
+            "target": "E10",
+            "timestamp": 52800
+        },
+        {
+            "subject": "Isaac",
+            "action": "move",
+            "target": "C9",
+            "timestamp": 54000
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "B9",
+            "hit": true,
+            "timestamp": 55200
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "D11",
+            "hit": true,
+            "timestamp": 56400
+        },
+        {
+            "subject": "Ryan",
+            "action": "move",
+            "target": "J9",
+            "timestamp": 57600
+        },
+        {
+            "subject": "John",
+            "action": "move",
+            "target": "I10",
+            "timestamp": 58800
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "K9",
+            "hit": true,
+            "timestamp": 60000
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I11",
+            "hit": true,
+            "timestamp": 61200
+        },
+        {
+            "subject": "Mike",
+            "action": "start_of_day",
+            "day": 4,
+            "timestamp": 62400
+        },
+        {
+            "subject": "Charlie",
+            "action": "move",
+            "target": "J5",
+            "timestamp": 63600
+        },
+        {
+            "subject": "Beyer",
+            "action": "shoot",
+            "target": "K4",
+            "hit": true,
+            "timestamp": 64800
+        },
+        {
+            "subject": "Dan",
+            "action": "shoot",
+            "target": "I2",
+            "hit": true,
+            "timestamp": 66000
+        },
+        {
+            "subject": "Xavion",
+            "action": "move",
+            "target": "C4",
+            "timestamp": 67200
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "B4",
+            "hit": true,
+            "timestamp": 68400
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "D2",
+            "hit": true,
+            "timestamp": 69600
+        },
+        {
+            "subject": "David",
+            "action": "shoot",
+            "target": "D2",
+            "hit": true,
+            "timestamp": 70800
+        },
+        {
+            "subject": "Isaac",
+            "action": "shoot",
+            "target": "B9",
+            "hit": true,
+            "timestamp": 72000
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "B9",
+            "hit": true,
+            "timestamp": 73200
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "D11",
+            "hit": true,
+            "timestamp": 74400
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D11",
+            "hit": true,
+            "timestamp": 75600
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I11",
+            "hit": true,
+            "timestamp": 76800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "I11",
+            "hit": true,
+            "timestamp": 78000
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "K9",
+            "hit": true,
+            "timestamp": 79200
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "K9",
+            "hit": true,
+            "timestamp": 80400
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I2",
+            "hit": true,
+            "timestamp": 81600
+        },
+        {
+            "subject": "Lena",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 82800
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "D11",
+            "hit": true,
+            "timestamp": 84000
+        },
+        {
+            "subject": "Corey",
+            "action": "upgrade_range",
+            "timestamp": 85200
+        },
+        {
+            "subject": "Ryan",
+            "action": "donate",
+            "target": "John",
+            "donation": 3,
+            "timestamp": 86400
+        },
+        {
+            "subject": "Ryan",
+            "action": "start_of_day",
+            "day": 5,
+            "timestamp": 87600
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "C9",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 88800
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "C9",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 90000
+        },
+        {
+            "subject": "Lena",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 91200
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "C9",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 92400
+        },
+        {
+            "subject": "Isaac",
+            "action": "bounty",
+            "target": "Lena",
+            "bounty": 2,
+            "timestamp": 93600
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "K9",
+            "hit": true,
+            "timestamp": 94800
+        },
+        {
+            "subject": "Ryan",
+            "action": "move",
+            "target": "J8",
+            "timestamp": 96000
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I11",
+            "hit": true,
+            "timestamp": 97200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J11",
+            "hit": true,
+            "timestamp": 98400
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 99600
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 100800
+        },
+        {
+            "subject": "Beyer",
+            "action": "shoot",
+            "target": "J5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 102000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 103200
+        },
+        {
+            "subject": "Dan",
+            "action": "shoot",
+            "target": "H3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 104400
+        },
+        {
+            "subject": "David",
+            "action": "move",
+            "target": "D4",
+            "timestamp": 105600
+        },
+        {
+            "subject": "Xavion",
+            "action": "shoot",
+            "target": "D4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 106800
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "D4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 108000
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "C4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 109200
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 110400
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J11",
+            "hit": true,
+            "timestamp": 111600
+        },
+        {
+            "subject": "Ryan",
+            "action": "donate",
+            "target": "John",
+            "donation": 3,
+            "timestamp": 112800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J11",
+            "hit": true,
+            "timestamp": 114000
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 115200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J11",
+            "hit": true,
+            "timestamp": 116400
+        },
+        {
+            "subject": "Corey",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 117600
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "D4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 118800
+        },
+        {
+            "subject": "Corey",
+            "action": "start_of_day",
+            "day": 6,
+            "timestamp": 120000
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 121200
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "E10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 122400
+        },
+        {
+            "subject": "Lena",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 123600
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "K10",
+            "hit": true,
+            "timestamp": 124800
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "K10",
+            "hit": true,
+            "timestamp": 126000
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "K10",
+            "hit": true,
+            "timestamp": 127200
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I12",
+            "hit": true,
+            "timestamp": 128400
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 129600
+        },
+        {
+            "subject": "Beyer",
+            "action": "shoot",
+            "target": "J5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 130800
+        },
+        {
+            "subject": "Dan",
+            "action": "shoot",
+            "target": "H3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 132000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 133200
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "C4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 134400
+        },
+        {
+            "subject": "Xavion",
+            "action": "shoot",
+            "target": "B5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 135600
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "C4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 136800
+        },
+        {
+            "subject": "Lena",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 138000
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 139200
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 140400
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "E10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 141600
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "E10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 142800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "K10",
+            "hit": true,
+            "timestamp": 144000
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 145200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "K11",
+            "hit": true,
+            "timestamp": 146400
+        },
+        {
+            "subject": "Corey",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 147600
+        },
+        {
+            "subject": "Xavion",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 148800
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "C4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 150000
+        },
+        {
+            "subject": "Corey",
+            "action": "start_of_day",
+            "day": 7,
+            "timestamp": 151200
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 152400
+        },
+        {
+            "subject": "Lena",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 153600
+        },
+        {
+            "subject": "John",
+            "action": "upgrade_range",
+            "timestamp": 154800
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I12",
+            "hit": true,
+            "timestamp": 156000
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "L10",
+            "hit": true,
+            "timestamp": 157200
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "L9",
+            "hit": true,
+            "timestamp": 158400
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 159600
+        },
+        {
+            "subject": "Beyer",
+            "action": "grant_life",
+            "target": "Beyer",
+            "timestamp": 160800
+        },
+        {
+            "subject": "Dan",
+            "action": "shoot",
+            "target": "J4",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 162000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "I3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 163200
+        },
+        {
+            "subject": "Corey",
+            "action": "shoot",
+            "target": "D3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 164400
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "B5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 165600
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "B8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 166800
+        },
+        {
+            "subject": "Stomp",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 168000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "H3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 169200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "K11",
+            "hit": true,
+            "timestamp": 170400
+        },
+        {
+            "subject": "John",
+            "action": "start_of_day",
+            "day": 8,
+            "timestamp": 171600
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 172800
+        },
+        {
+            "subject": "Lena",
+            "action": "shoot",
+            "target": "E10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 174000
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "B8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 175200
+        },
+        {
+            "subject": "Ty",
+            "action": "shoot",
+            "target": "B8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 176400
+        },
+        {
+            "subject": "Trevor",
+            "action": "shoot",
+            "target": "B5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 177600
+        },
+        {
+            "subject": "Corey",
+            "action": "move",
+            "target": "E3",
+            "timestamp": 178800
+        },
+        {
+            "subject": "Stomp",
+            "action": "move",
+            "target": "G3",
+            "timestamp": 180000
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Corey",
+            "timestamp": 181200
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Stomp",
+            "timestamp": 182400
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Stomp",
+            "timestamp": 183600
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Stomp",
+            "timestamp": 184800
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "E3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 186000
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "E3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 187200
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "E3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 188400
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "J5",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 189600
+        },
+        {
+            "subject": "Mike",
+            "action": "shoot",
+            "target": "I10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 190800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "H11",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 192000
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 193200
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 194400
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "K8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 195600
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "J8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 196800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "H11",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 198000
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Schmude",
+            "timestamp": 199200
+        },
+        {
+            "subject": "Isaac",
+            "action": "stimulus",
+            "target": "Charlie",
+            "timestamp": 200400
+        },
+        {
+            "subject": "Charlie",
+            "action": "move",
+            "target": "J6",
+            "timestamp": 201600
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "D10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 202800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "H11",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 204000
+        },
+        {
+            "subject": "John",
+            "action": "start_of_day",
+            "day": 9,
+            "timestamp": 205200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 206400
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "K8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 207600
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "J8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 208800
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "K8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 210000
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 211200
+        },
+        {
+            "subject": "Schmude",
+            "action": "move",
+            "target": "F10",
+            "timestamp": 212400
+        },
+        {
+            "subject": "Stomp",
+            "action": "shoot",
+            "target": "G3",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 213600
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "H11",
+            "hit": true,
+            "timestamp": 214800
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 216000
+        },
+        {
+            "subject": "Corey",
+            "action": "stimulus",
+            "target": "Schmude",
+            "timestamp": 217200
+        },
+        {
+            "subject": "Corey",
+            "action": "stimulus",
+            "target": "Schmude",
+            "timestamp": 218400
+        },
+        {
+            "subject": "Corey",
+            "action": "stimulus",
+            "target": "Charlie",
+            "timestamp": 219600
+        },
+        {
+            "subject": "Corey",
+            "action": "stimulus",
+            "target": "Ryan",
+            "timestamp": 220800
+        },
+        {
+            "subject": "Corey",
+            "action": "stimulus",
+            "target": "Bryan",
+            "timestamp": 222000
+        },
+        {
+            "subject": "Charlie",
+            "action": "shoot",
+            "target": "K8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 223200
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "J6",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 224400
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "J6",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 225600
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 226800
+        },
+        {
+            "subject": "Mike",
+            "action": "stimulus",
+            "target": "Schmude",
+            "timestamp": 228000
+        },
+        {
+            "subject": "Mike",
+            "action": "stimulus",
+            "target": "Charlie",
+            "timestamp": 229200
+        },
+        {
+            "subject": "Mike",
+            "action": "stimulus",
+            "target": "Ryan",
+            "timestamp": 230400
+        },
+        {
+            "subject": "Mike",
+            "action": "stimulus",
+            "target": "Bryan",
+            "timestamp": 231600
+        },
+        {
+            "subject": "Charlie",
+            "action": "move",
+            "target": "J7",
+            "timestamp": 232800
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 234000
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "H11",
+            "hit": true,
+            "timestamp": 235200
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "J7",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 236400
+        },
+        {
+            "subject": "Bryan",
+            "action": "shoot",
+            "target": "J7",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 237600
+        },
+        {
+            "subject": "Schmude",
+            "action": "shoot",
+            "target": "H11",
+            "hit": true,
+            "timestamp": 238800
+        },
+        {
+            "subject": "Schmude",
+            "action": "move",
+            "target": "G10",
+            "timestamp": 240000
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "G10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false
+                ]
+            },
+            "hit": false,
+            "timestamp": 241200
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "G10",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 242400
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 243600
+        },
+        {
+            "subject": "John",
+            "action": "move",
+            "target": "J9",
+            "timestamp": 244800
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 246000
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "K8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 247200
+        },
+        {
+            "subject": "John",
+            "action": "start_of_day",
+            "day": 10,
+            "timestamp": 248400
+        },
+        {
+            "subject": "Ryan",
+            "action": "shoot",
+            "target": "J9",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true,
+                    false
+                ]
+            },
+            "hit": true,
+            "timestamp": 249600
+        },
+        {
+            "subject": "Mike",
+            "action": "grant_life",
+            "target": "Ryan",
+            "timestamp": 250800
+        },
+        {
+            "subject": "Mike",
+            "action": "grant_life",
+            "target": "Ryan",
+            "timestamp": 252000
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    true,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 253200
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 254400
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 255600
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 256800
+        },
+        {
+            "subject": "John",
+            "action": "buy_action",
+            "gold": 3,
+            "timestamp": 258000
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "J8",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    false,
+                    false,
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 259200
+        },
+        {
+            "subject": "John",
+            "action": "move",
+            "target": "J10",
+            "timestamp": 260400
+        },
+        {
+            "subject": "Mike",
+            "action": "stimulus",
+            "target": "Ryan",
+            "timestamp": 261600
+        },
+        {
+            "subject": "Ryan",
+            "action": "move",
+            "target": "I7",
+            "timestamp": 262800
+        },
+        {
+            "subject": "John",
+            "action": "shoot",
+            "target": "I7",
+            "hit_roll": {
+                "type": "die-roll",
+                "manual": true,
+                "roll": [
+                    true
+                ]
+            },
+            "hit": true,
+            "timestamp": 264000
+        }
+    ],
     "initialGameState": {
-        "running": true,
-        "winner": "",
-        "type": "state",
-        "day": 0,
+        "players": [
+            {
+                "name": "Corey",
+                "type": "tank"
+            },
+            {
+                "name": "Dan",
+                "type": "tank"
+            },
+            {
+                "name": "David",
+                "type": "tank"
+            },
+            {
+                "name": "Stomp",
+                "type": "tank"
+            },
+            {
+                "name": "Trevor",
+                "type": "tank"
+            },
+            {
+                "name": "Xavion",
+                "type": "tank"
+            },
+            {
+                "name": "Charlie",
+                "type": "tank"
+            },
+            {
+                "name": "Beyer",
+                "type": "tank"
+            },
+            {
+                "name": "Ty",
+                "type": "tank"
+            },
+            {
+                "name": "Isaac",
+                "type": "tank"
+            },
+            {
+                "name": "Ryan",
+                "type": "tank"
+            },
+            {
+                "name": "Bryan",
+                "type": "tank"
+            },
+            {
+                "name": "Schmude",
+                "type": "tank"
+            },
+            {
+                "name": "John",
+                "type": "tank"
+            },
+            {
+                "name": "Lena",
+                "type": "tank"
+            },
+            {
+                "name": "Mike",
+                "type": "tank"
+            }
+        ],
         "board": {
-            "type": "board",
-            "unit_board": [
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "B1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "C1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "D1"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Corey",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 5
-                        },
-                        "position": "E1"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Dan",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "H1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "I1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "J1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "K1"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L1"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "C2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "D2"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "I2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "J2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K2"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L2"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A3"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B3"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "D3"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "I3"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K3"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L3"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "C4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 1
-                        },
-                        "position": "D4"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "David",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "E4"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Stomp",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "H4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 1
-                        },
-                        "position": "I4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "J4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K4"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L4"
-                    }
-                ],
-                [
-                    {
-                        "type": "tank",
-                        "name": "Trevor",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "A5"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Xavion",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "D5"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "E5"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "F5"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "G5"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "H5"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Charlie",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "I5"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Beyer",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "L5"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "E6"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "F6"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "G6"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "H6"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "E7"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "F7"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "G7"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "H7"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "tank",
-                        "name": "Ty",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 3
-                        },
-                        "position": "A8"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Isaac",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "D8"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "E8"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "F8"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "G8"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "H8"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Ryan",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "I8"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Bryan",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "L8"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "C9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 1
-                        },
-                        "position": "D9"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Schmude",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "E9"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "John",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "H9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 1
-                        },
-                        "position": "I9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "J9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K9"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L9"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A10"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B10"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "D10"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 2
-                        },
-                        "position": "I10"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K10"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L10"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "B11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "C11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "D11"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "I11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "J11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 4
-                        },
-                        "position": "K11"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L11"
-                    }
-                ],
-                [
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "A12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "B12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "C12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "D12"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Lena",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "E12"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Mike",
-                        "attributes": {
-                            "DURABILITY": 3,
-                            "GOLD": 0,
-                            "ACTIONS": 0,
-                            "DEAD": false,
-                            "RANGE": 2,
-                            "BOUNTY": 0
-                        },
-                        "position": "H12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "I12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "J12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "K12"
-                    },
-                    {
-                        "type": "wall",
-                        "attributes": {
-                            "DURABILITY": 6
-                        },
-                        "position": "L12"
-                    }
-                ]
+            "width": 12,
+            "height": 12,
+            "entities": [
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "B1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "C1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "D1"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 5,
+                    "type": "tank",
+                    "position": "E1",
+                    "players": [
+                        "Corey"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "H1",
+                    "players": [
+                        "Dan"
+                    ]
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "I1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "J1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "K1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L1"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "C2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "D2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "I2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "J2"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K2"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L2"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A3"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B3"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "D3"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "I3"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K3"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L3"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A4"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B4"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "C4"
+                },
+                {
+                    "durability": 1,
+                    "type": "wall",
+                    "position": "D4"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "E4",
+                    "players": [
+                        "David"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "H4",
+                    "players": [
+                        "Stomp"
+                    ]
+                },
+                {
+                    "durability": 1,
+                    "type": "wall",
+                    "position": "I4"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "J4"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K4"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L4"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "A5",
+                    "players": [
+                        "Trevor"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "D5",
+                    "players": [
+                        "Xavion"
+                    ]
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "E5"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "F5"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "G5"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "H5"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "I5",
+                    "players": [
+                        "Charlie"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "L5",
+                    "players": [
+                        "Beyer"
+                    ]
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "E6"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "F6"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "G6"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "H6"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "E7"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "F7"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "G7"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "H7"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 3,
+                    "type": "tank",
+                    "position": "A8",
+                    "players": [
+                        "Ty"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "D8",
+                    "players": [
+                        "Isaac"
+                    ]
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "E8"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "F8"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "G8"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "H8"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "I8",
+                    "players": [
+                        "Ryan"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "L8",
+                    "players": [
+                        "Bryan"
+                    ]
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A9"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B9"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "C9"
+                },
+                {
+                    "durability": 1,
+                    "type": "wall",
+                    "position": "D9"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "E9",
+                    "players": [
+                        "Schmude"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "H9",
+                    "players": [
+                        "John"
+                    ]
+                },
+                {
+                    "durability": 1,
+                    "type": "wall",
+                    "position": "I9"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "J9"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K9"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L9"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A10"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B10"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "D10"
+                },
+                {
+                    "durability": 2,
+                    "type": "wall",
+                    "position": "I10"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K10"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L10"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "B11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "C11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "D11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "I11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "J11"
+                },
+                {
+                    "durability": 4,
+                    "type": "wall",
+                    "position": "K11"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L11"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "A12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "B12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "C12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "D12"
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "E12",
+                    "players": [
+                        "Lena"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "gold": 0,
+                    "actions": 0,
+                    "range": 2,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "H12",
+                    "players": [
+                        "Mike"
+                    ]
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "I12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "J12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "K12"
+                },
+                {
+                    "durability": 6,
+                    "type": "wall",
+                    "position": "L12"
+                }
             ],
-            "floor_board": [
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "gold_mine"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "gold_mine"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "gold_mine"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "gold_mine"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ]
+            "floor": [
+                {
+                    "type": "gold_mine",
+                    "position": "C3"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": "J3"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": "C10"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": "J10"
+                }
             ]
         },
-        "council": {
-            "type": "council",
-            "coffer": 0,
-            "council": [],
-            "senate": [],
-            "armistice_vote_cap": 35,
-            "armistice_vote_count": 0,
-            "can_bounty": false
+        "metaEntities": {
+            "council": {
+                "coffer": 0,
+                "armistice": {
+                    "value": 0,
+                    "max": 35
+                },
+                "type": "council"
+            }
         }
     }
 }

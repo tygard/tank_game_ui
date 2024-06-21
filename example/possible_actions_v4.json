@@ -1,231 +1,85 @@
 {
-    "fileFormatVersion": 5,
-    "logBook": {
-        "gameVersion": "4"
-    },
+    "fileFormatVersion": 6,
+    "gameVersion": "4",
+    "openHours": [],
+    "logBook": [
+        {
+            "day": 1,
+            "timestamp": 1200
+        }
+    ],
     "initialGameState": {
-        "type": "state",
-        "running": true,
-        "winner": "",
-        "day": 0,
+        "players": [
+            {
+                "name": "Lena",
+                "type": "councilor"
+            },
+            {
+                "name": "Dan",
+                "type": "senator"
+            },
+            {
+                "name": "Schmude",
+                "type": "tank"
+            },
+            {
+                "name": "Josh",
+                "type": "tank"
+            }
+        ],
         "board": {
-            "type": "board",
-            "unit_board": [
-                [
-                    {
-                        "type": "tank",
-                        "name": "Schmude",
-                        "position": "A1",
-                        "attributes": {
-                            "GOLD": 30,
-                            "BOUNTY": 0,
-                            "DURABILITY": 3,
-                            "RANGE": 2,
-                            "ACTIONS": 5,
-                            "DEAD": false
-                        }
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Lena",
-                        "position": "B3",
-                        "attributes": {
-                            "DEAD": true,
-                            "DURABILITY": 3,
-                            "ACTIONS": 0,
-                            "RANGE": 0,
-                            "GOLD": 0,
-                            "BOUNTY": 0
-                        }
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "tank",
-                        "name": "Josh",
-                        "position": "E3",
-                        "attributes": {
-                            "DEAD": false,
-                            "DURABILITY": 3,
-                            "ACTIONS": 5,
-                            "RANGE": 4,
-                            "GOLD": 15,
-                            "BOUNTY": 0
-                        }
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ]
+            "width": 5,
+            "height": 5,
+            "entities": [
+                {
+                    "gold": 30,
+                    "bounty": 0,
+                    "health": 3,
+                    "range": 2,
+                    "actions": 5,
+                    "type": "tank",
+                    "position": "A1",
+                    "players": [
+                        "Schmude"
+                    ]
+                },
+                {
+                    "durability": 3,
+                    "gold": 0,
+                    "type": "tank",
+                    "position": "B3",
+                    "players": [
+                        "Lena"
+                    ]
+                },
+                {
+                    "health": 3,
+                    "actions": 5,
+                    "range": 4,
+                    "gold": 15,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": "E3",
+                    "players": [
+                        "Josh"
+                    ]
+                }
             ],
-            "floor_board": [
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ],
-                [
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    },
-                    {
-                        "type": "empty"
-                    }
-                ]
-            ]
+            "floor": []
         },
-        "council": {
-            "type": "council",
-            "coffer": 60,
-            "council": [
-                "Lena"
-            ],
-            "senate": [
-                "Dan"
-            ],
-            "armistice_vote_cap": 100,
-            "armistice_vote_count": 0
+        "metaEntities": {
+            "council": {
+                "coffer": 60,
+                "armistice": {
+                    "value": 0,
+                    "max": 100
+                },
+                "type": "council",
+                "players": [
+                    "Lena",
+                    "Dan"
+                ]
+            }
         }
     }
 }

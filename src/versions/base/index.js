@@ -38,8 +38,8 @@ export class GameVersion {
         return new PossibleActionSourceSet(this._actionFactory(engine));
     }
 
-    getAttributeDescriptor(attribute) {
-        const Descriptor = this._attributeDescriptors[attribute.name] || AttributeDescriptor;
-        return new Descriptor(attribute);
+    getAttributeDescriptor(name, attribute) {
+        const Descriptor = this._attributeDescriptors[name] || AttributeDescriptor;
+        return new Descriptor(name, attribute);
     }
 }

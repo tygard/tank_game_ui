@@ -26,12 +26,11 @@ export function Game({ game, setGame, debug }) {
 
     const [currentTurnMgrState, distachLogEntryMgr] = useCurrentTurnManager(gameInfo?.logBook);
     const [gameState, stateError] = useGameState(game, currentTurnMgrState.entryId);
-    const gameIsClosed = gameInfo?.openHours?.isGameOpen?.() === false /* Don't show anything if undefined */;
 
     const [builtTurnState, buildTurnDispatch] = useBuildTurn();
 
-    const versionConfig = gameInfo?.logBook?.gameVersion !== undefined ?
-        getGameVersion(gameInfo.logBook.gameVersion) : undefined;
+    const versionConfig = gameInfo?.game?.gameVersion !== undefined ?
+        getGameVersion(gameInfo.game.gameVersion) : undefined;
 
     const possibleActionsContext = useMemo(() => ({
         gameState,

@@ -1,29 +1,41 @@
 const encodedA = "A".charCodeAt(0);
 const POSITION_EXPR = /([A-Za-z]+)(\d+)/;
 
+function fromHumanReadable(humanReadable) {
+    const match = humanReadable?.match?.(POSITION_EXPR);
+    if(!match) throw new Error(`Invalid human reabale position: ${JSON.stringify(humanReadable)}`);
+
+    let x = -1;
+    let xStr = match[1];
+
+    for(let i = 0; i < xStr.length; ++i) {
+        x = (x + 1) * 26;
+        x += xStr[i].toUpperCase().charCodeAt(0) - encodedA;
+    }
+
+    return {
+        x,
+        y: +match[2] - 1,
+    };
+}
+
 export class Position {
     constructor(x, y) {
-        if(x < 0 || y < 0) {
+        if(typeof x == "string") {
+            x = fromHumanReadable(x); // Convert to x = {x, y}, y = undefined
+        }
+
+        if(typeof x?.x == "number" && typeof x?.y == "number") {
+            y = x.y;
+            x = x.x;
+        }
+
+        if(typeof x != "number" || typeof y != "number" || x < 0 || y < 0) {
             throw new Error(`Invalid position (${x}, ${y})`);
         }
 
         this.x = x;
         this.y = y;
-    }
-
-    static fromHumanReadable(humanReadable) {
-        const match = humanReadable.match(POSITION_EXPR);
-        if(!match) throw new Error(`Invalid human reabale position: ${humanReadable}`);
-
-        let x = -1;
-        let xStr = match[1];
-
-        for(let i = 0; i < xStr.length; ++i) {
-            x = (x + 1) * 26;
-            x += xStr[i].toUpperCase().charCodeAt(0) - encodedA;
-        }
-
-        return new Position(x, +match[2] - 1);
     }
 
     get humanReadableX() {

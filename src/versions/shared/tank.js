@@ -10,7 +10,7 @@ const TANK_TEAMS_WITH_ICONS = new Set([
 export class TankDescriptor extends EntityDescriptor {
     getFeaturedAttribute() {
         const {health, durability} = this.entity.attributes;
-        return health?.value || durability?.value;
+        return health || durability;
     }
 
     getTileStyle() {
@@ -18,7 +18,7 @@ export class TankDescriptor extends EntityDescriptor {
 
         let icon = isDead ? "DeadTank" : "Tank"
 
-        const team = this.entity.attributes.team?.value?.toLowerCase?.();
+        const team = this.entity.attributes.team?.toLowerCase?.();
         if(TANK_TEAMS_WITH_ICONS.has(team)) {
             icon = `Tank-${team}${isDead ? "-dead" : ""}`;
         }
@@ -34,14 +34,14 @@ export class TankDescriptor extends EntityDescriptor {
         if(actions === undefined) return;
 
         return new Badge({
-            text: actions.value,
+            text: actions,
             textColor: "#fff",
             background: "#00f",
         });
     }
 
     getIndicators() {
-        const bounty = this.entity.attributes.bounty?.value;
+        const bounty = this.entity.attributes.bounty;
         if(bounty !== undefined && bounty > 0) {
             return [
                 new Indicator({
@@ -55,7 +55,7 @@ export class TankDescriptor extends EntityDescriptor {
     }
 
     getName() {
-        return this.entity.player?.name;
+        return this.entity.players[0]?.name;
     }
 
     formatForLogEntry() {

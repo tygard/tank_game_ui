@@ -23,7 +23,7 @@ export class ShootActionSource {
         // Parse positions and remove invalid ones
         range = range.map(position => {
             try {
-                return Position.fromHumanReadable(position);
+                return new Position(position);
             }
             catch(err) {
                 logger.warn({

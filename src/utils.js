@@ -1,15 +1,5 @@
 import { logger } from "#platform/logging.js";
 
-export function objectMap(obj, mapFn) {
-    let mappedObject = {};
-
-    for(const key of Object.keys(obj)) {
-        mappedObject[key] = mapFn(obj[key], key);
-    }
-
-    return mappedObject;
-}
-
 // Remove _, - and capitalize names
 export function prettyifyName(name, { capitalize = true } = {}) {
     if(name === undefined) return;

@@ -18,7 +18,6 @@ export function makeInitalState() {
 function buildLogEntry(state, currentSpecs, locationSelector) {
     // Build the log book entry from the UI values
     let logBookEntry = {
-        type: "action",
         subject: state.subject,
         action: state._currentFactory.getActionName(),
     };

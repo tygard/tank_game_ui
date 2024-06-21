@@ -52,7 +52,7 @@ function gameAccessor(gameManager) {
 }
 
 const port = 3333;
-let gameManager = createGameManager(createEngine, true /* save updated files */);
+let gameManager = createGameManager(createEngine, false /* save updated files */);
 
 const app = express();
 

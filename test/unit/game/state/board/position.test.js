@@ -2,6 +2,14 @@ import assert from "node:assert";
 import { Position } from "../../../../../src/game/state/board/position.js";
 
 describe("Position", () => {
+    it("can construct multiple types of positions", () => {
+        const basic = new Position(2, 5);
+        const letter = new Position("C6");
+        const xy = new Position({ x: 2, y: 5 });
+        assert.deepEqual(basic, letter);
+        assert.deepEqual(letter, xy);
+    });
+
     it("can encode xy coordinates as letters", () => {
         assert.equal(new Position(0, 0).humanReadable, "A1");
         assert.equal(new Position(13, 18).humanReadable, "N19");
@@ -12,12 +20,12 @@ describe("Position", () => {
     });
 
     it("can decode xy coordinates as letters", () => {
-        assert.deepEqual(Position.fromHumanReadable("A1"), { x: 0, y: 0 });
-        assert.deepEqual(Position.fromHumanReadable("N19"), { x: 13, y: 18 });
-        assert.deepEqual(Position.fromHumanReadable("Z30"), { x: 25, y: 29 });
-        assert.deepEqual(Position.fromHumanReadable("AA30"), { x: 26, y: 29 });
-        assert.deepEqual(Position.fromHumanReadable("AB30"), { x: 27, y: 29 });
-        assert.deepEqual(Position.fromHumanReadable("BA51"), { x: 26 * 2, y: 50 });
+        assert.deepEqual(new Position("A1"), { x: 0, y: 0 });
+        assert.deepEqual(new Position("N19"), { x: 13, y: 18 });
+        assert.deepEqual(new Position("Z30"), { x: 25, y: 29 });
+        assert.deepEqual(new Position("AA30"), { x: 26, y: 29 });
+        assert.deepEqual(new Position("AB30"), { x: 27, y: 29 });
+        assert.deepEqual(new Position("BA51"), { x: 26 * 2, y: 50 });
     });
 
     it("can find the distance between two positions", () => {

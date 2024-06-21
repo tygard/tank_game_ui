@@ -36,10 +36,9 @@ export function useCurrentTurnManager(logBook) {
 
 
 function determineDayRelativeIds(state) {
-    const currentEntry = state._logBook.getEntry(state.entryId);
-    state.today = currentEntry?.day || 0;
-    const firstIdOfDay = state._logBook.getFirstEntryOfDay(state.today)?.id || 0;
-    const lastIdOfDay = state._logBook.getLastEntryOfDay(state.today)?.id || 0;
+    state.today = state._logBook.getDayOfEntryId(state.entryId) || 0;
+    const firstIdOfDay = state._logBook.getFirstEntryIdOfDay(state.today) || 0;
+    const lastIdOfDay = state._logBook.getLastEntryIdOfDay(state.today) || 0;
     state.maxEntryIdToday = (lastIdOfDay - firstIdOfDay) + 1;
     state.dayRelativeEntryId = (state.entryId - firstIdOfDay) + 1;
 }
@@ -62,7 +61,7 @@ function processTurnUpdateAction(state, action) {
 
     const nextDay = Math.min(state._logBook.getMaxDay(), state.today + 1);
     if(action.type == "next-day") {
-        state.entryId = state._logBook.getFirstEntryOfDay(nextDay).id;
+        state.entryId = state._logBook.getFirstEntryIdOfDay(nextDay);
     }
 
     if(action.type == "previous-day") {
@@ -74,7 +73,7 @@ function processTurnUpdateAction(state, action) {
             targetDay = Math.max(state._logBook.getMinDay(), state.today - 1);
         }
 
-        state.entryId = state._logBook.getFirstEntryOfDay(targetDay).id;
+        state.entryId = state._logBook.getFirstEntryIdOfDay(targetDay);
     }
 
     if(action.type == "latest-turn") {

@@ -2,8 +2,8 @@ import assert from "node:assert";
 import { FILE_FORMAT_VERSION, GameManager, MINIMUM_SUPPORTED_FILE_FORMAT_VERSION, load, save } from "../../../src/drivers/game-file.js";
 import path from "node:path";
 import fs from"node:fs";
-import { MockEngine } from "../game/execution/game-interactor.test.js";
 import { hashFile } from "../../../src/drivers/file-utils.js";
+import { MockEngine } from "../game/execution/mock-engine.js";
 
 const TEST_FILES = "test/unit/drivers/test-files";
 const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
@@ -29,9 +29,9 @@ function validateSampleFile({logBook, initialGameState, gameSettings}) {
     // Sanity check a few properties to make sure we loaded the data
     validateLogBook(logBook);
     assert.equal(gameSettings.something, "else");
-    assert.equal(initialGameState.board.unit_board.length, 11);
-    assert.equal(initialGameState.board.unit_board[0].length, 11);
-    assert.deepEqual(initialGameState.council.council, []);
+    assert.equal(initialGameState.board.height, 11);
+    assert.equal(initialGameState.board.width, 11);
+    assert.deepEqual(initialGameState.metaEntities.council.players, []);
 }
 
 

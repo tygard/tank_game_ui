@@ -4,9 +4,9 @@ import { useMemo } from "preact/hooks";
 
 
 function getAttributeDescriptors(attributes, versionConfig, excludedAttributes) {
-    const descriptors = Array.from(attributes)
-        .filter(attribute => !excludedAttributes.has(attribute.name))
-        .map(attribute => versionConfig.getAttributeDescriptor(attribute));
+    const descriptors = Object.keys(attributes)
+        .filter(attributeName => !excludedAttributes.has(attributeName))
+        .map(attributeName => versionConfig.getAttributeDescriptor(attributeName, attributes[attributeName]));
 
     let categories = {};
     for(const descriptor of descriptors) {
@@ -32,7 +32,7 @@ export function AttributeCategory({ descriptors }) {
         <table>
             {descriptors.text.map(descriptor => {
                 return (
-                    <tr key={descriptor.attribute.name}>
+                    <tr key={descriptor.name}>
                         <td>{descriptor.getNameText()}</td>
                         <td>{descriptor.getValueText()}</td>
                     </tr>

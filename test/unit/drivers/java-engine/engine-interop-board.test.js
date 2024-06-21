@@ -1,20 +1,16 @@
-import fs from "node:fs";
+/* global URL */
 import assert from "node:assert";
-import { gameStateFromRawState } from "../../../../src/drivers/java-engine/board-state.js";
+import path from "node:path";
+import { gameStateFromRawState, gameStateToRawState } from "../../../../src/drivers/java-engine/board-state.js";
+import { FILE_FORMAT_VERSION, load } from "../../../../src/drivers/game-file.js";
 
-const SUPPORTED_VERSIONS = ["v3"];
+const SAMPLE_STATE = path.join(path.dirname(new URL(import.meta.url).pathname), `../test-files/tank_game_v3_format_v${FILE_FORMAT_VERSION}.json`);
 
 describe("EngineInterop", () => {
-    describe("BoardState", () => {
-        for(const supportedVersion of SUPPORTED_VERSIONS) {
-            it(`can deserialize ${supportedVersion} state`, () => {
-                const tankGameJarState = JSON.parse(fs.readFileSync(`test/unit/drivers/test-files/jar-game-state-${supportedVersion}.json`, "utf8"));
-                const expectedTankGameJarState = JSON.parse(fs.readFileSync(`test/unit/drivers/test-files/jar-game-state-${supportedVersion}-expected.json`, "utf8"));
+    it("can translate to and from the engine state format", async () => {
+        const {initialGameState} = await load(SAMPLE_STATE);
 
-                const gameState = gameStateFromRawState(tankGameJarState);
-
-                assert.deepEqual(gameState.serialize(), expectedTankGameJarState);
-            });
-        }
+        const translated = gameStateFromRawState(gameStateToRawState(initialGameState)).gameState;
+        assert.deepEqual(translated, initialGameState);
     });
 });

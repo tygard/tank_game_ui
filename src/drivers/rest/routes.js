@@ -29,11 +29,12 @@ export function defineRoutes(app, buildInfo) {
         res.json({
             buildInfo,
             game: {
+                gameVersion: game.getGameVersion(),
                 state: game.getState(),
                 statusText: game.getStatusText(),
             },
             gameSettings: game.getSettings(),
-            openHours: game.getOpenHours().serialize({ resolved: true }),
+            openHours: game.getOpenHours().asResolved().serialize(),
             logBook: interactor.getLogBook().serialize(),
         });
     });

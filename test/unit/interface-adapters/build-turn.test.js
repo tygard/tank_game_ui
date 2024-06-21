@@ -166,7 +166,6 @@ describe("BuildTurn", () => {
                 isSelecting: false,
             },
             logBookEntry: {
-                type: "action",
                 subject: "Teddy",
                 action: "multiply",
                 left: undefined,
@@ -190,7 +189,6 @@ describe("BuildTurn", () => {
                 isSelecting: false,
             },
             logBookEntry: {
-                type: "action",
                 subject: "Teddy",
                 action: "multiply",
                 left: 5,
@@ -218,7 +216,6 @@ describe("BuildTurn", () => {
                 selectableLocations: shootLocations,
             },
             logBookEntry: {
-                type: "action",
                 subject: "Teddy",
                 action: "shoot",
                 location: undefined,
@@ -243,7 +240,6 @@ describe("BuildTurn", () => {
                 selectableLocations: shootLocations,
             },
             logBookEntry: {
-                type: "action",
                 subject: "Teddy",
                 action: "shoot",
                 location: undefined,
@@ -271,7 +267,6 @@ describe("BuildTurn", () => {
                 location: "J12"
             },
             logBookEntry: {
-                type: "action",
                 subject: "Teddy",
                 action: "shoot",
                 location: "J12",
@@ -307,7 +302,6 @@ describe("BuildTurn", () => {
                 location: "H1"
             },
             logBookEntry: {
-                type: "action",
                 subject: "Pam",
                 action: "shoot",
                 location: "H1",
@@ -401,7 +395,6 @@ describe("BuildTurn", () => {
                 isSelecting: false,
             },
             logBookEntry: {
-                type: "action",
                 action: "swapper",
                 subject: "George",
                 pick: undefined,
@@ -425,7 +418,6 @@ describe("BuildTurn", () => {
                 selectableLocations: ["A1", "B2", "C3"],
             },
             logBookEntry: {
-                type: "action",
                 action: "swapper",
                 subject: "George",
                 pick: "field",
@@ -451,7 +443,6 @@ describe("BuildTurn", () => {
                 isSelecting: false,
             },
             logBookEntry: {
-                type: "action",
                 action: "swapper",
                 subject: "George",
                 pick: "yep",
@@ -478,7 +469,6 @@ describe("BuildTurn", () => {
                 isSelecting: false,
             },
             logBookEntry: {
-                type: "action",
                 action: "swapper",
                 subject: "George",
                 pick: "thing",

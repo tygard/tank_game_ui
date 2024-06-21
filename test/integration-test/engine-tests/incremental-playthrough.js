@@ -7,7 +7,7 @@ import { OpenHours } from "../../../src/game/open-hours/index.js";
 import { getGameVersion } from "../../../src/versions/index.js";
 
 export async function incrementalPlaythrough(createEngine, testGamePath) {
-    let { logBook, initialGameState } = await load(testGamePath);
+    let { gameVersion, logBook, initialGameState } = await load(testGamePath);
 
     let lastTime = 0;
     const makeTimeStamp = () => {
@@ -15,8 +15,8 @@ export async function incrementalPlaythrough(createEngine, testGamePath) {
         return lastTime;
     };
 
-    const versionConfig = getGameVersion(logBook.gameVersion);
-    let emptyLogBook = new LogBook(logBook.gameVersion, [], versionConfig, makeTimeStamp);
+    const versionConfig = getGameVersion(gameVersion);
+    let emptyLogBook = new LogBook([], makeTimeStamp);
 
     let fullEngine = createEngine();
     let incrementalEngine = createEngine();
@@ -27,9 +27,11 @@ export async function incrementalPlaythrough(createEngine, testGamePath) {
         // This triggers a set version, set state, and a series of process actions
         logger.debug("[integration-test] Process actions as a group");
         let fullInteractor = new GameInteractor({
+            logEntryFormatter: versionConfig,
             engine: fullEngine,
             actionFactories: fullFactories,
             gameData: {
+                gameVersion,
                 logBook,
                 initialGameState,
                 openHours: new OpenHours([]),
@@ -40,9 +42,11 @@ export async function incrementalPlaythrough(createEngine, testGamePath) {
         // This triggers a set version and then a set state and process action for each entry
         logger.debug("[integration-test] Process individual actions");
         let incrementalInteractor = new GameInteractor({
+            logEntryFormatter: versionConfig,
             engine: incrementalEngine,
             actionFactories: incrementalFactories,
             gameData: {
+                gameVersion,
                 logBook: emptyLogBook,
                 initialGameState,
                 openHours: new OpenHours([]),
@@ -56,16 +60,17 @@ export async function incrementalPlaythrough(createEngine, testGamePath) {
         // Wait for the full interactor to finish loading
         await fullInteractor.loaded;
 
-        for(const entry of logBook) {
+        for(let id = 0; id < logBook.getLength(); ++id) {
+            const entry = logBook.getEntry(id);
             // Compare the entries and states and make sure they match
-            let incrementalEntry = emptyLogBook.getEntry(entry.id).serialize();
+            let incrementalEntry = emptyLogBook.getEntry(id).serialize();
             let fullEntry = entry.serialize();
             // Timestamps won't be in sync ignore them
             delete incrementalEntry.timestamp;
             delete fullEntry.timestamp;
 
             assert.deepEqual(incrementalEntry, fullEntry);
-            assert.deepEqual(fullInteractor.getGameStateById(entry.id), incrementalInteractor.getGameStateById(entry.id));
+            assert.deepEqual(fullInteractor.getGameStateById(id), incrementalInteractor.getGameStateById(id));
         }
     }
     finally {
