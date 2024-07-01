@@ -15,15 +15,7 @@ function checkNextStart(schedule, now, expected) {
 }
 
 function makeDate(year, month, day, hours, minutes) {
-    let date = new Date();
-    date.setFullYear(year);
-    date.setMonth(month - 1);
-    date.setDate(day);
-    date.setHours(hours);
-    date.setMinutes(minutes);
-    date.setSeconds(0);
-    date.setMilliseconds(0);
-    return date;
+    return new Date(year, month - 1, day, hours, minutes);
 }
 
 const monday1133 = makeDate(2024, 4, 29, 11, 33);

@@ -47,6 +47,7 @@ export class LogBook {
             rawEntries = [
                 {
                     day: 1,
+                    timestamp: makeTimeStamp(),
                 }
             ];
         }
