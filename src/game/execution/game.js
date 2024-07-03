@@ -163,7 +163,7 @@ export class Game {
     }
 
     hasAutomaticStartOfDay() {
-        return !!this._automaticStartOfDay;
+        return this._openHours?.hasAutomaticStartOfDay?.();
     }
 
     getInteractor() {
