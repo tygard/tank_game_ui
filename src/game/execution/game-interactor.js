@@ -8,7 +8,7 @@ export class GameInteractor {
         this._gameData = gameData;
         this._gameStates = [];
         this._lock = new PromiseLock();
-        this._previousState = engine.getEngineStateFromGameState(gameData.initialGameState);
+        this._previousState = engine.getEngineStateFromGameState(gameData.initialGameState, this._gameData.gameVersion);
         this._actionFactories = actionFactories;
         this._onGameOver = onGameOver;
         this._logEntryFormatter = logEntryFormatter;

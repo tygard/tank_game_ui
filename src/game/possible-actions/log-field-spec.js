@@ -40,7 +40,7 @@ export class LogFieldSpec {
                 const display = this._getDisplayKey(option);
 
                 if(this._optionToValue[display] !== undefined) {
-                    throw new Error(`While building log field spec ${name} (${type}) found duplicate display value: ${display}`);
+                    throw new Error(`While building log field spec ${name} (${type}) found duplicate display value: ${JSON.stringify(display)}`);
                 }
 
                 this._optionToValue[display] = option.value !== undefined ? option.value : option;

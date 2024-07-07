@@ -10,7 +10,7 @@ describe("EngineInterop", () => {
     it("can translate to and from the engine state format", async () => {
         const {initialGameState} = await load(SAMPLE_STATE);
 
-        const translated = gameStateFromRawState(gameStateToRawState(initialGameState)).gameState;
+        const translated = gameStateFromRawState(gameStateToRawState(initialGameState, "3")).gameState;
         assert.deepEqual(translated, initialGameState);
     });
 });

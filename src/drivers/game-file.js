@@ -7,7 +7,7 @@ import { logger } from "#platform/logging.js";
 import { OpenHours } from "../game/open-hours/index.js";
 import { getGameVersion } from "../versions/index.js";
 import { Game } from "../game/execution/game.js";
-import { gameStateFromRawState } from "./java-engine/board-state.js";
+import { gameStateFromRawState } from "./java-engine/legacy-board-state.js";
 import { GameState } from "../game/state/game-state.js";
 
 export const FILE_FORMAT_VERSION = 6;

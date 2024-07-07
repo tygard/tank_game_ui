@@ -28,6 +28,17 @@ const TANK_GAME_ENGINE_COMMAND = (function() {
     return command;
 })();
 
+const COUNCIL_ACTIONS = ["bounty", "grant_life", "stimulus"];
+
+function convertLogEntry(logEntry) {
+    let subject = COUNCIL_ACTIONS.includes(logEntry.type) ? "Council" : logEntry.rawLogEntry.subject;
+
+    return {
+        ...logEntry.rawLogEntry,
+        subject,
+    };
+}
+
 // Put ids on the engines so we can differentiate them in logs
 let uniqueIdCounter = 0;
 
@@ -216,8 +227,8 @@ class TankGameEngine {
         return gameStateFromRawState(state);
     }
 
-    getEngineStateFromGameState(state) {
-        return gameStateToRawState(state);
+    getEngineStateFromGameState(state, gameVersion) {
+        return gameStateToRawState(state, gameVersion);
     }
 
     async getBoardState() {
@@ -241,16 +252,19 @@ class TankGameEngine {
     async processAction(action) {
         await this._sendRequestAndWait({
             type: "action",
-            ...action.withoutStateInfo().serialize(),
+            ...convertLogEntry(action),
         });
 
         return this.getBoardState();
     }
 
     async setGameVersion(version) {
+        // TODO: Update version names
+        if(!isNaN(version)) version = `default-v${version}`;
+
         await this._sendRequestAndWait({
             type: "version",
-            version
+            version,
         });
     }
 

@@ -1,6 +1,7 @@
 import { GenericPossibleAction } from "../../game/possible-actions/generic-possible-action.js";
 import { logger } from "#platform/logging.js";
 import { LogFieldSpec } from "../../game/possible-actions/log-field-spec.js";
+import { Position } from "../../game/state/board/position.js";
 
 export class JavaEngineSource {
     constructor({ actionsToSkip = [] } = {}) {
@@ -56,7 +57,7 @@ export class JavaEngineSource {
                 return new LogFieldSpec({
                     type: "select-position",
                     options: field.range.map(tank => {
-                        const position = tank.entities?.[0]?.position?.humanReadable || tank.position;
+                        const position = (tank.entities?.[0]?.position || new Position(tank.$POSITION)).humanReadable;
                         if(typeof position !== "string") {
                             logger.error({
                                 msg: "Expected a object with position or player",
@@ -65,9 +66,11 @@ export class JavaEngineSource {
                             throw new Error(`Got bad data expected a position but got ${position}`);
                         }
 
+                        const name = tank.name || tank.$PLAYER_REF.name;
+
                         return {
                             position,
-                            value: tank.name,
+                            value: name,
                         };
                     }),
                     ...commonFields,
@@ -77,7 +80,14 @@ export class JavaEngineSource {
             if(field.data_type == "position") {
                 return new LogFieldSpec({
                     type: "select-position",
-                    options: field.range.map(position => ({ position, value: position })),
+                    options: field.range.map(position => {
+                        position = new Position(position).humanReadable;
+
+                        return {
+                            position,
+                            value: position,
+                        };
+                    }),
                     ...commonFields,
                 });
             }

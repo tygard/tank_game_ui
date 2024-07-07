@@ -9,39 +9,78 @@ import { GameState } from "../../game/state/game-state.js";
 import Player from "../../game/state/players/player.js";
 import Players from "../../game/state/players/players.js";
 import { Position } from "../../game/state/board/position.js";
-import { logger } from "#platform/logging.js";
+
 
 const deadTankAttributesToRemove = ["ACTIONS", "RANGE", "BOUNTY"];
 
+function mapTypeToClass(type, boardType, gameVersion) {
+    if(type == "empty") {
+        return boardType == "entity" ? "EmptyUnit" : "WalkableFloor";
+    }
+
+    if(type == "tank") {
+        switch(gameVersion) {
+            case "3": return "GenericTank";
+            case "4": return "GenericTank";
+        }
+    }
+
+    const className = {
+        wall: "Wall",
+        gold_mine: "GoldMine",
+    }[type];
+
+    if(className === undefined) throw new Error(`Could not find class name for ${type}`);
+
+    return className;
+}
+
+function mapClassToType(className) {
+    const type = {
+        Wall: "wall",
+        GoldMine: "gold_mine",
+        GenericTank: "tank",
+        EmptyUnit: "empty",
+        WalkableFloor: "empty",
+        GlobalCooldownTank: "tank",
+    }[className];
+
+    if(type === undefined) throw new Error(`Could not find type for ${className}`);
+
+    return type;
+}
+
 
 export function gameStateFromRawState(rawGameState) {
-    let councilPlayers = [];
-    const playersByName = buildUserLists(rawGameState, councilPlayers);
+    const playersByName = buildUserLists(rawGameState);
 
-    let board = convertBoard(undefined, rawGameState.board.unit_board, (newBoard, rawEntity, position) => {
+    let board = convertBoard(undefined, rawGameState.$BOARD.unit_board, (newBoard, rawEntity, position) => {
         newBoard.setEntity(entityFromBoard(rawEntity, position, playersByName));
     });
 
-    board = convertBoard(board, rawGameState.board.floor_board, (newBoard, space, position) => {
-        newBoard.setFloorTile(new Entity({ type: space.type, position }));
+    board = convertBoard(board, rawGameState.$BOARD.floor_board, (newBoard, space, position) => {
+        newBoard.setFloorTile(new Entity({
+            type: mapClassToType(space.class),
+            position,
+        }));
     });
 
     let gameState = new GameState(
         new Players(Object.values(playersByName)),
         board,
         {
-            council: convertCouncil(rawGameState.council, councilPlayers),
+            council: convertCouncil(rawGameState.$COUNCIL, playersByName),
         },
     );
 
     let victoryInfo;
 
-    if(rawGameState.winner?.length > 1) {
+    if(rawGameState.$WINNER?.length > 1) {
         victoryInfo = {
-            type: rawGameState.winner == "Council" ? "armistice_vote" : "last_tank_standing",
-            winners: rawGameState.winner == "Council" ?
+            type: rawGameState.$WINNER == "Council" ? "armistice_vote" : "last_tank_standing",
+            winners: rawGameState.$WINNER == "Council" ?
                 gameState.metaEntities.council.players :
-                [gameState.players.getPlayerByName(rawGameState.winner)],
+                [gameState.players.getPlayerByName(rawGameState.$WINNER)],
         };
     }
 
@@ -51,60 +90,105 @@ export function gameStateFromRawState(rawGameState) {
     };
 }
 
-function getAttributeName(name, rawEntity) {
+function getAttributeName(name, type, rawAttributes) {
     name = name.toLowerCase();
 
-    if(rawEntity.type == "tank" && !rawEntity.attributes.DEAD && name == "durability") {
+    if(name.startsWith("$")) {
+        name = name.slice(1);
+    }
+
+    if(type == "tank" && !rawAttributes.$DEAD && name == "durability") {
         return "health";
     }
 
     return name;
 }
 
-function convertCouncil(rawCouncil, players) {
-    let attributes = {
-        coffer: rawCouncil.coffer,
-    };
+function shouldKeepAttribute(attributeName, rawAttributes) {
+    if(!attributeName.startsWith("$")) return false;
 
-    if(rawCouncil.armistice_vote_cap !== undefined) {
-        attributes.armistice = {
-            value: rawCouncil.armistice_vote_count,
-            max: rawCouncil.armistice_vote_cap
-        };
-    }
-
-    return new Entity({ type: "council", attributes, players });
-}
-
-function shouldKeepAttribute(attributeName, rawEntity) {
-    if(attributeName == "DEAD") {
+    if(["$DEAD", "$POSITION", "$PLAYER_REF"].includes(attributeName)) {
         return false;
     }
 
-    if(rawEntity.type == "tank" && rawEntity.attributes.DEAD) {
+    if(rawAttributes.$DEAD) {
         return !deadTankAttributesToRemove.includes(attributeName);
     }
 
     return true;
 }
 
-function entityFromBoard(rawEntity, position, playersByName) {
+function decodeAttributes(type, rawAttributes) {
     let attributes = {};
 
-    if(rawEntity.attributes) {
-        for(const attributeName of Object.keys(rawEntity.attributes)) {
-            if(!shouldKeepAttribute(attributeName, rawEntity)) continue;
+    for(const attributeName of Object.keys(rawAttributes)) {
+        if(!shouldKeepAttribute(attributeName, rawAttributes)) continue;
 
-            const actualName = getAttributeName(attributeName, rawEntity);
+        const actualName = getAttributeName(attributeName, type, rawAttributes);
+        attributes[actualName] = rawAttributes[attributeName];
+    }
 
-            attributes[actualName] = rawEntity.attributes[attributeName];
+    return attributes;
+}
+
+function convertPlayer(rawPlayer) {
+    if(rawPlayer.class != "Player") throw new Error(`Expected player but got ${rawPlayer.class}`);
+
+    return new Player(decodeAttributes(undefined, rawPlayer));
+}
+
+function getCouncilPlayers(rawCouncil, playersByName) {
+    let councilPlayers = [];
+
+    const councilGroups = [
+        [rawCouncil.$COUNCILLORS.elements, "councilor"],
+        [rawCouncil.$SENATORS.elements, "senator"]
+    ];
+
+    for(const [users, userType] of councilGroups) {
+        for(const playerRef of users) {
+            const {name} = playerRef;
+            if(playersByName[name]) {
+                // Being a councelor overrides the user's previous state
+                playersByName[name].attributes.type = userType;
+            }
+
+            councilPlayers.push(playersByName[name]);
         }
     }
 
-    const player = playersByName[rawEntity.name];
-    let entity = new Entity({ type: rawEntity.type, position, attributes });
+    return councilPlayers;
+}
 
-    if(player) {
+function convertCouncil(rawCouncil, playersByName) {
+    let attributes = {
+        coffer: rawCouncil.$COFFER,
+    };
+
+    if(rawCouncil.armistice_vote_cap !== undefined) {
+        attributes.armistice = {
+            value: rawCouncil.$ARMISTICE_VOTE_COUNT,
+            max: rawCouncil.$ARMISTICE_VOTE_CAP,
+        };
+    }
+
+    const players = getCouncilPlayers(rawCouncil, playersByName);
+    return new Entity({ type: "council", attributes, players });
+}
+
+function entityFromBoard(rawEntity, position, playersByName) {
+    const type = mapClassToType(rawEntity.class);
+    let attributes = decodeAttributes(type, rawEntity);
+
+    let entity = new Entity({
+        type,
+        position,
+        attributes,
+    });
+
+    const {$PLAYER_REF} = rawEntity;
+    if($PLAYER_REF) {
+        const player = playersByName[$PLAYER_REF.name];
         entity.addPlayer(player);
     }
 
@@ -138,57 +222,25 @@ function convertBoard(newBoard, board, boardSpaceFactory) {
     return newBoard;
 }
 
-function buildUserLists(rawGameState, councilPlayers) {
+function buildUserLists(rawGameState) {
     let playersByName = {};
-    processCouncil(rawGameState, playersByName, councilPlayers);
-    findUsersOnGameBoard(rawGameState, playersByName);
+
+    for(const rawPlayer of rawGameState.$PLAYERS.elements) {
+        playersByName[rawPlayer.$NAME] = convertPlayer(rawPlayer);
+    }
 
     return playersByName;
 }
 
-function processCouncil(rawGameState, playersByName, councilPlayers) {
-    // Ensure that players remain in the same order
-    rawGameState.council.council.sort();
-    rawGameState.council.senate.sort();
-
-    const councilGroups = [
-        [rawGameState.council.council, "councilor"],
-        [rawGameState.council.senate, "senator"]
-    ];
-
-    for(const [users, userType] of councilGroups) {
-        for(const userName of users) {
-            if(playersByName[userName]) {
-                // Being a councelor overrides the user's previous state
-                playersByName[userName].type = userType;
-            }
-            else {
-                playersByName[userName] = new Player({ name: userName, type: userType });
-            }
-
-            councilPlayers.push(playersByName[userName]);
-        }
-    }
-}
-
-function findUsersOnGameBoard(rawGameState, playersByName) {
-    for(const row of rawGameState.board.unit_board) {
-        for(const rawEntity of row) {
-            if(rawEntity.name) {
-                let player = playersByName[rawEntity.name];
-                if(!player) {
-                    player = new Player({
-                        name: rawEntity.name,
-                        type: rawEntity.dead ? "council" : "tank",
-                    });
-                    playersByName[rawEntity.name] = player;
-                }
-            }
-        }
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////
+
+function buildPosition(position) {
+    return {
+        class: "Position",
+        x: position.x,
+        y: position.y,
+    };
+}
 
 function buildBoard(board, entityFn) {
     let rawBoard = [];
@@ -205,49 +257,79 @@ function buildBoard(board, entityFn) {
     return rawBoard;
 }
 
-function buildUnit(position, board) {
+function buildPlayerRef(player) {
+    return {
+        class: "PlayerRef",
+        name: player.name,
+    };
+}
+
+function buildPlayer(player) {
+    let attributes = {};
+
+    for(const attributeName of Object.keys(player.attributes)) {
+        attributes["$" + attributeName.toUpperCase()] = player.attributes[attributeName];
+    }
+
+    return {
+        class: "Player",
+        ...attributes,
+    };
+}
+
+function buildUnit(position, board, gameVersion) {
     const entity = board.getEntityAt(position);
 
     let attributes = {};
     for(const attributeName of Object.keys(entity.attributes)) {
-        attributes[attributeName.toUpperCase()] = entity.attributes[attributeName];
+        attributes["$" + attributeName.toUpperCase()] = entity.attributes[attributeName];
     }
 
     if(entity.type == "tank") {
-        attributes.DEAD = entity.attributes.durability !== undefined;
+        attributes.$DEAD = entity.attributes.durability !== undefined;
 
         for(const removedAttibute of deadTankAttributesToRemove) {
-            if(attributes[removedAttibute] === undefined) {
-                attributes[removedAttibute] = 0;
+            if(attributes["$" + removedAttibute] === undefined) {
+                attributes["$" + removedAttibute] = 0;
             }
         }
 
-        if(attributes.DURABILITY === undefined) {
-            attributes.DURABILITY = attributes.HEALTH;
-            delete attributes.HEALTH;
+        if(attributes.$DURABILITY === undefined) {
+            attributes.$DURABILITY = attributes.$HEALTH;
+            delete attributes.$HEALTH;
         }
     }
 
+    attributes.$POSITION = buildPosition(entity.position);
+
+    if(entity.players.length > 0) {
+        attributes.$PLAYER_REF = buildPlayerRef(entity.players[0]);
+    }
+
     return {
-        type: entity.type,
-        name: entity.players[0]?.attributes?.name,
-        position: entity.position.humanReadable,
-        attributes,
+        class: mapTypeToClass(entity.type, "entity", gameVersion),
+        ...attributes,
     };
 }
 
-function buildFloor(position, board) {
+function buildFloor(position, board, gameVersion) {
     const tile = board.getFloorTileAt(position);
 
     return {
-        type: tile.type,
+        class: mapTypeToClass(tile.type, "floorTile", gameVersion),
+        $POSITION: buildPosition(tile.position),
     };
 }
 
 function makeCouncilList(council, playerType) {
-    return council.players
+    const players = council.players
         .filter(player => player.type == playerType)
-        .map(player => player.name);
+        .map(player => buildPlayerRef(player));
+
+    return {
+        "class": "AttributeList",
+        elements: players,
+    }
 }
 
 function makeCouncil(councilEntity) {
@@ -256,32 +338,35 @@ function makeCouncil(councilEntity) {
     if(councilEntity.attributes.armistice !== undefined) {
         additionalAttributes = {
             ...additionalAttributes,
-            armistice_vote_count: councilEntity.attributes.armistice.value,
-            armistice_vote_cap: councilEntity.attributes.armistice.max,
+            $ARMISTICE_COUNT: councilEntity.attributes.armistice.value,
+            $ARMISTICE_MAX: councilEntity.attributes.armistice.max,
         };
     }
 
     return {
-        type: "council",
-        coffer: councilEntity.attributes.coffer,
+        class: "Council",
+        $COFFER: councilEntity.attributes.coffer,
         ...additionalAttributes,
-        council: makeCouncilList(councilEntity, "councilor"),
-        senate: makeCouncilList(councilEntity, "senator"),
+        $COUNCILLORS: makeCouncilList(councilEntity, "councilor"),
+        $SENATORS: makeCouncilList(councilEntity, "senator"),
     };
 }
 
-export function gameStateToRawState(gameState) {
+export function gameStateToRawState(gameState, gameVersion) {
     return {
-        type: "state",
+        class: "State",
         // It's assumed that we only interact with the engine when the game is active
-        running: true,
-        winner: "",
-        day: 0,
-        board: {
-            type: "board",
-            unit_board: buildBoard(gameState.board, buildUnit),
-            floor_board: buildBoard(gameState.board, buildFloor),
+        $RUNNING: true,
+        $TICK: 0,
+        $BOARD: {
+            class: "Board",
+            unit_board: buildBoard(gameState.board, (position, board) => buildUnit(position, board, gameVersion)),
+            floor_board: buildBoard(gameState.board, (position, board) => buildFloor(position, board, gameVersion)),
         },
-        council: makeCouncil(gameState.metaEntities.council),
+        $COUNCIL: makeCouncil(gameState.metaEntities.council),
+        $PLAYERS: {
+            class: "AttributeList",
+            elements: gameState.players.getAllPlayers().map(player => buildPlayer(player)),
+        },
     };
 }
