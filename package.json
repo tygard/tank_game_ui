@@ -20,7 +20,7 @@
     "dependencies": {
         "express": "^4.19.1",
         "pino": "^9.2.0",
-        "pino-http": "^10.1.0",
+        "pino-http": "^10.2.0",
         "pino-pretty": "^11.2.1"
     },
     "devDependencies": {
