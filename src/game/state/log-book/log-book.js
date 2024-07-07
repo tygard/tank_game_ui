@@ -1,6 +1,6 @@
 import { LogEntry } from "./log-entry.js";
 
-const defaultMakeTimeStamp = () => Math.floor(Date.now() / 1000);
+const defaultMakeTimeStamp = () => Date.now();
 
 const DEFAULT_TIME_INTERVAL = 20 * 60; // 20 minutes
 
@@ -42,6 +42,8 @@ export class LogBook {
     }
 
     static deserialize(rawEntries, makeTimeStamp) {
+        if(!makeTimeStamp) makeTimeStamp = defaultMakeTimeStamp;
+
         // 0 length log books are not supported start day 1 if we have no entries
         if(rawEntries === undefined || rawEntries.length === 0) {
             rawEntries = [
