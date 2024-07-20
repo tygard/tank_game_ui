@@ -24,7 +24,7 @@
         "pino-pretty": "^11.2.1"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "^7.24.7",
+        "@babel/eslint-parser": "^7.24.8",
         "@babel/plugin-transform-react-jsx": "^7.24.7",
         "@babel/preset-env": "^7.24.8",
         "@eslint/js": "^8.57.0",
