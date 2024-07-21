@@ -31,7 +31,7 @@ export class Game {
             await callback();
         }
         catch(err) {
-            logger.warn({ msg: "Failed to load game", err });
+            logger.warn({ msg: "Failed to load game", gameName: this.name, err });
             this._state = "error";
             this._error = err.message;
             return;  // failed to load the game bail
@@ -217,5 +217,9 @@ export class Game {
 
     getVictoryInfo() {
         return this._victoryInfo;
+    }
+
+    getEngineVersionInfo() {
+        return this._factories.createEngine().getVersionInfo();
     }
 }

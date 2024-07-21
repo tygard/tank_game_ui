@@ -2,7 +2,6 @@
 import express from "express";
 import { createGameManager } from "../game-file.js";
 import { logger } from "#platform/logging.js"
-import { makeHttpLogger } from "#platform/logging.js";
 import { defineRoutes } from "./routes.js";
 import { createEngine } from "../java-engine/engine-interface.js";
 
@@ -56,7 +55,6 @@ let gameManager = createGameManager(createEngine, true /* save updated files */)
 
 const app = express();
 
-app.use(makeHttpLogger());
 app.use(express.json());
 app.use(gameAccessor(gameManager));
 

@@ -70,4 +70,8 @@ export default class Board {
     isInBounds(position) {
         return position.x < this.width && position.y < this.height;
     }
+
+    getAllEntities() {
+        return Object.values(this._entities);
+    }
 }

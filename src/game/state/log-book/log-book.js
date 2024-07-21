@@ -1,6 +1,6 @@
 import { LogEntry } from "./log-entry.js";
 
-const defaultMakeTimeStamp = () => Date.now();
+const defaultMakeTimeStamp = () => Math.floor(Date.now() / 1000);
 
 const DEFAULT_TIME_INTERVAL = 20 * 60; // 20 minutes
 

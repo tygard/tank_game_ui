@@ -7,7 +7,6 @@ import { AttributeList } from "./attribute-list.jsx";
 
 function EntityDetails({ descriptor, entity, setSelectedUser, canSubmitAction, closePopup, versionConfig }) {
     const title = prettyifyName(descriptor.getName() || entity.type);
-    const subTitle = prettyifyName(entity.type);
 
     const takeActionHandler = (player) => {
         setSelectedUser(player.name);
@@ -30,7 +29,6 @@ function EntityDetails({ descriptor, entity, setSelectedUser, canSubmitAction, c
         <>
             <div className="entity-details-title-wrapper">
                 <h2>{title}</h2>
-                {title != subTitle ? <i className="entity-details-title-type">{subTitle}</i> : undefined}
             </div>
             <AttributeList attributes={entity.attributes} versionConfig={versionConfig}></AttributeList>
             {takeActionButtons}

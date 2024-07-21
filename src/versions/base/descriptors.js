@@ -141,6 +141,7 @@ export class AttributeDescriptor {
     // How should this attribute be displayed
     //   text - plain text: attribute  value
     //   pill - display the attribute in a bubble with some optional secondary text
+    //   hidden - do not display
     displayAs() {
         return "text";
     }

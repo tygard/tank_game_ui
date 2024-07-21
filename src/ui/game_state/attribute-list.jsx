@@ -16,6 +16,8 @@ function getAttributeDescriptors(attributes, versionConfig, excludedAttributes) 
         }
 
         const displayAs = descriptor.displayAs();
+        if(displayAs == "hidden") continue;
+
         if(categories[category][displayAs] === undefined) {
             categories[category][displayAs] = [];
         }

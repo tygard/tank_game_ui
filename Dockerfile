@@ -45,6 +45,7 @@ COPY entrypoint.sh /entrypoint.sh
 COPY example/*.json /data/games/
 
 ENV TANK_GAMES_FOLDER=/data/games/
+ENV TANK_GAME_LOGS_FOLDER=/data/logs/
 ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/usr/local/bin/npm", "start"]

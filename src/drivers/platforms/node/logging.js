@@ -1,6 +1,5 @@
 /* globals process */
 import pino from "pino";
-import pinoHttp from "pino-http";
 import pinoPretty from "pino-pretty";
 import fs from "node:fs";
 import path from "node:path";
@@ -24,7 +23,10 @@ function mkdirpSync(folder) {
 
 export let logger;
 
-export function configureLogging({ logFile, logLevel, overwrite } = {}) {
+export function configureLogging({ logFile, logLevel, overwrite, logToConsole = false } = {}) {
+    logLevel || (logLevel = "info");
+    let streams = [];
+
     if(logFile) {
         mkdirpSync(path.dirname(logFile));
 
@@ -35,35 +37,34 @@ export function configureLogging({ logFile, logLevel, overwrite } = {}) {
             }
             catch(err){} // eslint-disable-line no-unused-vars, no-empty
         }
+
+        streams.push({
+            level: logLevel,
+            stream: pinoPretty({
+                colorize: false,
+                destination: logFile,
+            }),
+        });
+    }
+
+    if(logToConsole) {
+        streams.push({
+            level: logLevel,
+            stream: pinoPretty({
+                colorize: process.stdout.isTTY,
+                destination: 1, // stdout
+            }),
+        })
     }
 
     logger = pino(
         {
-            level: logLevel || "info",
+            level: logLevel,
         },
-        pinoPretty({
-            colorize: !logFile,
-            destination: logFile || 1 // 1 = stdout
-        })
+        pino.multistream(streams),
     );
 }
 
-export function makeHttpLogger() {
-    return pinoHttp({
-        logger,
-        serializers: {
-            req: (req) => ({
-                id: req.id,
-                method: req.method,
-                url: req.url,
-            }),
-
-            res: (res) => ({
-                statusCode: res.statusCode,
-            }),
-        },
-    });
-}
 
 process.on('uncaughtException', function (err) {
     logger.error({
@@ -73,7 +74,15 @@ process.on('uncaughtException', function (err) {
 });
 
 
+let logFile;
+if(process.env.TANK_GAME_LOGS_FOLDER) {
+    const today = new Date();
+    logFile = path.join(process.env.TANK_GAME_LOGS_FOLDER, `tank-game-${today.getFullYear()}-${today.getMonth()}-${today.getDate()}.log`);
+}
+
 configureLogging({
-    logFile: process.env.LOG_FILE,
+    logToConsole: true,
+    overwrite: false,
+    logFile,
     logLevel: process.env.LOG_LEVEL,
 });

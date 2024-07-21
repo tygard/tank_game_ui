@@ -8,6 +8,7 @@ import { JavaEngineSource } from "./possible-action-source.js";
 import { PromiseLock } from "../../utils.js";
 
 const TANK_GAME_TIMEOUT = 3; // seconds
+const ENGINE_NAME_EXPR = /TankGame-(.+?).jar$/;
 
 const ENGINE_SEARCH_DIR = process.env.TANK_GAME_ENGINE_SEARCH_DIR || "engine";
 const TANK_GAME_ENGINE_COMMAND = (function() {
@@ -285,6 +286,17 @@ class TankGameEngine {
         }
 
         return targets.range;
+    }
+
+    getVersionInfo() {
+        const fileName = this._command
+            .map(arg => ENGINE_NAME_EXPR.exec(arg))
+            .filter(arg => arg);
+
+        if(fileName.length !== 1) return "Unknown engine";
+
+        const version = fileName[0][1];
+        return `Java Engine v${version}`;
     }
 }
 

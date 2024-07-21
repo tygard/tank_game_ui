@@ -2,7 +2,7 @@
 const MAX_RELOAD_FREQUENCY = 24 * 60 * 60 * 1000; // 1 day in ms
 
 
-export function AppContent({ debugMode, withSidebar, toolbar, buildInfo, children }) {
+export function AppContent({ debugMode, withSidebar, toolbar, buildInfo, engineInfo, children }) {
     return (
         <div className={`app-wrapper ${withSidebar ? "with-sidebar" : ""}`}>
             {debugMode}
@@ -11,7 +11,7 @@ export function AppContent({ debugMode, withSidebar, toolbar, buildInfo, childre
             <div className="app-content">
                 {children}
                 <footer>
-                    <i>{APP_VERSION}</i>
+                    <i>{APP_VERSION}{engineInfo ? ` - ${engineInfo}` : undefined}</i>
                 </footer>
             </div>
         </div>

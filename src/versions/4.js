@@ -1,6 +1,7 @@
 import { GameVersion } from "./base/index.js";
 import { rawV3Config } from "./3.js";
 import { Wall } from "./shared/wall.js";
+import { findGlobalCooldowns } from "./shared/global-cooldown.js";
 
 class V4WallDescriptor extends Wall {
     wallUrls = {
@@ -20,4 +21,5 @@ export const version4 = new GameVersion({
         wall: V4WallDescriptor,
     },
     manualPath: "/manuals/Tank_Game_Rules_v4.pdf",
+    findCooldowns: findGlobalCooldowns,
 });
