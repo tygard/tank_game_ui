@@ -36,7 +36,6 @@ ENV BUILD_INFO=${BUILD_INFO}
 
 # Copy everything over to the final image
 COPY src /app/src
-COPY public /app/www/
 COPY --from=frontend /build/dist/ /app/www/
 COPY --from=engine /build/target/TankGame-*.jar /app/engine/
 COPY entrypoint.sh /entrypoint.sh

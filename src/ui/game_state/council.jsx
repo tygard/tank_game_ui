@@ -25,7 +25,8 @@ export function Council({ gameState, config, setSelectedUser, canSubmitAction })
                             name={playerType}
                             users={players}
                             canSubmitAction={canSubmitAction}
-                            setSelectedUser={setSelectedUser}></Section>
+                            setSelectedUser={setSelectedUser}
+                            gameState={gameState}></Section>
                     );
                 })}
             </div>
@@ -34,13 +35,14 @@ export function Council({ gameState, config, setSelectedUser, canSubmitAction })
 }
 
 
-function Section({ name, users, setSelectedUser, canSubmitAction }) {
+function Section({ name, users, setSelectedUser, canSubmitAction, gameState }) {
     return (
         <>
             <h3>{prettyifyName(name)}s</h3>
             <ul>
                 {users.map(user => {
-                    const hasEntitiesOnBoard = user.entities.find(entity => entity.position !== undefined);
+                    const entities = gameState.getEntitiesByPlayer(user);
+                    const hasEntitiesOnBoard = entities.find(entity => entity.position !== undefined);
                     const actionButton = !hasEntitiesOnBoard && canSubmitAction ? (
                         <button onClick={() => setSelectedUser(user.name)} className="council-action-button">
                             Take Action

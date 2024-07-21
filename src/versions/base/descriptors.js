@@ -1,12 +1,14 @@
+/* global location, SITE_PUBLIC_PATH */
 import { prettyifyName } from "../../utils.js";
 
 export function imageBackground(url) {
-    return url?.length > 0 ? `url("/assets/${url}.png")` : undefined;
+    return url?.length > 0 ? `url("${SITE_PUBLIC_PATH}assets/${url}.png")` : undefined;
 }
 
 export class EntityDescriptor {
-    constructor(entity) {
+    constructor(entity, gameState) {
         this.entity = entity;
+        this.gameState = gameState;
     }
 
     // Get the badge to display in the bottom right corner of the tile

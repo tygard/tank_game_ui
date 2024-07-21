@@ -219,6 +219,14 @@ export class Game {
         return this._victoryInfo;
     }
 
+    getBasicGameInfo() {
+        return {
+            gameVersion: this.getGameVersion(),
+            state: this.getState(),
+            statusText: this.getStatusText(),
+        };
+    }
+
     getEngineVersionInfo() {
         return this._factories.createEngine().getVersionInfo();
     }

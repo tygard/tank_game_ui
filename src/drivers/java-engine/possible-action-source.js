@@ -1,6 +1,7 @@
 import { GenericPossibleAction } from "../../game/possible-actions/generic-possible-action.js";
 import { logger } from "#platform/logging.js";
 import { LogFieldSpec } from "../../game/possible-actions/log-field-spec.js";
+import Player from "../../game/state/players/player.js";
 import { Position } from "../../game/state/board/position.js";
 
 export class JavaEngineSource {
@@ -23,7 +24,7 @@ export class JavaEngineSource {
             // This action will be handled by another factory
             if(this._actionsToSkip.has(actionName)) return;
 
-            const fieldSpecs = this._buildFieldSpecs(possibleAction.fields);
+            const fieldSpecs = this._buildFieldSpecs(possibleAction.fields, gameState);
 
             // There is no way this action could be taken
             if(!fieldSpecs) return;
@@ -39,7 +40,7 @@ export class JavaEngineSource {
         .filter(possibleAction => possibleAction !== undefined);
     }
 
-    _buildFieldSpecs(fields) {
+    _buildFieldSpecs(fields, gameState) {
         let unSubmitableAction = false;
         const specs = fields.map(field => {
             const commonFields = {
@@ -57,7 +58,8 @@ export class JavaEngineSource {
                 return new LogFieldSpec({
                     type: "select-position",
                     options: field.range.map(tank => {
-                        const position = (tank.entities?.[0]?.position || new Position(tank.$POSITION)).humanReadable;
+                        const entities = tank instanceof Player && gameState.getEntitiesByPlayer(tank);
+                        const position = (entities?.[0]?.position || new Position(tank.$POSITION)).humanReadable;
                         if(typeof position !== "string") {
                             logger.error({
                                 msg: "Expected a object with position or player",

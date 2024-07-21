@@ -26,9 +26,9 @@ export function Select({ spec, value, setValue }) {
 }
 
 export function SelectPosition({ builtTurnState }) {
-    const {location} = builtTurnState.locationSelector;
-    const message = location ?
-        `${location} (select a different space to change)` :
+    const {locations} = builtTurnState.locationSelector;
+    const message = locations?.length > 0 ?
+        `${locations.join(", ")} (select a different space to change)` :
         `Select a location on the board`;
 
     return (

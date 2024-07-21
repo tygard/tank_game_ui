@@ -29,11 +29,7 @@ export function defineRoutes(app, buildInfo) {
         res.json({
             buildInfo,
             engineInfo: game.getEngineVersionInfo(),
-            game: {
-                gameVersion: game.getGameVersion(),
-                state: game.getState(),
-                statusText: game.getStatusText(),
-            },
+            game: game.getBasicGameInfo(),
             gameSettings: game.getSettings(),
             openHours: game.getOpenHours().asResolved().serialize(),
             logBook: interactor.getLogBook().serialize(),

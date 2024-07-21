@@ -1,6 +1,7 @@
 import Player from "../../../../../src/game/state/players/player.js";
 import assert from "node:assert";
 import Players from "../../../../../src/game/state/players/players.js";
+import { stripPlayerIds } from "../../../helpers.js";
 
 const ty = new Player({ name: "Ty", type: "councilor" });
 const corey = new Player({ name: "Corey", type: "tank" });
@@ -40,6 +41,10 @@ describe("Board", () => {
             let players3 = new Players([beyer, ty]);
 
             const reSerializedPlayers = Players.deserialize(players3.serialize());
+
+            stripPlayerIds(reSerializedPlayers);
+            stripPlayerIds(players3);
+
             assert.deepEqual(reSerializedPlayers, players3);
         });
     });

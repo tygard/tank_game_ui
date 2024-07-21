@@ -5,12 +5,17 @@
 }
 
 .game-board {
+    user-select: none;
     border: 1px solid;
     display: inline-block;
 }
 
 .game-board-row {
     display: flex;
+}
+
+.board-space.board-space-cut {
+    border: 2px dashed;
 }
 
 .board-space {
@@ -39,6 +44,11 @@
     cursor: pointer;
 }
 
-.board-space-selected {
-    background: red !important;
+.board-space-selected-overlay {
+    width: 100%;
+    height: 100%;
+}
+
+.board-space-overlay-selected {
+    background: url('../../../public/assets/selected.png');
 }

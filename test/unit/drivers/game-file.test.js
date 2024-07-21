@@ -5,6 +5,9 @@ import fs from"node:fs";
 import { hashFile } from "../../../src/drivers/file-utils.js";
 import { MockEngine } from "../game/execution/mock-engine.js";
 
+import util from "node:util";
+import { stripPlayerIds } from "../helpers.js";
+
 const TEST_FILES = "test/unit/drivers/test-files";
 const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
 const sampleFilePath = path.join(TEST_FILES, `${sampleFileBaseName}.json`);
@@ -31,7 +34,7 @@ function validateSampleFile({logBook, initialGameState, gameSettings}) {
     assert.equal(gameSettings.something, "else");
     assert.equal(initialGameState.board.height, 11);
     assert.equal(initialGameState.board.width, 11);
-    assert.deepEqual(initialGameState.metaEntities.council.players, []);
+    assert.deepEqual(initialGameState.metaEntities.council.getPlayerRefs(), []);
 }
 
 
@@ -50,6 +53,12 @@ describe("GameFile", () => {
 
             const oldFile = await load(oldFilePath);
             const newFile = await load(sampleFilePath);
+
+            delete oldFile.logBook._makeTimeStamp;
+            delete newFile.logBook._makeTimeStamp;
+
+            stripPlayerIds(oldFile);
+            stripPlayerIds(newFile);
 
             assert.deepEqual(oldFile, newFile);
         });

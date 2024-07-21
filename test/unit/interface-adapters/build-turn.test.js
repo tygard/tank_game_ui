@@ -264,7 +264,7 @@ describe("BuildTurn", () => {
                 isSelecting: true,
                 _specName: "location",
                 selectableLocations: shootLocations,
-                location: "J12"
+                locations: ["J12"],
             },
             logBookEntry: {
                 subject: "Teddy",
@@ -299,7 +299,7 @@ describe("BuildTurn", () => {
                 isSelecting: true,
                 _specName: "location",
                 selectableLocations: shootLocations,
-                location: "H1"
+                locations: ["H1"],
             },
             logBookEntry: {
                 subject: "Pam",

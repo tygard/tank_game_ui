@@ -1,6 +1,9 @@
-.board-space-entity-title {
+.board-space-entity-title, .board-space-entity-title-placeholder {
     height: 33%;
     width: 100%;
+}
+
+.board-space-entity-title {
     background: #333;
     color: #fff;
 }
@@ -16,10 +19,6 @@
 .board-space-attribute-featured {
     flex-grow: 1;
     width: 100%;
-}
-
-.board-space-attribute-featured.board-space-no-label {
-    height: 100%;
 }
 
 .entity-details-title-wrapper {
@@ -47,12 +46,13 @@
 }
 
 .board-space-entity-badge {
-    padding: 0px 2px;
+    padding: 0px 0.2em;
     font-size: 0.8em;
 }
 
 .board-space-entity-badges {
     display: flex;
+    height: 1em;
 }
 
 .board-space-entity-badges .separator {

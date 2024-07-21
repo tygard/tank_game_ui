@@ -18,7 +18,7 @@ export class TankDescriptor extends EntityDescriptor {
 
         let icon = isDead ? "DeadTank" : "Tank"
 
-        const team = this.entity.attributes.team?.toLowerCase?.();
+        const team = this._getPlayer()?.attributes?.team?.toLowerCase?.();
         if(TANK_TEAMS_WITH_ICONS.has(team)) {
             icon = `Tank-${team}${isDead ? "-dead" : ""}`;
         }
@@ -54,8 +54,15 @@ export class TankDescriptor extends EntityDescriptor {
         return [];
     }
 
+    _getPlayer() {
+        const playerRef = this.entity.getPlayerRefs()[0];
+        if(playerRef) {
+            return playerRef.getPlayer(this.gameState);
+        }
+    }
+
     getName() {
-        return this.entity.players[0]?.name;
+        return this._getPlayer()?.name;
     }
 
     formatForLogEntry() {

@@ -24,7 +24,7 @@ function buildLogEntry(state, currentSpecs, locationSelector) {
 
     for(const spec of currentSpecs) {
         const value = spec.name == locationSelector._specName ?
-            locationSelector.location :
+            locationSelector.locations?.[0] :
             state.uiFieldValues[spec.name];
 
         logBookEntry[spec.name] = spec.translateValue(value);
@@ -79,8 +79,10 @@ function updateActionData(state) {
         locationSelector._specName = locationSpecs[0].name;
 
         // Reuse the location if it still makes sense
-        if(locationSelector._specName == state.locationSelector._specName && locationSelector.selectableLocations.includes(state.locationSelector.location)) {
-            locationSelector.location = state.locationSelector.location;
+        if(locationSelector._specName == state.locationSelector._specName &&
+                state.locationSelector.locations !== undefined &&
+                locationSelector.selectableLocations.includes(state.locationSelector.locations[0])) {
+            locationSelector.locations = state.locationSelector.locations;
         }
     }
     else if(locationSpecs.length > 1) {
@@ -203,7 +205,7 @@ export function buildTurnReducer(state, invocation) {
                 ...state,
                 locationSelector: {
                     ...state.locationSelector,
-                    location: invocation.location,
+                    locations: [invocation.location],
                 },
             });
     }

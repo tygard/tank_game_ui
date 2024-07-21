@@ -26,11 +26,13 @@ function getDiceForShot({ gameState, subject, target }) {
         throw new Error(`No such player ${subject}`)
     }
 
-    if(player.entities.length != 1) {
+    const entities = gameState.getEntitiesByPlayer(player);
+
+    if(entities.length != 1) {
         throw new Error(`Expected player ${player.name} to have exactly 1 entity for shooting`);
     }
 
-    const playerEntity = player.entities[0];
+    const playerEntity = entities[0];
     const targetEntity = gameState.board.getEntityAt(new Position(target));
 
     // This target has health we must roll

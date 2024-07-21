@@ -11,8 +11,8 @@ const buildInfo = process.env.BUILD_INFO;
 // Helper to make interacting with games easier for routes
 function gameAccessor(gameManager) {
     return (req, res, next) => {
-        function getGameIfAvailable() {
-            const game = gameManager.getGame(req.params.gameName);
+        function getGameIfAvailable(name) {
+            const game = gameManager.getGame(name || req.params.gameName);
 
             if(!game) {
                 res.json({

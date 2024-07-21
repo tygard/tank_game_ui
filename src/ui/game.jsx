@@ -15,7 +15,7 @@ import { selectLocation, setSubject, useBuildTurn } from "../interface-adapters/
 import { CooldownList } from "./game_state/cooldown-list.jsx";
 
 
-export function Game({ game, setGame, debug }) {
+export function Game({ game, navigate, debug }) {
     // We want to be able to force refresh out game info after submitting an action
     // so we create this state that game info depends on so when change it game info
     // gets refreshed
@@ -46,7 +46,7 @@ export function Game({ game, setGame, debug }) {
         distachLogEntryMgr(goToLatestTurn());
     };
 
-    const backToGamesButton = <button onClick={() => setGame(undefined)}>Back to games</button>;
+    const backToGamesButton = <button onClick={() => navigate("home")}>Back to games</button>;
 
     // The backend is still loading the game
     if(error?.code == "game-loading") {
@@ -75,7 +75,6 @@ export function Game({ game, setGame, debug }) {
             extraButtonsLeft={backToGamesButton}
             debug={debug}
             logBook={gameInfo?.logBook}
-            setGame={setGame}
             currentTurnMgrState={currentTurnMgrState}
             distachLogEntryMgr={distachLogEntryMgr}></LogEntrySelector>
     );
@@ -93,7 +92,7 @@ export function Game({ game, setGame, debug }) {
                     <div className="app-side-by-side-main">
                         {gameMessage !== undefined ? <div>{gameMessage}</div> : undefined}
                         <GameBoard
-                            board={gameState?.board}
+                            gameState={gameState}
                             config={versionConfig}
                             canSubmitAction={canSubmitAction}
                             setSelectedUser={setSelectedUser}

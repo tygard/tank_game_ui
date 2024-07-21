@@ -7,7 +7,6 @@ import { GameState } from "../../game/state/game-state.js";
 import { LogEntry } from "../../game/state/log-book/log-entry.js";
 
 const FETCH_FREQUENCY = 2; // seconds
-const GAME_URL_EXPR = /^\/game\/([^/]+)$/g;
 
 export class ServerError extends Error {
     constructor(error) {
@@ -81,34 +80,6 @@ function makeReactDataFetchHelper(options) {
 
         return [data, error];
     };
-}
-
-function getGameFromUrl() {
-    const match = GAME_URL_EXPR.exec(location.pathname);
-    return match && match[1];
-}
-
-export function useGame() {
-    const [game, setGame] = useState(getGameFromUrl());
-
-    const setGameWrapper = useCallback(newGame => {
-        setGame(newGame);
-
-        const newUrl = newGame === undefined ? "/" : `/game/${newGame}`;
-        history.pushState(undefined, undefined, newUrl);
-    }, [setGame]);
-
-    const popStateHandler = useCallback(() => {
-        setGame(getGameFromUrl());
-    }, [setGame]);
-
-    useEffect(() => {
-        window.addEventListener("popstate", popStateHandler);
-
-        return () => window.removeEventListener("popstate", popStateHandler);
-    }, [popStateHandler]);
-
-    return [game, setGameWrapper];
 }
 
 export const useGameList = makeReactDataFetchHelper({

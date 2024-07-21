@@ -4,13 +4,13 @@ import { useGameList } from "../drivers/rest/fetcher.js";
 import { ErrorMessage } from "./error_message.jsx";
 import { AppContent } from "./app-content.jsx";
 
-export function GameSelector({ setGame, debug }) {
+export function GameSelector({ navigate, debug }) {
     const [games, error] = useGameList();
 
     const selectGame = useCallback((e, newGame) => {
         e.preventDefault();
-        setGame(newGame);
-    }, [setGame]);
+        navigate("play-game", { gameName: newGame });
+    }, [navigate]);
 
     if(error) {
         return (

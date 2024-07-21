@@ -17,9 +17,9 @@ export class GameVersion {
         return this._logFormatter.format(logEntry, gameState, this);
     }
 
-    getEntityDescriptor(entity) {
+    getEntityDescriptor(entity, gameState) {
         const Descriptor = this._entryDescriptors[entity.type] || EntityDescriptor;
-        return new Descriptor(entity);
+        return new Descriptor(entity, gameState);
     }
 
     getFloorTileDescriptor(floorTile) {

@@ -36,7 +36,7 @@ class FormatingHelpers {
             const entityAtLocation = this._gameState.board.getEntityAt(position);
             // Don't set info for empty entities so players can see the floor
             if(entityAtLocation && entityAtLocation.type != "empty") {
-                const descriptor = this._version.getEntityDescriptor(entityAtLocation);
+                const descriptor = this._version.getEntityDescriptor(entityAtLocation, this._gameState);
                 info = descriptor.formatForLogEntry();
             }
         }

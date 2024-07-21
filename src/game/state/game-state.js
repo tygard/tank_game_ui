@@ -27,15 +27,35 @@ export class GameState {
     serialize() {
         let metaEntities = {};
         for(const entityName of Object.keys(this.metaEntities)) {
-            metaEntities[entityName] = this.metaEntities[entityName].serialize();
+            metaEntities[entityName] = this.metaEntities[entityName].serialize(this);
         }
 
         let raw = {
             players: this.players.serialize(),
-            board: this.board.serialize(),
+            board: this.board.serialize(this),
             metaEntities,
         };
 
         return raw;
+    }
+
+    modify({ players, board, metaEntities } = {}) {
+        return new GameState(
+            players || this.players,
+            board || this.board,
+            metaEntities || this.metaEntities);
+    }
+
+    _getAllEntities() {
+        let allEntities = Object.values(this.metaEntities);
+        allEntities = allEntities.concat(this.board.getAllEntities());
+        return allEntities;
+    }
+
+    getEntitiesByPlayer(player) {
+        return this._getAllEntities()
+            .filter(entity => {
+                return !!entity.getPlayerRefs().find(playerRef => playerRef.isFor(player));
+            });
     }
 }

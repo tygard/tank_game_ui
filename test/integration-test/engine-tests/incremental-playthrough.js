@@ -5,6 +5,7 @@ import { load } from "../../../src/drivers/game-file.js";
 import { logger } from "#platform/logging.js";
 import { OpenHours } from "../../../src/game/open-hours/index.js";
 import { getGameVersion } from "../../../src/versions/index.js";
+import { stripPlayerIds } from "../../unit/helpers.js";
 
 export async function incrementalPlaythrough(createEngine, testGamePath) {
     let { gameVersion, logBook, initialGameState } = await load(testGamePath);
@@ -70,6 +71,10 @@ export async function incrementalPlaythrough(createEngine, testGamePath) {
             delete fullEntry.timestamp;
 
             assert.deepEqual(incrementalEntry, fullEntry);
+
+            stripPlayerIds(fullInteractor.getGameStateById(id));
+            stripPlayerIds(incrementalInteractor.getGameStateById(id));
+
             assert.deepEqual(fullInteractor.getGameStateById(id), incrementalInteractor.getGameStateById(id));
         }
     }
