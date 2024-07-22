@@ -88,4 +88,8 @@ describe("Board", () => {
         assert.equal(shiftedBoard.getEntityAt(new Position("F3")).type, "tank");
         assert.equal(shiftedBoard.getFloorTileAt(new Position("D3")).type, "gold_mine");
     });
+
+    it("can get the referenced players", () => {
+        assert.ok(tank2.getPlayerRefs()[0].isFor(josh));
+    });
 });

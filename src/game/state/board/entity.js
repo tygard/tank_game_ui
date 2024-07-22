@@ -27,7 +27,7 @@ export default class Entity {
      * @param {*} player the player or PlayerRef to add
      */
     addPlayer(player) {
-        this._playerRefs.push(player.asRef !== undefined ? player.asRef() : undefined);
+        this._playerRefs.push(player.asRef !== undefined ? player.asRef() : player);
     }
 
     /**
