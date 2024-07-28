@@ -114,18 +114,48 @@ export const usePossibleActionFactories = makeReactDataFetchHelper({
     parse: rawActionFactories => NamedFactorySet.deserialize(rawActionFactories),
 });
 
-export async function submitTurn(game, logbookEntry) {
-    const res = await fetch(`/api/game/${game}/turn`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(logbookEntry),
-    });
+export const useAvilableEngines = makeReactDataFetchHelper({
+    url: "/api/engine/",
+    frequency: FETCH_FREQUENCY,
+});
 
+async function fetchHelper(url, jsonBody) {
+    let opts = {};
+
+    if(jsonBody !== undefined) {
+        opts = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(jsonBody),
+        };
+    }
+
+    const res = await fetch(url, opts);
     const result = await res.json();
 
     if(!result.success) throw new Error(result.error);
 
+    return result;
+}
+
+export async function submitTurn(game, logBookEntry) {
+    const result = await fetchHelper(`/api/game/${game}/turn`, logBookEntry);
+
     return LogEntry.deserialize(result.entry);
+}
+
+export async function reloadGame(gameName) {
+    await fetchHelper(`/api/game/${gameName}/reload`);
+}
+
+export async function reloadAllGames() {
+    await fetchHelper("/api/games/reload");
+}
+
+export async function selectEngineForVersion(gameVersion, engineId) {
+    await fetchHelper(`/api/engine/game-version/${gameVersion}`, {
+        engineId,
+    });
 }

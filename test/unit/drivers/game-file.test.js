@@ -4,8 +4,6 @@ import path from "node:path";
 import fs from"node:fs";
 import { hashFile } from "../../../src/drivers/file-utils.js";
 import { MockEngine } from "../game/execution/mock-engine.js";
-
-import util from "node:util";
 import { stripPlayerIds } from "../helpers.js";
 
 const TEST_FILES = "test/unit/drivers/test-files";
@@ -80,11 +78,15 @@ describe("GameFile", () => {
     });
 
     it("can load all of the games in a folder", async () => {
-        const mockEngineFactory = () => new MockEngine();
+        const mockEngineManager = {
+            getEngineFactory: () => ({
+                createEngine: () => new MockEngine(),
+            }),
+        };
 
         // This test logs load errors to the console as warnings.  You may want to set the LOG_LEVEL to info
         // in the package.json if you want to debug this test.
-        const gameManager = new GameManager(TEST_FILES, mockEngineFactory, {
+        const gameManager = new GameManager(TEST_FILES, mockEngineManager, {
             gameVersion: new MockGameVersion(),
         });
 

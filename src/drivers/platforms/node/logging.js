@@ -14,6 +14,7 @@ function mkdirpSync(folder) {
 
             // Use regular mkdir to avoid infine loops if something else goes wrong
             fs.mkdirSync(folder);
+            return;
         }
 
         // If we get any other error code than folder already exists throw it

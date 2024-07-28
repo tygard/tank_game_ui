@@ -13,10 +13,15 @@ export class JavaEngineSource {
         const player = gameState.players.getPlayerByName(playerName);
         if(!player) return [];
 
-        const isCouncil = ["senator", "councilor"].includes(player.type);
-        const subject = playerName;
+        let playerToRequest = playerName;
+        if(!engine._isMainBranch) {
+            const isCouncil = ["senator", "councilor"].includes(player.type);
+            if(isCouncil) {
+                playerToRequest = "Council";
+            }
+        }
 
-        let possibleActions = await engine.getPossibleActions(isCouncil ? "Council" : playerName);
+        const possibleActions = await engine.getPossibleActions(playerToRequest);
 
         return possibleActions.map(possibleAction => {
             const actionName = possibleAction.rule;
@@ -30,7 +35,7 @@ export class JavaEngineSource {
             if(!fieldSpecs) return;
 
             return new GenericPossibleAction({
-                subject,
+                subject: playerName,
                 actionName: actionName,
                 fieldSpecs,
             });
@@ -38,6 +43,10 @@ export class JavaEngineSource {
 
         // Remove any actions that can never be taken
         .filter(possibleAction => possibleAction !== undefined);
+    }
+
+    _getPositionFromJava(tank) {
+        return new Position(tank.$POSITION !== undefined ? tank.$POSITION : tank.position);
     }
 
     _buildFieldSpecs(fields, gameState) {
@@ -59,7 +68,7 @@ export class JavaEngineSource {
                     type: "select-position",
                     options: field.range.map(tank => {
                         const entities = tank instanceof Player && gameState.getEntitiesByPlayer(tank);
-                        const position = (entities?.[0]?.position || new Position(tank.$POSITION)).humanReadable;
+                        const position = (entities?.[0]?.position || this._getPositionFromJava(tank)).humanReadable;
                         if(typeof position !== "string") {
                             logger.error({
                                 msg: "Expected a object with position or player",

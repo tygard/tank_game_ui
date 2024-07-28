@@ -12,9 +12,13 @@ export function GameSelector({ navigate, debug }) {
         navigate("play-game", { gameName: newGame });
     }, [navigate]);
 
+    const toolbar = debug ? (<>
+        <button onClick={() => navigate("backstage")}>Backstage</button>
+    </>) : undefined;
+
     if(error) {
         return (
-            <AppContent debugMode={debug}>
+            <AppContent debugMode={debug} toolbar={toolbar}>
                 <ErrorMessage error={error}></ErrorMessage>
             </AppContent>
         );
@@ -22,12 +26,12 @@ export function GameSelector({ navigate, debug }) {
 
     if(!games) {
         return (
-            <AppContent debugMode={debug}>Loading...</AppContent>
+            <AppContent debugMode={debug} toolbar={toolbar}>Loading...</AppContent>
         );
     }
 
     return (
-        <AppContent debugMode={debug}>
+        <AppContent debugMode={debug} toolbar={toolbar}>
             <h1>Games</h1>
             <div>
                 {games.map(game => {

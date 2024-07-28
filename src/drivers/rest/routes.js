@@ -2,10 +2,11 @@ import express from "express";
 import fs from "node:fs";
 import path from "node:path";
 import { logger } from "#platform/logging.js";
+import { getGameVersion } from "../../versions/index.js";
 
 const STATIC_DIR = "www";
 
-export function defineRoutes(app, buildInfo) {
+export function defineRoutes(app, buildInfo, engineManager) {
     try {
         fs.accessSync(STATIC_DIR);
         app.use(express.static(STATIC_DIR));
@@ -20,6 +21,19 @@ export function defineRoutes(app, buildInfo) {
             state: game.getState(),
             statusText: game.getStatusText(),
         })));
+    });
+
+    app.get("/api/games/reload", async (req, res) => {
+        try {
+            req.games.gameManager.reload();
+            res.json({ success: true });
+        }
+        catch(err) {
+            res.json({
+                success: false,
+                error: `Failed to reload games: ${err.message}`,
+            });
+        }
     });
 
     app.get("/api/game/:gameName/", (req, res) => {
@@ -93,6 +107,43 @@ export function defineRoutes(app, buildInfo) {
 
         const factories = await interactor.getActions(req.params.playerName);
         res.json(factories.serialize());
+    });
+
+    app.get("/api/game/:gameName/reload", async (req, res) => {
+        try {
+            req.games.gameManager.reload({ gameName: req.params.gameName });
+            res.json({ success: true });
+        }
+        catch(err) {
+            res.json({
+                success: false,
+                error: `Failed to reload game: ${err.message}`,
+            });
+        }
+    });
+
+    app.get("/api/engine/", async (req, res) => {
+        res.json(
+            engineManager.listAvailableEngines()
+                .map(gameVersionInfo => ({
+                    ...gameVersionInfo,
+                    supportedByUI: !!getGameVersion(gameVersionInfo.gameVersion),
+                }))
+        );
+    });
+
+    app.post("/api/engine/game-version/:gameVersion", async (req, res) => {
+        try {
+            engineManager.selectEngineForVersion(req.params.gameVersion, req.body.engineId);
+            req.games.gameManager.reload({ gameVersion: req.params.gameVersion });
+            res.json({ success: true });
+        }
+        catch(err) {
+            res.json({
+                success: false,
+                error: `Failed to switch engine versions: ${err.message}`,
+            });
+        }
     });
 
     app.use(function(req, res) {

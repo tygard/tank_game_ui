@@ -145,6 +145,23 @@
                 "showReuseMessage": true,
                 "clear": true
             }
+        },
+        {
+            "label": "Build all engines",
+            "type": "process",
+            "command": "./scripts/build-all-engines",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
         }
     ]
 }

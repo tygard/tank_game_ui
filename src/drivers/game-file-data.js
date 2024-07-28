@@ -1,7 +1,7 @@
 import { LogBook } from "../game/state/log-book/log-book.js";
 import { OpenHours } from "../game/open-hours/index.js";
 import { getGameVersion } from "../versions/index.js";
-import { gameStateFromRawState } from "./java-engine/legacy-board-state.js";
+import { gameStateFromRawState } from "./java-engine/board-state-stable.js";
 import { GameState } from "../game/state/game-state.js";
 import Players from "../game/state/players/players.js";
 import Board from "../game/state/board/board.js";

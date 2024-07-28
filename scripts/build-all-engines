@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd "$(git rev-parse --show-toplevel)/engine"
+
+mvn clean
+git fetch origin
+
+git checkout origin/stable
+mvn compile package
+git checkout origin/main
+mvn compile package
+
+cd ..
+git submodule update

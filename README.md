@@ -10,7 +10,7 @@ If you want to save your games run run `docker run --rm -it -p 3333:3333 -v <pat
 
 ### Running releases with a custom tank game jar
 
-You can sepecify a custom tank game engine with `TANK_GAME_ENGINE_COMMAND` or by placing a jar in `/app/engine/` ex `docker run --rm -it -p 3333:3333 --init -v $(pwd):/app/engine ghcr.io/tankgameorg/ui`.
+You can sepecify a custom tank game engine by placing a jar in `/app/engine/` ex `docker run --rm -it -p 3333:3333 --init -v $(pwd):/app/engine ghcr.io/tankgameorg/ui`.
 
 ### Debugging
 

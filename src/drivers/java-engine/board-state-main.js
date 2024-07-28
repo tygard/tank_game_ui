@@ -2,6 +2,8 @@
 //
 // These functions serve to create an abstraction between tank_game_ui and TankGame engine.
 // By doing so we limit the scope of the changes required to support new versions of the engine.
+//
+// This file specifically targets the current main version v0.0.3
 
 import Board from "../../game/state/board/board.js";
 import Entity from "../../game/state/board/entity.js";
@@ -235,7 +237,7 @@ function buildUserLists(rawGameState) {
 
 ////////////////////////////////////////////////////////////////////////////////
 
-function buildPosition(position) {
+export function buildPosition(position) {
     return {
         class: "Position",
         x: position.x,

@@ -1,6 +1,6 @@
 import { GameBoard } from "./game_state/board.jsx";
 import { useCallback, useMemo, useState } from "preact/hooks";
-import { useGameInfo, useGameState } from "../drivers/rest/fetcher.js";
+import { reloadGame, useGameInfo, useGameState } from "../drivers/rest/fetcher.js";
 import { LogEntrySelector } from "./game_state/log_entry_selector.jsx"
 import { SubmitTurn } from "./game_state/submit-turn/submit-turn.jsx";
 import { Council } from "./game_state/council.jsx";
@@ -46,19 +46,29 @@ export function Game({ game, navigate, debug }) {
         distachLogEntryMgr(goToLatestTurn());
     };
 
-    const backToGamesButton = <button onClick={() => navigate("home")}>Back to games</button>;
+    const debugButtons = (
+        <>
+            <button onClick={() => navigate("backstage")}>Backstage</button>
+            <button onClick={() => reloadGame(game)}>Reload game</button>
+        </>
+    );
+
+    const toolbarButtons = <>
+        <button onClick={() => navigate("home")}>Back to games</button>
+        {debug ? debugButtons : undefined}
+    </>;
 
     // The backend is still loading the game
     if(error?.code == "game-loading") {
         return <AppContent>
-            {backToGamesButton}
+            {toolbarButtons}
             <p>Loading Game...</p>
         </AppContent>;
     }
 
     if(error) {
         return <AppContent>
-            {backToGamesButton}
+            {toolbarButtons}
             <ErrorMessage error={error}></ErrorMessage>
         </AppContent>;
     }
@@ -72,7 +82,7 @@ export function Game({ game, navigate, debug }) {
 
     const toolBar = (
         <LogEntrySelector
-            extraButtonsLeft={backToGamesButton}
+            extraButtonsLeft={toolbarButtons}
             debug={debug}
             logBook={gameInfo?.logBook}
             currentTurnMgrState={currentTurnMgrState}

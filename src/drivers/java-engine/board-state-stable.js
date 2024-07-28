@@ -1,6 +1,9 @@
 // State translation functions
 //
-// These are the translation functions for the old engine state they exist to migrate v5 game files to v6
+// These functions serve to create an abstraction between tank_game_ui and TankGame engine.
+// By doing so we limit the scope of the changes required to support new versions of the engine.
+//
+// This file specifically targets the current stable version v0.0.2
 
 import Board from "../../game/state/board/board.js";
 import Entity from "../../game/state/board/entity.js";
@@ -8,6 +11,7 @@ import { GameState } from "../../game/state/game-state.js";
 import Player from "../../game/state/players/player.js";
 import Players from "../../game/state/players/players.js";
 import { Position } from "../../game/state/board/position.js";
+import { logger } from "#platform/logging.js";
 
 const deadTankAttributesToRemove = ["ACTIONS", "RANGE", "BOUNTY"];
 
@@ -38,7 +42,7 @@ export function gameStateFromRawState(rawGameState) {
         victoryInfo = {
             type: rawGameState.winner == "Council" ? "armistice_vote" : "last_tank_standing",
             winners: rawGameState.winner == "Council" ?
-                gameState.metaEntities.council.getPlayerRefs().map(ref => ref.getPlayer(gameState)) :
+                gameState.metaEntities.council.players :
                 [gameState.players.getPlayerByName(rawGameState.winner)],
         };
     }
@@ -97,6 +101,10 @@ function entityFromBoard(rawEntity, position, playersByName) {
 
             attributes[actualName] = rawEntity.attributes[attributeName];
         }
+    }
+
+    if(rawEntity.last_action_time) {
+        attributes.last_action_time = rawEntity.last_action_time;
     }
 
     const player = playersByName[rawEntity.name];
@@ -184,4 +192,103 @@ function findUsersOnGameBoard(rawGameState, playersByName) {
             }
         }
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+function buildBoard(board, entityFn) {
+    let rawBoard = [];
+
+    for(let y = 0; y < board.height; ++y) {
+        let row = [];
+        rawBoard.push(row);
+
+        for(let x = 0; x < board.width; ++x) {
+            row.push(entityFn(new Position(x, y), board));
+        }
+    }
+
+    return rawBoard;
+}
+
+function buildUnit(position, board, gameState) {
+    const entity = board.getEntityAt(position);
+
+    let attributes = {};
+    for(const attributeName of Object.keys(entity.attributes)) {
+        attributes[attributeName.toUpperCase()] = entity.attributes[attributeName];
+    }
+
+    if(entity.type == "tank") {
+        attributes.DEAD = entity.attributes.durability !== undefined;
+
+        for(const removedAttibute of deadTankAttributesToRemove) {
+            if(attributes[removedAttibute] === undefined) {
+                attributes[removedAttibute] = 0;
+            }
+        }
+
+        if(attributes.DURABILITY === undefined) {
+            attributes.DURABILITY = attributes.HEALTH;
+            delete attributes.HEALTH;
+        }
+    }
+
+    return {
+        type: entity.type,
+        name: entity.getPlayerRefs()[0]?.getPlayer(gameState)?.attributes?.name,
+        position: entity.position.humanReadable,
+        attributes,
+    };
+}
+
+function buildFloor(position, board) {
+    const tile = board.getFloorTileAt(position);
+
+    return {
+        type: tile.type,
+    };
+}
+
+function makeCouncilList(council, playerType, gameState) {
+    return council.getPlayerRefs()
+        .map(playerRef => playerRef.getPlayer(gameState))
+        .filter(player => player.type == playerType)
+        .map(player => player.name);
+}
+
+function makeCouncil(councilEntity, gameState) {
+    let additionalAttributes = {};
+
+    if(councilEntity.attributes.armistice !== undefined) {
+        additionalAttributes = {
+            ...additionalAttributes,
+            armistice_vote_count: councilEntity.attributes.armistice.value,
+            armistice_vote_cap: councilEntity.attributes.armistice.max,
+        };
+    }
+
+    return {
+        type: "council",
+        coffer: councilEntity.attributes.coffer,
+        ...additionalAttributes,
+        council: makeCouncilList(councilEntity, "councilor", gameState),
+        senate: makeCouncilList(councilEntity, "senator", gameState),
+    };
+}
+
+export function gameStateToRawState(gameState) {
+    return {
+        type: "state",
+        // It's assumed that we only interact with the engine when the game is active
+        running: true,
+        winner: "",
+        day: 0,
+        board: {
+            type: "board",
+            unit_board: buildBoard(gameState.board, (position, board) => buildUnit(position, board, gameState)),
+            floor_board: buildBoard(gameState.board, buildFloor),
+        },
+        council: makeCouncil(gameState.metaEntities.council, gameState),
+    };
 }
