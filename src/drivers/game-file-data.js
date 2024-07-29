@@ -5,6 +5,7 @@ import { gameStateFromRawState } from "./java-engine/board-state-stable.js";
 import { GameState } from "../game/state/game-state.js";
 import Players from "../game/state/players/players.js";
 import Board from "../game/state/board/board.js";
+import { unixNow } from "../utils.js";
 
 export const FILE_FORMAT_VERSION = 6;
 export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
@@ -44,7 +45,7 @@ function migrateToV6(content) {
 
 export function loadFromRaw(content, { makeTimeStamp } = {}) {
     if(makeTimeStamp === undefined) {
-        makeTimeStamp = () => Date.now();
+        makeTimeStamp = () => unixNow();
     }
 
     if(content?.fileFormatVersion === undefined) {
@@ -97,7 +98,7 @@ export function createEmptyFileData({gameVersion, width, height, metaEntities = 
     return {
         gameVersion,
         openHours: new OpenHours([]),
-        logBook: new LogBook([], () => Date.now()),
+        logBook: new LogBook([], unixNow),
         gameSettings: {},
         initialGameState: new GameState(
             new Players([]),

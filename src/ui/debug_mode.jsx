@@ -1,4 +1,4 @@
-/* globals window */
+/* globals window, sessionStorage */
 import { useCallback, useEffect, useState } from "preact/hooks";
 import { UP, DOWN, LEFT, RIGHT, ESCAPE, useGlobalKeyHandler } from "./generic/global-keybinds";
 
@@ -6,8 +6,13 @@ const DEBUG_MODE_SEQUENCE = [UP, UP, DOWN, DOWN, LEFT, RIGHT];
 const DEBUG_MODE_SEQUENCE_TIMEOUT = 1000; // 1 seconds in ms
 
 export function useDebugMode() {
-    const [debug, setDebug] = useState(false);
+    const [debug, setDebugState] = useState(sessionStorage.getItem("debug-mode") == "yes");
     const [debugSequenceIndex, setDebugSequenceIndex] = useState(0);
+
+    const setDebug = useCallback(debugMode => {
+        sessionStorage.setItem("debug-mode", debugMode ? "yes" : "no");
+        setDebugState(debugMode);
+    }, [setDebugState]);
 
     useGlobalKeyHandler(e => {
         // Check if the user typed the next key in the sequence

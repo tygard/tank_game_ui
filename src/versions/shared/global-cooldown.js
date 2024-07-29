@@ -1,5 +1,7 @@
+import { unixNow } from "../../utils.js";
+
 export function findGlobalCooldowns(gameState) {
-    const now = Math.floor(Date.now() / 1000);
+    const now = unixNow();
 
     return gameState.players.getAllPlayers()
         .filter(player => player.attributes.global_cooldown_end_time >= now)

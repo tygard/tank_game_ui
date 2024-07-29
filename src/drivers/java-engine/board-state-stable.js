@@ -103,11 +103,12 @@ function entityFromBoard(rawEntity, position, playersByName) {
         }
     }
 
-    if(rawEntity.last_action_time) {
-        attributes.last_action_time = rawEntity.last_action_time;
+    let player = playersByName[rawEntity.name];
+
+    if(rawEntity.global_cooldown_end_time !== undefined) {
+        player.attributes.global_cooldown_end_time = rawEntity.global_cooldown_end_time;
     }
 
-    const player = playersByName[rawEntity.name];
     let entity = new Entity({ type: rawEntity.type, position, attributes });
 
     if(player) {

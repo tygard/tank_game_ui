@@ -73,3 +73,5 @@ export function deepClone(object) {
 
     return newObject;
 }
+
+export const unixNow = () => Math.floor(Date.now() / 1000);
