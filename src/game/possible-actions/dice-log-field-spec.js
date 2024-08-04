@@ -1,3 +1,4 @@
+import { deserializer } from "../../deserialization.js";
 import { prettyifyName } from "../../utils.js";
 import { Dice } from "./die.js";
 
@@ -9,10 +10,6 @@ export class DiceLogFieldSpec {
         this.type = "roll-dice";
         this.dice = dice;
         this.expandedDice = Dice.expandAll(this.dice);
-    }
-
-    static canConstruct(type) {
-        return type == "roll-dice";
     }
 
     static deserialize(rawSpec) {
@@ -68,3 +65,5 @@ export class DiceLogFieldSpec {
         return this.dice.map(dice => dice.toString());
     }
 }
+
+deserializer.registerClass("dice-log-field-spec", DiceLogFieldSpec);

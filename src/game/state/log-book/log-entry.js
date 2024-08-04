@@ -1,11 +1,18 @@
+import { deserializer } from "../../../deserialization.js";
 import { Dice } from "../../possible-actions/die.js";
 
 export class LogEntry {
     constructor(rawLogEntry, message, dieRolls) {
+        if(rawLogEntry.class !== undefined) throw new Error("Class present");
+
         this.type = rawLogEntry.action || "start_of_day";
         this.rawLogEntry = rawLogEntry;
         this.dieRolls = dieRolls;
         this.message = message;
+
+        if(this.rawLogEntry.timestamp === undefined) {
+            this.rawLogEntry.timestamp = LogEntry.makeTimeStamp();
+        }
     }
 
     static deserialize(rawEntry) {
@@ -23,7 +30,7 @@ export class LogEntry {
 
     serialize() {
         if(this.message == undefined) {
-            return this.rawLogEntry;
+            return Object.assign({}, this.rawLogEntry);
         }
 
         return {
@@ -33,6 +40,18 @@ export class LogEntry {
                 dieRolls: this.dieRolls,
             }
         }
+    }
+
+    static makeTimeStamp() {
+        return Math.floor(Date.now() / 1000);
+    }
+
+    static enableTestModeTimeStamps() {
+        let lastTime = 0;
+        LogEntry.makeTimeStamp = () => {
+            lastTime += 20 * 60; // 20 minutes in seconds
+            return lastTime;
+        };
     }
 
     withoutStateInfo() {
@@ -50,7 +69,7 @@ export class LogEntry {
             .filter(field => field.value?.type == "die-roll");
 
         for(const rollField of rollFields) {
-            const dice = actions.get(this.type).getDiceFor(rollField.key, {
+            const dice = actions.find(action => action.getActionName() == this.type).getDiceFor(rollField.key, {
                 rawLogEntry: this.rawLogEntry,
             });
 
@@ -62,7 +81,7 @@ export class LogEntry {
     }
 
     finalizeEntry({ actions }) {
-        const action = actions.get(this.type);
+        const action = actions.find(action => action.getActionName() == this.type);
 
         for(const field of Object.keys(this.rawLogEntry)) {
             const value = this.rawLogEntry[field];
@@ -85,3 +104,5 @@ export class LogEntry {
         }
     }
 }
+
+deserializer.registerClass("log-entry-v1", LogEntry);

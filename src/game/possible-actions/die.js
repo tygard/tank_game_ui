@@ -1,3 +1,5 @@
+import { deserializer } from "../../deserialization.js";
+
 class Die {
     constructor({ name, namePlural, sides }) {
         this.name = name;
@@ -65,6 +67,8 @@ export class Dice {
         return `${this.count}x ${dieName}`;
     }
 }
+
+deserializer.registerClass("dice", Dice);
 
 const commonDice = {
     "hit die": new Die({

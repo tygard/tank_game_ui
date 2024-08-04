@@ -1,56 +1,57 @@
 import assert from "node:assert";
 import { LogBook } from "../../../../../src/game/state/log-book/log-book.js";
+import { LogEntry } from "../../../../../src/game/state/log-book/log-entry.js";
+import { deserializer } from "../../../../../src/deserialization.js";
 
 // These should point to the start of day actions in the list below
 const firstDayIndex = 0;
 const secondDayIndex = 2;
 
-const rawLogBook = [
-    {
+const entries = [
+    new LogEntry({
         "day": 1,
-    },
-    {
+    }),
+    new LogEntry({
         "subject": "Corey",
         "target": "I6",
         "hit": true,
         "action": "shoot"
-    },
-    {
+    }),
+    new LogEntry({
         "day": 2,
-    },
-    {
+    }),
+    new LogEntry({
         "subject": "Xavion",
         "gold": 5,
         "action": "buy_action"
-    },
-    {
+    }),
+    new LogEntry({
         "subject": "Corey",
         "target": "H4",
         "action": "move"
-    },
+    }),
 ];
 
 describe("LogBook", () => {
     it("can deserialize and reserialize itself", () => {
-        const logBook = LogBook.deserialize(rawLogBook);
+        const logBook = new LogBook(entries);
+        const rawLogBook = deserializer.serialize(logBook.withoutStateInfo());
+        assert.deepEqual(logBook, deserializer.deserialize(rawLogBook));
 
-        const serialized = logBook.withoutStateInfo().serialize();
-        assert.deepEqual(serialized, rawLogBook);
-
-        const serializedWithMessage = LogBook.deserialize(logBook.serialize());
+        const serializedWithMessage = deserializer.deserialize(deserializer.serialize(logBook));
         assert.deepEqual(serializedWithMessage, logBook);
     });
 
     it("can determine its boundaries", () => {
-        const logBook = LogBook.deserialize(rawLogBook);
+        const logBook = new LogBook(entries);
         assert.equal(logBook.getFirstEntryId(), 0);
-        assert.equal(logBook.getLastEntryId(), rawLogBook.length - 1);
+        assert.equal(logBook.getLastEntryId(), entries.length - 1);
         assert.equal(logBook.getMinDay(), 1);
         assert.equal(logBook.getMaxDay(), 2);
     });
 
     it("can walk through entries by day", () => {
-        const logBook = LogBook.deserialize(rawLogBook);
+        const logBook = new LogBook(entries);
 
         const firstEntryFirstDay = logBook.getEntry(firstDayIndex);
         const firstEntrySecondDay = logBook.getEntry(secondDayIndex);
@@ -68,11 +69,12 @@ describe("LogBook", () => {
     });
 
     it("can add entries", () => {
-        let logBook = LogBook.deserialize(rawLogBook, () => 15);
-        const newId = logBook.addEntry(logBook.makeEntryFromRaw({ day: 3 }));
+        LogEntry.enableTestModeTimeStamps();
+        let logBook = new LogBook(entries);
+        const newId = logBook.addEntry(new LogEntry({ day: 3 }));
 
         assert.deepEqual(logBook.getEntry(newId).withoutStateInfo().serialize(), {
-            timestamp: 15,
+            timestamp: 1200,
             day: 3,
         });
 

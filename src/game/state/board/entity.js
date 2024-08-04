@@ -1,5 +1,5 @@
+import { deserializer } from "../../../deserialization.js";
 import { deepClone } from "../../../utils.js";
-import { Position } from "./position.js";
 
 /**
  * An entity which could be on the board, a floor tile, or a meta entity (i.e. council)
@@ -53,41 +53,38 @@ export default class Entity {
     }
 
     /**
-     * Load this entity from a json serialized object
-     * @param {*} rawEntity The json serialized object to load
-     * @param {*} players The Players object for this game state to look up referenced players in
+     * Load an entity from a json serialized object
+     * @param {*} rawEntity the json serialized object to load
      * @returns
      */
-    static deserialize(rawEntity, players) {
+    static deserialize(rawEntity) {
         let attributes = deepClone(rawEntity);
         delete attributes.type;
         delete attributes.players;
-
-        let position;
-        if(attributes.position !== undefined) {
-            position = new Position(attributes.position);
-        }
-
         delete attributes.position;
 
-        const myPlayers = (rawEntity.players || [])
-            .map(playerName => players.getPlayerByName(playerName));
-        return new Entity({ type: rawEntity.type, attributes, players: myPlayers, position });
+        return new Entity({
+            type: rawEntity.type,
+            attributes,
+            players: rawEntity.players,
+            position: rawEntity.position,
+        });
     }
 
     /**
      * Serialize this entity to a json object
-     * @param {*} gameState The game state this entity is a part of to look up player names
      * @returns
      */
-    serialize(gameState) {
+    serialize() {
         return {
             ...this.attributes,
             type: this.type,
-            position: this.position?.humanReadable,
+            position: this.position,
             players: this._playerRefs.length === 0 ?
                 undefined : // Don't include a players field if it's empty
-                this._playerRefs.map(player => player.getPlayer(gameState).name),
+                this._playerRefs,
         };
     }
 }
+
+deserializer.registerClass("entity", Entity);

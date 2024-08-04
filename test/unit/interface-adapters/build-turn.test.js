@@ -1,5 +1,4 @@
 import assert from "node:assert";
-import { NamedFactorySet } from "../../../src/game/possible-actions/index.js";
 import { GenericPossibleAction } from "../../../src/game/possible-actions/generic-possible-action.js";
 import { LogFieldSpec } from "../../../src/game/possible-actions/log-field-spec.js";
 import { buildTurnReducer, makeInitalState, resetPossibleActions, selectActionType, selectLocation, setActionSpecificField, setLastError, setLastRollEntry, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
@@ -85,7 +84,7 @@ const shootFieldSpecs = [
     }),
 ];
 
-const possibleActions = new NamedFactorySet(
+const possibleActions = [
     new GenericPossibleAction({
         actionName: "shoot",
         fieldSpecs: shootFieldSpecs,
@@ -104,7 +103,7 @@ const possibleActions = new NamedFactorySet(
         fieldSpecs: mutliplyFieldSpecs,
     }),
     new SwappingPossibleAction(),
-);
+];
 
 function deepFreeze(object) {
     if(typeof object == "object") {

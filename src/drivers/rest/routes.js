@@ -3,8 +3,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { logger } from "#platform/logging.js";
 import { getGameVersion } from "../../versions/index.js";
+import { deserializer } from "../../deserialization.js";
 
 const STATIC_DIR = "www";
+
+function serialize(res, json) {
+    res.json(deserializer.serialize(json));
+}
 
 export function defineRoutes(app, buildInfo, engineManager) {
     try {
@@ -40,13 +45,13 @@ export function defineRoutes(app, buildInfo, engineManager) {
         const {valid, interactor, game} = req.games.getGameIfAvailable();
         if(!valid) return;
 
-        res.json({
+        serialize(res, {
             buildInfo,
             engineInfo: game.getEngineVersionInfo(),
             game: game.getBasicGameInfo(),
             gameSettings: game.getSettings(),
-            openHours: game.getOpenHours().asResolved().serialize(),
-            logBook: interactor.getLogBook().serialize(),
+            openHours: game.getOpenHours().asResolved(),
+            logBook: interactor.getLogBook(),
         });
     });
 
@@ -55,7 +60,7 @@ export function defineRoutes(app, buildInfo, engineManager) {
         if(!valid) return;
 
         const state = interactor.getGameStateById(+req.params.turnId);
-        res.json(state && state.serialize());
+        serialize(res, state);
     });
 
     app.post("/api/game/:gameName/turn", async (req, res) => {
@@ -106,7 +111,7 @@ export function defineRoutes(app, buildInfo, engineManager) {
         }
 
         const factories = await interactor.getActions(req.params.playerName);
-        res.json(factories.serialize());
+        serialize(res, factories);
     });
 
     app.get("/api/game/:gameName/reload", async (req, res) => {

@@ -1,3 +1,4 @@
+import { deserializer } from "../../deserialization.js";
 import { prettyifyName } from "../../utils.js";
 
 const VALID_TYPES = [
@@ -57,10 +58,6 @@ export class LogFieldSpec {
         return option;
     }
 
-    static canConstruct(type) {
-        return VALID_TYPES.includes(type);
-    }
-
     static deserialize(rawSpec) {
         return new LogFieldSpec(rawSpec);
     }
@@ -91,3 +88,5 @@ export class LogFieldSpec {
         return true;
     }
 }
+
+deserializer.registerClass("log-field-spec", LogFieldSpec);

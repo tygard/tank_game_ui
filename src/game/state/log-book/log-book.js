@@ -1,15 +1,9 @@
-import { unixNow } from "../../../utils.js";
+import { deserializer } from "../../../deserialization.js";
 import { LogEntry } from "./log-entry.js";
 
-const defaultMakeTimeStamp = unixNow;
-
-const DEFAULT_TIME_INTERVAL = 20 * 60; // 20 minutes
-
-
 export class LogBook {
-    constructor(entries, makeTimeStamp = defaultMakeTimeStamp) {
+    constructor(entries) {
         this._entries = entries;
-        this._makeTimeStamp = makeTimeStamp;
         this._buildDayMap();
     }
 
@@ -42,45 +36,37 @@ export class LogBook {
         }
     }
 
-    static deserialize(rawEntries, makeTimeStamp) {
-        if(!makeTimeStamp) makeTimeStamp = defaultMakeTimeStamp;
-
+    static deserialize(rawLogBook) {
         // 0 length log books are not supported start day 1 if we have no entries
-        if(rawEntries === undefined || rawEntries.length === 0) {
-            rawEntries = [
-                {
-                    day: 1,
-                    timestamp: makeTimeStamp(),
-                }
+        if(rawLogBook?.entries === undefined || rawLogBook.entries.length === 0) {
+            rawLogBook.entries = [
+                new LogEntry({ day: 1 }),
             ];
         }
 
         let previousTime = 0;
-        const entries = rawEntries.map((rawEntry, idx) => {
-            if(rawEntry.timestamp === undefined) {
-                rawEntry.timestamp = previousTime + DEFAULT_TIME_INTERVAL;
+        rawLogBook.entries.forEach((entry, idx) => {
+            if(previousTime > entry.rawLogEntry.timestamp && idx > 0) {
+                throw new Error(`Entry timestamps must be ascending ${idx}: ${entry.rawLogEntry.timestamp} and ${idx - 1}: ${previousTime}`);
             }
 
-            if(previousTime > rawEntry.timestamp && idx > 0) {
-                throw new Error(`Entry timestamps must be ascending ${idx}: ${rawEntry.timestamp} and ${idx - 1}: ${previousTime}`);
-            }
+            previousTime = entry.rawLogEntry.timestamp;
 
-            previousTime = rawEntry.timestamp;
-
-            const entry = LogEntry.deserialize(rawEntry);
             return entry;
         });
 
-        return new LogBook(entries, makeTimeStamp);
+        return new LogBook(rawLogBook.entries);
     }
 
     serialize() {
-        return this._entries.map(entry => entry.serialize());
+        return {
+            entries: this._entries,
+        };
     }
 
     withoutStateInfo() {
         const entries = this._entries.map(entry => entry.withoutStateInfo());
-        return new LogBook(entries, this._makeTimeStamp);
+        return new LogBook(entries);
     }
 
     getEntry(entryId) {
@@ -88,7 +74,6 @@ export class LogBook {
     }
 
     makeEntryFromRaw(rawEntry) {
-        rawEntry.timestamp = this._makeTimeStamp();
         return new LogEntry(rawEntry);
     }
 
@@ -166,3 +151,5 @@ export class LogBook {
         return previousDay;
     }
 }
+
+deserializer.registerClass("log-book-v1", LogBook);

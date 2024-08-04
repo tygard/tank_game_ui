@@ -1,47 +1,35 @@
-import Board from "./board/board.js";
-import Entity from "./board/entity.js";
+import { deserializer } from "../../deserialization.js";
+import "./board/board.js";
+import "./board/entity.js";
+import "./players/player.js";
 import Players from "./players/players.js";
 
 export class GameState {
     constructor(players, board, metaEntities) {
-        this.players = players;
+        this.players = new Players(players);
         this.board = board;
         this.metaEntities = metaEntities;
     }
 
     static deserialize(rawGameState) {
-        let players = Players.deserialize(rawGameState.players);
-
-        let metaEntities = {};
-        for(const name of Object.keys(rawGameState.metaEntities)) {
-            metaEntities[name] = Entity.deserialize(rawGameState.metaEntities[name], players);
-        }
-
         return new GameState(
-            players,
-            Board.deserialize(rawGameState.board, players),
-            metaEntities,
+            rawGameState.players,
+            rawGameState.board,
+            rawGameState.metaEntities,
         );
     }
 
     serialize() {
-        let metaEntities = {};
-        for(const entityName of Object.keys(this.metaEntities)) {
-            metaEntities[entityName] = this.metaEntities[entityName].serialize(this);
-        }
-
-        let raw = {
-            players: this.players.serialize(),
-            board: this.board.serialize(this),
-            metaEntities,
+        return {
+            players: this.players.getAllPlayers(),
+            board: this.board,
+            metaEntities: this.metaEntities,
         };
-
-        return raw;
     }
 
     modify({ players, board, metaEntities } = {}) {
         return new GameState(
-            players || this.players,
+            (players || this.players).getAllPlayers?.(),
             board || this.board,
             metaEntities || this.metaEntities);
     }
@@ -59,3 +47,5 @@ export class GameState {
             });
     }
 }
+
+deserializer.registerClass("game-state-v1", GameState);

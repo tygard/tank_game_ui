@@ -29,7 +29,7 @@ export function gameStateFromRawState(rawGameState) {
     });
 
     let gameState = new GameState(
-        new Players(Object.values(playersByName)),
+        Object.values(playersByName),
         board,
         {
             council: convertCouncil(rawGameState.council, councilPlayers),
@@ -42,7 +42,7 @@ export function gameStateFromRawState(rawGameState) {
         victoryInfo = {
             type: rawGameState.winner == "Council" ? "armistice_vote" : "last_tank_standing",
             winners: rawGameState.winner == "Council" ?
-                gameState.metaEntities.council.players :
+                gameState.metaEntities.council.getPlayerRefs().map(ref => ref.getPlayer(gameState)) :
                 [gameState.players.getPlayerByName(rawGameState.winner)],
         };
     }

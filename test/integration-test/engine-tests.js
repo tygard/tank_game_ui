@@ -48,8 +48,8 @@ export function defineTestsForEngine(engineFactory) {
     const versionsToTest = engineFactory.getSupportedGameVersions();
 
     for(const supportedGameVersion of versionsToTest) {
-        const TEST_GAME_PATH = `example/tank_game_v${supportedGameVersion}.json`;
-        const TEST_POSSIBLE_ACTIONS_PATH = `example/possible_actions_v${supportedGameVersion}.json`;
+        const TEST_GAME_PATH = `example/tank_game_${supportedGameVersion}.json`;
+        const TEST_POSSIBLE_ACTIONS_PATH = `example/possible_actions_${supportedGameVersion}.json`;
 
         describe(engineFactory.getEngineVersion(), () => {
             describe(`Game version: ${supportedGameVersion}`, () => {
@@ -57,14 +57,14 @@ export function defineTestsForEngine(engineFactory) {
                     await incrementalPlaythrough(engineFactory, TEST_GAME_PATH);
                 }, {
                     requiresFile: TEST_GAME_PATH,
-                    logFile: `incremental-v${supportedGameVersion}.log`,
+                    logFile: `incremental-${supportedGameVersion}.log`,
                 });
 
                 defTest("can provide a list of possible actions", async () => {
                     await testPossibleActions(engineFactory, TEST_POSSIBLE_ACTIONS_PATH);
                 }, {
                     requiresFile: TEST_POSSIBLE_ACTIONS_PATH,
-                    logFile: `possible-actions-v${supportedGameVersion}.log`,
+                    logFile: `possible-actions-${supportedGameVersion}.log`,
                 });
             });
         });

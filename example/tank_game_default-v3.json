@@ -1,0 +1,6099 @@
+{
+    "gameVersion": "default-v3",
+    "openHours": {
+        "schedules": [],
+        "class": "open-hours-v1"
+    },
+    "gameSettings": {},
+    "logBook": {
+        "entries": [
+            {
+                "day": 1,
+                "timestamp": 1200,
+                "action": "start_of_day",
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "A10",
+                "timestamp": 1717276041,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "C10",
+                "timestamp": 1717276046,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "B10",
+                "timestamp": 1717276064,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "A2",
+                "timestamp": 1717276110,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "C2",
+                "timestamp": 1717276116,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "B2",
+                "timestamp": 1717276126,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "J3",
+                "timestamp": 1717276141,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "J1",
+                "timestamp": 1717276148,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "J2",
+                "timestamp": 1717276154,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "I10",
+                "timestamp": 1717276172,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "K10",
+                "timestamp": 1717276177,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J10",
+                "timestamp": 1717276183,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "start_of_day",
+                "day": 2,
+                "timestamp": 1717276188,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "B8",
+                "hit": true,
+                "timestamp": 1717276195,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "B8",
+                "hit": true,
+                "timestamp": 1717276202,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "B8",
+                "hit": true,
+                "timestamp": 1717276209,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "B4",
+                "hit": true,
+                "timestamp": 1717276217,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "B4",
+                "hit": true,
+                "timestamp": 1717276223,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "B4",
+                "hit": true,
+                "timestamp": 1717276229,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "H2",
+                "hit": true,
+                "timestamp": 1717276252,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "H2",
+                "hit": true,
+                "timestamp": 1717276259,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H2",
+                "hit": true,
+                "timestamp": 1717276266,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "J8",
+                "hit": true,
+                "timestamp": 1717276281,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "J8",
+                "hit": true,
+                "timestamp": 1717276287,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "J8",
+                "hit": true,
+                "timestamp": 1717276293,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "start_of_day",
+                "day": 3,
+                "timestamp": 1717276303,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "J9",
+                "timestamp": 1717276323,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "I10",
+                "timestamp": 1717276335,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I8",
+                "hit": true,
+                "timestamp": 1717276338,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I8",
+                "hit": true,
+                "timestamp": 1717276342,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "A8",
+                "hit": true,
+                "timestamp": 1717276352,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "B9",
+                "timestamp": 1717276371,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "move",
+                "target": "C10",
+                "timestamp": 1717276376,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "C8",
+                "hit": true,
+                "timestamp": 1717276380,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "C8",
+                "hit": true,
+                "timestamp": 1717276384,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "C4",
+                "hit": true,
+                "timestamp": 1717276396,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "B3",
+                "timestamp": 1717276403,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "move",
+                "target": "C2",
+                "timestamp": 1717276414,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "C4",
+                "hit": true,
+                "timestamp": 1717276419,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "C4",
+                "hit": true,
+                "timestamp": 1717276427,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H3",
+                "hit": true,
+                "timestamp": 1717276436,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "I2",
+                "timestamp": 1717276442,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "move",
+                "target": "J3",
+                "timestamp": 1717276448,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "H3",
+                "hit": true,
+                "timestamp": 1717276452,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "H3",
+                "hit": true,
+                "timestamp": 1717276456,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "start_of_day",
+                "day": 4,
+                "timestamp": 1717276463,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "move",
+                "target": "I3",
+                "timestamp": 1717276480,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G2",
+                "hit": true,
+                "timestamp": 1717276487,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "move",
+                "target": "C3",
+                "timestamp": 1717276496,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "B5",
+                "hit": true,
+                "timestamp": 1717276502,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "C8",
+                "hit": true,
+                "timestamp": 1717276521,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "B7",
+                "hit": true,
+                "timestamp": 1717276527,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I8",
+                "hit": true,
+                "timestamp": 1717276536,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "J7",
+                "hit": true,
+                "timestamp": 1717276541,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "start_of_day",
+                "day": 5,
+                "timestamp": 1717276557,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G2",
+                "hit": true,
+                "timestamp": 1717276564,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "G2",
+                "hit": true,
+                "timestamp": 1717276569,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "B5",
+                "hit": true,
+                "timestamp": 1717276589,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "B5",
+                "hit": true,
+                "timestamp": 1717276594,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "move",
+                "target": "C9",
+                "timestamp": 1717276603,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "B7",
+                "hit": true,
+                "timestamp": 1717276608,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "I9",
+                "timestamp": 1717276619,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "J7",
+                "hit": true,
+                "timestamp": 1717276624,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "start_of_day",
+                "day": 6,
+                "timestamp": 1717276631,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "B7",
+                "hit": true,
+                "timestamp": 1717276643,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "B8",
+                "timestamp": 1717276655,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "J7",
+                "hit": true,
+                "timestamp": 1717276670,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I7",
+                "hit": true,
+                "timestamp": 1717276675,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "G3",
+                "hit": true,
+                "timestamp": 1717276683,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "H2",
+                "timestamp": 1717276690,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "B4",
+                "timestamp": 1717276697,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "C5",
+                "hit": true,
+                "timestamp": 1717276706,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "start_of_day",
+                "day": 7,
+                "timestamp": 1717276724,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "B7",
+                "timestamp": 1717276737,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "A8",
+                "hit": true,
+                "timestamp": 1717276743,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "J8",
+                "timestamp": 1717276761,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I7",
+                "hit": true,
+                "timestamp": 1717276766,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J9",
+                "timestamp": 1717276774,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "K9",
+                "timestamp": 1717276779,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G3",
+                "hit": true,
+                "timestamp": 1717276787,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "G3",
+                "hit": true,
+                "timestamp": 1717276794,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "H1",
+                "hit": true,
+                "timestamp": 1717276806,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "A4",
+                "hit": true,
+                "timestamp": 1717276828,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "start_of_day",
+                "day": 8,
+                "timestamp": 1717276839,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "A7",
+                "hit": true,
+                "timestamp": 1717276846,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717276855,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "B5",
+                "timestamp": 1717276893,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "A5",
+                "hit": true,
+                "timestamp": 1717276897,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "A4",
+                "hit": true,
+                "timestamp": 1717276906,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "A3",
+                "timestamp": 1717276914,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "C5",
+                "hit": true,
+                "timestamp": 1717276921,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "C5",
+                "hit": true,
+                "timestamp": 1717276925,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "B3",
+                "timestamp": 1717276931,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "C4",
+                "timestamp": 1717276942,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "C6",
+                "hit": true,
+                "timestamp": 1717276948,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "C6",
+                "hit": true,
+                "timestamp": 1717276951,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "A7",
+                "hit": true,
+                "timestamp": 1717276962,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "B9",
+                "timestamp": 1717276978,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "C7",
+                "hit": true,
+                "timestamp": 1717276982,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "C7",
+                "hit": true,
+                "timestamp": 1717276987,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "C7",
+                "hit": true,
+                "timestamp": 1717276991,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "A9",
+                "timestamp": 1717276998,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "move",
+                "target": "C8",
+                "timestamp": 1717277009,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "C6",
+                "hit": true,
+                "timestamp": 1717277013,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "G2",
+                "timestamp": 1717277029,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "I2",
+                "timestamp": 1717277051,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "H3",
+                "timestamp": 1717277060,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "F3",
+                "hit": true,
+                "timestamp": 1717277065,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "F3",
+                "hit": true,
+                "timestamp": 1717277069,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "F3",
+                "hit": true,
+                "timestamp": 1717277073,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "H1",
+                "hit": true,
+                "timestamp": 1717277081,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "I8",
+                "timestamp": 1717277096,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J8",
+                "timestamp": 1717277102,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J7",
+                "timestamp": 1717277105,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "K7",
+                "hit": true,
+                "timestamp": 1717277112,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "K7",
+                "hit": true,
+                "timestamp": 1717277115,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "K7",
+                "hit": true,
+                "timestamp": 1717277119,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K8",
+                "hit": true,
+                "timestamp": 1717277127,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "K8",
+                "hit": true,
+                "timestamp": 1717277133,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K8",
+                "hit": true,
+                "timestamp": 1717277140,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "K8",
+                "timestamp": 1717277145,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K6",
+                "hit": true,
+                "timestamp": 1717277149,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K6",
+                "hit": true,
+                "timestamp": 1717277154,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "start_of_day",
+                "day": 9,
+                "timestamp": 1717277185,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "A7",
+                "hit": true,
+                "timestamp": 1717277193,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "A8",
+                "hit": true,
+                "timestamp": 1717277201,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277214,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "C7",
+                "timestamp": 1717277218,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "A5",
+                "hit": true,
+                "timestamp": 1717277224,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277231,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "A5",
+                "hit": true,
+                "timestamp": 1717277235,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "A4",
+                "hit": true,
+                "timestamp": 1717277241,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "A4",
+                "timestamp": 1717277249,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "A6",
+                "hit": true,
+                "timestamp": 1717277255,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "A6",
+                "hit": true,
+                "timestamp": 1717277258,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "A6",
+                "hit": true,
+                "timestamp": 1717277262,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "D4",
+                "hit": true,
+                "timestamp": 1717277275,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "D3",
+                "hit": true,
+                "timestamp": 1717277280,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "D9",
+                "hit": true,
+                "timestamp": 1717277293,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "C9",
+                "timestamp": 1717277298,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "B10",
+                "timestamp": 1717277345,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "C10",
+                "timestamp": 1717277348,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "D10",
+                "hit": true,
+                "timestamp": 1717277352,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "D10",
+                "hit": true,
+                "timestamp": 1717277355,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G1",
+                "hit": true,
+                "timestamp": 1717277367,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277373,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G1",
+                "hit": true,
+                "timestamp": 1717277380,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "I1",
+                "timestamp": 1717277393,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J6",
+                "timestamp": 1717277408,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K6",
+                "hit": true,
+                "timestamp": 1717277414,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "J8",
+                "timestamp": 1717277419,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "I7",
+                "hit": true,
+                "timestamp": 1717277425,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "start_of_day",
+                "day": 10,
+                "timestamp": 1717277430,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "C6",
+                "timestamp": 1717277440,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "B5",
+                "timestamp": 1717277445,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277452,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "C5",
+                "timestamp": 1717277457,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277465,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277472,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "D6",
+                "hit": true,
+                "timestamp": 1717277490,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D7",
+                "hit": true,
+                "timestamp": 1717277494,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D7",
+                "hit": true,
+                "timestamp": 1717277498,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "D8",
+                "hit": true,
+                "timestamp": 1717277503,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "D9",
+                "hit": true,
+                "timestamp": 1717277511,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "D4",
+                "hit": true,
+                "timestamp": 1717277526,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "D3",
+                "hit": true,
+                "timestamp": 1717277532,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G1",
+                "hit": true,
+                "timestamp": 1717277549,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "H1",
+                "hit": true,
+                "timestamp": 1717277555,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "H1",
+                "timestamp": 1717277561,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F1",
+                "hit": true,
+                "timestamp": 1717277566,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F1",
+                "hit": true,
+                "timestamp": 1717277572,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F1",
+                "hit": true,
+                "timestamp": 1717277578,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G3",
+                "timestamp": 1717277590,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "I4",
+                "hit": true,
+                "timestamp": 1717277598,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "I4",
+                "hit": true,
+                "timestamp": 1717277601,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "J5",
+                "hit": true,
+                "timestamp": 1717277607,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "I6",
+                "hit": true,
+                "timestamp": 1717277613,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I6",
+                "hit": true,
+                "timestamp": 1717277618,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "K7",
+                "timestamp": 1717277626,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277635,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K5",
+                "hit": true,
+                "timestamp": 1717277638,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277644,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "J5",
+                "hit": true,
+                "timestamp": 1717277650,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "move",
+                "target": "J3",
+                "timestamp": 1717277657,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717277669,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717277675,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "E3",
+                "hit": true,
+                "timestamp": 1717277682,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "E2",
+                "hit": true,
+                "timestamp": 1717277688,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "E2",
+                "hit": true,
+                "timestamp": 1717277696,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "G1",
+                "timestamp": 1717277703,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E1",
+                "hit": true,
+                "timestamp": 1717277710,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E1",
+                "hit": true,
+                "timestamp": 1717277715,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "start_of_day",
+                "day": 11,
+                "timestamp": 1717277725,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277749,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277754,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717277762,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "D5",
+                "hit": true,
+                "timestamp": 1717277767,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "D5",
+                "hit": true,
+                "timestamp": 1717277771,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "D6",
+                "hit": true,
+                "timestamp": 1717277779,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "D6",
+                "hit": true,
+                "timestamp": 1717277783,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D7",
+                "hit": true,
+                "timestamp": 1717277788,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "D8",
+                "hit": true,
+                "timestamp": 1717277803,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "E3",
+                "hit": true,
+                "timestamp": 1717277828,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "E2",
+                "hit": true,
+                "timestamp": 1717277835,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E1",
+                "hit": true,
+                "timestamp": 1717277841,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "J4",
+                "hit": true,
+                "timestamp": 1717277852,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "J5",
+                "hit": true,
+                "timestamp": 1717277966,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717277980,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717277988,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K5",
+                "hit": true,
+                "timestamp": 1717277994,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K5",
+                "hit": true,
+                "timestamp": 1717277999,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "K6",
+                "timestamp": 1717278011,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "I6",
+                "hit": true,
+                "timestamp": 1717278016,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "J7",
+                "timestamp": 1717278023,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "J5",
+                "timestamp": 1717278028,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I5",
+                "hit": true,
+                "timestamp": 1717278033,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "start_of_day",
+                "day": 12,
+                "timestamp": 1717278036,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278047,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278053,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278061,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "D5",
+                "hit": true,
+                "timestamp": 1717278068,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "D4",
+                "hit": true,
+                "timestamp": 1717278075,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "D3",
+                "hit": true,
+                "timestamp": 1717278081,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "D8",
+                "hit": true,
+                "timestamp": 1717278086,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "D9",
+                "hit": true,
+                "timestamp": 1717278091,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "D10",
+                "hit": true,
+                "timestamp": 1717278097,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "E10",
+                "hit": true,
+                "timestamp": 1717278103,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "E10",
+                "hit": true,
+                "timestamp": 1717278107,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "E10",
+                "hit": true,
+                "timestamp": 1717278113,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E9",
+                "hit": true,
+                "timestamp": 1717278118,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "E7",
+                "hit": true,
+                "timestamp": 1717278123,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "E7",
+                "hit": true,
+                "timestamp": 1717278127,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "E7",
+                "hit": true,
+                "timestamp": 1717278131,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717278137,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717278141,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717278148,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "E3",
+                "hit": true,
+                "timestamp": 1717278155,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "E4",
+                "hit": true,
+                "timestamp": 1717278160,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "F3",
+                "timestamp": 1717278173,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "F2",
+                "timestamp": 1717278180,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "F1",
+                "timestamp": 1717278187,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "J4",
+                "hit": true,
+                "timestamp": 1717278194,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "J4",
+                "hit": true,
+                "timestamp": 1717278201,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "I5",
+                "hit": true,
+                "timestamp": 1717278206,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "I7",
+                "timestamp": 1717278212,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K4",
+                "hit": true,
+                "timestamp": 1717278219,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278226,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I5",
+                "hit": true,
+                "timestamp": 1717278234,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278243,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278249,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "J6",
+                "timestamp": 1717278259,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "K4",
+                "hit": true,
+                "timestamp": 1717278265,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "start_of_day",
+                "day": 13,
+                "timestamp": 1717278271,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "K4",
+                "hit": true,
+                "timestamp": 1717278279,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "I4",
+                "hit": true,
+                "timestamp": 1717278284,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "H5",
+                "hit": true,
+                "timestamp": 1717278301,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H7",
+                "hit": true,
+                "timestamp": 1717278306,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "D2",
+                "hit": true,
+                "timestamp": 1717278317,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "D2",
+                "hit": true,
+                "timestamp": 1717278323,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D2",
+                "hit": true,
+                "timestamp": 1717278332,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717278340,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717278348,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717278354,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D1",
+                "hit": true,
+                "timestamp": 1717278362,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D1",
+                "hit": true,
+                "timestamp": 1717278369,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D1",
+                "hit": true,
+                "timestamp": 1717278375,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G2",
+                "timestamp": 1717278385,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G4",
+                "hit": true,
+                "timestamp": 1717278395,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G4",
+                "hit": true,
+                "timestamp": 1717278400,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G4",
+                "hit": true,
+                "timestamp": 1717278404,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "F4",
+                "hit": true,
+                "timestamp": 1717278411,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "F4",
+                "hit": true,
+                "timestamp": 1717278416,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "F4",
+                "hit": true,
+                "timestamp": 1717278420,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "E4",
+                "hit": true,
+                "timestamp": 1717278430,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "E2",
+                "timestamp": 1717278438,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "C11",
+                "timestamp": 1717278456,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "C10",
+                "timestamp": 1717278463,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "move",
+                "target": "C9",
+                "timestamp": 1717278469,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278474,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "C8",
+                "timestamp": 1717278479,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278484,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "C7",
+                "timestamp": 1717278488,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "C6",
+                "timestamp": 1717278494,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278498,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "C5",
+                "timestamp": 1717278503,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "E4",
+                "hit": true,
+                "timestamp": 1717278510,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "E9",
+                "hit": true,
+                "timestamp": 1717278517,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "E9",
+                "hit": true,
+                "timestamp": 1717278522,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E8",
+                "hit": true,
+                "timestamp": 1717278527,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E8",
+                "hit": true,
+                "timestamp": 1717278530,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717278566,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717278571,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "start_of_day",
+                "day": 14,
+                "timestamp": 1717278578,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H4",
+                "hit": true,
+                "timestamp": 1717278588,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "shoot",
+                "target": "H4",
+                "hit": true,
+                "timestamp": 1717278593,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "H4",
+                "hit": true,
+                "timestamp": 1717278601,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "H5",
+                "hit": true,
+                "timestamp": 1717278609,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H7",
+                "hit": true,
+                "timestamp": 1717278614,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "move",
+                "target": "F3",
+                "timestamp": 1717278628,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "E3",
+                "timestamp": 1717278635,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "move",
+                "target": "D4",
+                "timestamp": 1717278641,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278646,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717278651,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278658,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "F5",
+                "hit": true,
+                "timestamp": 1717278663,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F5",
+                "hit": true,
+                "timestamp": 1717278669,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "F5",
+                "hit": true,
+                "timestamp": 1717278674,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278680,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G3",
+                "timestamp": 1717278687,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H5",
+                "hit": true,
+                "timestamp": 1717278694,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "D11",
+                "hit": true,
+                "timestamp": 1717278704,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "D10",
+                "timestamp": 1717278714,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "move",
+                "target": "D9",
+                "timestamp": 1717278723,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E8",
+                "hit": true,
+                "timestamp": 1717278728,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "D8",
+                "timestamp": 1717278734,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278740,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "D7",
+                "timestamp": 1717278746,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F7",
+                "hit": true,
+                "timestamp": 1717278751,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278756,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "D6",
+                "timestamp": 1717278761,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "F6",
+                "hit": true,
+                "timestamp": 1717278766,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "D5",
+                "timestamp": 1717278772,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278776,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "F6",
+                "hit": true,
+                "timestamp": 1717278780,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "F6",
+                "hit": true,
+                "timestamp": 1717278787,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "F7",
+                "hit": true,
+                "timestamp": 1717278794,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278807,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "move",
+                "target": "I4",
+                "timestamp": 1717278815,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "move",
+                "target": "H4",
+                "timestamp": 1717278819,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278827,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H7",
+                "hit": true,
+                "timestamp": 1717278831,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "move",
+                "target": "J8",
+                "timestamp": 1717278838,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "J7",
+                "timestamp": 1717278844,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278848,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H8",
+                "hit": true,
+                "timestamp": 1717278854,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278860,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717278865,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "H6",
+                "hit": true,
+                "timestamp": 1717278871,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "H6",
+                "hit": true,
+                "timestamp": 1717278876,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "H6",
+                "hit": true,
+                "timestamp": 1717278882,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H8",
+                "hit": true,
+                "timestamp": 1717278889,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "I7",
+                "timestamp": 1717278898,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "move",
+                "target": "I6",
+                "timestamp": 1717278904,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "start_of_day",
+                "day": 15,
+                "timestamp": 1717278908,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "D11",
+                "hit": true,
+                "timestamp": 1717278919,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278923,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "D11",
+                "hit": true,
+                "timestamp": 1717278926,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "D11",
+                "timestamp": 1717278932,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "F9",
+                "hit": true,
+                "timestamp": 1717278937,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278941,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "F9",
+                "hit": true,
+                "timestamp": 1717278945,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "F9",
+                "hit": true,
+                "timestamp": 1717278951,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278955,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "F8",
+                "hit": true,
+                "timestamp": 1717278959,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F7",
+                "hit": true,
+                "timestamp": 1717278968,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278971,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F8",
+                "hit": true,
+                "timestamp": 1717278975,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717278986,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F8",
+                "hit": true,
+                "timestamp": 1717278992,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "G5",
+                "hit": true,
+                "timestamp": 1717279004,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G5",
+                "hit": true,
+                "timestamp": 1717279011,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279018,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279024,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279029,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279036,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279041,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279046,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "move",
+                "target": "E6",
+                "timestamp": 1717279055,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "move",
+                "target": "E5",
+                "timestamp": 1717279062,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "G5",
+                "hit": true,
+                "timestamp": 1717279067,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "G6",
+                "hit": true,
+                "timestamp": 1717279073,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "G6",
+                "hit": true,
+                "timestamp": 1717279078,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "G6",
+                "hit": true,
+                "timestamp": 1717279083,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H8",
+                "hit": true,
+                "timestamp": 1717279091,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "G7",
+                "hit": true,
+                "timestamp": 1717279097,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279104,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "G7",
+                "hit": true,
+                "timestamp": 1717279109,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279119,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "G7",
+                "hit": true,
+                "timestamp": 1717279122,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "start_of_day",
+                "day": 16,
+                "timestamp": 1717279125,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279152,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "E11",
+                "hit": true,
+                "timestamp": 1717279156,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "E11",
+                "hit": true,
+                "timestamp": 1717279159,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "E10",
+                "timestamp": 1717279173,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "donate",
+                "target": "Ryan",
+                "donation": 4,
+                "timestamp": 1717279200,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279206,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E11",
+                "hit": true,
+                "timestamp": 1717279209,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "F11",
+                "hit": true,
+                "timestamp": 1717279214,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "F11",
+                "hit": true,
+                "timestamp": 1717279217,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "donate",
+                "target": "Steve",
+                "donation": 3,
+                "timestamp": 1717279232,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279258,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "E8",
+                "timestamp": 1717279265,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "G9",
+                "hit": true,
+                "timestamp": 1717279270,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "G9",
+                "hit": true,
+                "timestamp": 1717279274,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279285,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "G8",
+                "hit": true,
+                "timestamp": 1717279289,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "G8",
+                "hit": true,
+                "timestamp": 1717279293,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "G8",
+                "hit": true,
+                "timestamp": 1717279299,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H9",
+                "hit": true,
+                "timestamp": 1717279305,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H9",
+                "hit": true,
+                "timestamp": 1717279309,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "donate",
+                "target": "Xavion",
+                "donation": 4,
+                "timestamp": 1717279319,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "donate",
+                "target": "Corey",
+                "donation": 2,
+                "timestamp": 1717279330,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279340,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H9",
+                "hit": true,
+                "timestamp": 1717279343,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "G9",
+                "hit": true,
+                "timestamp": 1717279348,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "donate",
+                "target": "Ty",
+                "donation": 7,
+                "timestamp": 1717279361,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "donate",
+                "target": "Ty",
+                "donation": 3,
+                "timestamp": 1717279374,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "donate",
+                "target": "Ty",
+                "donation": 3,
+                "timestamp": 1717279388,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "donate",
+                "target": "Ty",
+                "donation": 3,
+                "timestamp": 1717279400,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G4",
+                "timestamp": 1717279430,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G5",
+                "timestamp": 1717279437,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G6",
+                "timestamp": 1717279443,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717279448,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G7",
+                "timestamp": 1717279452,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G8",
+                "timestamp": 1717279457,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G10",
+                "hit": true,
+                "timestamp": 1717279464,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "G10",
+                "hit": true,
+                "timestamp": 1717279469,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "move",
+                "target": "H8",
+                "timestamp": 1717279475,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "G10",
+                "hit": true,
+                "timestamp": 1717279479,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "start_of_day",
+                "day": 17,
+                "timestamp": 1717279482,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H10",
+                "hit": true,
+                "timestamp": 1717279490,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H10",
+                "hit": true,
+                "timestamp": 1717279495,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H10",
+                "hit": true,
+                "timestamp": 1717279500,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "F11",
+                "hit": true,
+                "timestamp": 1717279507,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "E11",
+                "timestamp": 1717279524,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279531,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "G11",
+                "hit": true,
+                "timestamp": 1717279535,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "G11",
+                "hit": true,
+                "timestamp": 1717279539,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279545,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "G11",
+                "hit": true,
+                "timestamp": 1717279548,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "donate",
+                "target": "Ryan",
+                "donation": 3,
+                "timestamp": 1717279556,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "donate",
+                "target": "Ryan",
+                "donation": 4,
+                "timestamp": 1717279566,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "move",
+                "target": "F10",
+                "timestamp": 1717279581,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279594,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "H11",
+                "hit": true,
+                "timestamp": 1717279599,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "H11",
+                "hit": true,
+                "timestamp": 1717279603,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717279607,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "H9",
+                "timestamp": 1717279620,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H11",
+                "hit": true,
+                "timestamp": 1717279626,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279632,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279640,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "buy_action",
+                "gold": 5,
+                "timestamp": 1717279648,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Lena",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279654,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "buy_action",
+                "gold": 3,
+                "timestamp": 1717279662,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279669,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279674,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "E5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279681,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "E5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279686,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "E6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279693,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Bryan",
+                "action": "shoot",
+                "target": "D7",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279698,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279704,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "shoot",
+                "target": "E6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279709,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Dan",
+                "action": "shoot",
+                "target": "E5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279715,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "D4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279726,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "grant_life",
+                "target": "Trevor",
+                "timestamp": 1717279733,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Schmude",
+                "action": "grant_life",
+                "target": "Bryan",
+                "timestamp": 1717279738,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279744,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279752,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279757,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "E8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279762,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F3",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279769,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "H4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true
+                    ]
+                },
+                "timestamp": 1717279776,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "H4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true
+                    ]
+                },
+                "timestamp": 1717279781,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "David",
+                "action": "shoot",
+                "target": "H4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true
+                    ]
+                },
+                "timestamp": 1717279787,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717279796,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717279802,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F3",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279805,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F3",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279812,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F3",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279817,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "J5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279830,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "J5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279837,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279844,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279848,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "J5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279859,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "J5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279864,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Isaac",
+                "action": "shoot",
+                "target": "J5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279871,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279883,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "shoot",
+                "target": "I6",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279888,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279899,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "shoot",
+                "target": "H9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279903,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false
+                    ]
+                },
+                "timestamp": 1717279912,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279916,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "E8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279930,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "start_of_day",
+                "day": 18,
+                "timestamp": 1717279935,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "F10",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717279941,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E11",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279946,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279952,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E11",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279956,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E11",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279960,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "shoot",
+                "target": "E11",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717279966,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "buy_action",
+                "gold": 8,
+                "timestamp": 1717279970,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "F10",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279974,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "F10",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717279979,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "E10",
+                "timestamp": 1717279987,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "E8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717279995,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717280001,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "E8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280007,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717280015,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280027,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717280031,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "H8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717280036,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false
+                    ]
+                },
+                "timestamp": 1717280046,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true
+                    ]
+                },
+                "timestamp": 1717280052,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false
+                    ]
+                },
+                "timestamp": 1717280079,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "I5",
+                "timestamp": 1717280088,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "H5",
+                "timestamp": 1717280092,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280096,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "start_of_day",
+                "day": 19,
+                "timestamp": 1717280105,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Corey",
+                "action": "move",
+                "target": "G4",
+                "timestamp": 1717280112,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280116,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "move",
+                "target": "F4",
+                "timestamp": 1717280122,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "G4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true,
+                        false,
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717280126,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280134,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280138,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280142,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Joel",
+                "action": "shoot",
+                "target": "H9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false
+                    ]
+                },
+                "timestamp": 1717280152,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "stimulus",
+                "target": "Ty",
+                "timestamp": 1717280165,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "stimulus",
+                "target": "Ty",
+                "timestamp": 1717280170,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Xavion",
+                "action": "bounty",
+                "target": "Ty",
+                "bounty": 5,
+                "timestamp": 1717280175,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "upgrade_range",
+                "timestamp": 1717280187,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717280192,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717280197,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717280204,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280211,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "J8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280216,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "move",
+                "target": "G9",
+                "timestamp": 1717280222,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "shoot",
+                "target": "D7",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280230,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "John",
+                "action": "shoot",
+                "target": "D7",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false
+                    ]
+                },
+                "timestamp": 1717280235,
+                "hit": false,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "E8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280240,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ty",
+                "action": "shoot",
+                "target": "D9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true
+                    ]
+                },
+                "timestamp": 1717280247,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280259,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "F9",
+                "timestamp": 1717280265,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "G9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280268,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "shoot",
+                "target": "G9",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false
+                    ]
+                },
+                "timestamp": 1717280273,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "F8",
+                "timestamp": 1717280290,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F8",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        false,
+                        false,
+                        false,
+                        false
+                    ]
+                },
+                "timestamp": 1717280296,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280303,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717280312,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280317,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717280321,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E5",
+                "hit": true,
+                "timestamp": 1717280324,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717280329,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717280334,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280345,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "E6",
+                "hit": true,
+                "timestamp": 1717280349,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280357,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "E6",
+                "timestamp": 1717280364,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "move",
+                "target": "F5",
+                "timestamp": 1717280369,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717280373,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Trevor",
+                "action": "shoot",
+                "target": "F4",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        true,
+                        true
+                    ]
+                },
+                "timestamp": 1717280378,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280383,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "upgrade_range",
+                "timestamp": 1717280387,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "buy_action",
+                "gold": 10,
+                "timestamp": 1717280393,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717280397,
+                "hit": true,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Stomp",
+                "action": "shoot",
+                "target": "F5",
+                "hit_roll": {
+                    "type": "die-roll",
+                    "manual": true,
+                    "roll": [
+                        false,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        false,
+                        false,
+                        true,
+                        false,
+                        true
+                    ]
+                },
+                "timestamp": 1717361123,
+                "hit": true,
+                "class": "log-entry-v1"
+            }
+        ],
+        "class": "log-book-v1"
+    },
+    "initialGameState": {
+        "players": [
+            {
+                "uniqueId": "1",
+                "attributes": {
+                    "name": "Schmude",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "2",
+                "attributes": {
+                    "name": "Dan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "3",
+                "attributes": {
+                    "name": "Stomp",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "4",
+                "attributes": {
+                    "name": "Ty",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "5",
+                "attributes": {
+                    "name": "Bryan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "6",
+                "attributes": {
+                    "name": "Trevor",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "7",
+                "attributes": {
+                    "name": "David",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "8",
+                "attributes": {
+                    "name": "Lena",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "9",
+                "attributes": {
+                    "name": "Beyer",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "10",
+                "attributes": {
+                    "name": "Steve",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "11",
+                "attributes": {
+                    "name": "Joel",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "12",
+                "attributes": {
+                    "name": "Xavion",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "13",
+                "attributes": {
+                    "name": "Ryan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "14",
+                "attributes": {
+                    "name": "John",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "15",
+                "attributes": {
+                    "name": "Isaac",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "16",
+                "attributes": {
+                    "name": "Corey",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            }
+        ],
+        "board": {
+            "width": 11,
+            "height": 11,
+            "entities": [
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "1",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "2",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 8,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "3",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "4",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "5",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "6",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "7",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 5,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "8",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "9",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "10",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "11",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "12",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "13",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "14",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "15",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "16",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                }
+            ],
+            "floor": [
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 5,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 1,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 9,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 5,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                }
+            ],
+            "class": "board-v1"
+        },
+        "metaEntities": {
+            "council": {
+                "coffer": 0,
+                "type": "council",
+                "class": "entity"
+            }
+        },
+        "class": "game-state-v1"
+    },
+    "class": "file-data-v7"
+}

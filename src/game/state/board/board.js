@@ -1,3 +1,4 @@
+import { deserializer } from "../../../deserialization.js";
 import Entity from "./entity.js";
 import { Position } from "./position.js";
 
@@ -9,26 +10,26 @@ export default class Board {
         this._floor = {};
     }
 
-    static deserialize(rawBoard, players) {
+    static deserialize(rawBoard) {
         let board = new Board(rawBoard.width, rawBoard.height);
 
-        for(const rawEntry of rawBoard.entities) {
-            board.setEntity(Entity.deserialize(rawEntry, players));
+        for(const entity of rawBoard.entities) {
+            board.setEntity(entity);
         }
 
-        for(const rawFloorTile of rawBoard.floor) {
-            board.setFloorTile(Entity.deserialize(rawFloorTile, players));
+        for(const floorTile of rawBoard.floor) {
+            board.setFloorTile(floorTile);
         }
 
         return board;
     }
 
-    serialize(gameState) {
+    serialize() {
         return {
             width: this.width,
             height: this.height,
-            entities: Object.values(this._entities).map(entity => entity.serialize(gameState)),
-            floor: Object.values(this._floor).map(tile => tile.serialize(gameState)),
+            entities: Object.values(this._entities),
+            floor: Object.values(this._floor),
         };
     }
 
@@ -123,3 +124,5 @@ export default class Board {
         return newBoard;
     }
 }
+
+deserializer.registerClass("board-v1", Board);

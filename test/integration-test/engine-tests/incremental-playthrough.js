@@ -6,18 +6,15 @@ import { logger } from "#platform/logging.js";
 import { OpenHours } from "../../../src/game/open-hours/index.js";
 import { getGameVersion } from "../../../src/versions/index.js";
 import { stripPlayerIds } from "../../unit/helpers.js";
+import { LogEntry } from "../../../src/game/state/log-book/log-entry.js";
 
 export async function incrementalPlaythrough(engineFactory, testGamePath) {
     let { gameVersion, logBook, initialGameState } = await load(testGamePath);
 
-    let lastTime = 0;
-    const makeTimeStamp = () => {
-        lastTime += 20 * 60; // 20 minutes in seconds
-        return lastTime;
-    };
+    LogEntry.enableTestModeTimeStamps();
 
     const versionConfig = getGameVersion(gameVersion);
-    let emptyLogBook = new LogBook([], makeTimeStamp);
+    let emptyLogBook = new LogBook([]);
 
     let fullEngine = engineFactory.createEngine();
     let incrementalEngine = engineFactory.createEngine();

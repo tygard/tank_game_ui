@@ -1,3 +1,5 @@
+import { deserializer } from "../../../deserialization.js";
+
 const encodedA = "A".charCodeAt(0);
 const POSITION_EXPR = /([A-Za-z]+)(\d+)/;
 
@@ -38,6 +40,14 @@ export class Position {
         this.y = y;
     }
 
+    static deserialize(rawPosition) {
+        return new Position(rawPosition);
+    }
+
+    serialize() {
+        return this;
+    }
+
     get humanReadableX() {
         let strPosition = "";
         let x = this.x;
@@ -68,3 +78,5 @@ export class Position {
         return Math.floor(sqrt);
     }
 }
+
+deserializer.registerClass("position", Position);

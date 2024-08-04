@@ -319,7 +319,7 @@ describe("GameInteractor", () => {
         });
 
         let actions = await interactor.getActions("fred");
-        assert.deepEqual(actions.get("run").state, {
+        assert.deepEqual(actions.find(action => action.getActionName() == "run").state, {
             playerName: "fred",
             day: undefined,
             engine: mockEngine,
@@ -335,7 +335,7 @@ describe("GameInteractor", () => {
         await interactor.addLogBookEntry({ day: 2 });
 
         actions = await interactor.getActions("fred");
-        assert.deepEqual(actions.get("run").state, {
+        assert.deepEqual(actions.find(action => action.getActionName() == "run").state, {
             playerName: "fred",
             day: 2,
             engine: mockEngine,
@@ -350,7 +350,7 @@ describe("GameInteractor", () => {
         await interactor.addLogBookEntry({ day: 3 });
 
         actions = await interactor.getActions("bob");
-        assert.deepEqual(actions.get("run").state, {
+        assert.deepEqual(actions.find(action => action.getActionName() == "run").state, {
             playerName: "bob",
             day: 3,
             engine: mockEngine,

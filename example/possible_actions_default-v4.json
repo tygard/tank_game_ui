@@ -1,0 +1,171 @@
+{
+    "gameVersion": "default-v4",
+    "openHours": {
+        "schedules": [],
+        "class": "open-hours-v1"
+    },
+    "gameSettings": {},
+    "logBook": {
+        "entries": [
+            {
+                "day": 1,
+                "timestamp": 1200,
+                "class": "log-entry-v1"
+            }
+        ],
+        "class": "log-book-v1"
+    },
+    "initialGameState": {
+        "players": [
+            {
+                "uniqueId": "1",
+                "attributes": {
+                    "name": "Lena",
+                    "type": "councilor"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "2",
+                "attributes": {
+                    "name": "Dan",
+                    "type": "senator"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "3",
+                "attributes": {
+                    "name": "Schmude",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "4",
+                "attributes": {
+                    "name": "Josh",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "5",
+                "attributes": {
+                    "name": "Jason",
+                    "type": "councilor"
+                },
+                "class": "player-v1"
+            }
+        ],
+        "board": {
+            "width": 5,
+            "height": 5,
+            "entities": [
+                {
+                    "gold": 30,
+                    "bounty": 0,
+                    "health": 3,
+                    "range": 2,
+                    "actions": 5,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "3",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "gold": 0,
+                    "type": "tank",
+                    "position": {
+                        "x": 1,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "1",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "gold": 0,
+                    "type": "tank",
+                    "position": {
+                        "x": 3,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "5",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "health": 3,
+                    "actions": 5,
+                    "range": 4,
+                    "gold": 15,
+                    "bounty": 0,
+                    "type": "tank",
+                    "position": {
+                        "x": 4,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "4",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                }
+            ],
+            "floor": [],
+            "class": "board-v1"
+        },
+        "metaEntities": {
+            "council": {
+                "coffer": 60,
+                "armistice": {
+                    "value": 0,
+                    "max": 100
+                },
+                "type": "council",
+                "players": [
+                    {
+                        "playerId": "1",
+                        "class": "player-ref-v1"
+                    },
+                    {
+                        "playerId": "2",
+                        "class": "player-ref-v1"
+                    },
+                    {
+                        "playerId": "5",
+                        "class": "player-ref-v1"
+                    }
+                ],
+                "class": "entity"
+            }
+        },
+        "class": "game-state-v1"
+    },
+    "class": "file-data-v7"
+}

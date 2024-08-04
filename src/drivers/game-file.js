@@ -6,17 +6,13 @@ import { logger } from "#platform/logging.js";
 import { Game } from "../game/execution/game.js";
 import { dumpToRaw, loadFromRaw } from "./game-file-data.js";
 
-export const FILE_FORMAT_VERSION = 6;
-export const MINIMUM_SUPPORTED_FILE_FORMAT_VERSION = 5;
-
-
-export async function load(filePath, { saveBack = false, makeTimeStamp } = {}) {
+export async function load(filePath, { saveBack = false } = {}) {
     let content = await readJson(filePath);
 
-    const saveUpdatedFile = saveBack && (content?.fileFormatVersion < FILE_FORMAT_VERSION);
-    const fileData = loadFromRaw(content, { makeTimeStamp });
+    const {fileData, fileDataUpdated} = loadFromRaw(content);
 
-    if(saveUpdatedFile) {
+    if(saveBack && fileDataUpdated) {
+        logger.info({ msg: "Updating file", filePath });
         save(filePath, fileData);
     }
 
@@ -86,11 +82,11 @@ export class GameManager {
     }
 }
 
-export function loadGameFromFile(filePath, engineManager, { saveBack, makeTimeStamp } = {}) {
+export function loadGameFromFile(filePath, engineManager, { saveBack } = {}) {
     const {name} = path.parse(filePath);
     logger.info(`Loading ${name} from ${filePath}`);
 
-    const gameDataPromise = load(filePath, { saveBack, makeTimeStamp });
+    const gameDataPromise = load(filePath, { saveBack });
     const saveHandler = gameData => save(filePath, gameData);
 
     return new Game({

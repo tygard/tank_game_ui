@@ -13,21 +13,18 @@ class MockVersionConfig {
     }
 }
 
-class MockActionSet {
-    constructor() {
-        this.getArgs = [];
-        this.diceArgs = [];
-    }
-
-    get(actionName) {
-        this.getArgs.push(actionName);
-        return {
-            getDiceFor: (...args) => {
-                this.diceArgs.push(args);
+function makeMockActionSet() {
+    return [
+        {
+            getActionName: () => "bad-action",
+        },
+        {
+            getActionName: () => "shoot",
+            getDiceFor: () => {
                 return [new Dice(3, "hit die")];
             }
-        };
-    }
+        }
+    ];
 }
 
 
@@ -54,7 +51,7 @@ function makeBasicHitEntry(roll) {
 describe("LogEntry", () => {
     it("can convert dice rolls to be UI friendly", () => {
         let {hitEntry, versionConfig} = makeBasicHitEntry([true, false, true]);
-        let actions = new MockActionSet();
+        let actions = makeMockActionSet();
         hitEntry.updateMessageWithBoardState({
             logEntryFormatter: versionConfig,
             previousState: { stateNo: 2 },
@@ -77,7 +74,7 @@ describe("LogEntry", () => {
 
     it("can finalize the log entry", () => {
         let {hitEntry} = makeBasicHitEntry([true, false]);
-        let actions = new MockActionSet();
+        let actions = makeMockActionSet();
         hitEntry.finalizeEntry({
             gameState: { stateNo: 2 },
             actions,

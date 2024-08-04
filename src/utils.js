@@ -35,25 +35,6 @@ export class PromiseLock {
     }
 }
 
-export function buildDeserializer(Types) {
-    return (raw) => {
-        let MatchingType;
-        for(const Type of Types) {
-            if(Type.canConstruct(raw.type)) {
-                MatchingType = Type;
-                break;
-            }
-        }
-
-        if(!MatchingType) {
-            logger.error({ msg: "Action factory not found", raw });
-            throw new Error(`No action factory for ${raw.type}`);
-        }
-
-        return MatchingType.deserialize(raw);
-    };
-}
-
 export function deepClone(object) {
     if(typeof object != "object") return object
 

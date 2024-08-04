@@ -110,8 +110,8 @@ class TankGameEngine {
     }
 
     async setGameVersion(version) {
-        // TODO: Update version names
-        if(!isNaN(version) && this._isMainBranch) version = `default-v${version}`;
+        // Support stable using versions like 3 instead of default-v3
+        if(version.startsWith("default-v") && !this._isMainBranch) version = version.slice(9);
 
         await this._comm.sendRequestAndWait({
             type: "version",
@@ -167,6 +167,6 @@ class EngineFactory {
 
     getSupportedGameVersions() {
         // TODO: Dynamically detect supported versions
-        return ["3", "4"];
+        return ["default-v3", "default-v4"];
     }
 }

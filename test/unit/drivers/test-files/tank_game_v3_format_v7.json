@@ -1,0 +1,1358 @@
+{
+    "gameVersion": "default-v3",
+    "openHours": {
+        "schedules": [],
+        "class": "open-hours-v1"
+    },
+    "gameSettings": {
+        "something": "else"
+    },
+    "logBook": {
+        "entries": [
+            {
+                "day": 1,
+                "action": "start_of_day",
+                "timestamp": 1200,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Beyer",
+                "action": "move",
+                "target": "A10",
+                "timestamp": 1717276041,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Steve",
+                "action": "move",
+                "target": "C10",
+                "timestamp": 1717276046,
+                "class": "log-entry-v1"
+            },
+            {
+                "subject": "Ryan",
+                "action": "start_of_day",
+                "day": 2,
+                "timestamp": 1717276064,
+                "class": "log-entry-v1"
+            }
+        ],
+        "class": "log-book-v1"
+    },
+    "initialGameState": {
+        "players": [
+            {
+                "uniqueId": "1",
+                "attributes": {
+                    "name": "Schmude",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "2",
+                "attributes": {
+                    "name": "Dan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "3",
+                "attributes": {
+                    "name": "Stomp",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "4",
+                "attributes": {
+                    "name": "Ty",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "5",
+                "attributes": {
+                    "name": "Bryan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "6",
+                "attributes": {
+                    "name": "Trevor",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "7",
+                "attributes": {
+                    "name": "David",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "8",
+                "attributes": {
+                    "name": "Lena",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "9",
+                "attributes": {
+                    "name": "Beyer",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "10",
+                "attributes": {
+                    "name": "Steve",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "11",
+                "attributes": {
+                    "name": "Joel",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "12",
+                "attributes": {
+                    "name": "Xavion",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "13",
+                "attributes": {
+                    "name": "Ryan",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "14",
+                "attributes": {
+                    "name": "John",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "15",
+                "attributes": {
+                    "name": "Isaac",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            },
+            {
+                "uniqueId": "16",
+                "attributes": {
+                    "name": "Corey",
+                    "type": "tank"
+                },
+                "class": "player-v1"
+            }
+        ],
+        "board": {
+            "width": 11,
+            "height": 11,
+            "entities": [
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "1",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "2",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 8,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "3",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 0,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "4",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "5",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "6",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "7",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 5,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 2,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "8",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 3,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 4,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 6,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 0,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 1,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 2,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 8,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 9,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 10,
+                        "y": 7,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "9",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "10",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "11",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 8,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "12",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 0,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "13",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 2,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "14",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 3,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 4,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 5,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 6,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "durability": 3,
+                    "type": "wall",
+                    "position": {
+                        "x": 7,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 8,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "15",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                },
+                {
+                    "gold": 0,
+                    "health": 3,
+                    "actions": 0,
+                    "bounty": 0,
+                    "range": 2,
+                    "type": "tank",
+                    "position": {
+                        "x": 10,
+                        "y": 10,
+                        "class": "position"
+                    },
+                    "players": [
+                        {
+                            "playerId": "16",
+                            "class": "player-ref-v1"
+                        }
+                    ],
+                    "class": "entity"
+                }
+            ],
+            "floor": [
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 5,
+                        "y": 1,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 1,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 9,
+                        "y": 5,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                },
+                {
+                    "type": "gold_mine",
+                    "position": {
+                        "x": 5,
+                        "y": 9,
+                        "class": "position"
+                    },
+                    "class": "entity"
+                }
+            ],
+            "class": "board-v1"
+        },
+        "metaEntities": {
+            "council": {
+                "coffer": 0,
+                "type": "council",
+                "class": "entity"
+            }
+        },
+        "class": "game-state-v1"
+    },
+    "class": "file-data-v7"
+}

@@ -1,5 +1,5 @@
 import { GameVersion } from "./base/index.js";
-import { rawV3Config } from "./3.js";
+import { rawV3Config } from "./default-v3.js";
 import { Wall } from "./shared/wall.js";
 import { findGlobalCooldowns } from "./shared/global-cooldown.js";
 

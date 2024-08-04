@@ -1,3 +1,4 @@
+import { deserializer } from "../../deserialization.js";
 import { prettyifyName } from "../../utils.js";
 
 // The maximum number of days to check for a new play day
@@ -172,3 +173,5 @@ export class Schedule {
         return this.holidays.includes(dateString);
     }
 }
+
+deserializer.registerClass("schedule", Schedule);

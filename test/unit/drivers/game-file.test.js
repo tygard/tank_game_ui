@@ -1,14 +1,13 @@
 import assert from "node:assert";
-import { FILE_FORMAT_VERSION, GameManager, MINIMUM_SUPPORTED_FILE_FORMAT_VERSION, load, save } from "../../../src/drivers/game-file.js";
+import { GameManager, load, save } from "../../../src/drivers/game-file.js";
 import path from "node:path";
 import fs from"node:fs";
 import { hashFile } from "../../../src/drivers/file-utils.js";
 import { MockEngine } from "../game/execution/mock-engine.js";
 import { stripPlayerIds } from "../helpers.js";
+import { getAllFileNames, getAllFilePaths, getLatestFileName, getLatestFilePath } from "./test-file-helper.js";
 
 const TEST_FILES = "test/unit/drivers/test-files";
-const sampleFileBaseName = `tank_game_v3_format_v${FILE_FORMAT_VERSION}`;
-const sampleFilePath = path.join(TEST_FILES, `${sampleFileBaseName}.json`);
 
 
 class MockGameVersion {
@@ -38,22 +37,17 @@ function validateSampleFile({logBook, initialGameState, gameSettings}) {
 
 describe("GameFile", () => {
     it("can load and deserialize the latest format with version specific config", async () => {
-        validateSampleFile(await load(sampleFilePath));
+        validateSampleFile(await load(getLatestFilePath()));
     });
 
     it("can load and deserialize the latest format without version specific config", async () => {
-        validateSampleFile(await load(sampleFilePath));
+        validateSampleFile(await load(getLatestFilePath()));
     });
 
-    for(let version = MINIMUM_SUPPORTED_FILE_FORMAT_VERSION; version < FILE_FORMAT_VERSION; ++version) {
-        it(`loading version ${version} returns the same data as version ${FILE_FORMAT_VERSION}`, async () => {
-            const oldFilePath = path.join(TEST_FILES, `tank_game_v3_format_v${version}.json`);
-
+    for(const oldFilePath of getAllFilePaths().slice(0, -1)) {
+        it(`loading '${path.parse(oldFilePath).name}' returns the same data as version '${getLatestFileName()}'`, async () => {
             const oldFile = await load(oldFilePath);
-            const newFile = await load(sampleFilePath);
-
-            delete oldFile.logBook._makeTimeStamp;
-            delete newFile.logBook._makeTimeStamp;
+            const newFile = await load(getLatestFilePath());
 
             stripPlayerIds(oldFile);
             stripPlayerIds(newFile);
@@ -65,9 +59,9 @@ describe("GameFile", () => {
     it("loading and saving a file recreates the original file", async () => {
         const tempFile = path.join(TEST_FILES, `tank_game_temp_test_file-load-save.json`);
 
-        await save(tempFile, await load(sampleFilePath));
+        await save(tempFile, await load(getLatestFilePath()));
 
-        const orig = await hashFile(sampleFilePath);
+        const orig = await hashFile(getLatestFilePath());
         const recreated = await hashFile(tempFile);
 
         assert.equal(orig, recreated);
@@ -98,18 +92,18 @@ describe("GameFile", () => {
                 .map(game => game.loaded.catch(() => {}))
         );
 
-        const game = gameManager.getGame(sampleFileBaseName);
+        const game = gameManager.getGame(getLatestFileName());
 
         validateLogBook(game.getInteractor().getLogBook());
 
         // Files from previous versions should be loaded
-        for(let version = MINIMUM_SUPPORTED_FILE_FORMAT_VERSION; version < FILE_FORMAT_VERSION; ++version) {
-            assert.ok(gameManager.getGame(`tank_game_v3_format_v${version}`).loaded);
+        for(const fileName of getAllFileNames()) {
+            assert.ok(gameManager.getGame(fileName).loaded);
         }
 
         // The invalid file should not be loaded
-        assert.equal(gameManager.getGame("bad_file").getStatusText(), "Failed to load: File format version missing not a valid game file");
         assert.equal(gameManager.getGame("bad_file").getState(), "error");
+        assert.ok(gameManager.getGame("bad_file").getStatusText().startsWith("Failed to load: "));
 
         // Invalid games should return undefined
         assert.equal(gameManager.getGame("unknown_file"), undefined);

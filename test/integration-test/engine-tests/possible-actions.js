@@ -4,6 +4,7 @@ import { loadGameFromFile } from "../../../src/drivers/game-file.js";
 import { logger } from "#platform/logging.js";
 import { buildTurnReducer, makeInitalState, selectActionType, selectLocation, setActionSpecificField, setPossibleActions, setSubject } from "../../../src/interface-adapters/build-turn.js";
 import { EngineManager } from "../../../src/drivers/engine-manager.js";
+import { LogEntry } from "../../../src/game/state/log-book/log-entry.js";
 
 // Random numbers to give input-number fields
 const NUMBERS_TO_TRY = [1, 2, 3];
@@ -75,14 +76,10 @@ async function buildAllPossibleActions(actionBuilder, specIdx, callback) {
 }
 
 export async function testPossibleActions(engineFactory, possibleActionsPath) {
-    let lastTime = 0;
-    const makeTimeStamp = () => {
-        lastTime += 20 * 60; // 20 minutes in seconds
-        return lastTime;
-    };
+    LogEntry.enableTestModeTimeStamps();
 
     const engineManager = new EngineManager([engineFactory]);
-    const game = loadGameFromFile(possibleActionsPath, engineManager, {makeTimeStamp});
+    const game = loadGameFromFile(possibleActionsPath, engineManager);
     await game.loaded;
 
     if(game.state === "error") {

@@ -1,10 +1,10 @@
 /* globals window, location, history, fetch */
 import { useCallback, useEffect, useState } from "preact/hooks";
-import { LogBook } from "../../game/state/log-book/log-book.js";
-import { NamedFactorySet } from "../../game/possible-actions/index.js";
-import { OpenHours } from "../../game/open-hours/index.js";
-import { GameState } from "../../game/state/game-state.js";
-import { LogEntry } from "../../game/state/log-book/log-entry.js";
+import "../../game/state/log-book/log-book.js";
+import "../../game/open-hours/index.js";
+import "../../game/state/game-state.js";
+import "../../game/state/log-book/log-entry.js";
+import { deserializer } from "../../deserialization.js";
 
 const FETCH_FREQUENCY = 2; // seconds
 
@@ -48,16 +48,12 @@ function makeReactDataFetchHelper(options) {
                     return;
                 }
 
-                let recievedData = await res.json();
+                let recievedData = deserializer.deserialize(await res.json());
 
                 if(recievedData.error) {
                     setData(undefined);
                     setError(new ServerError(recievedData.error));
                     return;
-                }
-
-                if(options.parse) {
-                    recievedData = options.parse(recievedData);
                 }
 
                 setData(recievedData);
@@ -90,28 +86,18 @@ export const useGameList = makeReactDataFetchHelper({
 export const useGameInfo = makeReactDataFetchHelper({
     shouldSendRequest: game => game !== undefined,
     url: game => `/api/game/${game}/`,
-    parse: data => {
-        return {
-            ...data,
-            buildInfo: data.buildInfo,
-            openHours: OpenHours.deserialize(data.openHours),
-            logBook: LogBook.deserialize(data.logBook),
-        };
-    },
     frequency: FETCH_FREQUENCY,
 });
 
 export const useGameState = makeReactDataFetchHelper({
     shouldSendRequest: (game, entryId) => game !== undefined && entryId !== undefined,
     url: (game, entryId) => `/api/game/${game}/turn/${entryId}`,
-    parse: rawGameState => GameState.deserialize(rawGameState),
 });
 
 export const usePossibleActionFactories = makeReactDataFetchHelper({
     resetBeforeFetch: true,
     shouldSendRequest: (game, user, entryId) => game !== undefined && user !== undefined && entryId !== undefined,
     url: (game, user, entryId) => `/api/game/${game}/possible-actions/${user}/${entryId}`,
-    parse: rawActionFactories => NamedFactorySet.deserialize(rawActionFactories),
 });
 
 export const useAvilableEngines = makeReactDataFetchHelper({
@@ -133,7 +119,7 @@ async function fetchHelper(url, jsonBody) {
     }
 
     const res = await fetch(url, opts);
-    const result = await res.json();
+    const result = deserializer.deserialize(await res.json());
 
     if(!result.success) throw new Error(result.error);
 
@@ -142,8 +128,7 @@ async function fetchHelper(url, jsonBody) {
 
 export async function submitTurn(game, logBookEntry) {
     const result = await fetchHelper(`/api/game/${game}/turn`, logBookEntry);
-
-    return LogEntry.deserialize(result.entry);
+    return result.entry;
 }
 
 export async function reloadGame(gameName) {

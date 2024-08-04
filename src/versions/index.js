@@ -1,9 +1,9 @@
-import { version3 } from "./3.js";
-import { version4 } from "./4.js";
+import { version3 } from "./default-v3.js";
+import { version4 } from "./default-v4.js";
 
 const gameVersions = {
-    3: version3,
-    4: version4,
+    "default-v3": version3,
+    "default-v4": version4,
 };
 
 

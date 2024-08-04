@@ -24,7 +24,7 @@ FROM node:20-alpine
 
 WORKDIR /app/
 
-# Install java for the entine
+# Install java for the engine
 RUN apk --no-cache --update add openjdk21-jre-headless su-exec
 
 # Install backend dependencies
