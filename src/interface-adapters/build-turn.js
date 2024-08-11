@@ -12,6 +12,7 @@ export function makeInitalState() {
         logBookEntry: {},
         lastError: undefined,
         lastRollEntry: undefined,
+        loading: true,
     };
 }
 
@@ -141,6 +142,7 @@ export function buildTurnReducer(state, invocation) {
         return {
             ...makeInitalState(),
             subject: invocation.subject,
+            loading: state._possibleActions === undefined,
             _possibleActions: state._possibleActions,
             actions: state.actions,
         }
@@ -149,6 +151,7 @@ export function buildTurnReducer(state, invocation) {
         return {
             ...makeInitalState(),
             subject: state.subject,
+            loading: invocation.possibleActions === undefined,
             _possibleActions: invocation.possibleActions,
             lastRollEntry: state.lastRollEntry,
             actions: Array.from(invocation.possibleActions || []).map(factory => ({

@@ -29,6 +29,9 @@ export class JavaEngineSource {
             // This action will be handled by another factory
             if(this._actionsToSkip.has(actionName)) return;
 
+            // This action can't be submitted don't generate it
+            if(possibleAction.errors?.length > 0) return;
+
             const fieldSpecs = this._buildFieldSpecs(possibleAction.fields, gameState);
 
             // There is no way this action could be taken

@@ -81,7 +81,7 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
     }
 
     // Actions aren't available yet
-    if(builtTurnState.actions.length === 0) return;
+    if(builtTurnState.loading) return;
 
     if(!isLatestEntry) {
         return (
@@ -92,6 +92,21 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
     if(status) {
         return <p>{status}</p>;
     }
+
+    const actionSubmissionForm = builtTurnState.actions.length > 0 ? (
+        <>
+            <LabelElement name="Action">
+                <Select
+                    spec={possibleActions}
+                    value={possibleActions.internalToPretty[builtTurnState.currentActionName]}
+                    setValue={selectAction}></Select>
+            </LabelElement>
+            <SubmissionForm
+                builtTurnState={builtTurnState}
+                buildTurnDispatch={buildTurnDispatch}
+                allowManualRolls={allowManualRolls}></SubmissionForm>
+        </>
+    ) : <p>There are not actions that you can perform at this time</p>;
 
     return (
         <div className="submit-turn-box">
@@ -104,16 +119,7 @@ export function SubmitTurn({ isLatestEntry, canSubmitAction, refreshGameInfo, ga
             <div className="submit-turn">
                 <form onSubmit={submitTurnHandler} className="submit-turn-form">
                     <div className="submit-turn-field-wrapper">
-                        <LabelElement name="Action">
-                            <Select
-                                spec={possibleActions}
-                                value={possibleActions.internalToPretty[builtTurnState.currentActionName]}
-                                setValue={selectAction}></Select>
-                        </LabelElement>
-                        <SubmissionForm
-                            builtTurnState={builtTurnState}
-                            buildTurnDispatch={buildTurnDispatch}
-                            allowManualRolls={allowManualRolls}></SubmissionForm>
+                        {actionSubmissionForm}
                     </div>
                     <div className="submit-action-button-wrapper">
                         <button type="submit" disabled={!builtTurnState.isValid}>Submit action</button>

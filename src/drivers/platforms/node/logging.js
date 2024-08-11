@@ -1,4 +1,4 @@
-/* globals process */
+/* globals process, console */
 import pino from "pino";
 import pinoPretty from "pino-pretty";
 import fs from "node:fs";
@@ -68,10 +68,15 @@ export function configureLogging({ logFile, logLevel, overwrite, logToConsole = 
 
 
 process.on('uncaughtException', function (err) {
-    logger.error({
-        msg: "Uncaught error",
-        err
-    });
+    if(logger) {
+        logger.error({
+            msg: "Uncaught error",
+            err
+        });
+    }
+    else {
+        console.log(err);
+    }
 });
 
 

@@ -127,6 +127,8 @@ export class GameInteractor {
         }
         catch(err) {}  // eslint-disable-line no-unused-vars, no-empty
 
+        await this._sendPreviousState();
+
         return success;
     }
 

@@ -132,7 +132,7 @@ class TankGameEngine {
 
         const targets = shootAction.fields.find(field => field.name == "target");
         if(!targets) {
-            throw new Error("Shoot action is missing the target parameter");
+            return [];
         }
 
         return targets.range;
@@ -160,7 +160,7 @@ class EngineFactory {
             this._versionInfo = JSON.parse(proc.stdout.toString());
         }
         catch(err) {
-            logger.warn({ msg: "Failed to dynamically engine version", err });
+            logger.warn({ msg: "Failed to dynamically determine engine version", err });
 
             const version = determineEngineVersion(this._engineCommand);
 
