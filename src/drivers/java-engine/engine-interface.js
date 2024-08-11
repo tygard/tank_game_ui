@@ -1,7 +1,8 @@
 /* globals process */
 import fs from "node:fs";
-import { logger } from "#platform/logging.js";
 import path from "node:path";
+import {spawnSync} from "node:child_process";
+import { logger } from "#platform/logging.js";
 import * as boardStateMain from "./board-state-main.js";
 import * as boardStateStable from "./board-state-stable.js";
 import { JavaEngineSource } from "./possible-action-source.js";
@@ -27,17 +28,16 @@ function determineEngineVersion(command) {
 let uniqueIdCounter = 0;
 
 class TankGameEngine {
-    constructor(command, timeout) {
+    constructor(command, timeout, engineVersion) {
         if(!Array.isArray(command) || command.length <= 0) {
             throw new Error(`Expected an array in the form ["command", ...args] but got ${command}`);
         }
 
         this._id = `java-${++uniqueIdCounter}`;
-        this._version = determineEngineVersion(command);
         this._comm = new JsonCommunicationChannel(command, timeout, this._id);
 
         // Hacky way to detect if we're using an engine from the main or stable branch
-        this._isMainBranch = this._version != "0.0.2";
+        this._isMainBranch = engineVersion != "0.0.2";
     }
 
     _runCommand(command, data) {
@@ -137,10 +137,6 @@ class TankGameEngine {
 
         return targets.range;
     }
-
-    getVersionInfo() {
-        return `Java Engine ${this._version}`;
-    }
 }
 
 export function getAllEngineFactories() {
@@ -155,18 +151,38 @@ export function getAllEngineFactories() {
 class EngineFactory {
     constructor(engineCommand) {
         this._engineCommand = engineCommand;
+        this._collectVersionInfo();
+    }
+
+    _collectVersionInfo() {
+        try {
+            const proc = spawnSync(this._engineCommand[0], this._engineCommand.slice(1).concat(["--version"]));
+            this._versionInfo = JSON.parse(proc.stdout.toString());
+        }
+        catch(err) {
+            logger.warn({ msg: "Failed to dynamically engine version", err });
+
+            const version = determineEngineVersion(this._engineCommand);
+
+            // Support legacy engines
+            this._versionInfo = {
+                version,
+                pretty_version: `Engine ${version}`,
+                // All versions that don't support --version support versions 3 and 4
+                supported_rulesets: ["default-v3", "default-v4"],
+            };
+        }
     }
 
     createEngine() {
-        return new TankGameEngine(this._engineCommand, TANK_GAME_TIMEOUT);
+        return new TankGameEngine(this._engineCommand, TANK_GAME_TIMEOUT, this._versionInfo.version);
     }
 
     getEngineVersion() {
-        return this.createEngine().getVersionInfo();
+        return this._versionInfo.pretty_version;
     }
 
     getSupportedGameVersions() {
-        // TODO: Dynamically detect supported versions
-        return ["default-v3", "default-v4"];
+        return this._versionInfo.supported_rulesets;
     }
 }

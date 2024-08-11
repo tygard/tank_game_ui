@@ -20,7 +20,12 @@ export class EngineManager {
     }
 
     getEngineFactory(gameVersion) {
-        return this._factoryForVersion[gameVersion];
+        const factory = this._factoryForVersion[gameVersion];
+        if(factory === undefined) {
+            throw new Error(`None of the available engines support game version ${gameVersion}`);
+        }
+
+        return factory;
     }
 
     _getEnginesForVersion(gameVersion) {
