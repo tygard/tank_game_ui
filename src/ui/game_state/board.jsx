@@ -4,6 +4,7 @@ import { EntityTile } from "./entity-tile.jsx";
 import { useRef, useState } from "preact/hooks";
 import { Popup } from "../generic/popup.jsx";
 import { prettyifyName } from "../../utils.js";
+import { AttributeList } from "./attribute-list.jsx";
 
 
 export function GameBoard({ gameState, config, setSelectedUser, canSubmitAction, locationSelector, selectLocation, cutSelection, emptyMessage = "No board data supplied" }) {
@@ -148,7 +149,10 @@ function Tile({ className = "", children, floorTile, disabled, onClick, selected
                     </div>
             </div>
             <Popup opened={popupOpen} anchorRef={anchorRef} onClose={() => setPopupOpen(false)}>
-                <h2>{prettyifyName(floorTile?.type)}</h2>
+                <div className="entity-details-title-wrapper">
+                    <h2>{prettyifyName(floorTile?.type)}</h2>
+                </div>
+                <AttributeList attributes={floorTile?.attributes} versionConfig={config}></AttributeList>
             </Popup>
         </>
     );

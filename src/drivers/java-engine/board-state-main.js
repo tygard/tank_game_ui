@@ -20,16 +20,13 @@ function mapTypeToClass(type, boardType, gameVersion) {
         return boardType == "entity" ? "EmptyUnit" : "WalkableFloor";
     }
 
-    if(type == "tank") {
-        switch(gameVersion) {
-            case "default-v3": return "GenericTank";
-            case "default-v4": return "GenericTank";
-        }
-    }
-
     const className = {
+        tank: "GenericTank",
         wall: "Wall",
         gold_mine: "GoldMine",
+        health_pool: "HealthPool",
+        destructible_floor: "DestructibleFloor",
+        unwalkable_floor: "UnwalkableFloor",
     }[type];
 
     if(className === undefined) throw new Error(`Could not find class name for ${type}`);
@@ -45,6 +42,9 @@ function mapClassToType(className) {
         EmptyUnit: "empty",
         WalkableFloor: "empty",
         GlobalCooldownTank: "tank",
+        HealthPool: "health_pool",
+        DestructibleFloor: "destructible_floor",
+        UnwalkableFloor: "unwalkable_floor",
     }[className];
 
     if(type === undefined) throw new Error(`Could not find type for ${className}`);
@@ -61,10 +61,7 @@ export function gameStateFromRawState(rawGameState) {
     });
 
     board = convertBoard(board, rawGameState.$BOARD.floor_board, (newBoard, space, position) => {
-        newBoard.setFloorTile(new Entity({
-            type: mapClassToType(space.class),
-            position,
-        }));
+        newBoard.setFloorTile(entityFromBoard(space, position));
     });
 
     let gameState = new GameState(
@@ -107,7 +104,7 @@ function getAttributeName(name, type, rawAttributes) {
 }
 
 function shouldKeepAttribute(attributeName, rawAttributes) {
-    if(!attributeName.startsWith("$")) return false;
+    if(!attributeName.startsWith("$") || attributeName.endsWith("_MAX")) return false;
 
     if(["$DEAD", "$POSITION", "$PLAYER_REF"].includes(attributeName)) {
         return false;
@@ -128,6 +125,13 @@ function decodeAttributes(type, rawAttributes) {
 
         const actualName = getAttributeName(attributeName, type, rawAttributes);
         attributes[actualName] = rawAttributes[attributeName];
+
+        if(rawAttributes[attributeName + "_MAX"] !== undefined) {
+            attributes[actualName] = {
+                value: attributes[actualName],
+                max: rawAttributes[attributeName + "_MAX"],
+            };
+        }
     }
 
     return attributes;
@@ -189,7 +193,7 @@ function entityFromBoard(rawEntity, position, playersByName) {
     });
 
     const {$PLAYER_REF} = rawEntity;
-    if($PLAYER_REF) {
+    if($PLAYER_REF && playersByName) {
         const player = playersByName[$PLAYER_REF.name];
         entity.addPlayer(player);
     }
@@ -279,12 +283,18 @@ function buildPlayer(player) {
     };
 }
 
-function buildUnit(position, board, gameVersion, gameState) {
-    const entity = board.getEntityAt(position);
+function buildUnit(position, board, boardType, gameVersion, gameState) {
+    const entity = board[boardType == "entity" ? "getEntityAt" : "getFloorTileAt"](position);
 
     let attributes = {};
     for(const attributeName of Object.keys(entity.attributes)) {
-        attributes["$" + attributeName.toUpperCase()] = entity.attributes[attributeName];
+        let value = entity.attributes[attributeName];
+        if(value.max !== undefined) {
+            attributes["$" + attributeName.toUpperCase() + "_MAX"] = value.max;
+            value = value.value;
+        }
+
+        attributes["$" + attributeName.toUpperCase()] = value;
     }
 
     if(entity.type == "tank") {
@@ -309,17 +319,8 @@ function buildUnit(position, board, gameVersion, gameState) {
     }
 
     return {
-        class: mapTypeToClass(entity.type, "entity", gameVersion),
+        class: mapTypeToClass(entity.type, boardType, gameVersion),
         ...attributes,
-    };
-}
-
-function buildFloor(position, board, gameVersion) {
-    const tile = board.getFloorTileAt(position);
-
-    return {
-        class: mapTypeToClass(tile.type, "floorTile", gameVersion),
-        $POSITION: buildPosition(tile.position),
     };
 }
 
@@ -363,8 +364,8 @@ export function gameStateToRawState(gameState, gameVersion) {
         $TICK: 0,
         $BOARD: {
             class: "Board",
-            unit_board: buildBoard(gameState.board, (position, board) => buildUnit(position, board, gameVersion, gameState)),
-            floor_board: buildBoard(gameState.board, (position, board) => buildFloor(position, board, gameVersion)),
+            unit_board: buildBoard(gameState.board, (position, board) => buildUnit(position, board, "entity", gameVersion, gameState)),
+            floor_board: buildBoard(gameState.board, (position, board) => buildUnit(position, board, "floorTile", gameVersion, gameState)),
         },
         $COUNCIL: makeCouncil(gameState.metaEntities.council, gameState),
         $PLAYERS: {

@@ -14,7 +14,7 @@ class V4WallDescriptor extends Wall {
     };
 }
 
-export const version4 = new GameVersion({
+export const rawV4Config = {
     ...rawV3Config,
     entryDescriptors: {
         ...rawV3Config.entryDescriptors,
@@ -22,4 +22,6 @@ export const version4 = new GameVersion({
     },
     manualPath: "/manuals/Tank_Game_Rules_v4.pdf",
     findCooldowns: findGlobalCooldowns,
-});
+};
+
+export const version4 = new GameVersion(rawV4Config);
