@@ -44,7 +44,12 @@ public class PlayerConditionRule implements IPlayerRule {
 
     @Override
     public boolean canApply(State state, PlayerRef subject, Object... meta) {
-        return validateOptionalTypes(meta) && condition.test(state, subject, meta).isOk();
+        if (this.condition.requiresMetaData()){
+            return validateOptionalTypes(meta) && condition.test(state, subject, meta).isOk();
+        }
+        else {
+            return condition.test(state, subject).isOk();
+        }
     }
 
     public Result<List<String>> canApplyConditional(State state, PlayerRef subject, Object... meta) {
@@ -75,5 +80,9 @@ public class PlayerConditionRule implements IPlayerRule {
             }
         }
         return true;
+    }
+
+    public boolean requiresMetaData() {
+        return this.condition.requiresMetaData();
     }
 }

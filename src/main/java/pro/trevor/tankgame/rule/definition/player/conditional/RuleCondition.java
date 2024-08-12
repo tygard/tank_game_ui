@@ -19,7 +19,13 @@ public class RuleCondition {
         List<String> errors = new ArrayList<>();
 
         for (RulePredicate predicate : predicates) {
-            Result<String> error = predicate.test(state, t, meta);
+            Result<String> error;
+            if (predicate.requiresMetaData()) {
+                error = predicate.test(state, t, meta);
+            }
+            else {
+                error = predicate.test(state, t);
+            }
             if (error.isError()) {
                 errors.add(error.getError());
             }
@@ -30,5 +36,14 @@ public class RuleCondition {
         } else {
             return Result.error(errors);
         }
+    }
+
+    public boolean requiresMetaData() {
+        for (RulePredicate predicate : this.predicates) {
+            if (predicate.requiresMetaData()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
